@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>zuraio | own your data</title>
+    <meta name="description" content="zuraio ist der AI-Orchestrator für Schweizer KMU, die KI nutzen wollen, ohne Kontrolle über Daten, Wissen und Prozesse zu verlieren.">
+    <link rel="stylesheet" href="styles.css?v=18">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#home" aria-label="zuraio Startseite">
+        <img src="assets/logo/zuraio-logo-claim.png" alt="zuraio | own your data">
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Navigation öffnen" aria-expanded="false">Menu</button>
+      <nav class="site-nav" aria-label="Hauptnavigation">
+        <a href="#problem">Warum</a>
+        <a href="#loesung">Lösung</a>
+        <a href="#sicherheit">Sicherheit</a>
+        <a href="#orchestrator">Orchestrator</a>
+        <a href="#roadmap">Roadmap</a>
+        <div class="lang-switcher">
+          <span class="lang-label">Sprache</span>
+          <button id="language-toggle" class="lang-toggle" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Sprache wählen">
+            <span id="language-current">DE</span>
+          </button>
+          <div id="language-menu" class="lang-menu" role="listbox" aria-label="Sprache auswählen" hidden>
+            <button type="button" class="lang-option" data-language="de" role="option" aria-selected="true">DE</button>
+            <button type="button" class="lang-option" data-language="en" role="option" aria-selected="false">EN</button>
+            <button type="button" class="lang-option" data-language="pt-BR" role="option" aria-selected="false">BR-PT</button>
+          </div>
+        </div>
+        <a href="#kontakt" class="nav-cta">Demo anfragen</a>
+      </nav>
+    </header>
+
+    <main id="home">
+      <section class="hero">
+        <picture>
+          <source srcset="assets/images/hero-sprich-mit-projekt.png" media="(min-width: 760px)">
+          <img src="assets/images/hero-sprich-mit-projekt.png" alt="Projektleiter spricht unterwegs per Smartphone mit seinem Projektwissen">
+        </picture>
+        <div class="hero-copy">
+          <p class="eyebrow">KI-ORCHESTRATOR FÜR SCHWEIZER KMU's</p>
+          <h1>Weil es keine passende Lösung gab, haben wir <span class="brand-highlight">zuraio</span> gegründet</h1>
+          <p class="lead">zuraio verbindet Unternehmenswissen mit individuellen Agents, Voice-Funktionen und sicherer Infrastruktur zu einem KI-System, das DICH entlastet und bei dem Daten, Wissen und Kontrolle in DEINEM Unternehmen bleiben.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#kontakt">Demo planen</a>
+            <a class="button secondary" href="#sicherheit">Sicherheitsmodelle ansehen</a>
+          </div>
+          <ul class="trust-list" aria-label="Kernaussagen">
+            <li>Datenhoheit</li>
+            <li>Schweizer Hosting</li>
+            <li>Rollen & Rechte</li>
+            <li>Modularer Start</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="intro-band">
+        <div>
+          <p class="eyebrow">FALSCHE ARBEIT FRISST DEN TAG</p>
+          <h2 class="project-title"><span>Projektleiter führen Projekte</span><span>Nicht Protokolle.</span></h2>
+        </div>
+        <div class="intro-copy">
+          <p>Jeden Tag gehen Stunden verloren für Statusberichte, Besuchsrapporte, Protokolle und Administration.</p>
+          <p>Zeit, die eigentlich für Entscheidungen, Herausforderungen und Menschen gedacht wäre.</p>
+          <p>Du erklärst, was erledigt werden soll. zuraio übernimmt.</p>
+          <p>Damit sich Deine Projektleiter wieder um Projektleitung kümmern können.</p>
+          <a class="text-link intro-link" href="#skalierung">Möglichkeiten</a>
+        </div>
+        <div class="hero-badges" aria-hidden="true">
+          <div class="hero-badges-track">
+            <span>Besuchsberichte</span>
+            <span>Beschlüsse</span>
+            <span>Zusammenfassung</span>
+            <span>Vorbereitung</span>
+            <span>Follow-ups</span>
+            <span>Email</span>
+            <span>Antworten</span>
+            <span>ideen</span>
+            <span>Projekttagebuch</span>
+            <span>Telefonnotiz</span>
+            <span>Pendenzenlisten</span>
+            <span>Termine</span>
+            <span>Traktanden</span>
+            <span>Projektrisiken</span>
+            <span>Eskalationen</span>
+            <span>Erinnerungen</span>
+            <span>Übergaben</span>
+            <span>Besuchsberichte</span>
+            <span>Beschlüsse</span>
+            <span>Zusammenfassung</span>
+            <span>Vorbereitung</span>
+            <span>Follow-ups</span>
+            <span>Email</span>
+            <span>Antworten</span>
+            <span>ideen</span>
+            <span>Projekttagebuch</span>
+            <span>Telefonnotiz</span>
+            <span>Pendenzenlisten</span>
+            <span>Termine</span>
+            <span>Traktanden</span>
+            <span>Projektrisiken</span>
+            <span>Eskalationen</span>
+            <span>Erinnerungen</span>
+            <span>Übergaben</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="problem">
+        <div class="section-heading">
+          <p class="eyebrow">Die Realität im KMU</p>
+          <h2 class="problem-title"><span>Tool-Hopping nervt.</span><span>Wissen verschwindet.</span><span class="nowrap">Wertvolle Zeit geht verloren.</span></h2>
+          <p>KI ist selten das eigentliche Problem. Die Herausforderungen entstehen im Alltag. Informationen sind verstreut, Mitarbeitende verbringen Stunden mit Administration und moderne KI-Lösungen passen oft nicht zu den Anforderungen von Schweizer Unternehmen.</p>
+          <a class="text-link problem-link" href="#orchestrator">KI-Ökosystem</a>
+        </div>
+        <div class="pain-grid">
+          <article>
+            <span>01</span>
+            <h3>Datenschutz bleibt unklar</h3>
+            <div class="pain-body">
+              <p>Unternehmenswissen und Kundendaten landen immer häufiger in externen Systemen.</p>
+              <p>Doch wer hat Zugriff darauf? Und erfüllen diese Lösungen wirklich DSG und EU AI Act?</p>
+            </div>
+            <strong>Kontrolle abzugeben ist keine Strategie.</strong>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Wissen liegt überall.<br>Aber nirgends zusammen.</h3>
+            <div class="pain-body">
+              <p>Informationen verteilen sich auf Server, E-Mails, Chats, ERP, DMS, PIM, Intranet und lokale Dateien.</p>
+              <p>Das Wissen ist da.</p>
+              <p>Aber oft nicht auffindbar und nicht vernetzt.</p>
+            </div>
+            <strong>Unternehmenswissen darf kein Suchspiel sein.</strong>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Sales verkauft nicht.<br>Sales dokumentiert.</h3>
+            <div class="pain-body">
+              <p>Besuchsberichte. CRM. Follow-ups. Administration.</p>
+              <p>Zeit beim Kunden wird weniger.</p>
+            </div>
+            <strong>Verkaufen sollte wichtiger sein als dokumentieren.</strong>
+          </article>
+          <article>
+            <span>04</span>
+            <h3>Standard-KI versteht<br>dein Unternehmen nicht.</h3>
+            <div class="pain-body">
+              <p>Generische KI kennt weder eure Prozesse noch euren Unternehmenskontext.</p>
+              <p>Sie liefert Antworten.</p>
+              <p>Aber nicht zwingend die richtigen.</p>
+            </div>
+            <strong>Dein Unternehmen ist einzigartig. Deine KI sollte es auch sein.</strong>
+          </article>
+        </div>
+      </section>
+
+      <section class="answer-section" id="loesung">
+        <div class="answer-hero">
+          <div class="answer-copy">
+            <p class="eyebrow">Die Antwort</p>
+            <h2>Ein zentraler Orchestrator. Volle Kontrolle über deine KI.</h2>
+            <p class="answer-kicker">Nicht einfach ein Chatbot.</p>
+            <p>zuraio ist ein intelligentes Harness, das jede Anfrage analysiert, prüft und orchestriert. Komplexe Anfragen durchlaufen dabei mehrere Loops, bevor eine Antwort erstellt wird.</p>
+            <p>Damit Antworten zu eurem Wissen, euren Prozessen, euren Richtlinien und eurer Unternehmenskultur passen. Mit zuraio trägt deine KI eure DNA.</p>
+            <a class="text-link answer-link" href="pages/orchestrator-agents.html">Harness</a>
+          </div>
+          <figure class="answer-image">
+            <img src="assets/images/orchestrator-zurich.png" alt="Orchestrator-Grafik mit zuraio Systemlogik vor Schweizer Stadt">
+          </figure>
+        </div>
+        <div class="answer-features">
+          <article>
+            <span>01</span>
+            <strong>RAG für jedes Projekt und Unternehmenswissen</strong>
+          </article>
+          <article>
+            <span>02</span>
+            <strong>Rollen und Rechte pro Tenant</strong>
+          </article>
+          <article>
+            <span>03</span>
+            <strong>Ein Agent pro Aufgabe</strong>
+          </article>
+          <article>
+            <span>04</span>
+            <strong>Lokale, hybride oder Cloud-LLMs</strong>
+          </article>
+          <article>
+            <span>05</span>
+            <strong>Audio-Modus für unterwegs</strong>
+          </article>
+          <article>
+            <span>06</span>
+            <strong>Audit Logging inklusive</strong>
+          </article>
+          <article>
+            <span>07</span>
+            <strong>Antworten mit Quellenangaben</strong>
+          </article>
+          <article>
+            <span>08</span>
+            <strong>Modular und skalierbar</strong>
+          </article>
+        </div>
+      </section>
+
+      <section class="section section-soft" id="voice">
+        <div class="story-card">
+          <img src="/Users/rolandsteiner/Downloads/ChatGPT%20Image%2011.%20Juni%202026,%2023_19_24.png" alt="Auto unterwegs in Schweizer Landschaft als Symbol für Voice-Nutzung">
+          <div>
+            <p class="eyebrow">Voice-Mode</p>
+            <h2>Nutze Zeit, die bisher verloren ging.</h2>
+            <p class="story-body">Besuchsberichte, Projektstatus, Gedanken, Aufgaben und Informationen können per Sprache erfasst werden: im Auto, zwischen zwei Terminen oder direkt nach einem Kundengespräch.</p>
+            <a class="text-link" href="pages/voice-agent.html">Voice-Agent vertiefen</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="split feature" id="projekt-agent">
+        <div class="feature-copy">
+          <p class="eyebrow">Wissen</p>
+          <h2>Für jedes Projekt ein Agent, der den Projektkontext versteht.</h2>
+          <p class="feature-body">Der Projekt-Agent kennt Dokumente, Protokolle, Aufgaben, Status, Entscheidungen und offene Punkte. So bleibt Projektwissen verfügbar, ohne dass Führung in Administration untergeht.</p>
+          <div class="stat-row">
+            <div><strong>24/7</strong><span>Kontext abrufbar</span></div>
+            <div><strong>RAG</strong><span>Antwort mit Quellen</span></div>
+            <div><strong>Team</strong><span>Wissen bleibt geteilt</span></div>
+          </div>
+          <a class="text-link" href="pages/projekt-agent.html">Projekt-Agent ansehen</a>
+        </div>
+        <figure class="image-frame">
+          <img src="assets/images/projekt-agent.png" alt="Projektleiter mit Blick auf Berge als Symbol für Projekt-Agent">
+        </figure>
+      </section>
+
+      <section class="section" id="wissen">
+        <div class="section-heading">
+          <p class="eyebrow">Wissenssicherung</p>
+          <h2>Dein Unternehmen baut jeden Tag Wissen auf. Warum sollte es jemand anderem gehören?</h2>
+          <p>zuraio sichert nicht nur Dokumente, sondern auch Erfahrungswissen, Entscheidungen, Prozesse und Kontext. So bleibt Wissen im Unternehmen – auch wenn Mitarbeitende oder KI-Provider wechseln.</p>
+          <a class="text-link knowledge-link" href="pages/rag-wissenssicherung.html">RAG &amp; Wissenssicherung</a>
+        </div>
+        <div class="knowledge-layout">
+          <img src="assets/images/system-lernt.png" alt="Unternehmer mit visualisiertem lernendem System">
+          <div class="knowledge-list">
+            <article><h3><span class="check-icon" aria-hidden="true">✓</span>Meine KI</h3><p>Das Wissen aus deinem Unternehmenskontext gehört dir und bleibt unter deiner Kontrolle.</p></article>
+            <article><h3><span class="check-icon" aria-hidden="true">✓</span>Meine RAGs</h3><p>Vektorisierte Wissensdatenbanken werden dort betrieben, wo du es vorgibst.</p></article>
+            <article><h3><span class="check-icon" aria-hidden="true">✓</span>Meine Daten</h3><p>Speicherort, Zugriff und Nutzung folgen deinen Vorgaben, nicht denen eines Anbieters.</p></article>
+            <article><h3><span class="check-icon" aria-hidden="true">✓</span>Mein Wissen</h3><p>Erfahrungen werden zu Unternehmenswissen. Sichere das Wissen der Mitarbeiter, bevor sie das Unternehmen verlassen.</p></article>
+            <article><h3><span class="check-icon" aria-hidden="true">✓</span>Meine Kontrolle</h3><p>Rollen, Rechte und Zugriffe werden bewusst gesteuert und nachvollziehbar dokumentiert.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="security-section" id="sicherheit">
+        <div class="security-hero">
+          <div>
+            <p class="eyebrow">Sicherheit & Datensouveränität</p>
+            <h2>Jeder spricht über Leistung. Wir sprechen zuerst über Vertrauen.</h2>
+            <p>Datenhoheit ist kein Zusatz. Sie ist die Grundlage, damit KI im Unternehmen wirklich eingesetzt werden kann.</p>
+            <a class="text-link security-link" href="pages/datensouveraenitaet-sicherheit.html">Datensouveränität &amp; Sicherheit</a>
+          </div>
+          <img src="assets/images/datenschutz.png" alt="Datenschutz und Vertrauen als zuraio Kernmotiv">
+        </div>
+        <div class="security-grid">
+          <article>
+            <h3>Maximale Sicherheit</h3>
+            <p>Corporate LLM, lokale Infrastruktur, lokale Datenspeicherung für maximale Kontrolle.</p>
+          </article>
+          <article>
+            <h3>Bewusste Sicherheit</h3>
+            <p>Hybride Architektur: Kritisches lokal, weniger Kritisches über geprüfte Cloud-Modelle.</p>
+          </article>
+          <article>
+            <h3>Anerkannte Sicherheit</h3>
+            <p>Cloud-basiert mit Swiss Hosting, kontrollierter Datenhaltung und klarer Governance.</p>
+          </article>
+          <article>
+            <h3>Maximale Leistung</h3>
+            <p>Zugriff auf führende LLMs über API für Nutzung mit geringerem Schutzbedarf.</p>
+          </article>
+        </div>
+        <div class="compliance-strip">
+          <div class="compliance-track">
+            <span>EU AI Act Readiness</span>
+            <span>DSGVO Readiness</span>
+            <span>Human Oversight</span>
+            <span>Audit Logging</span>
+            <span>Nachvollziehbarkeit</span>
+            <span>Transparenz</span>
+            <span>Revisionssicherheit</span>
+            <span>Compliance by Design</span>
+            <span>Governance Framework</span>
+            <span>Zugriffskontrolle</span>
+            <span>Freigabeprozesse</span>
+            <span>Datenhoheit</span>
+            <span>Swiss Hosting</span>
+            <span>Corporate LLM</span>
+            <span>Private AI</span>
+            <span>Tenant Isolation</span>
+            <span>Verschlüsselung</span>
+            <span>Mandantentrennung</span>
+            <span>Backup & Recovery</span>
+            <span>EU AI Act Readiness</span>
+            <span>DSGVO Readiness</span>
+            <span>Human Oversight</span>
+            <span>Audit Logging</span>
+            <span>Nachvollziehbarkeit</span>
+            <span>Transparenz</span>
+            <span>Revisionssicherheit</span>
+            <span>Compliance by Design</span>
+            <span>Governance Framework</span>
+            <span>Zugriffskontrolle</span>
+            <span>Freigabeprozesse</span>
+            <span>Datenhoheit</span>
+            <span>Swiss Hosting</span>
+            <span>Corporate LLM</span>
+            <span>Private AI</span>
+            <span>Tenant Isolation</span>
+            <span>Verschlüsselung</span>
+            <span>Mandantentrennung</span>
+            <span>Backup & Recovery</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="orchestrator">
+        <div class="section-heading narrow">
+          <p class="eyebrow">So denkt zuraio</p>
+          <h2>Mehr als Chat:<br>Eine kontrollierte Antwortkette.</h2>
+          <p>Der Orchestrator prüft zuerst den Rahmen, wählt dann den passenden Weg und liefert erst danach eine nachvollziehbare Antwort.</p>
+          <a class="text-link orchestrator-link" href="pages/orchestrator-agents.html">Harness</a>
+        </div>
+        <ol class="flow" aria-label="Orchestrator Ablauf">
+          <li><strong>Anfrage</strong><span>Was will der Nutzer wissen oder tun?</span></li>
+          <li><strong>Governance Gate</strong><span>Darf diese Person diese Daten nutzen?</span></li>
+          <li><strong>Intent Detection</strong><span>Welche Absicht steckt dahinter?</span></li>
+          <li><strong>Planner</strong><span>Welcher Agent, welches Wissen, welches Modell?</span></li>
+          <li><strong>RAG & Tools</strong><span>Quellen, Dokumente und Aktionen werden genutzt.</span></li>
+          <li><strong>Evaluator</strong><span>Antworten werden geprüft und eingeordnet.</span></li>
+          <li><strong>Antwort</strong><span>Mit Quellen, Grenzen und nächstem Schritt.</span></li>
+          <li><strong>Audit</strong><span>Nachvollziehbar für Governance und Lernen.</span></li>
+        </ol>
+      </section>
+
+      <section class="section section-soft" id="skalierung">
+        <div class="section-heading">
+          <p class="eyebrow">Skalierbarkeit</p>
+          <h2>Nicht morgen alles.<br>Heute das Richtige.</h2>
+          <p>zuraio wächst mit deinem Unternehmen. Starte dort, wo der grösste Hebel liegt, und erweitere die Lösung dann in deinem Tempo.</p>
+          <a class="text-link scaling-link" href="pages/infrastruktur-llm.html">Skalierbarkeit</a>
+        </div>
+        <div class="steps">
+          <article><span>1</span><h3>Starten</h3><p>Mail-Agent, Projekt-Agent, Wissens-RAG oder Voice-Agent.</p></article>
+          <article><span>2</span><h3>Vertrauen</h3><p>Rechte, Quellen, Hosting und Governance sauber einrichten.</p></article>
+          <article><span>3</span><h3>Integrieren</h3><p>Datenquellen, Workflows und bestehende Systeme anbinden.</p></article>
+          <article><span>4</span><h3>Wachsen</h3><p>Mehr Agents, mehr Bereiche, mehr Automatisierung.</p></article>
+        </div>
+      </section>
+
+      <section class="team-section" id="ueber-uns">
+        <div>
+          <p class="eyebrow">Warum wir zuraio bauen</p>
+          <h2>Wir wollten<br>MEHR KI<br>Nicht weniger<br>KONTROLLE</h2>
+          <a class="text-link team-link" href="pages/ueber-uns.html">über uns</a>
+        </div>
+        <div class="quote-grid">
+          <blockquote><strong>Datenhoheit</strong><span>Unternehmenswissen gehört dem Unternehmen.</span></blockquote>
+          <blockquote><strong>Skalierbar</strong><span>Ein Agent heute. Ein KI-Ökosystem morgen.</span></blockquote>
+          <blockquote><strong>Unabhängig</strong><span>Keine Abhängigkeit. Keine Blackbox. Keine Kompromisse.</span></blockquote>
+        </div>
+      </section>
+
+      <section class="roadmap" id="roadmap">
+        <p class="eyebrow">Roadmap</p>
+        <div class="roadmap-visual">
+          <img src="assets/images/roadmap-corporate-ai.png" alt="Waldweg als Roadmap zur Corporate AI">
+          <div class="roadmap-overlay">
+            <h2>Heute ein Orchestrator<br>Morgen ein<br>KI-Ökosystem</h2>
+            <div class="timeline">
+              <article><strong>Heute</strong><p>Multifunktionales Chat-Interface, Audio-Funktion, Mail-Agent, Projekt-Agent, Internet-Agent, Harness Grundlage, Rollenverwaltung, Systemverwaltung, API Layer, Audit Logging, u.v.m.</p></article>
+              <article><strong>Nächste Schritte</strong><p>Echtzeit Sprachmodus, Meeting-Transkript, Harness Optimierung, Hardware, Mitarbeiterschulung, Ihr Agent nach Wunsch, u.v.m.</p></article>
+              <article><strong>Vision</strong><p>zuraio als turn key solution. Ein Ansprechpartner, vollste Flexibilität, absolute Transparenz, fair und kundennah.</p></article>
+            </div>
+            <a class="text-link roadmap-link" href="pages/roadmap.html">Roadmap</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="subpages" id="unterseiten">
+        <div class="section-heading">
+          <p class="eyebrow">Vertiefende Seiten</p>
+          <h2>Bereit für Ausbau, Beratung und Verkaufsgespräche.</h2>
+        </div>
+        <div class="subpage-grid">
+          <a href="pages/datensouveraenitaet-sicherheit.html">Datensouveränität & Sicherheit</a>
+          <a href="pages/voice-agent.html">Voice-Agent</a>
+          <a href="pages/rag-wissenssicherung.html">RAG & Wissenssicherung</a>
+          <a href="pages/projekt-agent.html">Projekt-Agent</a>
+          <a href="pages/orchestrator-agents.html">Orchestrator & Agents</a>
+          <a href="pages/eu-ai-act-dsgvo.html">EU AI Act & DSGVO</a>
+          <a href="pages/infrastruktur-llm.html">Infrastruktur & LLMs</a>
+          <a href="pages/roadmap.html">Roadmap</a>
+          <a href="pages/ueber-uns.html">Über uns</a>
+          <a href="pages/kontakt-demo.html">Kontakt / Demo</a>
+        </div>
+      </section>
+
+      <section class="cta-section" id="kontakt">
+        <p class="eyebrow">Nächster Schritt</p>
+        <h2>Zeig uns, wo dein Unternehmen heute Zeit, Wissen oder Kontrolle verliert.</h2>
+        <p>Wir zeigen dir, wo ein erster zuraio-Agent den grössten Nutzen bringt und welche Sicherheitsarchitektur zu deinem Unternehmen passt.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="mailto:hello@zuraio.ch?subject=Demo%20zuraio">Demo anfragen</a>
+          <a class="button secondary" href="pages/kontakt-demo.html">Kontaktseite öffnen</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="brand" href="#home" aria-label="zuraio Startseite">
+        <img src="assets/logo/zuraio-logo-claim.png" alt="zuraio | own your data">
+      </a>
+      <p>KI für Unternehmen, die ihre Daten nicht aus der Hand geben.</p>
+      <nav aria-label="Footer Navigation">
+        <a href="pages/datensouveraenitaet-sicherheit.html">Sicherheit</a>
+        <a href="pages/orchestrator-agents.html">Orchestrator</a>
+        <a href="pages/kontakt-demo.html">Demo</a>
+      </nav>
+    </footer>
+    <script src="script.js?v=3"></script>
+  </body>
+</html>
