@@ -5,6 +5,7 @@ const detailPageTranslations = {
       hero: {
         eyebrow: "Agenten",
         title: "Digitale Spezialisten, die mit Ihrem Unternehmen wachsen.",
+        titleHtml: "<span class=\"hero-title-line\">Digitale</span><span class=\"hero-title-line\"><span class=\"hero-accent\">Spezialisten</span>,</span><span class=\"hero-title-line\">die mit Ihrem</span><span class=\"hero-title-line\">Unternehmen</span><span class=\"hero-title-line\">wachsen.</span>",
         lead: "zuraio entlastet Teams mit Agents für wiederkehrende Aufgaben – skalierbar, kontrolliert und entlang Ihrer Prozesse aufgebaut.",
         imageAlt: "Modularer Ausbau von zuraio Agents",
       },
@@ -23,7 +24,7 @@ const detailPageTranslations = {
         imageAlt: "Datenschutz bei zuraio",
       },
       articles: [
-        { title: "Verantwortliche Stelle", body: "Verantwortlich für die Datenbearbeitung im Zusammenhang mit dieser Website ist zuraio. Kontakt: hello@zuraio.ch" },
+        { title: "Verantwortliche Stelle", bodyHtml: 'Verantwortlich für die Datenbearbeitung im Zusammenhang mit dieser Website ist zuraio. Kontakt: <a href="mailto:hello@zuraio.ch">hello@zuraio.ch</a>' },
         { title: "Erhobene Daten", body: "Beim Besuch dieser Website können technische Daten wie IP-Adresse, Browsertyp, Zeitpunkt des Zugriffs und aufgerufene Seiten in Server-Logfiles verarbeitet werden. Bei Kontaktanfragen per E-Mail bearbeiten wir die von Ihnen übermittelten Angaben zur Beantwortung Ihrer Anfrage." },
         { title: "Zweck der Bearbeitung", body: "Personenbezogene Daten werden ausschliesslich zur Bereitstellung dieser Website, zur Kommunikation mit Ihnen und zur Verbesserung unseres Angebots verwendet." },
         { title: "Ihre Rechte", body: "Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Bearbeitung sowie Widerspruch gegen die Bearbeitung Ihrer personenbezogenen Daten. Wenden Sie sich dazu an hello@zuraio.ch." },
@@ -169,15 +170,18 @@ const detailPageTranslations = {
       meta: { title: "Preise und Modelle | zuraio" },
       hero: {
         eyebrow: "Preise und Modelle",
-        title: "Transparente Pakete für unterschiedliche Anforderungen.",
+        title: "Transparente Modelle für Ihre Anforderungen.",
+        titleHtml: "<span class=\"hero-title-line\">Transparente</span><span class=\"hero-title-line\"><span class=\"hero-accent\">Modelle</span> für Ihre</span><span class=\"hero-title-line\">Anforderungen.</span>",
         lead: "Ob lokaler Einstieg, hybride Architektur oder Cloud-Betrieb: zuraio passt sich Ihrem Unternehmen an – mit klaren Modellen und fairen Preisen.",
+        leadHtml: "<span class=\"lead-line\">Ob lokaler Einstieg, hybride Architektur</span><span class=\"lead-line\">oder Cloud-Betrieb.</span><span class=\"lead-line\">zuraio passt sich Ihrem Unternehmen an.</span><span class=\"lead-line\">Mit klaren Modellen und fairen Preisen.</span>",
         imageAlt: "zuraio Preismodelle und Infrastrukturwahl",
       },
       articles: [
-        { title: "Modular starten", body: "Sie beginnen dort, wo der grösste Nutzen entsteht – und erweitern Schritt für Schritt." },
-        { title: "Passendes Betriebsmodell", body: "Lokal, hybrid oder Cloud: Sie wählen, wo System, Modelle und Daten laufen." },
-        { title: "Fair und nachvollziehbar", body: "Preise orientieren sich an Nutzung, Agents und Infrastruktur – ohne undurchsichtige Zusatzkosten." },
+        { title: "Modular starten", body: "Sie beginnen dort, wo der grösste Nutzen entsteht und erweitern Schritt für Schritt." },
+        { title: "Passendes Modell", body: "Lokal, hybrid oder Cloud: Sie wählen, wo System, Modelle und Daten laufen." },
+        { title: "Transparent & Fair", body: "Preise orientieren sich an Nutzung, Agents und Infrastruktur, ohne undurchsichtige Zusatzkosten." },
       ],
+      notice: "Hinweis: Die Preisgestaltung ist bald für Sie verfügbar.",
     },
     "projekt-agent": {
       meta: { title: "Projekt-Agent | zuraio" },
@@ -212,6 +216,7 @@ const detailPageTranslations = {
       hero: {
         eyebrow: "RAG",
         title: "Unternehmenswissen am sicheren Ort Ihrer Wahl.",
+        titleHtml: "<span class=\"hero-title-line\"><span class=\"hero-accent\">Unternehmens-</span></span><span class=\"hero-title-line\"><span class=\"hero-accent\">Wissen</span></span><span class=\"hero-title-line\">am sicheren</span><span class=\"hero-title-line\">Ort Ihrer Wahl.</span>",
         lead: "Mit Retrieval-Augmented Generation macht zuraio Dokumente, Entscheidungen und Prozesse auffindbar – quellenbasiert und unter Ihrer Kontrolle.",
         imageAlt: "Lernendes Unternehmenssystem",
       },
@@ -226,6 +231,7 @@ const detailPageTranslations = {
       hero: {
         eyebrow: "Roadmap",
         title: "Heute ein Orchestrator. Langfristig das Company Brain.",
+        titleHtml: "<span class=\"hero-title-line\">Heute ein </span><span class=\"hero-title-line\"><span class=\"hero-accent\">Orchestrator</span>.</span><span class=\"hero-title-line\">Langfristig das </span><span class=\"hero-title-line\">Company-Brain</span>",
         lead: "zuraio startet pragmatisch und wächst Schritt für Schritt zu einem sicheren AI-Ökosystem für Schweizer KMU.",
         imageAlt: "Modernes Büro mit Panoramablick auf Berglandschaft",
       },
@@ -239,14 +245,65 @@ const detailPageTranslations = {
       meta: { title: "Über uns | zuraio" },
       hero: {
         eyebrow: "Über uns",
-        title: "Wir bauen zuraio, weil uns genau diese Lösung gefehlt hat.",
-        lead: "Wir wollten KI im Unternehmen einsetzen, aber mit echten Daten, klarer Verantwortung, wählbaren Modellen und Schweizer Vertrauensverständnis.",
-        imageAlt: "zuraio entsteht aus echtem Bedarf",
+        title: "Vier Köpfe. Eine Vision. KI, die Unternehmen wirklich weiterbringt.",
+        titleHtml: "<span class=\"hero-title-line\">Vier Köpfe,</span><span class=\"hero-title-line\">Eine <span class=\"hero-accent\">Vision</span></span><span class=\"hero-title-line\">KI, die Unternehmen</span><span class=\"hero-title-line\">wirklich weiterbringt</span>",
+        lead: "Uns verbindet die Überzeugung, dass Künstliche Intelligenz Unternehmen wirklich weiterbringen kann. Aber nur dann, wenn sie sicher, verständlich und sinnvoll eingesetzt wird. Genau dafür bauen wir zuraio.",
+        imageAlt: "Das zuraio Team bei der Arbeit",
       },
       articles: [
         { title: "Nicht theoretisch", body: "zuraio entsteht aus konkreten Problemen in KMU-Umgebungen." },
         { title: "Nicht nur Software", body: "Beratung, Vorbereitung, Einführung, Schulung und Weiterentwicklung gehören dazu." },
         { title: "Mit unseren Kunden", body: "Agents werden entlang echter Prozesse, Menschen und Verantwortlichkeiten gebaut." },
+      ],
+      teamSectionAriaLabel: "Team",
+      story: [
+        {
+          title: "Wer wir sind",
+          content: [
+            { type: "p", text: "Wir sind vier Menschen mit unterschiedlichen Stärken, Hintergründen und Perspektiven. Was uns verbindet, ist mehr als Technologie. Uns verbindet die Überzeugung, dass Künstliche Intelligenz nur dann wertvoll ist, wenn sie echten Menschen bei echten Problemen hilft." },
+            { type: "p", text: "Jeder von uns bringt etwas Eigenes mit. Strategisches Denken, technisches Tiefenwissen, kreative Vision, unternehmerisches Gespür und den Willen, Dinge wirklich umzusetzen. Gerade diese Unterschiedlichkeit ist unsere Stärke." },
+            { type: "p", text: "Wir ergänzen uns, challengen uns gegenseitig und treiben uns an, immer weiterzudenken." },
+          ],
+        },
+        {
+          title: "Was uns antreibt",
+          content: [
+            { type: "p", text: "Zuraio entstand nicht aus einem Businessplan." },
+            { type: "p", text: "Zuraio entstand aus Frustration, Neugier und einer klaren Vision." },
+            { type: "p", text: "Wir haben gesehen, wie viele Unternehmen zwischen Unsicherheit und Hype feststecken. Alle sprechen über KI, aber kaum jemand beantwortet die entscheidenden Fragen." },
+            { type: "ul", items: ["Wem gehören meine Daten?", "Kann ich dieser Technologie vertrauen?", "Löst sie wirklich meine Probleme?", "Oder schafft sie einfach neue?"] },
+            { type: "p", text: "Wir suchten nach einer Lösung, die leistungsfähig, sicher, flexibel und gleichzeitig bezahlbar ist." },
+            { type: "p", text: "Wir fanden keine." },
+            { type: "p", text: "Also haben wir beschlossen, selbst eine zu bauen." },
+            { type: "p", text: "Nicht, weil wir unbedingt ein Produkt entwickeln wollten." },
+            { type: "p", text: "Sondern weil wir überzeugt waren, dass es einen besseren Weg geben muss." },
+          ],
+        },
+        {
+          title: "Wie wir arbeiten",
+          content: [
+            { type: "p", text: "Wir glauben an ehrliche Arbeit." },
+            { type: "ul", items: ["An tiefes Verstehen, bevor man Lösungen baut.", "An kritisches Hinterfragen statt blindem Folgen.", "An Qualität statt Geschwindigkeit um jeden Preis."] },
+            { type: "p", text: "Wir diskutieren intensiv, testen viel, verwerfen Ideen und bauen neu. Nicht alles funktioniert beim ersten Versuch, und genau das gehört dazu." },
+            { type: "p", text: "Was uns auszeichnet, ist unser Anspruch, nicht einfach Features zu liefern, sondern Substanz zu schaffen." },
+            { type: "p", text: "Wir wollen Systeme bauen, denen man vertrauen kann." },
+            { type: "p", text: "Systeme, die Menschen entlasten, Wissen sichern und Unternehmen helfen, ihre Zukunft aktiv zu gestalten." },
+          ],
+        },
+        {
+          title: "Was uns wichtig ist",
+          content: [
+            { type: "p", text: "Bei allem, was wir tun, steht eines im Zentrum." },
+            { type: "p", text: "Der Mensch." },
+            { type: "ul", items: ["KI soll nicht entmenschlichen.", "Sie soll Freiraum schaffen.", "Zeit zurückgeben.", "Komplexität reduzieren.", "Und Menschen ermöglichen, sich wieder auf das zu konzentrieren, was sie wirklich gut können."] },
+            { type: "p", text: "Wir glauben an Technologie mit Verantwortung." },
+            { type: "p", text: "An Innovation mit Haltung." },
+            { type: "p", text: "Und daran, dass Fortschritt dann am wertvollsten ist, wenn er Menschen stärkt, statt sie zu ersetzen." },
+            { type: "p", text: "Zuraio ist für uns mehr als ein Produkt." },
+            { type: "p", text: "Es ist unsere Antwort auf die Frage, wie KI in Unternehmen wirklich sinnvoll eingesetzt werden sollte." },
+            { type: "p", text: "Und wir stehen erst am Anfang." },
+          ],
+        },
       ],
     },
     "voice-agent": {
@@ -270,6 +327,7 @@ const detailPageTranslations = {
       hero: {
         eyebrow: "Agents",
         title: "Digital specialists that grow with your company.",
+        titleHtml: "<span class=\"hero-title-line\">Digital <span class=\"hero-accent\">specialists</span></span><span class=\"hero-title-line\">that grow with your</span><span class=\"hero-title-line\">company.</span>",
         lead: "zuraio relieves teams with agents for recurring tasks – scalable, controlled, and built along your processes.",
         imageAlt: "Modular expansion of zuraio agents",
       },
@@ -288,7 +346,7 @@ const detailPageTranslations = {
         imageAlt: "Privacy at zuraio",
       },
       articles: [
-        { title: "Responsible entity", body: "zuraio is responsible for data processing in connection with this website. Contact: hello@zuraio.ch" },
+        { title: "Responsible entity", bodyHtml: 'zuraio is responsible for data processing in connection with this website. Contact: <a href="mailto:hello@zuraio.ch">hello@zuraio.ch</a>' },
         { title: "Data collected", body: "When visiting this website, technical data such as IP address, browser type, time of access, and pages viewed may be processed in server log files. For contact requests by email, we process the information you provide to respond to your inquiry." },
         { title: "Purpose of processing", body: "Personal data is used exclusively to provide this website, communicate with you, and improve our offering." },
         { title: "Your rights", body: "You have the right to access, rectification, deletion, restriction of processing, and objection to the processing of your personal data. Contact hello@zuraio.ch for this." },
@@ -434,15 +492,18 @@ const detailPageTranslations = {
       meta: { title: "Pricing and models | zuraio" },
       hero: {
         eyebrow: "Pricing and models",
-        title: "Transparent packages for different requirements.",
+        title: "Transparent models for your requirements.",
+        titleHtml: "<span class=\"hero-title-line\">Transparent</span><span class=\"hero-title-line\"><span class=\"hero-accent\">models</span> for your</span><span class=\"hero-title-line\">requirements.</span>",
         lead: "Whether local entry, hybrid architecture, or cloud operation: zuraio adapts to your company – with clear models and fair pricing.",
+        leadHtml: "<span class=\"lead-line\">Whether local entry, hybrid architecture</span><span class=\"lead-line\">or cloud operation.</span><span class=\"lead-line\">zuraio adapts to your company.</span><span class=\"lead-line\">With clear models and fair pricing.</span>",
         imageAlt: "zuraio pricing models and infrastructure choice",
       },
       articles: [
-        { title: "Start modularly", body: "You start where the greatest value is created – and expand step by step." },
-        { title: "The right operating model", body: "Local, hybrid, or cloud: you choose where system, models, and data run." },
-        { title: "Fair and transparent", body: "Pricing is based on usage, agents, and infrastructure – without opaque extra costs." },
+        { title: "Start modularly", body: "You start where the greatest value is created and expand step by step." },
+        { title: "The right model", body: "Local, hybrid, or cloud: you choose where system, models, and data run." },
+        { title: "Transparent & fair", body: "Pricing is based on usage, agents, and infrastructure, without opaque extra costs." },
       ],
+      notice: "Note: Pricing will be available for you soon.",
     },
     "projekt-agent": {
       meta: { title: "Project Agent | zuraio" },
@@ -477,6 +538,7 @@ const detailPageTranslations = {
       hero: {
         eyebrow: "RAG",
         title: "Company knowledge at the secure location of your choice.",
+        titleHtml: "<span class=\"hero-title-line\"><span class=\"hero-accent\">Company</span></span><span class=\"hero-title-line\"><span class=\"hero-accent\">knowledge</span></span><span class=\"hero-title-line\">at the secure</span><span class=\"hero-title-line\">location of your choice.</span>",
         lead: "With Retrieval-Augmented Generation, zuraio makes documents, decisions, and processes findable – source-based and under your control.",
         imageAlt: "Learning company system",
       },
@@ -491,6 +553,7 @@ const detailPageTranslations = {
       hero: {
         eyebrow: "Roadmap",
         title: "Today an orchestrator. Long term, the company brain.",
+        titleHtml: "<span class=\"hero-title-line\">Today an </span><span class=\"hero-title-line\"><span class=\"hero-accent\">orchestrator</span>.</span><span class=\"hero-title-line\">Long term, the </span><span class=\"hero-title-line\">company brain</span>",
         lead: "zuraio starts pragmatically and grows step by step into a secure AI ecosystem for Swiss SMEs.",
         imageAlt: "Modern office with panoramic view of mountain landscape",
       },
@@ -504,14 +567,65 @@ const detailPageTranslations = {
       meta: { title: "About us | zuraio" },
       hero: {
         eyebrow: "About us",
-        title: "We built zuraio because exactly this solution was missing.",
-        lead: "We wanted to use AI in the company with real data, clear responsibility, selectable models, and Swiss understanding of trust.",
-        imageAlt: "zuraio born from real need",
+        title: "Four minds. One vision. AI that truly moves companies forward.",
+        titleHtml: "<span class=\"hero-title-line\">Four minds,</span><span class=\"hero-title-line\">One <span class=\"hero-accent\">Vision</span></span><span class=\"hero-title-line\">AI that truly moves</span><span class=\"hero-title-line\">companies forward</span>",
+        lead: "We share the conviction that artificial intelligence can truly move companies forward – but only when it is deployed securely, understandably, and meaningfully. That is exactly what we build zuraio for.",
+        imageAlt: "The zuraio team at work",
       },
       articles: [
         { title: "Not theoretical", body: "zuraio emerges from concrete problems in SME environments." },
         { title: "Not just software", body: "Consulting, preparation, rollout, training, and further development are part of it." },
         { title: "With our customers", body: "Agents are built along real processes, people, and responsibilities." },
+      ],
+      teamSectionAriaLabel: "Team",
+      story: [
+        {
+          title: "Who we are",
+          content: [
+            { type: "p", text: "We are four people with different strengths, backgrounds, and perspectives. What connects us is more than technology. We share the conviction that artificial intelligence is only valuable when it helps real people with real problems." },
+            { type: "p", text: "Each of us brings something unique: strategic thinking, deep technical knowledge, creative vision, entrepreneurial instinct, and the will to actually implement things. It is precisely this diversity that is our strength." },
+            { type: "p", text: "We complement each other, challenge one another, and push ourselves to keep thinking further." },
+          ],
+        },
+        {
+          title: "What drives us",
+          content: [
+            { type: "p", text: "Zuraio did not come from a business plan." },
+            { type: "p", text: "Zuraio came from frustration, curiosity, and a clear vision." },
+            { type: "p", text: "We saw how many companies get stuck between uncertainty and hype. Everyone talks about AI, but hardly anyone answers the decisive questions." },
+            { type: "ul", items: ["Who owns my data?", "Can I trust this technology?", "Does it really solve my problems?", "Or does it simply create new ones?"] },
+            { type: "p", text: "We looked for a solution that is powerful, secure, flexible, and affordable at the same time." },
+            { type: "p", text: "We did not find one." },
+            { type: "p", text: "So we decided to build one ourselves." },
+            { type: "p", text: "Not because we necessarily wanted to develop a product." },
+            { type: "p", text: "But because we were convinced there must be a better way." },
+          ],
+        },
+        {
+          title: "How we work",
+          content: [
+            { type: "p", text: "We believe in honest work." },
+            { type: "ul", items: ["In deep understanding before building solutions.", "In critical questioning instead of blind following.", "In quality instead of speed at any price."] },
+            { type: "p", text: "We discuss intensely, test a lot, discard ideas, and rebuild. Not everything works on the first try, and that is part of it." },
+            { type: "p", text: "What sets us apart is our ambition not simply to deliver features, but to create substance." },
+            { type: "p", text: "We want to build systems people can trust." },
+            { type: "p", text: "Systems that relieve people, secure knowledge, and help companies actively shape their future." },
+          ],
+        },
+        {
+          title: "What matters to us",
+          content: [
+            { type: "p", text: "In everything we do, one thing is at the center." },
+            { type: "p", text: "People." },
+            { type: "ul", items: ["AI should not dehumanize.", "It should create freedom.", "Give back time.", "Reduce complexity.", "And enable people to focus again on what they are truly good at."] },
+            { type: "p", text: "We believe in technology with responsibility." },
+            { type: "p", text: "In innovation with conviction." },
+            { type: "p", text: "And that progress is most valuable when it strengthens people instead of replacing them." },
+            { type: "p", text: "For us, zuraio is more than a product." },
+            { type: "p", text: "It is our answer to the question of how AI should truly be used meaningfully in companies." },
+            { type: "p", text: "And we are only just getting started." },
+          ],
+        },
       ],
     },
     "voice-agent": {
@@ -535,6 +649,7 @@ const detailPageTranslations = {
       hero: {
         eyebrow: "Agentes",
         title: "Especialistas digitais que crescem com a sua empresa.",
+        titleHtml: "<span class=\"hero-title-line\"><span class=\"hero-accent\">Especialistas</span> digitais</span><span class=\"hero-title-line\">que crescem com a sua</span><span class=\"hero-title-line\">empresa.</span>",
         lead: "A zuraio alivia equipes com agentes para tarefas recorrentes – escaláveis, controlados e construídos ao longo dos seus processos.",
         imageAlt: "Expansão modular dos agentes zuraio",
       },
@@ -553,7 +668,7 @@ const detailPageTranslations = {
         imageAlt: "Privacidade na zuraio",
       },
       articles: [
-        { title: "Entidade responsável", body: "A zuraio é responsável pelo tratamento de dados em conexão com este site. Contato: hello@zuraio.ch" },
+        { title: "Entidade responsável", bodyHtml: 'A zuraio é responsável pelo tratamento de dados em conexão com este site. Contato: <a href="mailto:hello@zuraio.ch">hello@zuraio.ch</a>' },
         { title: "Dados coletados", body: "Ao visitar este site, dados técnicos como endereço IP, tipo de navegador, horário de acesso e páginas visitadas podem ser processados em logs de servidor. Para solicitações de contato por e-mail, processamos as informações fornecidas para responder à sua solicitação." },
         { title: "Finalidade do tratamento", body: "Dados pessoais são usados exclusivamente para fornecer este site, comunicar com você e melhorar nossa oferta." },
         { title: "Seus direitos", body: "Você tem direito de acesso, retificação, exclusão, restrição de tratamento e oposição ao tratamento dos seus dados pessoais. Entre em contato com hello@zuraio.ch." },
@@ -699,15 +814,18 @@ const detailPageTranslations = {
       meta: { title: "Preços e modelos | zuraio" },
       hero: {
         eyebrow: "Preços e modelos",
-        title: "Pacotes transparentes para diferentes necessidades.",
+        title: "Modelos transparentes para suas necessidades.",
+        titleHtml: "<span class=\"hero-title-line\">Transparentes</span><span class=\"hero-title-line\"><span class=\"hero-accent\">Modelos</span> para suas</span><span class=\"hero-title-line\">necessidades.</span>",
         lead: "Seja entrada local, arquitetura híbrida ou operação em nuvem: a zuraio se adapta à sua empresa – com modelos claros e preços justos.",
+        leadHtml: "<span class=\"lead-line\">Seja entrada local, arquitetura híbrida</span><span class=\"lead-line\">ou operação em nuvem.</span><span class=\"lead-line\">A zuraio se adapta à sua empresa.</span><span class=\"lead-line\">Com modelos claros e preços justos.</span>",
         imageAlt: "Modelos de preços zuraio e escolha de infraestrutura",
       },
       articles: [
-        { title: "Começar de forma modular", body: "Você começa onde o maior valor é criado – e expande passo a passo." },
-        { title: "Modelo operacional adequado", body: "Local, híbrido ou nuvem: você escolhe onde sistema, modelos e dados operam." },
-        { title: "Justo e transparente", body: "Preços baseiam-se em uso, agentes e infraestrutura – sem custos extras opacos." },
+        { title: "Começar de forma modular", body: "Você começa onde o maior valor é criado e expande passo a passo." },
+        { title: "Modelo adequado", body: "Local, híbrido ou nuvem: você escolhe onde sistema, modelos e dados operam." },
+        { title: "Transparente e justo", body: "Preços baseiam-se em uso, agentes e infraestrutura, sem custos extras opacos." },
       ],
+      notice: "Aviso: A estrutura de preços estará disponível em breve.",
     },
     "projekt-agent": {
       meta: { title: "Agente de Projeto | zuraio" },
@@ -742,6 +860,7 @@ const detailPageTranslations = {
       hero: {
         eyebrow: "RAG",
         title: "Conhecimento empresarial no local seguro de sua escolha.",
+        titleHtml: "<span class=\"hero-title-line\"><span class=\"hero-accent\">Conhecimento</span></span><span class=\"hero-title-line\"><span class=\"hero-accent\">empresarial</span></span><span class=\"hero-title-line\">no local seguro</span><span class=\"hero-title-line\">de sua escolha.</span>",
         lead: "Com Retrieval-Augmented Generation, a zuraio torna documentos, decisões e processos acessíveis – com fontes e sob seu controle.",
         imageAlt: "Sistema empresarial que aprende",
       },
@@ -756,6 +875,7 @@ const detailPageTranslations = {
       hero: {
         eyebrow: "Roadmap",
         title: "Hoje um orquestrador. A longo prazo, o cérebro da empresa.",
+        titleHtml: "<span class=\"hero-title-line\">Hoje um </span><span class=\"hero-title-line\"><span class=\"hero-accent\">orquestrador</span>.</span><span class=\"hero-title-line\">A longo prazo, o </span><span class=\"hero-title-line\">cérebro da empresa</span>",
         lead: "A zuraio começa de forma pragmática e cresce passo a passo em um ecossistema de IA seguro para PMEs suíças.",
         imageAlt: "Escritório moderno com vista panorâmica para paisagem montanhosa",
       },
@@ -769,14 +889,65 @@ const detailPageTranslations = {
       meta: { title: "Sobre nós | zuraio" },
       hero: {
         eyebrow: "Sobre nós",
-        title: "Construímos a zuraio porque exatamente esta solução estava faltando.",
-        lead: "Queríamos usar IA na empresa com dados reais, responsabilidade clara, modelos selecionáveis e compreensão suíça de confiança.",
-        imageAlt: "zuraio nasce de uma necessidade real",
+        title: "Quatro mentes. Uma visão. IA que realmente faz empresas avançar.",
+        titleHtml: "<span class=\"hero-title-line\">Quatro mentes,</span><span class=\"hero-title-line\">Uma <span class=\"hero-accent\">Visão</span></span><span class=\"hero-title-line\">IA que realmente faz</span><span class=\"hero-title-line\">empresas avançar</span>",
+        lead: "O que nos une é a convicção de que a Inteligência Artificial pode realmente fazer empresas avançar – mas somente quando é usada de forma segura, compreensível e significativa. É exatamente para isso que construímos a zuraio.",
+        imageAlt: "A equipe zuraio em trabalho",
       },
       articles: [
         { title: "Não teórico", body: "A zuraio surge de problemas concretos em ambientes de PME." },
         { title: "Não só software", body: "Consultoria, preparação, implementação, treinamento e evolução fazem parte." },
         { title: "Com nossos clientes", body: "Agentes são construídos ao longo de processos, pessoas e responsabilidades reais." },
+      ],
+      teamSectionAriaLabel: "Equipe",
+      story: [
+        {
+          title: "Quem somos",
+          content: [
+            { type: "p", text: "Somos quatro pessoas com forças, formações e perspectivas diferentes. O que nos une é mais do que tecnologia. Compartilhamos a convicção de que a Inteligência Artificial só é valiosa quando ajuda pessoas reais com problemas reais." },
+            { type: "p", text: "Cada um de nós traz algo único: pensamento estratégico, conhecimento técnico profundo, visão criativa, senso empreendedor e a vontade de realmente implementar as coisas. Essa diversidade é exatamente a nossa força." },
+            { type: "p", text: "Nos complementamos, nos desafiamos mutuamente e nos impulsionamos a pensar sempre mais longe." },
+          ],
+        },
+        {
+          title: "O que nos move",
+          content: [
+            { type: "p", text: "A zuraio não nasceu de um plano de negócios." },
+            { type: "p", text: "A zuraio nasceu de frustração, curiosidade e uma visão clara." },
+            { type: "p", text: "Vimos quantas empresas ficam presas entre incerteza e hype. Todos falam de IA, mas quase ninguém responde às perguntas decisivas." },
+            { type: "ul", items: ["De quem são meus dados?", "Posso confiar nesta tecnologia?", "Ela realmente resolve meus problemas?", "Ou simplesmente cria novos?"] },
+            { type: "p", text: "Procuramos uma solução que fosse poderosa, segura, flexível e ao mesmo tempo acessível." },
+            { type: "p", text: "Não encontramos." },
+            { type: "p", text: "Então decidimos construir uma nós mesmos." },
+            { type: "p", text: "Não porque necessariamente queríamos desenvolver um produto." },
+            { type: "p", text: "Mas porque estávamos convencidos de que deveria haver um caminho melhor." },
+          ],
+        },
+        {
+          title: "Como trabalhamos",
+          content: [
+            { type: "p", text: "Acreditamos em trabalho honesto." },
+            { type: "ul", items: ["Em compreensão profunda antes de construir soluções.", "Em questionamento crítico em vez de seguir cegamente.", "Em qualidade em vez de velocidade a qualquer preço."] },
+            { type: "p", text: "Discutimos intensamente, testamos muito, descartamos ideias e reconstruímos. Nem tudo funciona na primeira tentativa, e isso faz parte." },
+            { type: "p", text: "O que nos distingue é nossa ambição de não simplesmente entregar funcionalidades, mas criar substância." },
+            { type: "p", text: "Queremos construir sistemas em que se possa confiar." },
+            { type: "p", text: "Sistemas que aliviam pessoas, preservam conhecimento e ajudam empresas a moldar ativamente seu futuro." },
+          ],
+        },
+        {
+          title: "O que é importante para nós",
+          content: [
+            { type: "p", text: "Em tudo o que fazemos, uma coisa está no centro." },
+            { type: "p", text: "As pessoas." },
+            { type: "ul", items: ["A IA não deve desumanizar.", "Ela deve criar liberdade.", "Devolver tempo.", "Reduzir complexidade.", "E permitir que as pessoas se concentrem novamente no que realmente sabem fazer bem."] },
+            { type: "p", text: "Acreditamos em tecnologia com responsabilidade." },
+            { type: "p", text: "Em inovação com convicção." },
+            { type: "p", text: "E que o progresso é mais valioso quando fortalece as pessoas em vez de substituí-las." },
+            { type: "p", text: "Para nós, a zuraio é mais do que um produto." },
+            { type: "p", text: "É nossa resposta à pergunta de como a IA deve ser realmente usada de forma significativa nas empresas." },
+            { type: "p", text: "E estamos apenas no começo." },
+          ],
+        },
       ],
     },
     "voice-agent": {

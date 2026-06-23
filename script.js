@@ -28,6 +28,7 @@ const translations = {
       answerImageAlt: "Orchestrator-Grafik mit zuraio Systemlogik vor Schweizer Stadt",
       roadmapImageAlt: "Modernes Büro mit Panoramablick auf Berglandschaft",
       roadmapViewAriaLabel: "Roadmap ansehen",
+      teamSectionAriaLabel: "Team",
     },
     heroFeatures: [
       { title: "Sicherheits-Modelle", body: "Massgeschneidert an<br>Ihrem Unternehmen" },
@@ -57,7 +58,7 @@ const translations = {
     intro: {
       eyebrow: "KENNST DU DAS?",
       titleHtml:
-        "<span>Zu viele <span class=\"brand-highlight\">Tools</span></span><span>Zu wenig <span class=\"brand-highlight\">Kontrolle</span>.</span><span>Zu viel verlorene <span class=\"brand-highlight\">Zeit</span></span>",
+        "<span>Zu viele <span class=\"brand-highlight\">Tools</span>.</span><span>Zu wenig <span class=\"brand-highlight\">Kontrolle</span>.</span><span>Zu viel verlorene <span class=\"brand-highlight\">Zeit</span>.</span>",
       lines: [
         "Unternehmenswissen ist da, aber schwer auffindbar. Mitarbeitende wechseln zwischen Systemen, wiederholen Arbeit und verlieren Zeit mit Administration.",
         "Gleichzeitig wächst die Unsicherheit: Wo landen sensible Daten? Wem gehört das Wissen? Und passt Standard-KI überhaupt zu Ihrem Unternehmen?",
@@ -137,7 +138,7 @@ const translations = {
     },
     problem: {
       eyebrow: "VERTRAUEN & DATENKONTROLLE",
-      titleHtml: 'KI, ohne die <span class="brand-highlight">Kontrolle</span> aus der Hand zu geben.',
+      titleHtml: 'KI, ohne die <span class="brand-highlight">Kontrolle</span><br>aus der Hand zu geben.',
       lead:
         "KI darf nicht bedeuten, die Kontrolle über Unternehmensdaten zu verlieren. Mit zuraio bestimmen Unternehmen, wo das System betrieben wird, welche Daten es nutzen darf, wer darauf zugreifen kann und wie sich Ergebnisse überprüfen lassen.",
       solutionLead: "Unsere Lösung",
@@ -193,6 +194,7 @@ const translations = {
         "zuraio übernimmt Zeitfresser im Alltag:<br>geführte Antworten im Unternehmenswording, sichere Verarbeitung<br>sensibler Daten, Wissenserfassung, automatisierte Recherchen,<br>Aufgaben per Sprache delegieren, und vieles mehr",
       closing:
         "Wir kümmern uns um Ihre Zeitfresser, damit Sie sich wieder auf Ihre Leidenschaft konzentrieren können.",
+      nextCardAriaLabel: "Nächste Use-Case-Karte anzeigen",
       cards: [
         {
           badge: "Zuverlässig",
@@ -563,6 +565,7 @@ const translations = {
       columns: [
         {
           title: "Navigation",
+          navAriaLabel: "Navigation",
           links: [
             "Was wir lösen",
             "Sicherheit",
@@ -573,6 +576,7 @@ const translations = {
         },
         {
           title: "Sicherheit & Compliance",
+          navAriaLabel: "Sicherheit und Compliance",
           links: [
             "Swiss Hosting",
             "Lokal installierbar",
@@ -582,6 +586,7 @@ const translations = {
         },
         {
           title: "Kontakt & Rechtliches",
+          navAriaLabel: "Kontakt und Rechtliches",
           links: [
             "Kontakt",
             "Impressum",
@@ -591,9 +596,12 @@ const translations = {
         },
         {
           title: "Netzwerk & Social Media",
+          navAriaLabel: "Netzwerk und Social Media",
           links: ["Partner", "Social Media"],
         },
       ],
+      tagline:
+        "KI für Schweizer Unternehmen, die sich mehr Kontrolle wünschen",
       copyright: "© 2026 zuraio. All rights reserved.",
     },
   },
@@ -626,6 +634,7 @@ const translations = {
       answerImageAlt: "Orchestrator graphic with zuraio system logic in front of a Swiss city",
       roadmapImageAlt: "Modern office with panoramic view of mountain landscape",
       roadmapViewAriaLabel: "View roadmap",
+      teamSectionAriaLabel: "Team",
     },
     heroFeatures: [
       { title: "Security models", body: "Tailored to<br>your company" },
@@ -727,7 +736,7 @@ const translations = {
           body: "zuraio connects the most important applications instead of being yet another isolated tool.",
         },
       ],
-      link: "More information",
+      link: "Opportunities",
     },
     problem: {
       eyebrow: "TRUST & DATA CONTROL",
@@ -787,6 +796,7 @@ const translations = {
         "zuraio takes over everyday time sinks:<br>guided answers in your company wording, secure processing<br>of sensitive data, knowledge capture, automated research,<br>delegating tasks by voice, and much more",
       closing:
         "We take care of your time sinks so you can focus on what you are passionate about again.",
+      nextCardAriaLabel: "Show next use case card",
       cards: [
         {
           badge: "Reliability",
@@ -1121,6 +1131,7 @@ const translations = {
       columns: [
         {
           title: "Navigation",
+          navAriaLabel: "Navigation",
           links: [
             "What we solve",
             "Security",
@@ -1131,6 +1142,7 @@ const translations = {
         },
         {
           title: "Security & compliance",
+          navAriaLabel: "Security and compliance",
           links: [
             "Swiss hosting",
             "Locally installable",
@@ -1140,6 +1152,7 @@ const translations = {
         },
         {
           title: "Contact & legal",
+          navAriaLabel: "Contact and legal",
           links: [
             "Contact",
             "Imprint",
@@ -1149,9 +1162,11 @@ const translations = {
         },
         {
           title: "Network & social media",
+          navAriaLabel: "Network and social media",
           links: ["Partners", "Social media"],
         },
       ],
+      tagline: "AI for Swiss companies that want more control",
       copyright: "© 2026 zuraio. All rights reserved.",
     },
   },
@@ -1184,6 +1199,7 @@ const translations = {
       answerImageAlt: "Gráfico do orquestrador com lógica do sistema zuraio diante de uma cidade suíça",
       roadmapImageAlt: "Escritório moderno com vista panorâmica para paisagem montanhosa",
       roadmapViewAriaLabel: "Ver roadmap",
+      teamSectionAriaLabel: "Equipe",
     },
     heroFeatures: [
       { title: "Modelos de segurança", body: "Sob medida para<br>sua empresa" },
@@ -1285,7 +1301,7 @@ const translations = {
           body: "A zuraio integra as aplicações mais importantes, em vez de ser mais uma ferramenta isolada.",
         },
       ],
-      link: "Mais informações",
+      link: "Possibilidades",
     },
     problem: {
       eyebrow: "CONFIANÇA & CONTROLE DE DADOS",
@@ -1345,6 +1361,7 @@ const translations = {
         "A zuraio assume os devoradores de tempo do dia a dia:<br>respostas guiadas na linguagem da empresa, processamento seguro<br>de dados sensíveis, captura de conhecimento, pesquisas automatizadas,<br>delegar tarefas por voz, e muito mais",
       closing:
         "Tratamos dos seus devoradores de tempo para que possa voltar a concentrar-se na sua paixão.",
+      nextCardAriaLabel: "Mostrar próximo cartão de use case",
       cards: [
         {
           badge: "Confiabilidade",
@@ -1679,6 +1696,7 @@ const translations = {
       columns: [
         {
           title: "Navegação",
+          navAriaLabel: "Navegação",
           links: [
             "O que resolvemos",
             "Segurança",
@@ -1689,6 +1707,7 @@ const translations = {
         },
         {
           title: "Segurança e conformidade",
+          navAriaLabel: "Segurança e conformidade",
           links: [
             "Hosting suíço",
             "Instalável localmente",
@@ -1698,6 +1717,7 @@ const translations = {
         },
         {
           title: "Contato e legal",
+          navAriaLabel: "Contato e legal",
           links: [
             "Contato",
             "Impressum",
@@ -1707,9 +1727,11 @@ const translations = {
         },
         {
           title: "Rede e mídias sociais",
+          navAriaLabel: "Rede e mídias sociais",
           links: ["Parceiros", "Mídias sociais"],
         },
       ],
+      tagline: "IA para empresas suíças que querem mais controle",
       copyright: "© 2026 zuraio. All rights reserved.",
     },
   },
@@ -1738,6 +1760,10 @@ let useCaseRevealReducedMotion = false;
 let useCaseStackHoverBound = false;
 let useCaseHoveredCard = null;
 let useCaseResizeListenerBound = false;
+let useCaseMobileActiveIndex = 0;
+let useCaseMobileClickBound = false;
+const USE_CASE_MOBILE_STACK_PEEK = 12;
+const USE_CASE_MOBILE_STACK_VISIBLE = 3;
 
 function setHeroLead(leadLines) {
   const leadContainer = document.querySelector(".hero-lead");
@@ -1841,6 +1867,10 @@ function applyFooterLanguage(footer) {
     }
 
     setTextSelector(column, ".site-footer-heading", columnData.title);
+    const nav = column.querySelector("nav");
+    if (nav && columnData.navAriaLabel) {
+      nav.setAttribute("aria-label", columnData.navAriaLabel);
+    }
     const links = column.querySelectorAll("nav a");
     links.forEach((link, linkIndex) => {
       if (columnData.links[linkIndex] !== undefined) {
@@ -1849,12 +1879,13 @@ function applyFooterLanguage(footer) {
     });
   });
 
+  setText(".site-footer-tagline", footer.tagline);
   setText(".site-footer-copy", footer.copyright);
 }
 
 function setText(selector, value) {
   const element = document.querySelector(selector);
-  if (element) {
+  if (element && value !== undefined) {
     element.textContent = value;
   }
 }
@@ -1919,30 +1950,260 @@ function setupIntegrationPills(labels) {
   track.innerHTML = singleSet + singleSet;
 }
 
+let featureMarqueeCleanup = null;
+
+function setupInteractiveFeatureMarquee() {
+  const container = document.querySelector(".hero-feature-batches");
+  const track = document.querySelector(".hero-feature-batches-track");
+  if (!container || !track || !track.children.length) {
+    return null;
+  }
+
+  const AUTO_SCROLL_DURATION = 90;
+  const RESUME_DELAY = 350;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  let isDragging = false;
+  let dragStartX = 0;
+  let dragStartScrollLeft = 0;
+  let resumeTimeout = null;
+
+  const getLoopWidth = () => track.scrollWidth / 2;
+
+  const normalizeOffset = (offset) => {
+    const loopWidth = getLoopWidth();
+    if (loopWidth <= 0) {
+      return 0;
+    }
+
+    return ((offset % loopWidth) + loopWidth) % loopWidth;
+  };
+
+  const getAnimatedOffset = () => {
+    const style = window.getComputedStyle(track);
+    if (style.transform === "none") {
+      return 0;
+    }
+
+    const matrix = new DOMMatrixReadOnly(style.transform);
+    return Math.abs(matrix.m41);
+  };
+
+  const normalizeScroll = () => {
+    const loopWidth = getLoopWidth();
+    if (loopWidth <= 0) {
+      return;
+    }
+
+    if (container.scrollLeft >= loopWidth) {
+      container.scrollLeft -= loopWidth;
+    } else if (container.scrollLeft < 0) {
+      container.scrollLeft += loopWidth;
+    }
+  };
+
+  const enterManualMode = () => {
+    if (container.classList.contains("is-manual")) {
+      return;
+    }
+
+    const offset = normalizeOffset(getAnimatedOffset());
+    track.style.animation = "none";
+    track.style.transform = "none";
+    track.style.willChange = "auto";
+    void track.offsetWidth;
+    container.classList.add("is-manual");
+    container.scrollLeft = offset;
+  };
+
+  const exitManualMode = () => {
+    if (!container.classList.contains("is-manual")) {
+      return;
+    }
+
+    const loopWidth = getLoopWidth();
+    const offset = normalizeOffset(container.scrollLeft);
+
+    container.classList.remove("is-manual", "is-dragging");
+    container.scrollLeft = 0;
+    track.style.animation = "";
+    track.style.transform = "";
+    track.style.willChange = "transform";
+
+    if (!reducedMotion && loopWidth > 0) {
+      track.style.animationDelay = `-${(offset / loopWidth) * AUTO_SCROLL_DURATION}s`;
+    }
+  };
+
+  const scheduleResume = () => {
+    clearTimeout(resumeTimeout);
+    resumeTimeout = window.setTimeout(() => {
+      normalizeScroll();
+      exitManualMode();
+    }, RESUME_DELAY);
+  };
+
+  const onPointerDown = (event) => {
+    if (event.button !== 0) {
+      return;
+    }
+
+    enterManualMode();
+    isDragging = true;
+    dragStartX = event.clientX;
+    dragStartScrollLeft = container.scrollLeft;
+    container.classList.add("is-dragging");
+    container.setPointerCapture(event.pointerId);
+    clearTimeout(resumeTimeout);
+  };
+
+  const onPointerMove = (event) => {
+    if (!isDragging) {
+      return;
+    }
+
+    container.scrollLeft = dragStartScrollLeft + (dragStartX - event.clientX);
+    normalizeScroll();
+  };
+
+  const endDrag = (event) => {
+    if (!isDragging) {
+      return;
+    }
+
+    isDragging = false;
+    container.classList.remove("is-dragging");
+
+    try {
+      container.releasePointerCapture(event.pointerId);
+    } catch {
+      // Ignore if pointer capture was already released.
+    }
+
+    normalizeScroll();
+    scheduleResume();
+  };
+
+  const onScroll = () => {
+    if (isDragging) {
+      return;
+    }
+
+    normalizeScroll();
+    scheduleResume();
+  };
+
+  const onWheel = (event) => {
+    const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.shiftKey ? event.deltaY : 0;
+    if (!delta) {
+      return;
+    }
+
+    enterManualMode();
+    container.scrollLeft += delta;
+    normalizeScroll();
+    scheduleResume();
+  };
+
+  container.addEventListener("pointerdown", onPointerDown);
+  container.addEventListener("pointermove", onPointerMove);
+  container.addEventListener("pointerup", endDrag);
+  container.addEventListener("pointercancel", endDrag);
+  container.addEventListener("scroll", onScroll, { passive: true });
+  container.addEventListener("wheel", onWheel, { passive: true });
+
+  const resizeObserver = new ResizeObserver(() => {
+    if (container.classList.contains("is-manual")) {
+      normalizeScroll();
+      return;
+    }
+
+    const loopWidth = getLoopWidth();
+    if (loopWidth <= 0 || reducedMotion) {
+      return;
+    }
+
+    const offset = normalizeOffset(getAnimatedOffset());
+    track.style.animationDelay = `-${(offset / loopWidth) * AUTO_SCROLL_DURATION}s`;
+  });
+  resizeObserver.observe(track);
+
+  if (reducedMotion) {
+    enterManualMode();
+  }
+
+  return () => {
+    clearTimeout(resumeTimeout);
+    resizeObserver.disconnect();
+    container.removeEventListener("pointerdown", onPointerDown);
+    container.removeEventListener("pointermove", onPointerMove);
+    container.removeEventListener("pointerup", endDrag);
+    container.removeEventListener("pointercancel", endDrag);
+    container.removeEventListener("scroll", onScroll);
+    container.removeEventListener("wheel", onWheel);
+    container.classList.remove("is-manual", "is-dragging");
+    track.style.animation = "";
+    track.style.animationDelay = "";
+    track.style.transform = "";
+    track.style.willChange = "";
+  };
+}
+
+function renderFeatureBatch(item) {
+  const article = document.createElement("article");
+  article.className = "hero-feature-batch";
+
+  const number = document.createElement("span");
+  number.className = "hero-feature-batch-number";
+  number.textContent = item.number;
+
+  const copy = document.createElement("div");
+  copy.className = "hero-feature-batch-copy";
+
+  const title = document.createElement("h3");
+  title.textContent = item.title;
+
+  const body = document.createElement("p");
+  body.textContent = item.body;
+
+  copy.append(title, body);
+  article.append(number, copy);
+  return article;
+}
+
 function setFeatureMarquee(selector, items) {
   const track = document.querySelector(selector);
   if (!track || !items?.length) {
     return;
   }
 
-  const markup = items
-    .map(
-      (item) => `
-        <article class="hero-feature-batch">
-          <span class="hero-feature-batch-number">${item.number}</span>
-          <div class="hero-feature-batch-copy">
-            <h3>${item.title}</h3>
-            <p>${item.body}</p>
-          </div>
-        </article>`
-    )
-    .join("");
+  if (featureMarqueeCleanup) {
+    featureMarqueeCleanup();
+    featureMarqueeCleanup = null;
+  }
 
-  track.innerHTML = markup + markup;
+  track.replaceChildren();
+  items.forEach((item) => {
+    track.append(renderFeatureBatch(item));
+  });
+  items.forEach((item) => {
+    track.append(renderFeatureBatch(item));
+  });
+
+  const container = track.closest(".hero-feature-batches");
+  if (container) {
+    container.scrollLeft = 0;
+  }
+
+  featureMarqueeCleanup = setupInteractiveFeatureMarquee();
 }
 
 function getUseCaseTextSection() {
   return document.querySelector("#use-cases");
+}
+
+function isUseCaseMobileStack() {
+  return window.matchMedia("(max-width: 980px)").matches;
 }
 
 function getUseCaseStage() {
@@ -2053,7 +2314,7 @@ function setUseCaseHoveredCard(card) {
 }
 
 function bindUseCaseStackHover() {
-  if (useCaseStackHoverBound) {
+  if (useCaseStackHoverBound || isUseCaseMobileStack()) {
     return;
   }
 
@@ -2085,6 +2346,19 @@ function layoutUseCaseStackCard(card, index, total) {
     return;
   }
 
+  card.dataset.stackIndex = String(index);
+
+  if (isUseCaseMobileStack()) {
+    card.style.top = "";
+    card.style.left = "";
+    card.style.right = "";
+    card.style.bottom = "";
+    card.style.zIndex = "";
+    delete card.dataset.useTop;
+    delete card.dataset.useLeft;
+    return;
+  }
+
   syncUseCaseLayout();
 
   const stackRect = stack.getBoundingClientRect();
@@ -2111,6 +2385,149 @@ function layoutUseCaseStackCard(card, index, total) {
   card.style.right = "auto";
   card.style.bottom = "auto";
   card.style.zIndex = card.classList.contains("is-hovered") ? "100" : String(index + 1);
+}
+
+function revealAllUseCaseStackCards() {
+  const cardElements = useCaseRevealCardElements;
+  if (!cardElements?.length) {
+    return;
+  }
+
+  cardElements.forEach((card, index) => {
+    layoutUseCaseStackCard(card, index, cardElements.length);
+    card.classList.add("is-visible", "has-entered");
+  });
+
+  useCaseRevealIndex = cardElements.length;
+  useCaseStackComplete = true;
+  clearUseCaseRevealTimer();
+}
+
+function teardownUseCaseMobileDeck() {
+  const stack = getUseCaseCardsStack();
+  if (!stack) {
+    return;
+  }
+
+  stack.classList.remove("is-mobile-deck");
+  stack.removeAttribute("role");
+  stack.removeAttribute("tabindex");
+  stack.removeAttribute("aria-label");
+  stack.style.removeProperty("--use-case-mobile-deck-height");
+
+  Array.from(stack.querySelectorAll(".use-case-card")).forEach((card) => {
+    card.classList.remove("is-mobile-active", "is-mobile-behind");
+    card.removeAttribute("data-mobile-depth");
+    card.style.zIndex = "";
+    card.style.opacity = "";
+    card.style.pointerEvents = "";
+    card.style.top = "";
+    card.style.left = "";
+    card.style.right = "";
+    card.style.bottom = "";
+  });
+}
+
+function updateUseCaseMobileDeck() {
+  const stack = getUseCaseCardsStack();
+  const cards = useCaseRevealCardElements || Array.from(stack?.querySelectorAll(".use-case-card") || []);
+  if (!stack || !cards.length || !isUseCaseMobileStack()) {
+    return;
+  }
+
+  const total = cards.length;
+  const visibleBehind = Math.min(USE_CASE_MOBILE_STACK_VISIBLE - 1, total - 1);
+  const maxHeight = getMaxUseCaseCardHeight(stack);
+
+  stack.classList.add("is-mobile-deck");
+  stack.style.setProperty(
+    "--use-case-mobile-deck-height",
+    `${maxHeight + visibleBehind * USE_CASE_MOBILE_STACK_PEEK}px`
+  );
+
+  cards.forEach((card, index) => {
+    const depth = (index - useCaseMobileActiveIndex + total) % total;
+
+    card.classList.add("is-visible", "has-entered");
+    card.classList.remove("is-mobile-active", "is-mobile-behind");
+    card.style.top = "0";
+    card.style.left = "0";
+    card.style.right = "0";
+    card.style.bottom = "auto";
+    card.dataset.mobileDepth = String(depth);
+    card.style.zIndex = String(total - depth);
+
+    if (depth === 0) {
+      card.classList.add("is-mobile-active");
+      card.style.opacity = "";
+      card.style.pointerEvents = "";
+      return;
+    }
+
+    if (depth <= visibleBehind) {
+      card.classList.add("is-mobile-behind");
+      card.style.opacity = "";
+      card.style.pointerEvents = "none";
+      return;
+    }
+
+    card.style.opacity = "0";
+    card.style.pointerEvents = "none";
+  });
+}
+
+function advanceUseCaseMobileDeck() {
+  const cards = useCaseRevealCardElements;
+  if (!cards?.length) {
+    return;
+  }
+
+  useCaseMobileActiveIndex = (useCaseMobileActiveIndex + 1) % cards.length;
+  updateUseCaseMobileDeck();
+}
+
+function handleUseCaseMobileDeckActivate() {
+  if (!isUseCaseMobileStack()) {
+    return;
+  }
+
+  advanceUseCaseMobileDeck();
+}
+
+function bindUseCaseMobileDeck() {
+  const stack = getUseCaseCardsStack();
+  if (!stack || useCaseMobileClickBound) {
+    return;
+  }
+
+  stack.addEventListener("click", handleUseCaseMobileDeckActivate);
+  useCaseMobileClickBound = true;
+}
+
+function initUseCaseMobileDeck() {
+  if (!isUseCaseMobileStack()) {
+    return;
+  }
+
+  useCaseMobileActiveIndex = 0;
+  syncUseCaseLayout();
+  updateUseCaseMobileDeck();
+  bindUseCaseMobileDeck();
+
+  requestAnimationFrame(() => {
+    updateUseCaseMobileDeck();
+  });
+
+  const stack = getUseCaseCardsStack();
+  if (stack) {
+    stack.setAttribute("role", "button");
+    stack.setAttribute("tabindex", "0");
+    stack.setAttribute("aria-label", translations[getPreferredLanguage()]?.useCases?.nextCardAriaLabel || translations.de.useCases.nextCardAriaLabel);
+  }
+
+  useCaseRevealIndex = useCaseRevealCardElements?.length || 0;
+  useCaseStackComplete = true;
+  clearUseCaseRevealTimer();
 }
 
 function layoutAllUseCaseStackCards() {
@@ -2190,11 +2607,13 @@ function startUseCaseStackReveal() {
     return;
   }
 
+  if (isUseCaseMobileStack()) {
+    initUseCaseMobileDeck();
+    return;
+  }
+
   if (useCaseRevealReducedMotion) {
-    while (useCaseRevealIndex < cardElements.length) {
-      revealUseCaseStackCard(cardElements[useCaseRevealIndex], useCaseRevealIndex, cardElements.length);
-      useCaseRevealIndex += 1;
-    }
+    revealAllUseCaseStackCards();
     return;
   }
 
@@ -2311,6 +2730,16 @@ function syncUseCaseLayout() {
     return;
   }
 
+  if (isUseCaseMobileStack()) {
+    stage.style.height = "";
+    stack.style.top = "";
+    stack.style.left = "";
+    stack.style.right = "";
+    stack.style.bottom = "";
+    stack.style.height = "";
+    return;
+  }
+
   stage.style.height = `${textSection.offsetHeight}px`;
   stack.style.top = "0";
   stack.style.left = "0";
@@ -2325,6 +2754,13 @@ function bindUseCaseResizeListener() {
   }
 
   window.addEventListener("resize", () => {
+    if (isUseCaseMobileStack()) {
+      syncUseCaseLayout();
+      initUseCaseMobileDeck();
+      return;
+    }
+
+    teardownUseCaseMobileDeck();
     syncUseCaseLayout();
     layoutAllUseCaseStackCards();
   });
@@ -2352,8 +2788,10 @@ function setUseCaseCarousel(cards) {
   bindUseCaseResizeListener();
   bindUseCaseStackObserver();
 
-  contentStack.classList.add("is-interactive");
-  bindUseCaseStackHover();
+  contentStack.classList.toggle("is-interactive", !isUseCaseMobileStack());
+  if (!isUseCaseMobileStack()) {
+    bindUseCaseStackHover();
+  }
   contentStack.replaceChildren(
     ...cards.map((item) => {
       const card = document.createElement("article");
@@ -2387,6 +2825,12 @@ function setUseCaseCarousel(cards) {
   });
 
   syncUseCaseLayout();
+  if (isUseCaseMobileStack()) {
+    initUseCaseMobileDeck();
+    return;
+  }
+
+  teardownUseCaseMobileDeck();
   scheduleUseCaseStackReveal();
 }
 
@@ -2441,10 +2885,11 @@ function applyCommonUILanguage(ui) {
     return;
   }
 
-  const brandLink = document.querySelector(".brand, .site-footer-brand");
-  if (brandLink && ui.brandAriaLabel) {
-    brandLink.setAttribute("aria-label", ui.brandAriaLabel);
-  }
+  document.querySelectorAll(".brand, .site-footer-brand-link").forEach((brandLink) => {
+    if (ui.brandAriaLabel) {
+      brandLink.setAttribute("aria-label", ui.brandAriaLabel);
+    }
+  });
 
   const nav = document.querySelector(".site-nav");
   if (nav && ui.navAriaLabel) {
@@ -2525,6 +2970,39 @@ function applyHeroFeatures(features) {
   });
 }
 
+function applyDetailStoryLanguage(pageContent) {
+  const storyBlocks = document.querySelectorAll(".detail-story-block");
+  storyBlocks.forEach((block, index) => {
+    const data = pageContent.story?.[index];
+    if (!data) {
+      return;
+    }
+
+    setTextSelector(block, "h2", data.title);
+    block.querySelectorAll("p, ul").forEach((element) => element.remove());
+
+    data.content?.forEach((item) => {
+      if (item.type === "p") {
+        const paragraph = document.createElement("p");
+        paragraph.textContent = item.text;
+        block.appendChild(paragraph);
+        return;
+      }
+
+      if (item.type === "ul" && item.items?.length) {
+        const list = document.createElement("ul");
+        list.className = "detail-story-list";
+        item.items.forEach((text) => {
+          const listItem = document.createElement("li");
+          listItem.textContent = text;
+          list.appendChild(listItem);
+        });
+        block.appendChild(list);
+      }
+    });
+  });
+}
+
 function applyDetailPageLanguage(pageContent) {
   if (!pageContent) {
     return;
@@ -2535,8 +3013,16 @@ function applyDetailPageLanguage(pageContent) {
   }
 
   setText(".detail-hero .eyebrow", pageContent.hero?.eyebrow);
-  setText(".detail-hero h1", pageContent.hero?.title);
-  setText(".detail-hero .lead", pageContent.hero?.lead);
+  if (pageContent.hero?.titleHtml) {
+    setHTML(".detail-hero h1", pageContent.hero.titleHtml);
+  } else {
+    setText(".detail-hero h1", pageContent.hero?.title);
+  }
+  if (pageContent.hero?.leadHtml) {
+    setHTML(".detail-hero .lead", pageContent.hero.leadHtml);
+  } else {
+    setText(".detail-hero .lead", pageContent.hero?.lead);
+  }
 
   const heroImage = document.querySelector(".detail-hero img");
   if (heroImage && pageContent.hero?.imageAlt) {
@@ -2560,8 +3046,26 @@ function applyDetailPageLanguage(pageContent) {
     }
 
     setTextSelector(article, "h2", data.title);
-    setTextSelector(article, "p", data.body);
+    const paragraph = article.querySelector("p");
+    if (paragraph) {
+      if (data.bodyHtml) {
+        paragraph.innerHTML = data.bodyHtml;
+      } else if (data.body !== undefined) {
+        paragraph.textContent = data.body;
+      }
+    }
   });
+
+  if (pageContent.notice !== undefined) {
+    setText(".detail-notice-text", pageContent.notice);
+  }
+
+  const teamPhotos = document.querySelector(".detail-team-photos");
+  if (teamPhotos && pageContent.teamSectionAriaLabel) {
+    teamPhotos.setAttribute("aria-label", pageContent.teamSectionAriaLabel);
+  }
+
+  applyDetailStoryLanguage(pageContent);
 }
 
 function applyLanguage(languageCode) {
@@ -2641,6 +3145,10 @@ function applyLanguage(languageCode) {
   setHTML("#use-cases .use-cases-lead", content.useCases.leadHtml);
   setText("#use-cases .use-cases-closing", content.useCases.closing);
   setUseCaseCarousel(content.useCases.cards);
+  const useCaseStack = getUseCaseCardsStack();
+  if (useCaseStack && content.useCases?.nextCardAriaLabel) {
+    useCaseStack.setAttribute("aria-label", content.useCases.nextCardAriaLabel);
+  }
 
   setText(".answer-copy .eyebrow", content.answer.eyebrow);
   setHTML(".answer-copy h2", content.answer.titleHtml);
@@ -3169,7 +3677,10 @@ function initHeroLeadBorder() {
   let isRunning = false;
   let particles = [];
 
-  const FLOW_PAD = 22;
+  function getFlowPad() {
+    const value = Number.parseFloat(getComputedStyle(shell).getPropertyValue("--hero-flow-pad"));
+    return Number.isFinite(value) && value > 0 ? value : 22;
+  }
 
   function pickTargetSpeed(bias = 1) {
     const roll = Math.random();
@@ -3222,14 +3733,15 @@ function initHeroLeadBorder() {
   }
 
   function buildPath() {
+    const flowPad = getFlowPad();
     const shellWidth = shell.offsetWidth;
     const shellHeight = shell.offsetHeight;
     if (!shellWidth || !shellHeight) {
       return;
     }
 
-    width = shellWidth + FLOW_PAD * 2;
-    height = shellHeight + FLOW_PAD * 2;
+    width = shellWidth + flowPad * 2;
+    height = shellHeight + flowPad * 2;
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
@@ -3239,8 +3751,8 @@ function initHeroLeadBorder() {
 
     svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
     const path = roundedRectPerimeter(
-      FLOW_PAD + 0.5,
-      FLOW_PAD + 0.5,
+      flowPad + 0.5,
+      flowPad + 0.5,
       shellWidth - 1,
       shellHeight - 1,
       8
