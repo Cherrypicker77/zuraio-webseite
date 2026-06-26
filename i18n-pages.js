@@ -18,18 +18,13 @@ const detailPageTranslations = {
     datenschutz: {
       meta: { title: "Datenschutz | zuraio" },
       hero: {
-        eyebrow: "Datenschutz",
+        eyebrow: "Datenschutz & Datenhoheit",
         title: "Ihre Daten. Ihre Kontrolle.",
-        lead: "Wir behandeln personenbezogene Daten vertraulich und im Einklang mit dem Schweizer Datenschutzgesetz (DSG) sowie – soweit anwendbar – der DSGVO.",
+        titleHtml: "<span class=\"hero-title-line\">Ihre Daten.</span><span class=\"hero-title-line\">Ihre <span class=\"hero-accent\">Kontrolle</span>.</span>",
+        lead: "zuraio wurde nach dem Prinzip der Datensouveränität entwickelt. Kundendaten, Unternehmenswissen, Dokumente und operative Inhalte verbleiben grundsätzlich innerhalb der kundenspezifischen Infrastruktur oder eines logisch isolierten Tenant-Containers. zuraio selbst hat standardmässig keinen Zugriff auf diese Inhalte.",
+        leadHtml: "<span class=\"lead-line\">zuraio wurde nach dem Prinzip der Datensouveränität entwickelt.</span><span class=\"lead-line\">Kundendaten, Unternehmenswissen, Dokumente und operative Inhalte verbleiben grundsätzlich innerhalb der kundenspezifischen Infrastruktur oder eines logisch isolierten Tenant-Containers.</span><span class=\"lead-line\">zuraio selbst hat standardmässig keinen Zugriff auf diese Inhalte.</span>",
         imageAlt: "Datenschutz bei zuraio",
       },
-      articles: [
-        { title: "Verantwortliche Stelle", bodyHtml: 'Verantwortlich für die Datenbearbeitung im Zusammenhang mit dieser Website ist zuraio. Kontakt: <a href="mailto:hello@zuraio.ch">hello@zuraio.ch</a>' },
-        { title: "Erhobene Daten", body: "Beim Besuch dieser Website können technische Daten wie IP-Adresse, Browsertyp, Zeitpunkt des Zugriffs und aufgerufene Seiten in Server-Logfiles verarbeitet werden. Bei Kontaktanfragen per E-Mail bearbeiten wir die von Ihnen übermittelten Angaben zur Beantwortung Ihrer Anfrage." },
-        { title: "Zweck der Bearbeitung", body: "Personenbezogene Daten werden ausschliesslich zur Bereitstellung dieser Website, zur Kommunikation mit Ihnen und zur Verbesserung unseres Angebots verwendet." },
-        { title: "Ihre Rechte", body: "Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Bearbeitung sowie Widerspruch gegen die Bearbeitung Ihrer personenbezogenen Daten. Wenden Sie sich dazu an hello@zuraio.ch." },
-        { title: "zuraio als Plattform", body: "Als AI-Orchestrator ist Datensouveränität ein Kernprinzip von zuraio. Details zur Datenbearbeitung innerhalb der zuraio-Plattform werden im Rahmen eines individuellen Vertrags und der jeweiligen Betriebsvereinbarung geregelt." },
-      ],
     },
     "datensouveraenitaet-sicherheit": {
       meta: { title: "Datensouveränität & Sicherheit | zuraio" },
@@ -50,6 +45,7 @@ const detailPageTranslations = {
       hero: {
         eyebrow: "EU AI Act & DSGVO",
         title: "Compliance mitdenken, bevor KI im Alltag läuft.",
+        titleHtml: "<span class=\"hero-title-line\"><span class=\"hero-accent\">Compliance</span></span><span class=\"hero-title-line\">mitdenken bevor KI</span><span class=\"hero-title-line\">im Alltag läuft.</span>",
         lead: "zuraio hilft, Transparenz, Zugriffskontrolle, Human Oversight, Logging und Datenminimierung von Anfang an in die KI-Nutzung einzubauen.",
         imageAlt: "Kontrollierte KI mit nachvollziehbaren Regeln",
       },
@@ -77,15 +73,98 @@ const detailPageTranslations = {
       meta: { title: "Impressum | zuraio" },
       hero: {
         eyebrow: "Impressum",
-        title: "Angaben gemäss Schweizer Recht.",
-        lead: "Verantwortlich für den Inhalt dieser Website und die angebotenen Dienstleistungen.",
-        imageAlt: null,
+        title: "Vertrauen beginnt mit Transparenz.",
+        titleHtml: "<span class=\"hero-title-line\">Vertrauen beginnt</span><span class=\"hero-title-line\">mit <span class=\"hero-accent\">Transparenz</span>.</span>",
+        lead: "Hinter jeder Technologie stehen Menschen, Entscheidungen und Verantwortung. Wir möchten, dass Sie jederzeit wissen, mit wem Sie zusammenarbeiten und an wen Sie sich wenden können. Offenheit ist für uns kein Extra, sondern Grundlage einer vertrauensvollen Zusammenarbeit.",
+        leadHtml: "<span class=\"lead-line\">Hinter jeder Technologie stehen Menschen, Entscheidungen und Verantwortung.</span><span class=\"lead-line\">Wir möchten, dass Sie jederzeit wissen, mit wem Sie zusammenarbeiten und an wen Sie sich wenden können.</span><span class=\"lead-line\">Offenheit ist für uns kein Extra, sondern Grundlage einer vertrauensvollen Zusammenarbeit.</span>",
+        imageAlt: "LLM und Infrastruktur mit Kontrolle",
       },
       articles: [
-        { title: "Verantwortliche Stelle", body: "zuraio\nE-Mail: hello@zuraio.ch" },
-        { title: "Haftungsausschluss", body: "Die Inhalte dieser Website werden mit grösster Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen." },
-        { title: "Urheberrecht", body: "Die auf dieser Website veröffentlichten Inhalte und Werke unterliegen dem schweizerischen Urheberrecht. Jede Vervielfältigung, Bearbeitung oder Verbreitung bedarf der vorherigen schriftlichen Zustimmung." },
-        { title: "Externe Links", body: "Diese Website kann Links zu externen Websites Dritter enthalten. Für deren Inhalte übernehmen wir keine Verantwortung." },
+        {
+          title: "Firma",
+          bodyHtml: "<p>zuraio GmbH</p><p>KI Road 77</p><p>1010 Zürich</p><p class=\"impressum-contact-line\"><span class=\"impressum-contact-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\"><path d=\"M6.5 3h3l1.2 5.2a1 1 0 01-.5 1.1l-2.1 1.2a13 13 0 006.5 6.5l1.2-2.1a1 1 0 011.1-.5L21.5 17v3a1.5 1.5 0 01-1.5 1.5A17 17 0 013 5.5 1.5 1.5 0 014.5 4z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/></svg></span>Tel: <a href=\"tel:+4101010101001\">+41 01 010 10 01</a></p><p class=\"impressum-contact-line\"><span class=\"impressum-contact-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\"><path d=\"M3 6.5A2 2 0 015 4.5h14a2 2 0 012 2v11a2 2 0 01-2 2H5a2 2 0 01-2-2v-11z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M3.5 7l8.3 5.8a1 1 0 001.1 0L21.5 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/></svg></span>Mail: <a href=\"mailto:hello@zuraio.ch\">hello@zuraio.ch</a></p>",
+        },
+        {
+          title: "Berechtigte",
+          bodyHtml: "<ul class=\"impressum-list\"><li>Michael C. Wili</li><li>Marcelo Zanette</li><li>Samuel A. Polley</li></ul>",
+        },
+        {
+          title: "Handelsregister",
+          bodyHtml: "<p>Registeramt: XYZ</p><p>Firmennummer / UID: 01010010010010</p>",
+        },
+        {
+          title: "Mehrwertsteuer",
+          bodyHtml: "<p>MWST-Nr. CHE-010.1100.010 MWST</p>",
+        },
+        {
+          title: "Verantwortlich",
+          bodyHtml: "<p>Verantwortlich für den Inhalt dieser Webseite zuraio GmbH</p>",
+        },
+        {
+          title: "Haftungsausschluss",
+          bodyHtml: "<ul class=\"impressum-list\"><li>Inhalte nach bestem Wissen</li><li>keine Garantie auf Vollständigkeit</li><li>externe Links ausserhalb Kontrolle</li></ul>",
+        },
+        {
+          title: "Urheberrechte",
+          bodyHtml: "<p>Sämtliche Inhalte, Bilder, Grafiken und Texte auf dieser Website sind urheberrechtlich geschützt und Eigentum der zuraio AG, sofern nicht anders gekennzeichnet.</p>",
+        },
+        {
+          title: "Datenschutzerklärung",
+          bodyHtml: "<p><a href=\"datenschutz.html\">Zur Datenschutzerklärung</a></p>",
+        },
+        {
+          title: "Security / Compliance",
+          bodyHtml: "<p>zuraio entwickelt AI-Lösungen mit Fokus auf Datensouveränität, Sicherheit und kontrollierbare Systemarchitektur. Je nach Kundenanforderung unterstützen wir Cloud-, Hybrid- und On-Premise-Modelle.</p>",
+        },
+      ],
+    },
+    partner: {
+      meta: { title: "Partner | zuraio" },
+      hero: {
+        eyebrow: "Partner",
+        title: "Vertrauen entsteht durch Zusammenarbeit",
+        titleHtml: "<span class=\"hero-title-line\">Vertrauen entsteht</span><span class=\"hero-title-line\">durch <span class=\"hero-accent\">Zusammenarbeit</span></span>",
+        lead: "zuraio wächst gemeinsam mit Unternehmen, die Innovation nicht nur diskutieren, sondern umsetzen. Unsere Partner bringen Branchenwissen, Prozesse und Herausforderungen ein und gestalten die Zukunft mit uns.",
+        leadHtml: "<span class=\"lead-line\">zuraio wächst gemeinsam mit Unternehmen, die Innovation nicht nur diskutieren, sondern umsetzen.</span><span class=\"lead-line\">Unsere Partner bringen Branchenwissen, Prozesse und Herausforderungen ein und gestalten die Zukunft mit uns.</span>",
+        imageAlt: "LLM und Infrastruktur mit Kontrolle",
+      },
+      articles: [
+        {
+          title: "Firma",
+          bodyHtml: "<p>zuraio GmbH</p><p>KI Road 77</p><p>1010 Zürich</p><p class=\"impressum-contact-line\"><span class=\"impressum-contact-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\"><path d=\"M6.5 3h3l1.2 5.2a1 1 0 01-.5 1.1l-2.1 1.2a13 13 0 006.5 6.5l1.2-2.1a1 1 0 011.1-.5L21.5 17v3a1.5 1.5 0 01-1.5 1.5A17 17 0 013 5.5 1.5 1.5 0 014.5 4z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/></svg></span>Tel: <a href=\"tel:+4101010101001\">+41 01 010 10 01</a></p><p class=\"impressum-contact-line\"><span class=\"impressum-contact-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\"><path d=\"M3 6.5A2 2 0 015 4.5h14a2 2 0 012 2v11a2 2 0 01-2 2H5a2 2 0 01-2-2v-11z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M3.5 7l8.3 5.8a1 1 0 001.1 0L21.5 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/></svg></span>Mail: <a href=\"mailto:hello@zuraio.ch\">hello@zuraio.ch</a></p>",
+        },
+        {
+          title: "Berechtigte",
+          bodyHtml: "<ul class=\"impressum-list\"><li>Michael C. Wili</li><li>Marcelo Zanette</li><li>Samuel A. Polley</li></ul>",
+        },
+        {
+          title: "Handelsregister",
+          bodyHtml: "<p>Registeramt: XYZ</p><p>Firmennummer / UID: 01010010010010</p>",
+        },
+        {
+          title: "Mehrwertsteuer",
+          bodyHtml: "<p>MWST-Nr. CHE-010.1100.010 MWST</p>",
+        },
+        {
+          title: "Verantwortlich",
+          bodyHtml: "<p>Verantwortlich für den Inhalt dieser Webseite zuraio GmbH</p>",
+        },
+        {
+          title: "Haftungsausschluss",
+          bodyHtml: "<ul class=\"impressum-list\"><li>Inhalte nach bestem Wissen</li><li>keine Garantie auf Vollständigkeit</li><li>externe Links ausserhalb Kontrolle</li></ul>",
+        },
+        {
+          title: "Urheberrechte",
+          bodyHtml: "<p>Sämtliche Inhalte, Bilder, Grafiken und Texte auf dieser Website sind urheberrechtlich geschützt und Eigentum der zuraio AG, sofern nicht anders gekennzeichnet.</p>",
+        },
+        {
+          title: "Datenschutzerklärung",
+          bodyHtml: "<p><a href=\"datenschutz.html\">Zur Datenschutzerklärung</a></p>",
+        },
+        {
+          title: "Security / Compliance",
+          bodyHtml: "<p>zuraio entwickelt AI-Lösungen mit Fokus auf Datensouveränität, Sicherheit und kontrollierbare Systemarchitektur. Je nach Kundenanforderung unterstützen wir Cloud-, Hybrid- und On-Premise-Modelle.</p>",
+        },
       ],
     },
     "infrastruktur-llm": {
@@ -103,35 +182,117 @@ const detailPageTranslations = {
       ],
     },
     "kontakt-demo": {
-      meta: { title: "Kontakt / Demo | zuraio" },
+      meta: { title: "Tool Calling | zuraio" },
       hero: {
-        eyebrow: "Kontakt / Demo",
-        title: "Wo verliert dein Unternehmen heute Zeit, Wissen oder Kontrolle?",
-        lead: "In einer ersten Demo klären wir, welcher Agent den grössten Nutzen bringt und welches Sicherheitsmodell zu deinem Unternehmen passt.",
-        imageAlt: "zuraio Demo anfragen",
+        eyebrow: "TOOL-CALLING",
+        title: "Ihre Systeme bleiben. Ihre Möglichkeiten wachsen.",
+        titleHtml: "<span class=\"hero-title-line\">Ihre Systeme bleiben.</span><span class=\"hero-title-line\"><span class=\"hero-accent\">Ihre Möglichkeiten</span></span><span class=\"hero-title-line\">wachsen.</span>",
+        leadHtml: "<span class=\"lead-line\">zuraio verbindet bestehende Unternehmenssysteme Schritt für Schritt mit KI. Sicher, nachvollziehbar und im Tempo der Mitarbeitenden.</span><span class=\"lead-line lead-line--gap\" aria-hidden=\"true\"></span><span class=\"lead-line\">Denn Tool Calling ist nicht einfach eine technische Schnittstelle. Es ist der Moment, in dem KI beginnt, echte Arbeit zu übernehmen. Genau deshalb braucht es Analyse, Priorisierung, Governance und Begleitung.</span>",
+        imageAlt: "Arbeitsplatz mit Laptop und zuraio-Oberfläche als Symbol für Tool-Integration",
       },
-      actions: [
-        { text: "Demo anfragen" },
-        { text: "Website-Draft ansehen" },
-      ],
-      articles: [
-        { title: "1. Ausgangslage", body: "Welche Daten, Prozesse und Teams sollen zuerst entlastet werden?" },
-        { title: "2. Sicherheit", body: "Welche Daten dürfen lokal, hybrid oder cloudbasiert verarbeitet werden?" },
-        { title: "3. Erster Agent", body: "Wir definieren einen kleinen, konkreten Startpunkt mit sichtbarem Nutzen." },
+      story: [
+        {
+          title: "Nicht alles auf einmal",
+          content: [
+            { type: "p", text: "Tool Calling ist mächtig. Aber genau deshalb darf die Einführung nicht technisch getrieben passieren, sondern mit klarer Priorisierung." },
+            { type: "p", text: "Die erste Frage lautet nicht: Welche Schnittstellen haben wir?", className: "detail-chapter-highlight detail-chapter-highlight--ink" },
+            { type: "p", text: "Die bessere Frage lautet: Wo entsteht sofort Nutzen?", className: "detail-chapter-highlight detail-chapter-highlight--green" },
+            { type: "p", text: "Typische Startpunkte sind Bereiche mit viel Wissen, vielen Wiederholungen und hohem Suchaufwand. Zum Beispiel SharePoint, E-Mail, DMS oder Projektablagen. Dort entstehen Quickwins, weil Mitarbeitende sofort weniger suchen, weniger kopieren und weniger manuell vorbereiten müssen." },
+            { type: "p", text: "zuraio verbindet diese Systeme schrittweise mit dem Orchestrator. Erst lesen. Dann verstehen. Dann zusammenführen. Erst wenn Vertrauen, Qualität und Governance stimmen, kommen Schreibrechte oder echte Aktionen dazu." },
+            { type: "p", text: "So wächst die Integration im Tempo des Unternehmens. Nicht als Big Bang, sondern kontrolliert, nachvollziehbar und mit den Menschen im Prozess." },
+          ],
+        },
+        {
+          title: "Drei Wege, wie zuraio Ihr Unternehmen entlastet",
+          content: [
+            { type: "p", text: "Nicht jede Integration schafft sofort Mehrwert. Deshalb starten wir dort, wo KI den grössten Unterschied macht. Dort, wo heute Zeit verloren geht, Wissen verborgen bleibt oder Mitarbeitende durch repetitive Aufgaben gebunden sind." },
+            { type: "p", text: "Gemeinsam priorisieren wir die Quickwins und bauen Integrationen Schritt für Schritt auf, in Ihrem Tempo und abgestimmt auf Ihre Prozesse." },
+            {
+              type: "way",
+              title: "Wissen nutzbar machen",
+              paragraphs: [
+                "In fast jedem Unternehmen steckt enormes Wissen in SharePoint, Dokumentenablagen, E-Mails, CAD-Dateien, ERP-Systemen oder historischen Projektdaten. Das Problem ist selten fehlendes Wissen, sondern fehlender Zugriff im richtigen Moment.",
+                "zuraio verbindet diese Quellen und macht Informationen sofort nutzbar. Statt manuell zu suchen, erhalten Mitarbeitende die relevanten Antworten direkt im Kontext ihrer Aufgabe.",
+              ],
+              examples: [
+                "SharePoint & Intranet",
+                "DMS & Archiv",
+                "ERP & Produktdaten",
+                "CAD-Pläne & technische Dokumentationen",
+              ],
+              value: "Weniger Suchaufwand, schnelleres Onboarding und Wissen, das im Unternehmen bleibt.",
+            },
+            {
+              type: "way",
+              title: "Administration reduzieren",
+              paragraphs: [
+                "Viele Mitarbeitende verbringen zu viel Zeit mit Aufgaben, für die sie eigentlich nicht eingestellt wurden. E-Mails sortieren, Protokolle schreiben, Follow-ups dokumentieren, Daten zusammentragen oder Reports vorbereiten.",
+                "zuraio übernimmt genau diese zeitintensiven administrativen Arbeiten und entlastet Ihre Teams im Alltag.",
+              ],
+              examples: [
+                "E-Mail-Agent",
+                "Meeting-Zusammenfassungen",
+                "Aufgaben-Tracking",
+                "Reporting & Auswertungen",
+              ],
+              value: "Mehr Fokus, weniger Unterbrechungen und mehr Zeit für Kunden, Projekte und Wertschöpfung.",
+            },
+            {
+              type: "way",
+              title: "Prozesse automatisieren",
+              paragraphs: [
+                "Der grösste Hebel entsteht dort, wo KI nicht nur Wissen liefert, sondern aktiv Prozesse unterstützt oder ausführt.",
+                "zuraio orchestriert Aufgaben über Systemgrenzen hinweg, koordiniert Datenflüsse und kann klar definierte Aktionen kontrolliert auslösen.",
+                "Ein Beispiel aus der Planung: zuraio orchestriert einfache CAD-Aufgaben wie Vorprüfungen, Datenextraktion, Mengenermittlungen oder technische Validierungen, sodass Planer mehr Zeit für kreative und komplexe Entscheidungen gewinnen.",
+              ],
+              examples: [
+                "ERP-Workflows",
+                "Freigabeprozesse",
+                "CRM & Sales-Automation",
+                "CAD-gestützte Planung",
+                "Ticketing & Serviceprozesse",
+              ],
+              value: "Weniger repetitive Arbeit, höhere Prozessqualität und skalierbare Entlastung im gesamten Unternehmen.",
+            },
+          ],
+        },
+        {
+          title: "Die Schnittstellen",
+          content: [
+            { type: "p", text: "MCP ist der wichtigste Zukunftsstandard. Es schafft eine saubere Verbindung zwischen KI-Systemen, Tools, Datenquellen und Aktionen. Für zuraio ist MCP strategisch wichtig, weil externe Systeme nicht wild angebunden werden sollen, sondern kontrolliert, standardisiert und auditierbar." },
+            { type: "p", text: "API ist die heutige Realität. Viele Systeme bieten REST, SOAP, Microsoft Graph, OAuth, API Keys oder proprietäre Connectoren." },
+            { type: "p", text: "Weitere technische Wege sind Webhooks, Datenbank-Views, Export-Schnittstellen, RPA, Power Automate Connectoren, Custom Connectoren und direkte Engine APIs. Welche Variante sinnvoll ist, hängt vom System, den Berechtigungen, der Datenqualität und dem gewünschten Use Case ab." },
+            { type: "p", text: "Wichtig ist die Rechte- und Aktionsebene:" },
+            { type: "ul", items: [
+              "Nur lesen — Sicherer Einstieg für Suche, Zusammenfassung und Analyse.",
+              "Lesen und vorbereiten — zuraio erstellt Entwürfe, Vorschläge oder strukturierte Aufgaben. Der Mensch entscheidet.",
+              "Lesen und schreiben — zuraio darf Inhalte aktualisieren, aber nur innerhalb klar definierter Regeln.",
+              "Aktionen ausführen — zuraio kann Prozesse starten, Tickets erstellen, E-Mails senden, Termine setzen oder Daten verändern. Das braucht Freigaben, Logging, Rollenmodell und klare Grenzen.",
+            ] },
+            { type: "p", text: "Der Orchestrator übernimmt dabei die Kontrolle. Er analysiert Intent, plant Schritte, wählt Agents und Tools aus, prüft Rechte, bewertet Ergebnisse und dokumentiert den Ablauf. Genau dieses Ebenenmodell mit Intent Detection, Task Planner, Agent Selection, Execution, Evaluation, Fusion und Audit Logging ist als Zielbild des zuraio Harness definiert." },
+          ],
+        },
       ],
     },
     kontakt: {
       meta: { title: "Kontakt | zuraio" },
       hero: {
         eyebrow: "Kontakt",
-        title: "Sprechen wir über Ihre Anforderungen.",
-        lead: "Ob Demo, Partnerschaft oder allgemeine Fragen – wir melden uns zeitnah und unkompliziert.",
+        title: "Jede gute Lösung beginnt mit einem Gespräch.",
+        titleHtml: "<span class=\"hero-title-line\">Jede gute <span class=\"hero-accent\">Lösung</span></span><span class=\"hero-title-line\">beginnt mit</span><span class=\"hero-title-line\">einem Gespräch.</span>",
+        lead: "Ob erste Idee oder konkretes Projekt – erzählen Sie uns, was Sie beschäftigt. Gemeinsam finden wir heraus, was sinnvoll ist.",
+        leadHtml: "<span class=\"lead-line\">Ob erste Idee oder konkretes Projekt</span><span class=\"lead-line\">erzählen Sie uns, was Sie beschäftigt.</span><span class=\"lead-line\">Gemeinsam finden wir heraus, was sinnvoll ist.</span>",
         imageAlt: "Kontakt mit zuraio aufnehmen",
       },
       actions: [
         { text: "hello@zuraio.ch" },
         { text: "Demo-Termin anfragen" },
       ],
+      contact: {
+        label: "Kontakt",
+        city: "1010 Zürich",
+        mailLabel: "Mail:",
+      },
       articles: [
         { title: "Allgemeine Anfragen", body: "Schreiben Sie uns an hello@zuraio.ch – wir beantworten Ihre Fragen zu zuraio, Sicherheitsmodellen und Einsatzmöglichkeiten." },
         { title: "Demo & Beratung", body: "In einer ersten Demo klären wir, welcher Agent den grössten Nutzen bringt und welches Betriebsmodell zu Ihrem Unternehmen passt." },
@@ -142,7 +303,8 @@ const detailPageTranslations = {
       meta: { title: "Modelle | zuraio" },
       hero: {
         eyebrow: "Modelle",
-        title: "Lokal, hybrid oder Cloud – Sie bestimmen das passende Modell.",
+        title: "Lokal, hybrid oder Cloud. Sie bestimmen das passende Modell.",
+        titleHtml: "<span class=\"hero-title-line\">Lokal,</span><span class=\"hero-title-line\">hybrid oder Cloud.</span><span class=\"hero-title-line\"><span class=\"hero-accent\">Sie bestimmen</span></span><span class=\"hero-title-line\">das passende Modell.</span>",
         lead: "zuraio kombiniert Betriebsmodelle und KI-Modelle so, dass Sie Kontrolle, Leistung und Flexibilität gezielt abwägen können.",
         imageAlt: "LLM und Infrastruktur mit Kontrolle",
       },
@@ -246,7 +408,7 @@ const detailPageTranslations = {
       hero: {
         eyebrow: "Über uns",
         title: "Vier Köpfe. Eine Vision. KI, die Unternehmen wirklich weiterbringt.",
-        titleHtml: "<span class=\"hero-title-line\">Vier Köpfe,</span><span class=\"hero-title-line\">Eine <span class=\"hero-accent\">Vision</span></span><span class=\"hero-title-line\">KI, die Unternehmen</span><span class=\"hero-title-line\">wirklich weiterbringt</span>",
+        titleHtml: "<span class=\"hero-title-line\">Vier Köpfe,</span><span class=\"hero-title-line\">Eine <span class=\"hero-accent\">Vision</span>.</span><span class=\"hero-title-line\">KI, die Unternehmen</span><span class=\"hero-title-line\">wirklich weiterbringt</span>",
         lead: "Uns verbindet die Überzeugung, dass Künstliche Intelligenz Unternehmen wirklich weiterbringen kann. Aber nur dann, wenn sie sicher, verständlich und sinnvoll eingesetzt wird. Genau dafür bauen wir zuraio.",
         imageAlt: "Das zuraio Team bei der Arbeit",
       },
@@ -340,18 +502,13 @@ const detailPageTranslations = {
     datenschutz: {
       meta: { title: "Privacy | zuraio" },
       hero: {
-        eyebrow: "Privacy",
+        eyebrow: "Privacy & data sovereignty",
         title: "Your data. Your control.",
-        lead: "We treat personal data confidentially and in accordance with Swiss data protection law (DSG) and – where applicable – the GDPR.",
+        titleHtml: "<span class=\"hero-title-line\">Your data.</span><span class=\"hero-title-line\">Your <span class=\"hero-accent\">control</span>.</span>",
+        lead: "zuraio was built on the principle of data sovereignty. Customer data, company knowledge, documents, and operational content generally remain within customer-specific infrastructure or a logically isolated tenant container. zuraio itself has no standard access to this content.",
+        leadHtml: "<span class=\"lead-line\">zuraio was built on the principle of data sovereignty.</span><span class=\"lead-line\">Customer data, company knowledge, documents, and operational content generally remain within customer-specific infrastructure or a logically isolated tenant container.</span><span class=\"lead-line\">zuraio itself has no standard access to this content.</span>",
         imageAlt: "Privacy at zuraio",
       },
-      articles: [
-        { title: "Responsible entity", bodyHtml: 'zuraio is responsible for data processing in connection with this website. Contact: <a href="mailto:hello@zuraio.ch">hello@zuraio.ch</a>' },
-        { title: "Data collected", body: "When visiting this website, technical data such as IP address, browser type, time of access, and pages viewed may be processed in server log files. For contact requests by email, we process the information you provide to respond to your inquiry." },
-        { title: "Purpose of processing", body: "Personal data is used exclusively to provide this website, communicate with you, and improve our offering." },
-        { title: "Your rights", body: "You have the right to access, rectification, deletion, restriction of processing, and objection to the processing of your personal data. Contact hello@zuraio.ch for this." },
-        { title: "zuraio as a platform", body: "As an AI orchestrator, data sovereignty is a core principle of zuraio. Details on data processing within the zuraio platform are governed by an individual contract and the respective operating agreement." },
-      ],
     },
     "datensouveraenitaet-sicherheit": {
       meta: { title: "Data sovereignty & security | zuraio" },
@@ -372,6 +529,7 @@ const detailPageTranslations = {
       hero: {
         eyebrow: "EU AI Act & GDPR",
         title: "Think compliance through before AI runs in everyday work.",
+        titleHtml: "<span class=\"hero-title-line\"><span class=\"hero-accent\">Compliance</span></span><span class=\"hero-title-line\">think through before AI</span><span class=\"hero-title-line\">runs in everyday work.</span>",
         lead: "zuraio helps embed transparency, access control, human oversight, logging, and data minimization into AI use from the start.",
         imageAlt: "Controlled AI with traceable rules",
       },
@@ -399,15 +557,98 @@ const detailPageTranslations = {
       meta: { title: "Imprint | zuraio" },
       hero: {
         eyebrow: "Imprint",
-        title: "Information according to Swiss law.",
-        lead: "Responsible for the content of this website and the services offered.",
-        imageAlt: null,
+        title: "Trust begins with transparency.",
+        titleHtml: "<span class=\"hero-title-line\">Trust begins</span><span class=\"hero-title-line\">with <span class=\"hero-accent\">transparency</span>.</span>",
+        lead: "Behind every technology are people, decisions, and responsibility. We want you to always know who you are working with and whom you can turn to. Openness is not an extra for us, but the foundation of a trusting partnership.",
+        leadHtml: "<span class=\"lead-line\">Behind every technology are people, decisions, and responsibility.</span><span class=\"lead-line\">We want you to always know who you are working with and whom you can turn to.</span><span class=\"lead-line\">Openness is not an extra for us, but the foundation of a trusting partnership.</span>",
+        imageAlt: "LLM and infrastructure with control",
       },
       articles: [
-        { title: "Responsible entity", body: "zuraio\nEmail: hello@zuraio.ch" },
-        { title: "Disclaimer", body: "The content of this website is created with the greatest care. However, we cannot guarantee the accuracy, completeness, or timeliness of the content." },
-        { title: "Copyright", body: "The content and works published on this website are subject to Swiss copyright law. Any reproduction, editing, or distribution requires prior written consent." },
-        { title: "External links", body: "This website may contain links to external third-party websites. We assume no responsibility for their content." },
+        {
+          title: "Company",
+          bodyHtml: "<p>zuraio GmbH</p><p>KI Road 77</p><p>1010 Zurich</p><p class=\"impressum-contact-line\"><span class=\"impressum-contact-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\"><path d=\"M6.5 3h3l1.2 5.2a1 1 0 01-.5 1.1l-2.1 1.2a13 13 0 006.5 6.5l1.2-2.1a1 1 0 011.1-.5L21.5 17v3a1.5 1.5 0 01-1.5 1.5A17 17 0 013 5.5 1.5 1.5 0 014.5 4z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/></svg></span>Tel: <a href=\"tel:+4101010101001\">+41 01 010 10 01</a></p><p class=\"impressum-contact-line\"><span class=\"impressum-contact-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\"><path d=\"M3 6.5A2 2 0 015 4.5h14a2 2 0 012 2v11a2 2 0 01-2 2H5a2 2 0 01-2-2v-11z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M3.5 7l8.3 5.8a1 1 0 001.1 0L21.5 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/></svg></span>Mail: <a href=\"mailto:hello@zuraio.ch\">hello@zuraio.ch</a></p>",
+        },
+        {
+          title: "Authorized signatories",
+          bodyHtml: "<ul class=\"impressum-list\"><li>Michael C. Wili</li><li>Marcelo Zanette</li><li>Samuel A. Polley</li></ul>",
+        },
+        {
+          title: "Commercial register",
+          bodyHtml: "<p>Registry office: XYZ</p><p>Company number / UID: 01010010010010</p>",
+        },
+        {
+          title: "VAT",
+          bodyHtml: "<p>VAT no. CHE-010.1100.010 VAT</p>",
+        },
+        {
+          title: "Responsible for content",
+          bodyHtml: "<p>Responsible for the content of this website: zuraio GmbH</p>",
+        },
+        {
+          title: "Disclaimer",
+          bodyHtml: "<ul class=\"impressum-list\"><li>Content based on best knowledge</li><li>no guarantee of completeness</li><li>external links outside our control</li></ul>",
+        },
+        {
+          title: "Copyright",
+          bodyHtml: "<p>All content, images, graphics, and texts on this website are protected by copyright and are the property of zuraio AG unless otherwise marked.</p>",
+        },
+        {
+          title: "Privacy policy",
+          bodyHtml: "<p><a href=\"datenschutz.html\">View privacy policy</a></p>",
+        },
+        {
+          title: "Security / Compliance",
+          bodyHtml: "<p>zuraio develops AI solutions with a focus on data sovereignty, security, and controllable system architecture. Depending on customer requirements, we support cloud, hybrid, and on-premise models.</p>",
+        },
+      ],
+    },
+    partner: {
+      meta: { title: "Partners | zuraio" },
+      hero: {
+        eyebrow: "Partners",
+        title: "Trust grows through collaboration",
+        titleHtml: "<span class=\"hero-title-line\">Trust grows</span><span class=\"hero-title-line\">through <span class=\"hero-accent\">collaboration</span></span>",
+        lead: "zuraio grows together with companies that don't just discuss innovation but implement it. Our partners contribute industry knowledge, processes, and challenges—and shape the future with us.",
+        leadHtml: "<span class=\"lead-line\">zuraio grows together with companies that don't just discuss innovation but implement it.</span><span class=\"lead-line\">Our partners contribute industry knowledge, processes, and challenges—and shape the future with us.</span>",
+        imageAlt: "LLM and infrastructure with control",
+      },
+      articles: [
+        {
+          title: "Company",
+          bodyHtml: "<p>zuraio GmbH</p><p>KI Road 77</p><p>1010 Zurich</p><p class=\"impressum-contact-line\"><span class=\"impressum-contact-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\"><path d=\"M6.5 3h3l1.2 5.2a1 1 0 01-.5 1.1l-2.1 1.2a13 13 0 006.5 6.5l1.2-2.1a1 1 0 011.1-.5L21.5 17v3a1.5 1.5 0 01-1.5 1.5A17 17 0 013 5.5 1.5 1.5 0 014.5 4z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/></svg></span>Tel: <a href=\"tel:+4101010101001\">+41 01 010 10 01</a></p><p class=\"impressum-contact-line\"><span class=\"impressum-contact-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\"><path d=\"M3 6.5A2 2 0 015 4.5h14a2 2 0 012 2v11a2 2 0 01-2 2H5a2 2 0 01-2-2v-11z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M3.5 7l8.3 5.8a1 1 0 001.1 0L21.5 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/></svg></span>Mail: <a href=\"mailto:hello@zuraio.ch\">hello@zuraio.ch</a></p>",
+        },
+        {
+          title: "Authorized signatories",
+          bodyHtml: "<ul class=\"impressum-list\"><li>Michael C. Wili</li><li>Marcelo Zanette</li><li>Samuel A. Polley</li></ul>",
+        },
+        {
+          title: "Commercial register",
+          bodyHtml: "<p>Registry office: XYZ</p><p>Company number / UID: 01010010010010</p>",
+        },
+        {
+          title: "VAT",
+          bodyHtml: "<p>VAT no. CHE-010.1100.010 VAT</p>",
+        },
+        {
+          title: "Responsible for content",
+          bodyHtml: "<p>Responsible for the content of this website: zuraio GmbH</p>",
+        },
+        {
+          title: "Disclaimer",
+          bodyHtml: "<ul class=\"impressum-list\"><li>Content based on best knowledge</li><li>no guarantee of completeness</li><li>external links outside our control</li></ul>",
+        },
+        {
+          title: "Copyright",
+          bodyHtml: "<p>All content, images, graphics, and texts on this website are protected by copyright and are the property of zuraio AG unless otherwise marked.</p>",
+        },
+        {
+          title: "Privacy policy",
+          bodyHtml: "<p><a href=\"datenschutz.html\">View privacy policy</a></p>",
+        },
+        {
+          title: "Security / Compliance",
+          bodyHtml: "<p>zuraio develops AI solutions with a focus on data sovereignty, security, and controllable system architecture. Depending on customer requirements, we support cloud, hybrid, and on-premise models.</p>",
+        },
       ],
     },
     "infrastruktur-llm": {
@@ -425,35 +666,123 @@ const detailPageTranslations = {
       ],
     },
     "kontakt-demo": {
-      meta: { title: "Contact / Demo | zuraio" },
+      meta: { title: "Tool Calling | zuraio" },
       hero: {
-        eyebrow: "Contact / Demo",
-        title: "Where does your company lose time, knowledge, or control today?",
-        lead: "In an initial demo, we clarify which agent delivers the greatest value and which security model fits your company.",
-        imageAlt: "Request a zuraio demo",
+        eyebrow: "TOOL CALLING",
+        title: "Your systems stay. Your possibilities grow.",
+        titleHtml: "<span class=\"hero-title-line\">Your systems stay.</span><span class=\"hero-title-line\"><span class=\"hero-accent\">Your possibilities</span></span><span class=\"hero-title-line\">grow.</span>",
+        leadHtml: "<span class=\"lead-line\">zuraio connects existing enterprise systems step by step with AI. Secure, traceable, and at the pace of your people.</span><span class=\"lead-line lead-line--gap\" aria-hidden=\"true\"></span><span class=\"lead-line\">Because tool calling is not simply a technical interface. It is the moment when AI begins to take on real work. That is exactly why it needs analysis, prioritization, governance, and guidance.</span>",
+        imageAlt: "Workplace with laptop and zuraio interface as a symbol for tool integration",
       },
-      actions: [
-        { text: "Request demo" },
-        { text: "View website draft" },
-      ],
-      articles: [
-        { title: "1. Starting point", body: "Which data, processes, and teams should be relieved first?" },
-        { title: "2. Security", body: "Which data may be processed locally, hybrid, or in the cloud?" },
-        { title: "3. First agent", body: "We define a small, concrete starting point with visible value." },
+      story: [
+        {
+          title: "Not everything at once",
+          content: [
+            { type: "p", text: "Tool calling is powerful. But that is exactly why rollout must not be driven by technology alone. It needs clear prioritization." },
+            { type: "p", text: "The first question is not: Which interfaces do we have?", className: "detail-chapter-highlight detail-chapter-highlight--ink" },
+            { type: "p", text: "The better question is: Where does value appear immediately?", className: "detail-chapter-highlight detail-chapter-highlight--green" },
+            { type: "p", text: "Typical starting points are areas with lots of knowledge, many repetitions, and high search effort. For example SharePoint, email, DMS, or project folders. That is where quick wins emerge because employees immediately search less, copy less, and prepare less manually." },
+            { type: "p", text: "zuraio connects these systems step by step with the orchestrator. First read. Then understand. Then combine. Write access or real actions are added only once trust, quality, and governance are in place." },
+            { type: "p", text: "That way integration grows at the pace of the company. Not as a big bang, but in a controlled, traceable way with people in the process." },
+          ],
+        },
+        {
+          title: "Three ways zuraio relieves your company",
+          content: [
+            { type: "p", text: "Not every integration creates immediate value. That is why we start where AI makes the biggest difference. Where time is lost today, knowledge stays hidden, or employees are tied up by repetitive tasks." },
+            { type: "p", text: "Together, we prioritize quick wins and build integrations step by step, at your pace and aligned with your processes." },
+            {
+              type: "way",
+              title: "Make knowledge usable",
+              examplesLabel: "Examples",
+              valueLabel: "Value",
+              paragraphs: [
+                "Almost every company holds enormous knowledge in SharePoint, document stores, emails, CAD files, ERP systems, or historical project data. The problem is rarely missing knowledge, but missing access at the right moment.",
+                "zuraio connects these sources and makes information immediately usable. Instead of searching manually, employees get relevant answers directly in the context of their task.",
+              ],
+              examples: [
+                "SharePoint & intranet",
+                "DMS & archive",
+                "ERP & product data",
+                "CAD plans & technical documentation",
+              ],
+              value: "Less search effort, faster onboarding, and knowledge that stays in the company.",
+            },
+            {
+              type: "way",
+              title: "Reduce administration",
+              examplesLabel: "Examples",
+              valueLabel: "Value",
+              paragraphs: [
+                "Many employees spend too much time on tasks they were not actually hired for. Sorting emails, writing minutes, documenting follow-ups, compiling data, or preparing reports.",
+                "zuraio takes over exactly these time-intensive administrative tasks and relieves your teams in everyday work.",
+              ],
+              examples: [
+                "Email agent",
+                "Meeting summaries",
+                "Task tracking",
+                "Reporting & analysis",
+              ],
+              value: "More focus, fewer interruptions, and more time for customers, projects, and value creation.",
+            },
+            {
+              type: "way",
+              title: "Automate processes",
+              examplesLabel: "Examples",
+              valueLabel: "Value",
+              paragraphs: [
+                "The greatest leverage appears where AI not only delivers knowledge, but actively supports or executes processes.",
+                "zuraio orchestrates tasks across system boundaries, coordinates data flows, and can trigger clearly defined actions in a controlled way.",
+                "One example from planning: zuraio orchestrates simple CAD tasks such as preliminary checks, data extraction, quantity takeoffs, or technical validations, so planners gain more time for creative and complex decisions.",
+              ],
+              examples: [
+                "ERP workflows",
+                "Approval processes",
+                "CRM & sales automation",
+                "CAD-supported planning",
+                "Ticketing & service processes",
+              ],
+              value: "Less repetitive work, higher process quality, and scalable relief across the entire company.",
+            },
+          ],
+        },
+        {
+          title: "The interfaces",
+          content: [
+            { type: "p", text: "MCP is the most important future standard. It creates a clean connection between AI systems, tools, data sources, and actions. For zuraio, MCP is strategically important because external systems should not be connected ad hoc, but in a controlled, standardized, and auditable way." },
+            { type: "p", text: "API is today's reality. Many systems offer REST, SOAP, Microsoft Graph, OAuth, API keys, or proprietary connectors." },
+            { type: "p", text: "Other technical paths include webhooks, database views, export interfaces, RPA, Power Automate connectors, custom connectors, and direct engine APIs. Which option makes sense depends on the system, permissions, data quality, and the desired use case." },
+            { type: "p", text: "What matters is the rights and action level:" },
+            { type: "ul", items: [
+              "Read only — A safe entry point for search, summarization, and analysis.",
+              "Read and prepare — zuraio creates drafts, suggestions, or structured tasks. People decide.",
+              "Read and write — zuraio may update content, but only within clearly defined rules.",
+              "Execute actions — zuraio can start processes, create tickets, send emails, set appointments, or change data. That requires approvals, logging, role models, and clear boundaries.",
+            ] },
+            { type: "p", text: "The orchestrator takes control. It analyzes intent, plans steps, selects agents and tools, checks permissions, evaluates results, and documents the flow. This layered model with intent detection, task planner, agent selection, execution, evaluation, fusion, and audit logging is defined as the target vision of the zuraio harness." },
+          ],
+        },
       ],
     },
     kontakt: {
       meta: { title: "Contact | zuraio" },
       hero: {
         eyebrow: "Contact",
-        title: "Let's talk about your requirements.",
-        lead: "Whether demo, partnership, or general questions – we respond promptly and without complication.",
+        title: "Every good solution starts with a conversation.",
+        titleHtml: "<span class=\"hero-title-line\">Every good <span class=\"hero-accent\">solution</span></span><span class=\"hero-title-line\">starts with</span><span class=\"hero-title-line\">a conversation.</span>",
+        lead: "Whether a first idea or a concrete project – tell us what's on your mind. Together we'll find out what makes sense.",
+        leadHtml: "<span class=\"lead-line\">Whether a first idea or a concrete project</span><span class=\"lead-line\">tell us what's on your mind.</span><span class=\"lead-line\">Together we'll find out what makes sense.</span>",
         imageAlt: "Get in touch with zuraio",
       },
       actions: [
         { text: "hello@zuraio.ch" },
         { text: "Request demo appointment" },
       ],
+      contact: {
+        label: "Contact",
+        city: "1010 Zurich",
+        mailLabel: "Mail:",
+      },
       articles: [
         { title: "General inquiries", body: "Write to us at hello@zuraio.ch – we answer your questions about zuraio, security models, and use cases." },
         { title: "Demo & consulting", body: "In an initial demo, we clarify which agent delivers the greatest value and which operating model fits your company." },
@@ -464,7 +793,8 @@ const detailPageTranslations = {
       meta: { title: "Models | zuraio" },
       hero: {
         eyebrow: "Models",
-        title: "Local, hybrid, or cloud – you choose the right model.",
+        title: "Local, hybrid, or cloud. You choose the right model.",
+        titleHtml: "<span class=\"hero-title-line\">Local,</span><span class=\"hero-title-line\">hybrid, or cloud.</span><span class=\"hero-title-line\"><span class=\"hero-accent\">You choose</span></span><span class=\"hero-title-line\">the right model.</span>",
         lead: "zuraio combines operating models and AI models so you can weigh control, performance, and flexibility deliberately.",
         imageAlt: "LLM and infrastructure with control",
       },
@@ -568,7 +898,7 @@ const detailPageTranslations = {
       hero: {
         eyebrow: "About us",
         title: "Four minds. One vision. AI that truly moves companies forward.",
-        titleHtml: "<span class=\"hero-title-line\">Four minds,</span><span class=\"hero-title-line\">One <span class=\"hero-accent\">Vision</span></span><span class=\"hero-title-line\">AI that truly moves</span><span class=\"hero-title-line\">companies forward</span>",
+        titleHtml: "<span class=\"hero-title-line\">Four minds,</span><span class=\"hero-title-line\">One <span class=\"hero-accent\">Vision</span>.</span><span class=\"hero-title-line\">AI that truly moves</span><span class=\"hero-title-line\">companies forward</span>",
         lead: "We share the conviction that artificial intelligence can truly move companies forward – but only when it is deployed securely, understandably, and meaningfully. That is exactly what we build zuraio for.",
         imageAlt: "The zuraio team at work",
       },
@@ -662,18 +992,13 @@ const detailPageTranslations = {
     datenschutz: {
       meta: { title: "Privacidade | zuraio" },
       hero: {
-        eyebrow: "Privacidade",
+        eyebrow: "Privacidade & soberania de dados",
         title: "Seus dados. Seu controle.",
-        lead: "Tratamos dados pessoais de forma confidencial e em conformidade com a lei suíça de proteção de dados (DSG) e – quando aplicável – o GDPR.",
+        titleHtml: "<span class=\"hero-title-line\">Seus dados.</span><span class=\"hero-title-line\">Seu <span class=\"hero-accent\">controle</span>.</span>",
+        lead: "A zuraio foi desenvolvida com base no princípio da soberania de dados. Dados de clientes, conhecimento empresarial, documentos e conteúdos operacionais permanecem, em princípio, dentro da infraestrutura específica do cliente ou de um container de tenant logicamente isolado. A zuraio em si não tem acesso padrão a esses conteúdos.",
+        leadHtml: "<span class=\"lead-line\">A zuraio foi desenvolvida com base no princípio da soberania de dados.</span><span class=\"lead-line\">Dados de clientes, conhecimento empresarial, documentos e conteúdos operacionais permanecem, em princípio, dentro da infraestrutura específica do cliente ou de um container de tenant logicamente isolado.</span><span class=\"lead-line\">A zuraio em si não tem acesso padrão a esses conteúdos.</span>",
         imageAlt: "Privacidade na zuraio",
       },
-      articles: [
-        { title: "Entidade responsável", bodyHtml: 'A zuraio é responsável pelo tratamento de dados em conexão com este site. Contato: <a href="mailto:hello@zuraio.ch">hello@zuraio.ch</a>' },
-        { title: "Dados coletados", body: "Ao visitar este site, dados técnicos como endereço IP, tipo de navegador, horário de acesso e páginas visitadas podem ser processados em logs de servidor. Para solicitações de contato por e-mail, processamos as informações fornecidas para responder à sua solicitação." },
-        { title: "Finalidade do tratamento", body: "Dados pessoais são usados exclusivamente para fornecer este site, comunicar com você e melhorar nossa oferta." },
-        { title: "Seus direitos", body: "Você tem direito de acesso, retificação, exclusão, restrição de tratamento e oposição ao tratamento dos seus dados pessoais. Entre em contato com hello@zuraio.ch." },
-        { title: "zuraio como plataforma", body: "Como orquestrador de IA, a soberania de dados é um princípio central da zuraio. Detalhes sobre o tratamento de dados na plataforma zuraio são regulados por contrato individual e acordo operacional respectivo." },
-      ],
     },
     "datensouveraenitaet-sicherheit": {
       meta: { title: "Soberania de dados & segurança | zuraio" },
@@ -694,6 +1019,7 @@ const detailPageTranslations = {
       hero: {
         eyebrow: "EU AI Act & GDPR",
         title: "Pensar conformidade antes da IA entrar no dia a dia.",
+        titleHtml: "<span class=\"hero-title-line\"><span class=\"hero-accent\">Conformidade</span></span><span class=\"hero-title-line\">pensar antes da IA</span><span class=\"hero-title-line\">entrar no dia a dia.</span>",
         lead: "A zuraio ajuda a incorporar transparência, controle de acesso, supervisão humana, logging e minimização de dados no uso de IA desde o início.",
         imageAlt: "IA controlada com regras rastreáveis",
       },
@@ -721,15 +1047,98 @@ const detailPageTranslations = {
       meta: { title: "Impressum | zuraio" },
       hero: {
         eyebrow: "Impressum",
-        title: "Informações conforme a lei suíça.",
-        lead: "Responsável pelo conteúdo deste site e pelos serviços oferecidos.",
-        imageAlt: null,
+        title: "Confiança começa com transparência.",
+        titleHtml: "<span class=\"hero-title-line\">Confiança começa</span><span class=\"hero-title-line\">com <span class=\"hero-accent\">transparência</span>.</span>",
+        lead: "Por trás de cada tecnologia estão pessoas, decisões e responsabilidade. Queremos que você saiba sempre com quem está trabalhando e a quem pode recorrer. A abertura não é um extra para nós, mas a base de uma colaboração baseada em confiança.",
+        leadHtml: "<span class=\"lead-line\">Por trás de cada tecnologia estão pessoas, decisões e responsabilidade.</span><span class=\"lead-line\">Queremos que você saiba sempre com quem está trabalhando e a quem pode recorrer.</span><span class=\"lead-line\">A abertura não é um extra para nós, mas a base de uma colaboração baseada em confiança.</span>",
+        imageAlt: "LLM e infraestrutura com controle",
       },
       articles: [
-        { title: "Entidade responsável", body: "zuraio\nE-mail: hello@zuraio.ch" },
-        { title: "Isenção de responsabilidade", body: "O conteúdo deste site é criado com o maior cuidado. No entanto, não podemos garantir a exatidão, integridade ou atualidade do conteúdo." },
-        { title: "Direitos autorais", body: "O conteúdo e obras publicados neste site estão sujeitos à lei suíça de direitos autorais. Qualquer reprodução, edição ou distribuição requer consentimento prévio por escrito." },
-        { title: "Links externos", body: "Este site pode conter links para sites externos de terceiros. Não assumimos responsabilidade pelo seu conteúdo." },
+        {
+          title: "Empresa",
+          bodyHtml: "<p>zuraio GmbH</p><p>KI Road 77</p><p>1010 Zürich</p><p class=\"impressum-contact-line\"><span class=\"impressum-contact-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\"><path d=\"M6.5 3h3l1.2 5.2a1 1 0 01-.5 1.1l-2.1 1.2a13 13 0 006.5 6.5l1.2-2.1a1 1 0 011.1-.5L21.5 17v3a1.5 1.5 0 01-1.5 1.5A17 17 0 013 5.5 1.5 1.5 0 014.5 4z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/></svg></span>Tel: <a href=\"tel:+4101010101001\">+41 01 010 10 01</a></p><p class=\"impressum-contact-line\"><span class=\"impressum-contact-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\"><path d=\"M3 6.5A2 2 0 015 4.5h14a2 2 0 012 2v11a2 2 0 01-2 2H5a2 2 0 01-2-2v-11z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M3.5 7l8.3 5.8a1 1 0 001.1 0L21.5 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/></svg></span>Mail: <a href=\"mailto:hello@zuraio.ch\">hello@zuraio.ch</a></p>",
+        },
+        {
+          title: "Signatários autorizados",
+          bodyHtml: "<ul class=\"impressum-list\"><li>Michael C. Wili</li><li>Marcelo Zanette</li><li>Samuel A. Polley</li></ul>",
+        },
+        {
+          title: "Registro comercial",
+          bodyHtml: "<p>Registro: XYZ</p><p>Número da empresa / UID: 01010010010010</p>",
+        },
+        {
+          title: "Imposto sobre valor agregado",
+          bodyHtml: "<p>N.º IVA CHE-010.1100.010 IVA</p>",
+        },
+        {
+          title: "Responsável pelo conteúdo",
+          bodyHtml: "<p>Responsável pelo conteúdo deste site: zuraio GmbH</p>",
+        },
+        {
+          title: "Isenção de responsabilidade",
+          bodyHtml: "<ul class=\"impressum-list\"><li>Conteúdo com base no melhor conhecimento</li><li>sem garantia de integridade</li><li>links externos fora do nosso controle</li></ul>",
+        },
+        {
+          title: "Direitos autorais",
+          bodyHtml: "<p>Todo o conteúdo, imagens, gráficos e textos neste site são protegidos por copyright e são propriedade da zuraio AG, salvo indicação contrária.</p>",
+        },
+        {
+          title: "Política de privacidade",
+          bodyHtml: "<p><a href=\"datenschutz.html\">Ver política de privacidade</a></p>",
+        },
+        {
+          title: "Security / Compliance",
+          bodyHtml: "<p>A zuraio desenvolve soluções de IA com foco em soberania de dados, segurança e arquitetura de sistemas controlável. Dependendo dos requisitos do cliente, suportamos modelos cloud, híbridos e on-premise.</p>",
+        },
+      ],
+    },
+    partner: {
+      meta: { title: "Parceiros | zuraio" },
+      hero: {
+        eyebrow: "Parceiros",
+        title: "Confiança nasce da colaboração",
+        titleHtml: "<span class=\"hero-title-line\">Confiança nasce</span><span class=\"hero-title-line\">da <span class=\"hero-accent\">colaboração</span></span>",
+        lead: "A zuraio cresce junto com empresas que não apenas discutem inovação, mas a implementam. Nossos parceiros trazem conhecimento do setor, processos e desafios e moldam o futuro conosco.",
+        leadHtml: "<span class=\"lead-line\">A zuraio cresce junto com empresas que não apenas discutem inovação, mas a implementam.</span><span class=\"lead-line\">Nossos parceiros trazem conhecimento do setor, processos e desafios e moldam o futuro conosco.</span>",
+        imageAlt: "LLM e infraestrutura com controle",
+      },
+      articles: [
+        {
+          title: "Empresa",
+          bodyHtml: "<p>zuraio GmbH</p><p>KI Road 77</p><p>1010 Zürich</p><p class=\"impressum-contact-line\"><span class=\"impressum-contact-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\"><path d=\"M6.5 3h3l1.2 5.2a1 1 0 01-.5 1.1l-2.1 1.2a13 13 0 006.5 6.5l1.2-2.1a1 1 0 011.1-.5L21.5 17v3a1.5 1.5 0 01-1.5 1.5A17 17 0 013 5.5 1.5 1.5 0 014.5 4z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/></svg></span>Tel: <a href=\"tel:+4101010101001\">+41 01 010 10 01</a></p><p class=\"impressum-contact-line\"><span class=\"impressum-contact-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\"><path d=\"M3 6.5A2 2 0 015 4.5h14a2 2 0 012 2v11a2 2 0 01-2 2H5a2 2 0 01-2-2v-11z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M3.5 7l8.3 5.8a1 1 0 001.1 0L21.5 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/></svg></span>Mail: <a href=\"mailto:hello@zuraio.ch\">hello@zuraio.ch</a></p>",
+        },
+        {
+          title: "Signatários autorizados",
+          bodyHtml: "<ul class=\"impressum-list\"><li>Michael C. Wili</li><li>Marcelo Zanette</li><li>Samuel A. Polley</li></ul>",
+        },
+        {
+          title: "Registro comercial",
+          bodyHtml: "<p>Registro: XYZ</p><p>Número da empresa / UID: 01010010010010</p>",
+        },
+        {
+          title: "Imposto sobre valor agregado",
+          bodyHtml: "<p>N.º IVA CHE-010.1100.010 IVA</p>",
+        },
+        {
+          title: "Responsável pelo conteúdo",
+          bodyHtml: "<p>Responsável pelo conteúdo deste site: zuraio GmbH</p>",
+        },
+        {
+          title: "Isenção de responsabilidade",
+          bodyHtml: "<ul class=\"impressum-list\"><li>Conteúdo com base no melhor conhecimento</li><li>sem garantia de integridade</li><li>links externos fora do nosso controle</li></ul>",
+        },
+        {
+          title: "Direitos autorais",
+          bodyHtml: "<p>Todo o conteúdo, imagens, gráficos e textos neste site são protegidos por copyright e são propriedade da zuraio AG, salvo indicação contrária.</p>",
+        },
+        {
+          title: "Política de privacidade",
+          bodyHtml: "<p><a href=\"datenschutz.html\">Ver política de privacidade</a></p>",
+        },
+        {
+          title: "Security / Compliance",
+          bodyHtml: "<p>A zuraio desenvolve soluções de IA com foco em soberania de dados, segurança e arquitetura de sistemas controlável. Dependendo dos requisitos do cliente, suportamos modelos cloud, híbridos e on-premise.</p>",
+        },
       ],
     },
     "infrastruktur-llm": {
@@ -747,35 +1156,123 @@ const detailPageTranslations = {
       ],
     },
     "kontakt-demo": {
-      meta: { title: "Contato / Demo | zuraio" },
+      meta: { title: "Tool Calling | zuraio" },
       hero: {
-        eyebrow: "Contato / Demo",
-        title: "Onde sua empresa perde tempo, conhecimento ou controle hoje?",
-        lead: "Em uma demo inicial, esclarecemos qual agente traz maior valor e qual modelo de segurança se encaixa na sua empresa.",
-        imageAlt: "Solicitar demo zuraio",
+        eyebrow: "TOOL CALLING",
+        title: "Seus sistemas permanecem. Suas possibilidades crescem.",
+        titleHtml: "<span class=\"hero-title-line\">Seus sistemas permanecem.</span><span class=\"hero-title-line\"><span class=\"hero-accent\">Suas possibilidades</span></span><span class=\"hero-title-line\">crescem.</span>",
+        leadHtml: "<span class=\"lead-line\">A zuraio conecta sistemas empresariais existentes passo a passo com IA. De forma segura, rastreável e no ritmo das pessoas.</span><span class=\"lead-line lead-line--gap\" aria-hidden=\"true\"></span><span class=\"lead-line\">Porque tool calling não é apenas uma interface técnica. É o momento em que a IA começa a assumir trabalho real. Por isso exatamente precisa de análise, priorização, governança e acompanhamento.</span>",
+        imageAlt: "Ambiente de trabalho com laptop e interface zuraio como símbolo de integração de ferramentas",
       },
-      actions: [
-        { text: "Solicitar demo" },
-        { text: "Ver rascunho do site" },
-      ],
-      articles: [
-        { title: "1. Ponto de partida", body: "Quais dados, processos e equipes devem ser aliviados primeiro?" },
-        { title: "2. Segurança", body: "Quais dados podem ser processados localmente, de forma híbrida ou na nuvem?" },
-        { title: "3. Primeiro agente", body: "Definimos um ponto de partida pequeno e concreto com valor visível." },
+      story: [
+        {
+          title: "Nem tudo de uma vez",
+          content: [
+            { type: "p", text: "Tool calling é poderoso. Mas é exatamente por isso que a introdução não pode ser conduzida apenas pela tecnologia, e sim com priorização clara." },
+            { type: "p", text: "A primeira pergunta não é: Quais interfaces temos?", className: "detail-chapter-highlight detail-chapter-highlight--ink" },
+            { type: "p", text: "A pergunta melhor é: Onde surge valor imediatamente?", className: "detail-chapter-highlight detail-chapter-highlight--green" },
+            { type: "p", text: "Pontos de partida típicos são áreas com muito conhecimento, muitas repetições e alto esforço de busca. Por exemplo SharePoint, e-mail, DMS ou pastas de projetos. É aí que surgem quick wins, porque colaboradores imediatamente buscam menos, copiam menos e preparam menos manualmente." },
+            { type: "p", text: "A zuraio conecta esses sistemas passo a passo com o orquestrador. Primeiro ler. Depois entender. Depois combinar. Direitos de escrita ou ações reais só entram quando confiança, qualidade e governança estiverem alinhadas." },
+            { type: "p", text: "Assim a integração cresce no ritmo da empresa. Não como big bang, mas de forma controlada, rastreável e com as pessoas no processo." },
+          ],
+        },
+        {
+          title: "Três caminhos para a zuraio aliviar sua empresa",
+          content: [
+            { type: "p", text: "Nem toda integração gera valor imediatamente. Por isso começamos onde a IA faz a maior diferença. Onde hoje se perde tempo, o conhecimento permanece oculto ou colaboradores ficam presos a tarefas repetitivas." },
+            { type: "p", text: "Juntos, priorizamos quick wins e construímos integrações passo a passo, no seu ritmo e alinhadas aos seus processos." },
+            {
+              type: "way",
+              title: "Tornar o conhecimento utilizável",
+              examplesLabel: "Exemplos",
+              valueLabel: "Valor",
+              paragraphs: [
+                "Em quase toda empresa há enorme conhecimento em SharePoint, repositórios de documentos, e-mails, arquivos CAD, sistemas ERP ou dados históricos de projetos. O problema raramente é falta de conhecimento, e sim falta de acesso no momento certo.",
+                "A zuraio conecta essas fontes e torna informações imediatamente utilizáveis. Em vez de buscar manualmente, colaboradores recebem respostas relevantes diretamente no contexto da tarefa.",
+              ],
+              examples: [
+                "SharePoint & intranet",
+                "DMS & arquivo",
+                "ERP & dados de produto",
+                "Planos CAD & documentação técnica",
+              ],
+              value: "Menos esforço de busca, onboarding mais rápido e conhecimento que permanece na empresa.",
+            },
+            {
+              type: "way",
+              title: "Reduzir administração",
+              examplesLabel: "Exemplos",
+              valueLabel: "Valor",
+              paragraphs: [
+                "Muitos colaboradores passam tempo demais em tarefas para as quais não foram contratados. Classificar e-mails, escrever atas, documentar follow-ups, reunir dados ou preparar relatórios.",
+                "A zuraio assume exatamente essas tarefas administrativas intensivas e alivia suas equipes no dia a dia.",
+              ],
+              examples: [
+                "Agente de e-mail",
+                "Resumos de reuniões",
+                "Rastreamento de tarefas",
+                "Relatórios & análises",
+              ],
+              value: "Mais foco, menos interrupções e mais tempo para clientes, projetos e criação de valor.",
+            },
+            {
+              type: "way",
+              title: "Automatizar processos",
+              examplesLabel: "Exemplos",
+              valueLabel: "Valor",
+              paragraphs: [
+                "A maior alavanca surge onde a IA não apenas entrega conhecimento, mas apoia ou executa processos ativamente.",
+                "A zuraio orquestra tarefas além das fronteiras dos sistemas, coordena fluxos de dados e pode acionar ações claramente definidas de forma controlada.",
+                "Um exemplo do planejamento: a zuraio orquestra tarefas CAD simples como pré-verificações, extração de dados, levantamento de quantidades ou validações técnicas, para que planejadores tenham mais tempo para decisões criativas e complexas.",
+              ],
+              examples: [
+                "Fluxos ERP",
+                "Processos de aprovação",
+                "CRM & automação de vendas",
+                "Planejamento com CAD",
+                "Ticketing & processos de serviço",
+              ],
+              value: "Menos trabalho repetitivo, maior qualidade de processo e alívio escalável em toda a empresa.",
+            },
+          ],
+        },
+        {
+          title: "As interfaces",
+          content: [
+            { type: "p", text: "MCP é o padrão futuro mais importante. Cria uma conexão limpa entre sistemas de IA, ferramentas, fontes de dados e ações. Para a zuraio, MCP é estrategicamente importante porque sistemas externos não devem ser conectados de forma descontrolada, e sim de forma controlada, padronizada e auditável." },
+            { type: "p", text: "API é a realidade de hoje. Muitos sistemas oferecem REST, SOAP, Microsoft Graph, OAuth, API keys ou conectores proprietários." },
+            { type: "p", text: "Outros caminhos técnicos incluem webhooks, views de banco de dados, interfaces de exportação, RPA, conectores Power Automate, conectores customizados e APIs diretas de engine. Qual variante faz sentido depende do sistema, permissões, qualidade dos dados e do use case desejado." },
+            { type: "p", text: "Importante é o nível de direitos e ações:" },
+            { type: "ul", items: [
+              "Somente leitura — Entrada segura para busca, resumo e análise.",
+              "Ler e preparar — A zuraio cria rascunhos, sugestões ou tarefas estruturadas. A pessoa decide.",
+              "Ler e escrever — A zuraio pode atualizar conteúdos, mas apenas dentro de regras claramente definidas.",
+              "Executar ações — A zuraio pode iniciar processos, criar tickets, enviar e-mails, marcar compromissos ou alterar dados. Isso exige aprovações, logging, modelo de papéis e limites claros.",
+            ] },
+            { type: "p", text: "O orquestrador assume o controle. Analisa intent, planeja passos, escolhe agents e ferramentas, verifica direitos, avalia resultados e documenta o fluxo. Exatamente este modelo em camadas com intent detection, task planner, agent selection, execution, evaluation, fusion e audit logging está definido como visão-alvo do harness zuraio." },
+          ],
+        },
       ],
     },
     kontakt: {
       meta: { title: "Contato | zuraio" },
       hero: {
         eyebrow: "Contato",
-        title: "Vamos falar sobre suas necessidades.",
-        lead: "Seja demo, parceria ou perguntas gerais – respondemos prontamente e sem complicação.",
+        title: "Toda boa solução começa com uma conversa.",
+        titleHtml: "<span class=\"hero-title-line\">Toda boa <span class=\"hero-accent\">solução</span></span><span class=\"hero-title-line\">começa com</span><span class=\"hero-title-line\">uma conversa.</span>",
+        lead: "Seja uma primeira ideia ou um projeto concreto – conte-nos o que o ocupa. Juntos descobrimos o que faz sentido.",
+        leadHtml: "<span class=\"lead-line\">Seja uma primeira ideia ou um projeto concreto</span><span class=\"lead-line\">conte-nos o que o ocupa.</span><span class=\"lead-line\">Juntos descobrimos o que faz sentido.</span>",
         imageAlt: "Entrar em contato com a zuraio",
       },
       actions: [
         { text: "hello@zuraio.ch" },
         { text: "Solicitar horário de demo" },
       ],
+      contact: {
+        label: "Contato",
+        city: "1010 Zurique",
+        mailLabel: "E-mail:",
+      },
       articles: [
         { title: "Consultas gerais", body: "Escreva para hello@zuraio.ch – respondemos suas perguntas sobre zuraio, modelos de segurança e possibilidades de uso." },
         { title: "Demo & consultoria", body: "Em uma demo inicial, esclarecemos qual agente traz maior valor e qual modelo operacional se encaixa na sua empresa." },
@@ -786,7 +1283,8 @@ const detailPageTranslations = {
       meta: { title: "Modelos | zuraio" },
       hero: {
         eyebrow: "Modelos",
-        title: "Local, híbrido ou nuvem – você escolhe o modelo certo.",
+        title: "Local, híbrido ou nuvem. Você escolhe o modelo certo.",
+        titleHtml: "<span class=\"hero-title-line\">Local,</span><span class=\"hero-title-line\">híbrido ou nuvem.</span><span class=\"hero-title-line\"><span class=\"hero-accent\">Você escolhe</span></span><span class=\"hero-title-line\">o modelo certo.</span>",
         lead: "A zuraio combina modelos operacionais e de IA para que você possa ponderar controle, desempenho e flexibilidade de forma consciente.",
         imageAlt: "LLM e infraestrutura com controle",
       },
@@ -890,7 +1388,7 @@ const detailPageTranslations = {
       hero: {
         eyebrow: "Sobre nós",
         title: "Quatro mentes. Uma visão. IA que realmente faz empresas avançar.",
-        titleHtml: "<span class=\"hero-title-line\">Quatro mentes,</span><span class=\"hero-title-line\">Uma <span class=\"hero-accent\">Visão</span></span><span class=\"hero-title-line\">IA que realmente faz</span><span class=\"hero-title-line\">empresas avançar</span>",
+        titleHtml: "<span class=\"hero-title-line\">Quatro mentes,</span><span class=\"hero-title-line\">Uma <span class=\"hero-accent\">Visão</span>.</span><span class=\"hero-title-line\">IA que realmente faz</span><span class=\"hero-title-line\">empresas avançar</span>",
         lead: "O que nos une é a convicção de que a Inteligência Artificial pode realmente fazer empresas avançar – mas somente quando é usada de forma segura, compreensível e significativa. É exatamente para isso que construímos a zuraio.",
         imageAlt: "A equipe zuraio em trabalho",
       },

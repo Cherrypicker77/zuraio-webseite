@@ -29,6 +29,8 @@ const translations = {
       roadmapImageAlt: "Modernes Büro mit Panoramablick auf Berglandschaft",
       roadmapViewAriaLabel: "Roadmap ansehen",
       teamSectionAriaLabel: "Team",
+      storyExamplesLabel: "Beispiele",
+      storyValueLabel: "Mehrwert",
     },
     heroFeatures: [
       { title: "Sicherheits-Modelle", body: "Massgeschneidert an<br>Ihrem Unternehmen" },
@@ -47,12 +49,11 @@ const translations = {
         [{ text: "bevor du es bist." }],
       ],
       leadLines: [
-        { before: "Wir haben ", brand: "zuraio", after: " gebaut," },
-        "weil es genau diese Lösung noch nicht gab:",
-        "Eine KI-Plattform, die Ihrem Team lästige Admin-Arbeit abnimmt",
-        "Ihr gesamtes Firmenwissen nutzbar macht und mit Ihrem Unternehmen wächst.",
-        "Und Ihre Daten?",
-        "Bleiben dort, wo Sie es bestimmen.",
+        "Ihr persönlicher AI Executive Assistant",
+        "für sicheres Unternehmenswissen,",
+        "volle Datensouveränität,",
+        "und intelligente Verbindungen,",
+        "zwischen Menschen, Wissen und Systemen",
       ],
     },
     intro: {
@@ -164,7 +165,7 @@ const translations = {
     },
     integrations: {
       eyebrow: "FUNKTIONIERT DORT, WO DEIN TEAM ARBEITET",
-      titleHtml: 'Passt zu den <span class="brand-highlight">Tools</span>, die Du bereits nutzt.',
+      titleHtml: '<span class="integrations-title-line">Passt zu den <span class="brand-highlight">Tools</span>,</span><span class="integrations-title-line">die Du bereits nutzt</span>',
       body: [
         "Kommunikation entscheidet, wie gut ein Unternehmen funktioniert. Das gilt für Menschen genauso wie für digitale Systeme. zuraio verbindet die gängigsten Anwendungen und bringt Ihre Tools und Unternehmeswissen Schritt für Schritt in eine zentrale KI-Umgebung.",
         "Nicht alles auf einmal. Sondern kontrolliert, nachvollziehbar und dort, wo es echten Mehrwert bringt. So entsteht eine Plattform, die bestehende Tools nicht ersetzt, sondern produktiver macht.",
@@ -189,7 +190,7 @@ const translations = {
     useCases: {
       eyebrow: "USE CASES",
       titleHtml:
-        '<span>Damit Ihr Team</span><span class="use-cases-accent">Zeit für das Wesentliche</span><span>hat</span>',
+        '<span>Damit Ihr Team</span><span class="use-cases-title-line"><span class="use-cases-accent">Zeit für das Wesentliche</span> hat</span>',
       leadHtml:
         "zuraio übernimmt Zeitfresser im Alltag:<br>geführte Antworten im Unternehmenswording, sichere Verarbeitung<br>sensibler Daten, Wissenserfassung, automatisierte Recherchen,<br>Aufgaben per Sprache delegieren, und vieles mehr",
       closing:
@@ -208,7 +209,7 @@ const translations = {
         },
         {
           badge: "Wissen",
-          title: "Meetings zusammenfassen",
+          title: "Meetingtranscript",
           body: "Gespräche werden transkribiert, verdichtet und als nutzbares Wissen gesichert.",
         },
         {
@@ -228,12 +229,12 @@ const translations = {
         },
         {
           badge: "Recherche",
-          title: "Webrecherche automatisieren",
+          title: "Webrecherche",
           body: "Aufwändige Recherchen werden wiederholbar, strukturiert und regelmässig ausgeführt.",
         },
         {
           badge: "Daten",
-          title: "Produktdaten extrahieren",
+          title: "Produktdaten-Extrakt",
           body: "Informationen aus Dokumenten und Webseiten werden sauber erkannt und weiterverwendet.",
         },
         {
@@ -248,7 +249,7 @@ const translations = {
         },
         {
           badge: "Datenhoheit",
-          title: "Eigenes Wissen behalten",
+          title: "Wissen sichern",
           body: "Ihr aufgebautes Wissen bleibt verfügbar, übertragbar und unter Ihrer Kontrolle.",
         },
         {
@@ -258,73 +259,32 @@ const translations = {
         },
       ],
     },
-    answer: {
-      eyebrow: "Harness",
-      titleHtml: 'Ein zentraler <span class="brand-highlight">Orchestrator</span>.<br>Volle Kontrolle über deine KI.',
-      kicker: "Nicht einfach ein Chatbot.",
+    product: {
+      eyebrow: "DAS PRODUKT",
+      titleHtml:
+        'Ein zentraler <span class="product-title-accent">Orchestrator</span>.<br><span class="product-title-sub">Vernetzt, kontrolliert, skalierbar.</span>',
       body: [
-        "zuraio ist ein intelligentes Harness, das jede Anfrage analysiert, prüft und orchestriert. Komplexe Anfragen durchlaufen dabei mehrere Loops, bevor eine Antwort erstellt wird.",
-        "Damit Antworten zu eurem Wissen, euren Prozessen, euren Richtlinien und eurer Unternehmenskultur passen. Mit zuraio trägt deine KI eure DNA.",
+        "zuraio ist ein zentraler KI-Orchestrator, der Unternehmenswissen, Systeme, Prozesse und Richtlinien intelligent verbindet.",
+        "So entsteht eine KI, die nicht generisch arbeitet, sondern im Kontext deines Unternehmens denkt und mit deinen Anforderungen wächst.",
+        "Mit zuraio trägt deine KI eure DNA.",
       ],
-      features: [
-        "RAG für jedes Projekt",
-        "Rollen und Rechte",
-        "Ein Agent pro Aufgabe",
-        "Lokal, hybrid oder Cloud",
-        "Audio-Modus für unterwegs",
-        "Audit Logging inklusive",
-        "Antworten mit Quellenangaben",
-        "Modular und skalierbar",
+      solutionLead: "Unsere Lösung",
+      solutionBody: "Ein sicherer Chatbot als Basis",
+      solutionSub: "Die Möglichkeiten dahinter nahezu unbegrenzt",
+      cards: [
+        {
+          title: "Tools",
+          body: "Integrationen und Anbindungen, die zuraio mit euren bestehenden Systemen verbinden.",
+        },
+        {
+          title: "Wissen",
+          body: "Unternehmenswissen strukturiert erfassen, sicher halten und kontextgerecht verfügbar machen.",
+        },
+        {
+          title: "Spezialisten",
+          body: "Digitale Spezialisten, die modular ergänzt werden und gezielt eure Prozesse übernehmen.",
+        },
       ],
-      featurePool: [
-        "RAG für jedes Projekt",
-        "Rollen und Rechte",
-        "Ein Agent pro Aufgabe",
-        "Lokal, hybrid oder Cloud",
-        "Audio-Modus für unterwegs",
-        "Audit Logging inklusive",
-        "Antworten mit Quellenangaben",
-        "Modular und skalierbar",
-        "Intent Detection",
-        "Task Planning",
-        "Agent Routing",
-        "Tool Calling",
-        "Evaluation",
-        "Source Check",
-        "Fusion Layer",
-        "Corporate Wording",
-        "Audit Logging",
-        "Access Control",
-        "Policy Guardrails",
-        "API Layer",
-        "MCP Layer",
-        "Permission Check",
-        "Risk Classification",
-        "Policy Check",
-        "Tone Detection",
-        "Agent Selection",
-        "Tool Selection",
-        "Connector Layer",
-        "Data Retrieval",
-        "Web Search",
-        "Guardrail Layer",
-        "Compliance Layer",
-        "Tenant Permissions",
-        "Source Validation",
-        "Hallucination Check",
-        "Fact Check",
-        "Policy Enforcement",
-        "Prompt Injection Protection",
-        "Data Leakage Protection",
-        "Relevance Check",
-        "Safety Check",
-        "Human Review Option",
-        "Feedback Loop",
-        "Response Layer",
-        "Corporate Wording Layer",
-        "Tone of Voice Layer",
-      ],
-      link: "Weitere Informationen",
     },
     voice: {
       eyebrow: "Voice-Mode",
@@ -508,6 +468,8 @@ const translations = {
       eyebrow: "Roadmap",
       title: "Heute ein Orchestrator<br>Morgen ein",
       ecosystem: "KI-Ökosystem",
+      leadHtml:
+        "zuraio wächst. Mit jeder Herausforderung. Mit jedem Kunden.<br>Wir sind ein junges Unternehmen mit einer klaren Vision und grosser Nähe zur Praxis. Die besten Lösungen entstehen nicht im stillen Kämmerlein, sondern gemeinsam mit Menschen, die echte Herausforderungen haben.",
       steps: [
         {
           title: "Heute",
@@ -527,6 +489,12 @@ const translations = {
     demoModal: {
       eyebrow: "Demo",
       title: "Termin buchen",
+      intro:
+        "In 30 Minuten zeigen wir Ihnen anhand eines echten Beispiels, wie zuraio administrative Arbeit reduziert und Unternehmenswissen nutzbar macht.",
+      audienceHeading: "Für wen lohnt es sich?",
+      audienceText:
+        "Für Unternehmen, die weniger Zeit mit Administration und mehr Zeit mit Wertschöpfung verbringen wollen.",
+      footerNote: "Kostenlos und unverbindlich.",
       name: "Name",
       firstName: "Vorname",
       company: "Firma",
@@ -560,6 +528,15 @@ const translations = {
       bookedLabel: "Belegt",
       availableLabel: "Verfügbar",
       mailSubject: "Demo-Termin zuraio",
+      mailtoLabels: {
+        appointment: "Termin",
+        name: "Name",
+        firstName: "Vorname",
+        company: "Firma",
+        phone: "Telefon",
+        email: "E-Mail",
+        note: "Notiz",
+      },
     },
     footer: {
       columns: [
@@ -635,6 +612,8 @@ const translations = {
       roadmapImageAlt: "Modern office with panoramic view of mountain landscape",
       roadmapViewAriaLabel: "View roadmap",
       teamSectionAriaLabel: "Team",
+      storyExamplesLabel: "Examples",
+      storyValueLabel: "Value",
     },
     heroFeatures: [
       { title: "Security models", body: "Tailored to<br>your company" },
@@ -650,12 +629,11 @@ const translations = {
         [{ text: "before you are." }],
       ],
       leadLines: [
-        { before: "We built ", brand: "zuraio", after: "," },
-        "because this exact solution did not exist yet:",
-        "An AI platform that takes tedious admin work off your team's plate,",
-        "makes your entire company knowledge usable, and grows with your business.",
-        "And your data?",
-        "It stays exactly where you decide.",
+        "Your personal AI executive assistant",
+        "for secure company knowledge,",
+        "full data sovereignty,",
+        "and intelligent connections,",
+        "between people, knowledge, and systems",
       ],
     },
     intro: {
@@ -766,7 +744,7 @@ const translations = {
     },
     integrations: {
       eyebrow: "WORKS WHERE YOUR TEAM WORKS",
-      titleHtml: 'Fits into the <span class="brand-highlight">tools</span> you already use.',
+      titleHtml: '<span class="integrations-title-line">Fits into the <span class="brand-highlight">tools</span></span><span class="integrations-title-line">you already use</span>',
       body: [
         "Communication determines how well a company functions. That applies to people just as much as to digital systems. zuraio connects the most common applications and brings your tools and company knowledge step by step into a central AI environment.",
         "Not everything at once. Instead, in a controlled, traceable way and where it creates real value. That is how a platform emerges that does not replace existing tools, but makes them more productive.",
@@ -860,73 +838,32 @@ const translations = {
         },
       ],
     },
-    answer: {
-      eyebrow: "Harness",
-      titleHtml: 'A central <span class="brand-highlight">orchestrator</span>.<br>Full control over your AI.',
-      kicker: "Not just a chatbot.",
+    product: {
+      eyebrow: "THE PRODUCT",
+      titleHtml:
+        'A central <span class="product-title-accent">orchestrator</span>.<br><span class="product-title-sub">Connected, controlled, scalable.</span>',
       body: [
-        "zuraio is an intelligent harness that analyzes, checks, and orchestrates every request. Complex requests run through multiple loops before an answer is created.",
-        "So answers fit your knowledge, your processes, your policies, and your company culture. With zuraio, your AI carries your DNA.",
+        "zuraio is a central AI orchestrator that intelligently connects company knowledge, systems, processes, and policies.",
+        "This creates an AI that doesn't work generically, but thinks in the context of your company and grows with your requirements.",
+        "With zuraio, your AI carries your DNA.",
       ],
-      features: [
-        "RAG for every project",
-        "Roles and permissions",
-        "One agent per task",
-        "Local, hybrid, or cloud",
-        "Audio mode for on the go",
-        "Audit logging included",
-        "Answers with sources",
-        "Modular and scalable",
+      solutionLead: "Our solution",
+      solutionBody: "A secure chatbot as the foundation",
+      solutionSub: "The possibilities behind it are nearly unlimited",
+      cards: [
+        {
+          title: "Tools",
+          body: "Integrations and connections that link zuraio with your existing systems.",
+        },
+        {
+          title: "Knowledge",
+          body: "Capture company knowledge in a structured way, keep it secure, and make it available in the right context.",
+        },
+        {
+          title: "Specialists",
+          body: "Digital specialists that can be added modularly and take over your processes in a targeted way.",
+        },
       ],
-      featurePool: [
-        "RAG for every project",
-        "Roles and permissions",
-        "One agent per task",
-        "Local, hybrid, or cloud",
-        "Audio mode for on the go",
-        "Audit logging included",
-        "Answers with sources",
-        "Modular and scalable",
-        "Intent Detection",
-        "Task Planning",
-        "Agent Routing",
-        "Tool Calling",
-        "Evaluation",
-        "Source Check",
-        "Fusion Layer",
-        "Corporate Wording",
-        "Audit Logging",
-        "Access Control",
-        "Policy Guardrails",
-        "API Layer",
-        "MCP Layer",
-        "Permission Check",
-        "Risk Classification",
-        "Policy Check",
-        "Tone Detection",
-        "Agent Selection",
-        "Tool Selection",
-        "Connector Layer",
-        "Data Retrieval",
-        "Web Search",
-        "Guardrail Layer",
-        "Compliance Layer",
-        "Tenant Permissions",
-        "Source Validation",
-        "Hallucination Check",
-        "Fact Check",
-        "Policy Enforcement",
-        "Prompt Injection Protection",
-        "Data Leakage Protection",
-        "Relevance Check",
-        "Safety Check",
-        "Human Review Option",
-        "Feedback Loop",
-        "Response Layer",
-        "Corporate Wording Layer",
-        "Tone of Voice Layer",
-      ],
-      link: "More information",
     },
     voice: {
       eyebrow: "Voice Mode",
@@ -1074,6 +1011,8 @@ const translations = {
       eyebrow: "Roadmap",
       title: "Today an orchestrator<br>Tomorrow an",
       ecosystem: "AI ecosystem",
+      leadHtml:
+        "zuraio is growing. With every challenge. With every customer.<br>We are a young company with a clear vision and close ties to practice. The best solutions are not created in isolation, but together with people who face real challenges.",
       steps: [
         {
           title: "Today",
@@ -1093,6 +1032,12 @@ const translations = {
     demoModal: {
       eyebrow: "Demo",
       title: "Book appointment",
+      intro:
+        "In 30 minutes we show you, using a real example, how zuraio reduces administrative work and makes company knowledge usable.",
+      audienceHeading: "Who is it for?",
+      audienceText:
+        "For companies that want to spend less time on administration and more time creating value.",
+      footerNote: "Free and without obligation.",
       name: "Last name",
       firstName: "First name",
       company: "Company",
@@ -1126,6 +1071,15 @@ const translations = {
       bookedLabel: "Booked",
       availableLabel: "Available",
       mailSubject: "zuraio demo appointment",
+      mailtoLabels: {
+        appointment: "Appointment",
+        name: "Last name",
+        firstName: "First name",
+        company: "Company",
+        phone: "Phone",
+        email: "Email",
+        note: "Note",
+      },
     },
     footer: {
       columns: [
@@ -1200,6 +1154,8 @@ const translations = {
       roadmapImageAlt: "Escritório moderno com vista panorâmica para paisagem montanhosa",
       roadmapViewAriaLabel: "Ver roadmap",
       teamSectionAriaLabel: "Equipe",
+      storyExamplesLabel: "Exemplos",
+      storyValueLabel: "Valor",
     },
     heroFeatures: [
       { title: "Modelos de segurança", body: "Sob medida para<br>sua empresa" },
@@ -1215,12 +1171,11 @@ const translations = {
         [{ text: "antes de você." }],
       ],
       leadLines: [
-        { before: "Construímos a ", brand: "zuraio", after: "," },
-        "porque essa solução exata ainda não existia:",
-        "Uma plataforma de IA que tira do seu time o trabalho administrativo,",
-        "torna todo o conhecimento da empresa utilizável e cresce com a sua empresa.",
-        "E os seus dados?",
-        "Ficam exatamente onde você decidir.",
+        "O seu assistente executivo de IA pessoal",
+        "para conhecimento empresarial seguro,",
+        "plena soberania de dados,",
+        "e ligações inteligentes,",
+        "entre pessoas, conhecimento e sistemas",
       ],
     },
     intro: {
@@ -1331,7 +1286,7 @@ const translations = {
     },
     integrations: {
       eyebrow: "FUNCIONA ONDE A SUA EQUIPA TRABALHA",
-      titleHtml: 'Encaixa-se nas <span class="brand-highlight">ferramentas</span> que já utiliza.',
+      titleHtml: '<span class="integrations-title-line">Encaixa-se nas <span class="brand-highlight">ferramentas</span></span><span class="integrations-title-line">que já utiliza</span>',
       body: [
         "A comunicação decide quão bem uma empresa funciona. Isso vale tanto para pessoas como para sistemas digitais. A zuraio liga as aplicações mais comuns e leva as suas ferramentas e o conhecimento da empresa, passo a passo, para um ambiente central de IA.",
         "Nem tudo de uma vez. Mas de forma controlada, rastreável e onde cria valor real. Assim surge uma plataforma que não substitui as ferramentas existentes, mas as torna mais produtivas.",
@@ -1425,73 +1380,32 @@ const translations = {
         },
       ],
     },
-    answer: {
-      eyebrow: "Harness",
-      titleHtml: 'Um <span class="brand-highlight">orquestrador</span> central.<br>Controle total sobre sua IA.',
-      kicker: "Não é apenas um chatbot.",
+    product: {
+      eyebrow: "O PRODUTO",
+      titleHtml:
+        'Um <span class="product-title-accent">orquestrador</span> central.<br><span class="product-title-sub">Conectado, controlado, escalável.</span>',
       body: [
-        "A zuraio é um harness inteligente que analisa, verifica e orquestra cada solicitação. Pedidos complexos passam por vários loops antes de uma resposta ser criada.",
-        "Assim, as respostas se encaixam no seu conhecimento, nos seus processos, nas suas políticas e na cultura da sua empresa. Com a zuraio, sua IA carrega o seu DNA.",
+        "A zuraio é um orquestrador de IA central que conecta de forma inteligente conhecimento empresarial, sistemas, processos e políticas.",
+        "Assim surge uma IA que não trabalha de forma genérica, mas pensa no contexto da sua empresa e cresce com as suas exigências.",
+        "Com a zuraio, a sua IA carrega o seu DNA.",
       ],
-      features: [
-        "RAG para cada projeto",
-        "Funções e permissões",
-        "Um agente por tarefa",
-        "Local, híbrido ou nuvem",
-        "Modo de áudio para unterwegs",
-        "Registro de auditoria incluído",
-        "Respostas com fontes",
-        "Modular e escalável",
+      solutionLead: "A nossa solução",
+      solutionBody: "Um chatbot seguro como base",
+      solutionSub: "As possibilidades por trás são praticamente ilimitadas",
+      cards: [
+        {
+          title: "Ferramentas",
+          body: "Integrações e ligações que conectam a zuraio aos seus sistemas existentes.",
+        },
+        {
+          title: "Conhecimento",
+          body: "Capturar conhecimento empresarial de forma estruturada, mantê-lo seguro e disponibilizá-lo no contexto certo.",
+        },
+        {
+          title: "Especialistas",
+          body: "Especialistas digitais que podem ser adicionados modularmente e assumir os seus processos de forma direcionada.",
+        },
       ],
-      featurePool: [
-        "RAG para cada projeto",
-        "Funções e permissões",
-        "Um agente por tarefa",
-        "Local, híbrido ou nuvem",
-        "Modo de áudio para unterwegs",
-        "Registro de auditoria incluído",
-        "Respostas com fontes",
-        "Modular e escalável",
-        "Intent Detection",
-        "Task Planning",
-        "Agent Routing",
-        "Tool Calling",
-        "Evaluation",
-        "Source Check",
-        "Fusion Layer",
-        "Corporate Wording",
-        "Audit Logging",
-        "Access Control",
-        "Policy Guardrails",
-        "API Layer",
-        "MCP Layer",
-        "Permission Check",
-        "Risk Classification",
-        "Policy Check",
-        "Tone Detection",
-        "Agent Selection",
-        "Tool Selection",
-        "Connector Layer",
-        "Data Retrieval",
-        "Web Search",
-        "Guardrail Layer",
-        "Compliance Layer",
-        "Tenant Permissions",
-        "Source Validation",
-        "Hallucination Check",
-        "Fact Check",
-        "Policy Enforcement",
-        "Prompt Injection Protection",
-        "Data Leakage Protection",
-        "Relevance Check",
-        "Safety Check",
-        "Human Review Option",
-        "Feedback Loop",
-        "Response Layer",
-        "Corporate Wording Layer",
-        "Tone of Voice Layer",
-      ],
-      link: "Mais informações",
     },
     voice: {
       eyebrow: "Modo de voz",
@@ -1639,6 +1553,8 @@ const translations = {
       eyebrow: "Roadmap",
       title: "Hoje um orquestrador<br>Amanhã um",
       ecosystem: "ecossistema de IA",
+      leadHtml:
+        "A zuraio está crescendo. Com cada desafio. Com cada cliente.<br>Somos uma empresa jovem com uma visão clara e grande proximidade à prática. As melhores soluções não nascem isoladas, mas em conjunto com pessoas que têm desafios reais.",
       steps: [
         {
           title: "Hoje",
@@ -1657,7 +1573,13 @@ const translations = {
     },
     demoModal: {
       eyebrow: "Demo",
-      title: "Agendar horário",
+      title: "Agendar reunião",
+      intro:
+        "Em 30 minutos mostramos, com um exemplo real, como a zuraio reduz trabalho administrativo e torna o conhecimento da empresa utilizável.",
+      audienceHeading: "Para quem vale a pena?",
+      audienceText:
+        "Para empresas que querem gastar menos tempo com administração e mais tempo gerando valor.",
+      footerNote: "Gratuito e sem compromisso.",
       name: "Sobrenome",
       firstName: "Nome",
       company: "Empresa",
@@ -1691,6 +1613,15 @@ const translations = {
       bookedLabel: "Ocupado",
       availableLabel: "Disponível",
       mailSubject: "Agendamento demo zuraio",
+      mailtoLabels: {
+        appointment: "Horário",
+        name: "Sobrenome",
+        firstName: "Nome",
+        company: "Empresa",
+        phone: "Telefone",
+        email: "E-mail",
+        note: "Nota",
+      },
     },
     footer: {
       columns: [
@@ -1744,26 +1675,19 @@ const menuToggle = document.querySelector(".menu-toggle");
 const nav = document.querySelector(".site-nav");
 const htmlElement = document.documentElement;
 const languageStorageKey = "zuraio-language";
-const USE_CASE_FADE_IN_MS = 2000;
-const USE_CASE_REVEAL_MS = 2800;
-const USE_CASE_STACK_STEP = 36;
-const USE_CASE_STACK_BOTTOM_GAP = 44;
-const USE_CASE_STACK_TOP_OFFSET = -10;
-const USE_CASE_TEXT_GAP = 32;
-let useCaseRevealTimer = null;
-let useCaseStackComplete = false;
-let useCaseStackInView = false;
-let useCaseStackObserverBound = false;
-let useCaseRevealCardElements = null;
-let useCaseRevealIndex = 0;
-let useCaseRevealReducedMotion = false;
-let useCaseStackHoverBound = false;
-let useCaseHoveredCard = null;
+const USE_CASE_SWAP_MS = 1500;
+const USE_CASE_ROTATE_MS = 2000;
+let useCaseRotateTimer = null;
+let useCaseInView = false;
+let useCaseObserverBound = false;
 let useCaseResizeListenerBound = false;
-let useCaseMobileActiveIndex = 0;
-let useCaseMobileClickBound = false;
-const USE_CASE_MOBILE_STACK_PEEK = 12;
-const USE_CASE_MOBILE_STACK_VISIBLE = 3;
+let useCaseReducedMotion = false;
+let useCaseCardData = null;
+let useCaseColumnCount = 0;
+let useCaseSlots = [];
+let useCaseVisibleData = [];
+let useCasePool = [];
+let useCaseLastRotatedSlotIndex = null;
 
 function setHeroLead(leadLines) {
   const leadContainer = document.querySelector(".hero-lead");
@@ -1931,13 +1855,52 @@ const INTEGRATION_ICON_FILES = [
   "voice-notes.svg",
 ];
 
-function renderIntegrationPill(label, index) {
+function createIntegrationPill(label, index) {
   const icon = INTEGRATION_ICON_FILES[index] || "voice-notes.svg";
-  return `
-    <span class="integration-pill">
-      <img src="assets/icons/integrations/${icon}" alt="" width="20" height="20">
-      <span class="integration-pill-label">${label}</span>
-    </span>`;
+  const pill = document.createElement("span");
+  pill.className = "integration-pill";
+
+  const image = document.createElement("img");
+  image.src = `assets/icons/integrations/${icon}`;
+  image.alt = "";
+  image.width = 20;
+  image.height = 20;
+
+  const text = document.createElement("span");
+  text.className = "integration-pill-label";
+  text.textContent = label;
+
+  pill.append(image, text);
+  return pill;
+}
+
+function getIntegrationPillLabels(track) {
+  return [...track.querySelectorAll(".integration-pill-label")].map((label) => label.textContent);
+}
+
+function integrationPillLabelsMatch(labels, existingLabels) {
+  return (
+    existingLabels.length === labels.length &&
+    labels.every((label, index) => existingLabels[index] === label)
+  );
+}
+
+function appendIntegrationPillSet(track, labels) {
+  labels.forEach((label, index) => {
+    track.append(createIntegrationPill(label, index));
+  });
+}
+
+function resetIntegrationPillsAnimation(track) {
+  if (!track) {
+    return;
+  }
+
+  track.style.animation = "none";
+  track.style.transform = "translateX(0)";
+  void track.offsetWidth;
+  track.style.removeProperty("transform");
+  track.style.removeProperty("animation");
 }
 
 function setupIntegrationPills(labels) {
@@ -1946,8 +1909,27 @@ function setupIntegrationPills(labels) {
     return;
   }
 
-  const singleSet = labels.map(renderIntegrationPill).join("");
-  track.innerHTML = singleSet + singleSet;
+  const existingLabels = getIntegrationPillLabels(track);
+  const hasDoubleSet =
+    existingLabels.length === labels.length * 2 &&
+    integrationPillLabelsMatch(labels, existingLabels.slice(0, labels.length)) &&
+    integrationPillLabelsMatch(labels, existingLabels.slice(labels.length));
+
+  if (hasDoubleSet) {
+    return;
+  }
+
+  const hasSingleSet = integrationPillLabelsMatch(labels, existingLabels);
+  if (hasSingleSet) {
+    resetIntegrationPillsAnimation(track);
+    appendIntegrationPillSet(track, labels);
+    return;
+  }
+
+  resetIntegrationPillsAnimation(track);
+  track.replaceChildren();
+  appendIntegrationPillSet(track, labels);
+  appendIntegrationPillSet(track, labels);
 }
 
 let featureMarqueeCleanup = null;
@@ -1985,8 +1967,18 @@ function setupInteractiveFeatureMarquee() {
       return 0;
     }
 
-    const matrix = new DOMMatrixReadOnly(style.transform);
-    return Math.abs(matrix.m41);
+    try {
+      const matrix = new DOMMatrixReadOnly(style.transform);
+      return Math.abs(matrix.m41);
+    } catch {
+      const match = style.transform.match(/matrix(3d)?\(([^)]+)\)/);
+      if (!match) {
+        return 0;
+      }
+
+      const values = match[2].split(",").map((value) => Number.parseFloat(value.trim()));
+      return Math.abs(values.length === 16 ? values[12] : values[4] || 0);
+    }
   };
 
   const normalizeScroll = () => {
@@ -2198,367 +2190,255 @@ function setFeatureMarquee(selector, items) {
   featureMarqueeCleanup = setupInteractiveFeatureMarquee();
 }
 
-function getUseCaseTextSection() {
-  return document.querySelector("#use-cases");
+function getUseCaseColumnCount() {
+  if (window.matchMedia("(max-width: 760px)").matches) {
+    return 1;
+  }
+
+  if (window.matchMedia("(max-width: 980px)").matches) {
+    return 3;
+  }
+
+  return 6;
 }
 
-function isUseCaseMobileStack() {
-  return window.matchMedia("(max-width: 980px)").matches;
+function pickRandomUseCaseSlotIndex() {
+  if (useCaseColumnCount <= 1) {
+    useCaseLastRotatedSlotIndex = 0;
+    return 0;
+  }
+
+  let slotIndex = Math.floor(Math.random() * useCaseColumnCount);
+  while (slotIndex === useCaseLastRotatedSlotIndex) {
+    slotIndex = Math.floor(Math.random() * useCaseColumnCount);
+  }
+
+  useCaseLastRotatedSlotIndex = slotIndex;
+  return slotIndex;
 }
 
 function getUseCaseStage() {
   return document.querySelector("#use-cases-stage");
 }
 
+function getUseCaseCardsCenter() {
+  return getUseCaseStage()?.querySelector(".use-case-cards-center") || null;
+}
+
 function getUseCaseCardsStack() {
   return getUseCaseStage()?.querySelector(".use-case-cards-stack") || null;
 }
-function getUseCaseTextElements(section) {
-  return [
-    section.querySelector(".use-cases-eyebrow"),
-    ...section.querySelectorAll(".use-cases-title > span"),
-    section.querySelector(".use-cases-lead"),
-    section.querySelector(".use-cases-closing"),
-  ].filter(Boolean);
+
+function createUseCaseCardElement(item) {
+  const card = document.createElement("article");
+  card.className = "use-case-card";
+
+  const header = document.createElement("header");
+  header.className = "use-case-card-header";
+
+  const eyebrow = document.createElement("p");
+  eyebrow.className = "use-case-card-eyebrow use-case-batch";
+  eyebrow.textContent = item.badge;
+
+  const title = document.createElement("h3");
+  title.className = "use-case-card-title";
+  title.textContent = item.title;
+
+  header.append(eyebrow, title);
+
+  const body = document.createElement("div");
+  body.className = "use-case-card-body";
+
+  const divider = document.createElement("hr");
+  divider.className = "use-case-card-divider";
+
+  const text = document.createElement("p");
+  text.className = "use-case-card-text";
+  text.textContent = item.body;
+
+  body.append(divider, text);
+  card.append(header, body);
+  return card;
 }
 
-function getUseCaseMinLeftForCard(stackRect, top, cardHeight, section) {
-  const cardTop = stackRect.top + top;
-  const cardBottom = cardTop + cardHeight;
-  let minLeft = 0;
-
-  getUseCaseTextElements(section).forEach((element) => {
-    const rect = element.getBoundingClientRect();
-
-    if (cardBottom + USE_CASE_TEXT_GAP <= rect.top || cardTop >= rect.bottom + USE_CASE_TEXT_GAP) {
-      return;
-    }
-
-    minLeft = Math.max(minLeft, rect.right - stackRect.left + USE_CASE_TEXT_GAP);
-  });
-
-  return minLeft;
+function shuffleUseCaseData(items) {
+  const result = items.slice();
+  for (let i = result.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
 }
 
-function getMaxUseCaseCardHeight(stack) {
-  const cards = Array.from(stack.querySelectorAll(".use-case-card"));
-  return cards.reduce((max, card) => Math.max(max, card.offsetHeight || 0), 0) || 300;
-}
-
-function getUseCaseStackStep(total, zone, maxCardHeight) {
-  if (total <= 1) {
+function measureUseCaseRowHeight(stack, columnCount) {
+  if (!useCaseCardData?.length || columnCount < 1) {
     return 0;
   }
 
-  const available = Math.max(0, zone.bottom - zone.top - maxCardHeight);
-  return Math.min(USE_CASE_STACK_STEP, available / (total - 1));
-}
+  const styles = window.getComputedStyle(stack);
+  const stageStyles = window.getComputedStyle(getUseCaseStage() || stack);
+  const gap = Number.parseFloat(styles.columnGap || styles.gap || "0") || 0;
+  const maxCardWidth = Number.parseFloat(stageStyles.getPropertyValue("--use-case-card-max")) || 260;
+  const center = getUseCaseCardsCenter();
+  const containerWidth = center?.clientWidth || getUseCaseStage()?.clientWidth || stack.clientWidth;
+  const rawSlotWidth = (containerWidth - gap * (columnCount - 1)) / columnCount;
+  const slotWidth = Math.min(maxCardWidth, rawSlotWidth);
 
-function getUseCaseStackPosition(index, total, stackRect, textSection, cardWidth, cardHeight, zone, maxCardHeight) {
-  const step = getUseCaseStackStep(total, zone, maxCardHeight);
-  const top = zone.top + index * step;
-  const minLeft = getUseCaseMinLeftForCard(stackRect, top, cardHeight, textSection);
-  const maxLeft = stackRect.width - cardWidth;
-  const left = Math.min(maxLeft, Math.max(minLeft, maxLeft));
-
-  return { top, left };
-}
-
-function getUseCaseCardFromStackPoint(cards, x, y) {
-  for (let index = 0; index < cards.length; index += 1) {
-    const card = cards[index];
-    const top = Number.parseFloat(card.dataset.useTop);
-    const left = Number.parseFloat(card.dataset.useLeft);
-    const height = card.offsetHeight || 300;
-    const width = card.offsetWidth || 280;
-
-    if (!Number.isFinite(top) || !Number.isFinite(left)) {
-      continue;
-    }
-
-    const peekBottom =
-      index < cards.length - 1
-        ? Number.parseFloat(cards[index + 1].dataset.useTop)
-        : top + height;
-
-    if (y < top || y >= peekBottom || x < left || x > left + width) {
-      continue;
-    }
-
-    return card;
+  const gauge = document.createElement("div");
+  gauge.setAttribute("aria-hidden", "true");
+  gauge.style.position = "absolute";
+  gauge.style.visibility = "hidden";
+  gauge.style.pointerEvents = "none";
+  gauge.style.left = "-9999px";
+  gauge.style.top = "0";
+  if (slotWidth > 0) {
+    gauge.style.width = `${slotWidth}px`;
   }
+  stack.appendChild(gauge);
 
-  return null;
-}
-
-function setUseCaseHoveredCard(card) {
-  if (useCaseHoveredCard === card) {
-    return;
-  }
-
-  const stack = getUseCaseCardsStack();
-  const cards = Array.from(stack?.querySelectorAll(".use-case-card.is-visible") || []);
-
-  cards.forEach((item) => {
-    item.classList.remove("is-hovered");
-    const stackIndex = Number.parseInt(item.dataset.stackIndex, 10);
-    item.style.zIndex = Number.isFinite(stackIndex) ? String(stackIndex + 1) : "1";
+  let maxHeight = 0;
+  useCaseCardData.forEach((item) => {
+    const card = createUseCaseCardElement(item);
+    card.classList.add("is-measuring");
+    gauge.appendChild(card);
+    maxHeight = Math.max(maxHeight, card.offsetHeight || 0);
+    gauge.removeChild(card);
   });
 
-  if (card) {
-    card.classList.add("is-hovered");
-    card.style.zIndex = "100";
-  }
-
-  useCaseHoveredCard = card;
+  stack.removeChild(gauge);
+  return Math.ceil(maxHeight);
 }
 
-function bindUseCaseStackHover() {
-  if (useCaseStackHoverBound || isUseCaseMobileStack()) {
-    return;
-  }
-
+function applyUseCaseRowHeight() {
   const stack = getUseCaseCardsStack();
   if (!stack) {
     return;
   }
 
-  stack.addEventListener("mousemove", (event) => {
-    const rect = stack.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    const cards = Array.from(stack.querySelectorAll(".use-case-card.is-visible"));
-    setUseCaseHoveredCard(getUseCaseCardFromStackPoint(cards, x, y));
-  });
-
-  stack.addEventListener("mouseleave", () => {
-    setUseCaseHoveredCard(null);
-  });
-
-  useCaseStackHoverBound = true;
+  const height = measureUseCaseRowHeight(stack, useCaseColumnCount);
+  if (height > 0) {
+    stack.style.setProperty("--use-case-row-height", `${height}px`);
+  }
 }
 
-function layoutUseCaseStackCard(card, index, total) {
-  const textSection = getUseCaseTextSection();
+function renderUseCaseRow() {
   const stack = getUseCaseCardsStack();
-
-  if (!textSection || !stack || !card) {
+  if (!stack || !useCaseCardData?.length) {
     return;
   }
 
-  card.dataset.stackIndex = String(index);
+  clearUseCaseRotateTimer();
 
-  if (isUseCaseMobileStack()) {
-    card.style.top = "";
-    card.style.left = "";
-    card.style.right = "";
-    card.style.bottom = "";
-    card.style.zIndex = "";
-    delete card.dataset.useTop;
-    delete card.dataset.useLeft;
-    return;
-  }
+  useCaseColumnCount = Math.min(getUseCaseColumnCount(), useCaseCardData.length);
+  useCaseLastRotatedSlotIndex = null;
 
-  syncUseCaseLayout();
+  const stage = getUseCaseStage();
+  stage?.style.setProperty("--use-case-cols", String(useCaseColumnCount));
 
-  const stackRect = stack.getBoundingClientRect();
-  const cardHeight = card.offsetHeight || 300;
-  const cardWidth = card.offsetWidth > 0 ? Math.min(card.offsetWidth, 280) : 280;
-  const maxCardHeight = getMaxUseCaseCardHeight(stack);
-  const zone = getUseCasePositionZone(stackRect, textSection, cardWidth, maxCardHeight);
-  const { top, left } = getUseCaseStackPosition(
-    index,
-    total,
-    stackRect,
-    textSection,
-    cardWidth,
-    cardHeight,
-    zone,
-    maxCardHeight
-  );
+  stack.classList.add("is-row");
 
-  card.dataset.stackIndex = String(index);
-  card.dataset.useTop = String(top);
-  card.dataset.useLeft = String(left);
-  card.style.top = `${top}px`;
-  card.style.left = `${left}px`;
-  card.style.right = "auto";
-  card.style.bottom = "auto";
-  card.style.zIndex = card.classList.contains("is-hovered") ? "100" : String(index + 1);
-}
+  applyUseCaseRowHeight();
 
-function revealAllUseCaseStackCards() {
-  const cardElements = useCaseRevealCardElements;
-  if (!cardElements?.length) {
-    return;
-  }
+  const shuffled = shuffleUseCaseData(useCaseCardData);
+  useCaseVisibleData = shuffled.slice(0, useCaseColumnCount);
+  useCasePool = shuffled.slice(useCaseColumnCount);
 
-  cardElements.forEach((card, index) => {
-    layoutUseCaseStackCard(card, index, cardElements.length);
+  useCaseSlots = useCaseVisibleData.map((item) => {
+    const slot = document.createElement("div");
+    slot.className = "use-case-slot";
+
+    const card = createUseCaseCardElement(item);
     card.classList.add("is-visible", "has-entered");
+    slot.appendChild(card);
+
+    return slot;
   });
 
-  useCaseRevealIndex = cardElements.length;
-  useCaseStackComplete = true;
-  clearUseCaseRevealTimer();
+  stack.replaceChildren(...useCaseSlots);
+
+  scheduleUseCaseRotation();
 }
 
-function teardownUseCaseMobileDeck() {
-  const stack = getUseCaseCardsStack();
-  if (!stack) {
+function rotateUseCaseRow() {
+  if (!useCaseInView || useCaseColumnCount < 1 || !useCasePool.length) {
     return;
   }
 
-  stack.classList.remove("is-mobile-deck");
-  stack.removeAttribute("role");
-  stack.removeAttribute("tabindex");
-  stack.removeAttribute("aria-label");
-  stack.style.removeProperty("--use-case-mobile-deck-height");
-
-  Array.from(stack.querySelectorAll(".use-case-card")).forEach((card) => {
-    card.classList.remove("is-mobile-active", "is-mobile-behind");
-    card.removeAttribute("data-mobile-depth");
-    card.style.zIndex = "";
-    card.style.opacity = "";
-    card.style.pointerEvents = "";
-    card.style.top = "";
-    card.style.left = "";
-    card.style.right = "";
-    card.style.bottom = "";
-  });
-}
-
-function updateUseCaseMobileDeck() {
-  const stack = getUseCaseCardsStack();
-  const cards = useCaseRevealCardElements || Array.from(stack?.querySelectorAll(".use-case-card") || []);
-  if (!stack || !cards.length || !isUseCaseMobileStack()) {
+  const slotIndex = pickRandomUseCaseSlotIndex();
+  const slot = useCaseSlots[slotIndex];
+  if (!slot) {
     return;
   }
 
-  const total = cards.length;
-  const visibleBehind = Math.min(USE_CASE_MOBILE_STACK_VISIBLE - 1, total - 1);
-  const maxHeight = getMaxUseCaseCardHeight(stack);
+  const poolIndex = Math.floor(Math.random() * useCasePool.length);
+  const nextItem = useCasePool[poolIndex];
+  const prevItem = useCaseVisibleData[slotIndex];
 
-  stack.classList.add("is-mobile-deck");
-  stack.style.setProperty(
-    "--use-case-mobile-deck-height",
-    `${maxHeight + visibleBehind * USE_CASE_MOBILE_STACK_PEEK}px`
-  );
+  useCasePool.splice(poolIndex, 1);
+  if (prevItem) {
+    useCasePool.push(prevItem);
+  }
+  useCaseVisibleData[slotIndex] = nextItem;
 
-  cards.forEach((card, index) => {
-    const depth = (index - useCaseMobileActiveIndex + total) % total;
+  const newCard = createUseCaseCardElement(nextItem);
 
-    card.classList.add("is-visible", "has-entered");
-    card.classList.remove("is-mobile-active", "is-mobile-behind");
-    card.style.top = "0";
-    card.style.left = "0";
-    card.style.right = "0";
-    card.style.bottom = "auto";
-    card.dataset.mobileDepth = String(depth);
-    card.style.zIndex = String(total - depth);
-
-    if (depth === 0) {
-      card.classList.add("is-mobile-active");
-      card.style.opacity = "";
-      card.style.pointerEvents = "";
-      return;
-    }
-
-    if (depth <= visibleBehind) {
-      card.classList.add("is-mobile-behind");
-      card.style.opacity = "";
-      card.style.pointerEvents = "none";
-      return;
-    }
-
-    card.style.opacity = "0";
-    card.style.pointerEvents = "none";
-  });
-}
-
-function advanceUseCaseMobileDeck() {
-  const cards = useCaseRevealCardElements;
-  if (!cards?.length) {
+  if (useCaseReducedMotion) {
+    newCard.classList.add("is-visible", "has-entered");
+    slot.replaceChildren(newCard);
     return;
   }
 
-  useCaseMobileActiveIndex = (useCaseMobileActiveIndex + 1) % cards.length;
-  updateUseCaseMobileDeck();
-}
+  const oldCard = slot.querySelector(".use-case-card");
+  newCard.classList.add("is-entering");
+  slot.appendChild(newCard);
 
-function handleUseCaseMobileDeckActivate() {
-  if (!isUseCaseMobileStack()) {
-    return;
+  if (oldCard) {
+    oldCard.classList.add("is-leaving");
   }
-
-  advanceUseCaseMobileDeck();
-}
-
-function bindUseCaseMobileDeck() {
-  const stack = getUseCaseCardsStack();
-  if (!stack || useCaseMobileClickBound) {
-    return;
-  }
-
-  stack.addEventListener("click", handleUseCaseMobileDeckActivate);
-  useCaseMobileClickBound = true;
-}
-
-function initUseCaseMobileDeck() {
-  if (!isUseCaseMobileStack()) {
-    return;
-  }
-
-  useCaseMobileActiveIndex = 0;
-  syncUseCaseLayout();
-  updateUseCaseMobileDeck();
-  bindUseCaseMobileDeck();
 
   requestAnimationFrame(() => {
-    updateUseCaseMobileDeck();
+    newCard.classList.remove("is-entering");
+    newCard.classList.add("is-visible", "has-entered");
   });
 
-  const stack = getUseCaseCardsStack();
-  if (stack) {
-    stack.setAttribute("role", "button");
-    stack.setAttribute("tabindex", "0");
-    stack.setAttribute("aria-label", translations[getPreferredLanguage()]?.useCases?.nextCardAriaLabel || translations.de.useCases.nextCardAriaLabel);
-  }
-
-  useCaseRevealIndex = useCaseRevealCardElements?.length || 0;
-  useCaseStackComplete = true;
-  clearUseCaseRevealTimer();
+  window.setTimeout(() => {
+    if (oldCard && oldCard.parentNode === slot) {
+      slot.removeChild(oldCard);
+    }
+  }, USE_CASE_SWAP_MS);
 }
 
-function layoutAllUseCaseStackCards() {
-  const stack = getUseCaseCardsStack();
-  if (!stack) {
+function clearUseCaseRotateTimer() {
+  if (useCaseRotateTimer) {
+    clearTimeout(useCaseRotateTimer);
+    useCaseRotateTimer = null;
+  }
+}
+
+function scheduleNextUseCaseRotation() {
+  clearUseCaseRotateTimer();
+
+  if (!useCaseInView || useCaseColumnCount < 1 || !useCasePool.length) {
     return;
   }
 
-  const cards = Array.from(stack.querySelectorAll(".use-case-card.is-visible"));
-  cards.forEach((card) => {
-    const index = Number.parseInt(card.dataset.stackIndex, 10);
-    if (Number.isFinite(index)) {
-      layoutUseCaseStackCard(card, index, cards.length);
-    }
-  });
+  useCaseRotateTimer = window.setTimeout(() => {
+    rotateUseCaseRow();
+    scheduleNextUseCaseRotation();
+  }, USE_CASE_ROTATE_MS);
 }
 
-function revealUseCaseStackCard(card, index, total) {
-  layoutUseCaseStackCard(card, index, total);
+function scheduleUseCaseRotation() {
+  clearUseCaseRotateTimer();
 
-  requestAnimationFrame(() => {
-    card.classList.add("is-visible");
-
-    window.setTimeout(() => {
-      card.classList.add("has-entered");
-    }, 700);
-  });
-
-  if (index === total - 1) {
-    useCaseStackComplete = true;
+  if (!useCaseInView || useCaseColumnCount < 1 || !useCasePool.length) {
+    return;
   }
+
+  useCaseRotateTimer = window.setTimeout(() => {
+    rotateUseCaseRow();
+    scheduleNextUseCaseRotation();
+  }, USE_CASE_ROTATE_MS);
 }
 
 function isUseCaseShellInView() {
@@ -2571,79 +2451,8 @@ function isUseCaseShellInView() {
   return rect.bottom > 0 && rect.top < window.innerHeight;
 }
 
-function revealNextUseCaseStackCard() {
-  const cardElements = useCaseRevealCardElements;
-  if (!cardElements?.length || useCaseStackComplete) {
-    clearUseCaseRevealTimer();
-    return;
-  }
-
-  if (useCaseRevealIndex >= cardElements.length) {
-    clearUseCaseRevealTimer();
-    useCaseStackComplete = true;
-    return;
-  }
-
-  revealUseCaseStackCard(cardElements[useCaseRevealIndex], useCaseRevealIndex, cardElements.length);
-  useCaseRevealIndex += 1;
-
-  if (useCaseRevealIndex >= cardElements.length) {
-    clearUseCaseRevealTimer();
-  }
-}
-
-function startUseCaseStackReveal() {
-  const cardElements = useCaseRevealCardElements;
-  if (!cardElements?.length || useCaseStackComplete || !useCaseStackInView) {
-    return;
-  }
-
-  if (useCaseRevealTimer) {
-    return;
-  }
-
-  if (useCaseRevealIndex >= cardElements.length) {
-    useCaseStackComplete = true;
-    return;
-  }
-
-  if (isUseCaseMobileStack()) {
-    initUseCaseMobileDeck();
-    return;
-  }
-
-  if (useCaseRevealReducedMotion) {
-    revealAllUseCaseStackCards();
-    return;
-  }
-
-  if (useCaseRevealIndex === 0) {
-    requestAnimationFrame(revealNextUseCaseStackCard);
-  }
-
-  if (cardElements.length > 1 && useCaseRevealIndex < cardElements.length) {
-    useCaseRevealTimer = setInterval(revealNextUseCaseStackCard, USE_CASE_REVEAL_MS);
-  }
-}
-
-function pauseUseCaseStackReveal() {
-  if (useCaseStackComplete) {
-    return;
-  }
-
-  clearUseCaseRevealTimer();
-}
-
-function scheduleUseCaseStackReveal() {
-  useCaseStackInView = isUseCaseShellInView();
-
-  if (useCaseStackInView) {
-    startUseCaseStackReveal();
-  }
-}
-
-function bindUseCaseStackObserver() {
-  if (useCaseStackObserverBound) {
+function bindUseCaseObserver() {
+  if (useCaseObserverBound) {
     return;
   }
 
@@ -2654,98 +2463,20 @@ function bindUseCaseStackObserver() {
 
   const observer = new IntersectionObserver(
     (entries) => {
-      const wasInView = useCaseStackInView;
-      useCaseStackInView = entries.some((entry) => entry.isIntersecting);
+      useCaseInView = entries.some((entry) => entry.isIntersecting);
 
-      if (useCaseStackInView) {
-        if (!wasInView) {
-          startUseCaseStackReveal();
-        }
+      if (useCaseInView) {
+        scheduleUseCaseRotation();
         return;
       }
 
-      if (wasInView) {
-        pauseUseCaseStackReveal();
-      }
+      clearUseCaseRotateTimer();
     },
     { threshold: 0.12 }
   );
 
   observer.observe(shell);
-  useCaseStackObserverBound = true;
-}
-
-function getUseCasePositionZone(stackRect, textSection, cardWidth, cardHeight) {
-  const closing = textSection.querySelector(".use-cases-closing");
-  const copy = textSection.querySelector(".use-cases-copy");
-  const title = textSection.querySelector(".use-cases-title");
-  const stage = getUseCaseStage();
-  const stageRect = stage?.getBoundingClientRect() || stackRect;
-  const isMobile = window.matchMedia("(max-width: 760px)").matches;
-
-  if (!closing) {
-    return {
-      top: 0,
-      bottom: stackRect.height - USE_CASE_STACK_BOTTOM_GAP,
-      height: Math.max(0, stackRect.height - cardHeight - USE_CASE_STACK_BOTTOM_GAP),
-    };
-  }
-
-  const closingRect = closing.getBoundingClientRect();
-
-  if (isMobile && copy) {
-    const copyRect = copy.getBoundingClientRect();
-    const zoneTop = copyRect.bottom - stageRect.top + USE_CASE_TEXT_GAP;
-
-    return {
-      top: zoneTop,
-      bottom: closingRect.bottom - stageRect.top - USE_CASE_STACK_BOTTOM_GAP,
-      height: Math.max(0, closingRect.bottom - stageRect.top - zoneTop - cardHeight - USE_CASE_STACK_BOTTOM_GAP),
-    };
-  }
-
-  const shell = document.getElementById("use-cases-shell");
-  const shellRect = shell?.getBoundingClientRect();
-  const titleRect = title?.getBoundingClientRect();
-  const zoneTop = titleRect
-    ? titleRect.top - stageRect.top + USE_CASE_STACK_TOP_OFFSET
-    : USE_CASE_STACK_TOP_OFFSET;
-  const zoneBottom = shellRect
-    ? shellRect.bottom - stageRect.top - USE_CASE_STACK_BOTTOM_GAP
-    : closingRect.bottom - stageRect.top - USE_CASE_STACK_BOTTOM_GAP;
-
-  return {
-    top: zoneTop,
-    bottom: zoneBottom,
-    height: Math.max(0, zoneBottom - zoneTop - cardHeight),
-  };
-}
-
-function syncUseCaseLayout() {
-  const textSection = getUseCaseTextSection();
-  const stage = getUseCaseStage();
-  const stack = getUseCaseCardsStack();
-
-  if (!textSection || !stage || !stack) {
-    return;
-  }
-
-  if (isUseCaseMobileStack()) {
-    stage.style.height = "";
-    stack.style.top = "";
-    stack.style.left = "";
-    stack.style.right = "";
-    stack.style.bottom = "";
-    stack.style.height = "";
-    return;
-  }
-
-  stage.style.height = `${textSection.offsetHeight}px`;
-  stack.style.top = "0";
-  stack.style.left = "0";
-  stack.style.right = "0";
-  stack.style.bottom = "0";
-  stack.style.height = "";
+  useCaseObserverBound = true;
 }
 
 function bindUseCaseResizeListener() {
@@ -2753,85 +2484,39 @@ function bindUseCaseResizeListener() {
     return;
   }
 
+  let resizeRaf = null;
   window.addEventListener("resize", () => {
-    if (isUseCaseMobileStack()) {
-      syncUseCaseLayout();
-      initUseCaseMobileDeck();
-      return;
+    if (resizeRaf) {
+      window.cancelAnimationFrame(resizeRaf);
     }
 
-    teardownUseCaseMobileDeck();
-    syncUseCaseLayout();
-    layoutAllUseCaseStackCards();
+    resizeRaf = window.requestAnimationFrame(() => {
+      resizeRaf = null;
+      const nextColumns = Math.min(getUseCaseColumnCount(), useCaseCardData?.length || 0);
+      if (nextColumns !== useCaseColumnCount) {
+        renderUseCaseRow();
+      } else {
+        applyUseCaseRowHeight();
+      }
+    });
   });
   useCaseResizeListenerBound = true;
 }
 
-function clearUseCaseRevealTimer() {
-  if (useCaseRevealTimer) {
-    clearInterval(useCaseRevealTimer);
-    useCaseRevealTimer = null;
-  }
-}
-
 function setUseCaseCarousel(cards) {
-  const contentStack = getUseCaseCardsStack();
-  if (!contentStack || !cards?.length) {
+  const stack = getUseCaseCardsStack();
+  if (!stack || !cards?.length) {
     return;
   }
 
-  clearUseCaseRevealTimer();
-  useCaseStackComplete = false;
-  useCaseRevealIndex = 0;
-  useCaseRevealCardElements = null;
-  useCaseHoveredCard = null;
+  useCaseReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  useCaseCardData = cards.slice();
+
   bindUseCaseResizeListener();
-  bindUseCaseStackObserver();
+  bindUseCaseObserver();
 
-  contentStack.classList.toggle("is-interactive", !isUseCaseMobileStack());
-  if (!isUseCaseMobileStack()) {
-    bindUseCaseStackHover();
-  }
-  contentStack.replaceChildren(
-    ...cards.map((item) => {
-      const card = document.createElement("article");
-      card.className = "use-case-card";
-
-      const badge = document.createElement("span");
-      badge.className = "use-case-batch";
-      badge.textContent = item.badge;
-
-      const title = document.createElement("h3");
-      title.textContent = item.title;
-
-      const divider = document.createElement("hr");
-      divider.className = "use-case-card-divider";
-
-      const body = document.createElement("p");
-      body.textContent = item.body;
-
-      card.append(badge, title, divider, body);
-      return card;
-    })
-  );
-
-  const cardElements = Array.from(contentStack.querySelectorAll(".use-case-card"));
-  useCaseRevealReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  useCaseRevealCardElements = cardElements;
-
-  cardElements.forEach((card) => {
-    card.classList.remove("is-visible", "is-hovered", "has-entered");
-    card.style.zIndex = "1";
-  });
-
-  syncUseCaseLayout();
-  if (isUseCaseMobileStack()) {
-    initUseCaseMobileDeck();
-    return;
-  }
-
-  teardownUseCaseMobileDeck();
-  scheduleUseCaseStackReveal();
+  useCaseInView = isUseCaseShellInView();
+  renderUseCaseRow();
 }
 
 function setCards(selector, cards, mapCard) {
@@ -2970,7 +2655,53 @@ function applyHeroFeatures(features) {
   });
 }
 
-function applyDetailStoryLanguage(pageContent) {
+function applyProductLanguage(product) {
+  if (!product) {
+    return;
+  }
+
+  setText("#antwort .product-eyebrow", product.eyebrow);
+  setHTML("#antwort .product-title", product.titleHtml);
+  const productParagraphs = document.querySelectorAll("#antwort .product-lead");
+  product.body?.forEach((text, index) => {
+    if (productParagraphs[index]) {
+      productParagraphs[index].textContent = text;
+    }
+  });
+  setText("#antwort .product-solution-lead", product.solutionLead);
+  setText("#antwort .product-solution-body", product.solutionBody);
+  setText("#antwort .product-solution-sub", product.solutionSub);
+  setCards("#antwort .product-cards .product-card", product.cards, (cardElement, cardData) => {
+    setTextSelector(cardElement, ".product-card-text h3", cardData.title);
+    setTextSelector(cardElement, ".product-card-text p", cardData.body);
+  });
+}
+
+function applyDetailPolicyIntro(pageContent) {
+  const intro = pageContent.policyIntro;
+  if (!intro) {
+    return;
+  }
+
+  setText(".detail-policy-title", intro.title);
+  setText(".detail-policy-subtitle", intro.subtitle);
+  const introParagraphs = document.querySelectorAll(".detail-policy-intro p:not(.detail-policy-subtitle)");
+  introParagraphs.forEach((paragraph, index) => {
+    const data = intro.paragraphs?.[index];
+    if (!data) {
+      return;
+    }
+
+    if (typeof data === "object" && data.html) {
+      paragraph.innerHTML = data.html;
+    } else {
+      paragraph.textContent = typeof data === "string" ? data : data.text ?? "";
+    }
+  });
+}
+
+function applyDetailStoryLanguage(pageContent, storyLabels) {
+  const labels = storyLabels || {};
   const storyBlocks = document.querySelectorAll(".detail-story-block");
   storyBlocks.forEach((block, index) => {
     const data = pageContent.story?.[index];
@@ -2979,12 +2710,19 @@ function applyDetailStoryLanguage(pageContent) {
     }
 
     setTextSelector(block, "h2", data.title);
-    block.querySelectorAll("p, ul").forEach((element) => element.remove());
+    block.querySelectorAll("p, ul, h3, h4, .detail-chapter-way").forEach((element) => element.remove());
 
     data.content?.forEach((item) => {
       if (item.type === "p") {
         const paragraph = document.createElement("p");
-        paragraph.textContent = item.text;
+        if (item.html) {
+          paragraph.innerHTML = item.html;
+        } else {
+          paragraph.textContent = item.text;
+        }
+        if (item.className) {
+          item.className.split(/\s+/).filter(Boolean).forEach((name) => paragraph.classList.add(name));
+        }
         block.appendChild(paragraph);
         return;
       }
@@ -2998,12 +2736,54 @@ function applyDetailStoryLanguage(pageContent) {
           list.appendChild(listItem);
         });
         block.appendChild(list);
+        return;
+      }
+
+      if (item.type === "way") {
+        const section = document.createElement("div");
+        section.className = "detail-chapter-way";
+
+        const heading = document.createElement("h3");
+        heading.textContent = item.title;
+        section.appendChild(heading);
+
+        item.paragraphs?.forEach((text) => {
+          const paragraph = document.createElement("p");
+          paragraph.textContent = text;
+          section.appendChild(paragraph);
+        });
+
+        const examplesHeading = document.createElement("h4");
+        examplesHeading.className = "detail-chapter-subheading";
+        examplesHeading.textContent = item.examplesLabel ?? labels.examples ?? "Beispiele";
+        section.appendChild(examplesHeading);
+
+        const list = document.createElement("ul");
+        list.className = "detail-story-list";
+        item.examples?.forEach((text) => {
+          const listItem = document.createElement("li");
+          listItem.textContent = text;
+          list.appendChild(listItem);
+        });
+        section.appendChild(list);
+
+        const valueHeading = document.createElement("h4");
+        valueHeading.className = "detail-chapter-subheading";
+        valueHeading.textContent = item.valueLabel ?? labels.value ?? "Mehrwert";
+        section.appendChild(valueHeading);
+
+        const valueParagraph = document.createElement("p");
+        valueParagraph.className = "detail-chapter-value";
+        valueParagraph.textContent = item.value ?? "";
+        section.appendChild(valueParagraph);
+
+        block.appendChild(section);
       }
     });
   });
 }
 
-function applyDetailPageLanguage(pageContent) {
+function applyDetailPageLanguage(pageContent, storyLabels) {
   if (!pageContent) {
     return;
   }
@@ -3013,7 +2793,11 @@ function applyDetailPageLanguage(pageContent) {
   }
 
   setText(".detail-hero .eyebrow", pageContent.hero?.eyebrow);
+  const detailHeroTitle = document.querySelector(".detail-hero h1");
   if (pageContent.hero?.titleHtml) {
+    if (detailHeroTitle) {
+      detailHeroTitle.classList.add("hero-title");
+    }
     setHTML(".detail-hero h1", pageContent.hero.titleHtml);
   } else {
     setText(".detail-hero h1", pageContent.hero?.title);
@@ -3038,6 +2822,12 @@ function applyDetailPageLanguage(pageContent) {
     });
   }
 
+  if (pageContent.contact) {
+    setText(".contact-details-label", pageContent.contact.label);
+    setText(".contact-details-city", pageContent.contact.city);
+    setText(".contact-details-mail-label", pageContent.contact.mailLabel);
+  }
+
   const articles = document.querySelectorAll(".detail-content article");
   articles.forEach((article, index) => {
     const data = pageContent.articles?.[index];
@@ -3046,12 +2836,12 @@ function applyDetailPageLanguage(pageContent) {
     }
 
     setTextSelector(article, "h2", data.title);
-    const paragraph = article.querySelector("p");
-    if (paragraph) {
+    const body = article.querySelector(".detail-card-body") || article.querySelector("p");
+    if (body) {
       if (data.bodyHtml) {
-        paragraph.innerHTML = data.bodyHtml;
+        body.innerHTML = data.bodyHtml;
       } else if (data.body !== undefined) {
-        paragraph.textContent = data.body;
+        body.textContent = data.body;
       }
     }
   });
@@ -3060,12 +2850,14 @@ function applyDetailPageLanguage(pageContent) {
     setText(".detail-notice-text", pageContent.notice);
   }
 
+  applyDetailPolicyIntro(pageContent);
+
   const teamPhotos = document.querySelector(".detail-team-photos");
   if (teamPhotos && pageContent.teamSectionAriaLabel) {
     teamPhotos.setAttribute("aria-label", pageContent.teamSectionAriaLabel);
   }
 
-  applyDetailStoryLanguage(pageContent);
+  applyDetailStoryLanguage(pageContent, storyLabels);
 }
 
 function applyLanguage(languageCode) {
@@ -3150,72 +2942,7 @@ function applyLanguage(languageCode) {
     useCaseStack.setAttribute("aria-label", content.useCases.nextCardAriaLabel);
   }
 
-  setText(".answer-copy .eyebrow", content.answer.eyebrow);
-  setHTML(".answer-copy h2", content.answer.titleHtml);
-  setText(".answer-kicker", content.answer.kicker);
-  const answerParagraphs = document.querySelectorAll(".answer-copy p:not(.eyebrow):not(.answer-kicker)");
-  if (answerParagraphs[0]) answerParagraphs[0].textContent = content.answer.body[0];
-  if (answerParagraphs[1]) answerParagraphs[1].textContent = content.answer.body[1];
-  setText(".answer-link", content.answer.link);
-
-  setText(".story-card .eyebrow", content.voice.eyebrow);
-  setText(".story-card h2", content.voice.title);
-  setText(".story-card .story-body", content.voice.body);
-  setText(".story-card .text-link", content.voice.link);
-
-  setText(".feature-copy .eyebrow", content.project.eyebrow);
-  setText(".feature-copy h2", content.project.title);
-  setText("#projekt-agent .feature-body", content.project.body);
-  const statCells = document.querySelectorAll(".stat-row div");
-  statCells.forEach((cell, index) => {
-    const statData = content.project.stats[index];
-    if (statData) {
-      const titleElement = cell.querySelector("strong");
-      const labelElement = cell.querySelector("span");
-      if (titleElement) titleElement.textContent = statData.title;
-      if (labelElement) labelElement.textContent = statData.label;
-    }
-  });
-  setText("#projekt-agent .text-link", content.project.link);
-
-  setText("#wissen .section-heading .eyebrow", content.knowledge.eyebrow);
-  setText("#wissen .section-heading h2", content.knowledge.title);
-  setText("#wissen .section-heading > p:last-of-type", content.knowledge.body);
-  setText("#wissen .knowledge-link", content.knowledge.link);
-  setCards("#wissen .knowledge-list article", content.knowledge.cards, (cardElement, cardData) => {
-    const heading = cardElement.querySelector("h3");
-    if (heading) {
-      heading.innerHTML = `<span class="check-icon" aria-hidden="true">✓</span>${cardData.title}`;
-    }
-    setTextSelector(cardElement, "p", cardData.body);
-  });
-
-  setText("#sicherheit .security-hero .eyebrow", content.security.eyebrow);
-  setText("#sicherheit .security-hero h2", content.security.title);
-  setText("#sicherheit .security-hero p:last-of-type", content.security.body);
-  setCards("#sicherheit .security-grid article", content.security.cards, (cardElement, cardData) => {
-    setTextSelector(cardElement, "h3", cardData.title);
-    setTextSelector(cardElement, "p", cardData.body);
-  });
-  setMarquee(".compliance-track", content.security.badges);
-
-  setText("#orchestrator .eyebrow", content.orchestrator.eyebrow);
-  setHTML("#orchestrator .section-heading h2", content.orchestrator.title);
-  setText("#orchestrator .section-heading > p:last-of-type", content.orchestrator.body);
-  setText("#orchestrator .orchestrator-link", content.orchestrator.link);
-  setCards("#orchestrator .flow li", content.orchestrator.steps, (cardElement, cardData) => {
-    setTextSelector(cardElement, "strong", cardData.title);
-    setTextSelector(cardElement, "span", cardData.body);
-  });
-
-  setText("#skalierung .section-heading .eyebrow", content.scaling.eyebrow);
-  setHTML("#skalierung .section-heading h2", content.scaling.title);
-  setText("#skalierung .section-heading > p:last-of-type", content.scaling.body);
-  setText("#skalierung .scaling-link", content.scaling.link);
-  setCards("#skalierung .steps article", content.scaling.steps, (cardElement, cardData) => {
-    setTextSelector(cardElement, "h3", cardData.title);
-    setTextSelector(cardElement, "p", cardData.body);
-  });
+  applyProductLanguage(content.product);
 
   setText("#ueber-uns .eyebrow", content.team.eyebrow);
   setHTML("#ueber-uns h2", content.team.title);
@@ -3225,9 +2952,12 @@ function applyLanguage(languageCode) {
     setTextSelector(cardElement, "p", cardData.body);
   });
 
-  setText("#roadmap > .eyebrow", content.roadmap.eyebrow);
+  setText("#roadmap .roadmap-eyebrow", content.roadmap.eyebrow);
   setHTML("#roadmap .roadmap-overlay h2", content.roadmap.title);
   setText("#roadmap .roadmap-overlay .roadmap-ecosystem", content.roadmap.ecosystem);
+  if (content.roadmap.leadHtml) {
+    setHTML("#roadmap .roadmap-lead", content.roadmap.leadHtml);
+  }
   setText("#roadmap .roadmap-link", content.roadmap.link);
   setCards("#roadmap .timeline article", content.roadmap.steps, (cardElement, cardData) => {
     setTextSelector(cardElement, "strong", cardData.title);
@@ -3242,7 +2972,10 @@ function applyLanguage(languageCode) {
   if (pageKey && typeof detailPageTranslations !== "undefined") {
     const pageContent =
       detailPageTranslations[code]?.[pageKey] || detailPageTranslations.de?.[pageKey];
-    applyDetailPageLanguage(pageContent);
+    applyDetailPageLanguage(pageContent, {
+      examples: content.ui?.storyExamplesLabel,
+      value: content.ui?.storyValueLabel,
+    });
   }
 
   if (languageOptions) {
@@ -3345,9 +3078,9 @@ if (languageToggle && languageMenu) {
   });
 }
 
-function initTrustSynapseCanvas() {
-  const section = document.querySelector(".trust-section");
-  const canvas = document.querySelector(".trust-synapse-canvas");
+function initSynapseCanvas(sectionSelector, canvasSelector, colors, options) {
+  const section = document.querySelector(sectionSelector);
+  const canvas = document.querySelector(canvasSelector);
   if (!section || !canvas) {
     return;
   }
@@ -3357,11 +3090,9 @@ function initTrustSynapseCanvas() {
     return;
   }
 
-  const colors = {
-    primary: "215, 232, 160",
-    accent: "248, 255, 220",
-    deep: "200, 218, 130",
-  };
+  const config = { glow: false, glowFromLayer: 99, ...(options || {}) };
+  const glow = config.glow;
+  const glowTone = colors.glow || "255, 255, 255";
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const clusterSeeds = [
@@ -3397,6 +3128,7 @@ function initTrustSynapseCanvas() {
   function createNode(x, y, layerIndex, layerConfig) {
     const accent = Math.random() < (layerIndex >= 3 ? 0.34 : 0.18);
     const [radiusMin, radiusMax] = layerConfig.radius;
+    const nodeGlow = glow && layerIndex >= config.glowFromLayer;
     return {
       x,
       y,
@@ -3406,6 +3138,7 @@ function initTrustSynapseCanvas() {
       pulse: randomBetween(0.7, 1.2),
       radius: randomBetween(radiusMin, radiusMax),
       accent,
+      glow: nodeGlow,
       layerIndex,
       depth: layerConfig.depth,
       layerOpacity: layerConfig.opacity,
@@ -3496,14 +3229,16 @@ function initTrustSynapseCanvas() {
     }
 
     const strength = 1 - distance / connectDistance;
+    const frontDepth = Math.max(a.depth, b.depth);
+    const frontBoost = 1 + frontDepth * 0.9;
     const alpha =
-      strength * strength * (0.16 + a.layerOpacity * 0.32 + b.layerOpacity * 0.32) * 0.55 * depthFactor * lineBoost;
+      strength * strength * (0.16 + a.layerOpacity * 0.32 + b.layerOpacity * 0.32) * 0.55 * depthFactor * lineBoost * frontBoost;
     const lineTone = a.accent || b.accent ? colors.accent : colors.primary;
     context.beginPath();
     context.moveTo(a.x, a.y);
     context.lineTo(b.x, b.y);
-    context.strokeStyle = `rgba(${lineTone}, ${alpha})`;
-    context.lineWidth = (strength > 0.72 ? 1.35 : 0.95) * (0.7 + a.depth * 0.45);
+    context.strokeStyle = `rgba(${lineTone}, ${Math.min(1, alpha)})`;
+    context.lineWidth = (strength > 0.72 ? 1.35 : 0.95) * (0.7 + frontDepth * 0.85);
     context.stroke();
   }
 
@@ -3511,16 +3246,46 @@ function initTrustSynapseCanvas() {
     const pulse = 0.88 + Math.sin(elapsed * (1.1 + node.depth * 0.5) + node.phase) * 0.12;
     const radius = node.radius * pulse * (0.82 + node.depth * 0.28);
     const tone = node.accent ? colors.accent : colors.deep;
-    const alpha = node.layerOpacity * (node.accent ? 1.08 : 0.92);
+    const frontBoost = 1 + node.depth * 0.7;
+    const alpha = Math.min(1, node.layerOpacity * (node.accent ? 1.08 : 0.92) * frontBoost);
+
+    if (node.glow) {
+      const glowRadius = radius + 5 * node.depth;
+      const glowAlpha = alpha * 0.55;
+      const glowGradient = context.createRadialGradient(
+        node.x, node.y, 0,
+        node.x, node.y, glowRadius
+      );
+      glowGradient.addColorStop(0, `rgba(${glowTone}, ${glowAlpha})`);
+      glowGradient.addColorStop(0.35, `rgba(${glowTone}, ${glowAlpha * 0.4})`);
+      glowGradient.addColorStop(1, `rgba(${glowTone}, 0)`);
+      context.beginPath();
+      context.arc(node.x, node.y, glowRadius, 0, Math.PI * 2);
+      context.fillStyle = glowGradient;
+      context.fill();
+
+      const coreGradient = context.createRadialGradient(
+        node.x, node.y, 0,
+        node.x, node.y, radius
+      );
+      coreGradient.addColorStop(0, `rgba(${glowTone}, ${Math.min(1, alpha * 1.25)})`);
+      coreGradient.addColorStop(0.5, `rgba(${glowTone}, ${alpha})`);
+      coreGradient.addColorStop(1, `rgba(${tone}, ${alpha * 0.5})`);
+      context.beginPath();
+      context.arc(node.x, node.y, radius, 0, Math.PI * 2);
+      context.fillStyle = coreGradient;
+      context.fill();
+      return;
+    }
 
     context.beginPath();
-    context.arc(node.x, node.y, radius + 2.6 * node.depth, 0, Math.PI * 2);
-    context.fillStyle = `rgba(${tone}, ${alpha * 0.16})`;
+    context.arc(node.x, node.y, radius + 2.2 * node.depth, 0, Math.PI * 2);
+    context.fillStyle = `rgba(${tone}, ${alpha * 0.18})`;
     context.fill();
 
     context.beginPath();
     context.arc(node.x, node.y, radius, 0, Math.PI * 2);
-    context.fillStyle = `rgba(${tone}, ${alpha * 0.72})`;
+    context.fillStyle = `rgba(${tone}, ${Math.min(1, alpha * 0.85)})`;
     context.fill();
   }
 
@@ -3631,7 +3396,18 @@ function initTrustSynapseCanvas() {
   }
 }
 
-initTrustSynapseCanvas();
+initSynapseCanvas(".trust-section", ".trust-synapse-canvas", {
+  primary: "215, 232, 160",
+  accent: "248, 255, 220",
+  deep: "200, 218, 130",
+});
+
+initSynapseCanvas(".product-section", ".product-synapse-canvas", {
+  primary: "215, 232, 160",
+  accent: "248, 255, 220",
+  deep: "200, 218, 130",
+  glow: "248, 255, 220",
+}, { glow: true, glowFromLayer: 3 });
 
 
 function roundedRectPerimeter(x, y, width, height, radius) {
@@ -4075,11 +3851,45 @@ function buildDemoBookedAppointments() {
   return booked;
 }
 
+function ensureDemoModalIntro() {
+  const title = document.querySelector(".demo-modal-title");
+  if (!title || document.querySelector(".demo-modal-intro")) {
+    return;
+  }
+
+  const intro = document.createElement("div");
+  intro.className = "demo-modal-intro";
+
+  const lead = document.createElement("p");
+  lead.className = "demo-modal-lead";
+  intro.appendChild(lead);
+
+  const audienceHeading = document.createElement("h3");
+  audienceHeading.className = "demo-modal-audience-heading";
+  intro.appendChild(audienceHeading);
+
+  const audienceText = document.createElement("p");
+  audienceText.className = "demo-modal-audience-text";
+  intro.appendChild(audienceText);
+
+  const note = document.createElement("p");
+  note.className = "demo-modal-note";
+  intro.appendChild(note);
+
+  title.insertAdjacentElement("afterend", intro);
+}
+
 function applyDemoModalLanguage(copy) {
   demoModalCopy = copy || translations.de.demoModal;
 
+  ensureDemoModalIntro();
+
   setText(".demo-modal-eyebrow", demoModalCopy.eyebrow);
   setText(".demo-modal-title", demoModalCopy.title);
+  setText(".demo-modal-lead", demoModalCopy.intro);
+  setText(".demo-modal-audience-heading", demoModalCopy.audienceHeading);
+  setText(".demo-modal-audience-text", demoModalCopy.audienceText);
+  setText(".demo-modal-note", demoModalCopy.footerNote);
   setText(".demo-calendar-heading", demoModalCopy.calendar);
   setText(".demo-calendar-hint", demoModalCopy.hint);
   setText(".demo-submit", demoModalCopy.submit);
@@ -4414,18 +4224,19 @@ function initDemoBookingModal() {
     }
 
     const formData = new FormData(form);
+    const mailLabels = demoModalCopy.mailtoLabels || translations.de.demoModal.mailtoLabels;
     const bodyLines = [
-      `Termin: ${demoSelectedDateKey} ${demoSelectedTime}`,
-      `Name: ${formData.get("nachname")}`,
-      `Vorname: ${formData.get("vorname")}`,
-      `Firma: ${formData.get("firma")}`,
-      `Telefon: ${formData.get("telefon")}`,
-      `E-Mail: ${formData.get("email")}`,
+      `${mailLabels.appointment}: ${demoSelectedDateKey} ${demoSelectedTime}`,
+      `${mailLabels.name}: ${formData.get("nachname")}`,
+      `${mailLabels.firstName}: ${formData.get("vorname")}`,
+      `${mailLabels.company}: ${formData.get("firma")}`,
+      `${mailLabels.phone}: ${formData.get("telefon")}`,
+      `${mailLabels.email}: ${formData.get("email")}`,
     ];
 
     const note = String(formData.get("notiz") || "").trim();
     if (note) {
-      bodyLines.push(`Notiz: ${note}`);
+      bodyLines.push(`${mailLabels.note}: ${note}`);
     }
 
     const mailto = `mailto:hello@zuraio.ch?subject=${encodeURIComponent(demoModalCopy.mailSubject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
