@@ -1406,7 +1406,7 @@ button.button {
 .assistant-showcase-slide.is-active {
   opacity: 1;
   transform: scale(1) translate3d(0, 0, 0);
-  filter: blur(0) saturate(1);
+  filter: none;
   pointer-events: auto;
   z-index: 2;
 }
@@ -1420,7 +1420,7 @@ button.button {
   height: calc(34cqw * 1740 / 2993);
   opacity: 1;
   transform: scale(1) translate3d(0, 0, 0);
-  filter: blur(0) saturate(1);
+  filter: none;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
@@ -1439,7 +1439,7 @@ button.button {
 
 .assistant-showcase-slide.is-active img,
 .assistant-showcase-slide.is-companion-question img {
-  filter: drop-shadow(0 16px 34px rgba(32, 35, 38, 0.22));
+  filter: drop-shadow(14px 18px 30px rgba(32, 35, 38, 0.24));
 }
 
 .assistant-showcase-slide.is-enter-question {

@@ -2790,9 +2790,14 @@ function applyHeroFeatures(features) {
 
 const ASSISTANT_SHOWCASE_STEP_COUNTS = [2, 2, 3, 2, 2, 2];
 const ASSISTANT_SHOWCASE_QUESTION_MS = 2800;
-const ASSISTANT_SHOWCASE_ANSWER_MS = 4200;
+const ASSISTANT_SHOWCASE_ANSWER_SOLO_MS = 3000;
 const ASSISTANT_SHOWCASE_TRANSITION_MS = 1400;
 const ASSISTANT_SHOWCASE_SPLIT_HOLD_MS = 700;
+const ASSISTANT_SHOWCASE_ANSWER_MS =
+  ASSISTANT_SHOWCASE_TRANSITION_MS +
+  ASSISTANT_SHOWCASE_SPLIT_HOLD_MS +
+  ASSISTANT_SHOWCASE_TRANSITION_MS +
+  ASSISTANT_SHOWCASE_ANSWER_SOLO_MS;
 
 let assistantShowcaseController = null;
 
@@ -2921,7 +2926,13 @@ function initAssistantShowcase() {
   }
 
   function getDurationForStep(step) {
-    return step === 0 ? ASSISTANT_SHOWCASE_QUESTION_MS : ASSISTANT_SHOWCASE_ANSWER_MS;
+    if (step === 0) {
+      return ASSISTANT_SHOWCASE_QUESTION_MS;
+    }
+    if (step === 1) {
+      return ASSISTANT_SHOWCASE_ANSWER_MS;
+    }
+    return ASSISTANT_SHOWCASE_TRANSITION_MS + ASSISTANT_SHOWCASE_ANSWER_SOLO_MS;
   }
 
   function getCompletedStepsBefore(example) {
