@@ -218,12 +218,12 @@ const translations = {
           "Antwort: zuraio trägt drei Terminvorschläge in den Kalender ein",
         ],
         [
-          "Eingabe: Starte das Meetingtranskript zum Projekt Areal Meierwiesen",
-          "Antwort: zuraio zeigt das Meetingtranskript mit Audio-Wellenform",
-        ],
-        [
           "Eingabe: Erstelle aus dem Meeting die Aufgaben für mich",
           "Antwort: zuraio legt die Meeting-Aufgaben im Board an",
+        ],
+        [
+          "Eingabe: Starte das Meetingtranskript zum Projekt Areal Meierwiesen",
+          "Antwort: zuraio zeigt das Meetingtranskript mit Audio-Wellenform",
         ],
         [
           "Eingabe: Erstelle mir ein kompaktes Briefing für das Statusmeeting mit dem Kunden",
@@ -841,12 +841,12 @@ const translations = {
           "Answer: zuraio places three appointment suggestions in the calendar",
         ],
         [
-          "Input: Start the meeting transcript for the Areal Meierwiesen project",
-          "Answer: zuraio shows the meeting transcript with an audio waveform",
-        ],
-        [
           "Input: Create my tasks from the meeting",
           "Answer: zuraio adds the meeting tasks to the board",
+        ],
+        [
+          "Input: Start the meeting transcript for the Areal Meierwiesen project",
+          "Answer: zuraio shows the meeting transcript with an audio waveform",
         ],
         [
           "Input: Create a compact briefing for the status meeting with the customer",
@@ -1427,12 +1427,12 @@ const translations = {
           "Resposta: a zuraio coloca três sugestões de horário no calendário",
         ],
         [
-          "Entrada: Inicie a transcrição da reunião do projeto Areal Meierwiesen",
-          "Resposta: a zuraio mostra a transcrição da reunião com forma de onda de áudio",
-        ],
-        [
           "Entrada: Crie as tarefas para mim a partir da reunião",
           "Resposta: a zuraio coloca as tarefas da reunião no board",
+        ],
+        [
+          "Entrada: Inicie a transcrição da reunião do projeto Areal Meierwiesen",
+          "Resposta: a zuraio mostra a transcrição da reunião com forma de onda de áudio",
         ],
         [
           "Entrada: Crie um briefing compacto para a reunião de status com o cliente",
