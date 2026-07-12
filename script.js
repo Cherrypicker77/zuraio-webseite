@@ -2791,8 +2791,8 @@ function applyHeroFeatures(features) {
 const ASSISTANT_SHOWCASE_STEP_COUNTS = [2, 2, 3, 2, 2, 2];
 const ASSISTANT_SHOWCASE_QUESTION_MS = 2800;
 const ASSISTANT_SHOWCASE_ANSWER_SOLO_MS = 3000;
-const ASSISTANT_SHOWCASE_TRANSITION_MS = 1400;
-const ASSISTANT_SHOWCASE_SPLIT_HOLD_MS = 700;
+const ASSISTANT_SHOWCASE_TRANSITION_MS = 1200;
+const ASSISTANT_SHOWCASE_SPLIT_HOLD_MS = 800;
 const ASSISTANT_SHOWCASE_ANSWER_MS =
   ASSISTANT_SHOWCASE_TRANSITION_MS +
   ASSISTANT_SHOWCASE_SPLIT_HOLD_MS +
@@ -3093,9 +3093,14 @@ function initAssistantShowcase() {
         scheduleLeave([companionSlide]);
       }
 
-      // Expand answer from split to full-center after the question starts leaving.
-      void answerSlide.offsetWidth;
-      answerSlide.classList.remove("is-answer-split");
+      // Let the companion start exiting left, then expand the answer to full.
+      window.setTimeout(() => {
+        if (!answerSlide.isConnected) {
+          return;
+        }
+        void answerSlide.offsetWidth;
+        answerSlide.classList.remove("is-answer-split");
+      }, 90);
     }, ASSISTANT_SHOWCASE_TRANSITION_MS + ASSISTANT_SHOWCASE_SPLIT_HOLD_MS);
   }
 
@@ -3155,6 +3160,7 @@ function initAssistantShowcase() {
 
       clearMotionClasses(targetQuestion);
       targetQuestion.hidden = false;
+      // Keep full-frame geometry via is-active, then morph into companion.
       targetQuestion.classList.add("is-companion-question");
       void targetQuestion.offsetWidth;
       targetQuestion.classList.remove("is-active");
@@ -3222,7 +3228,7 @@ function initAssistantShowcase() {
         if (immediate) {
           hideSlide(current);
         } else if (comingFromAnswer) {
-          // Keep full-frame geometry while crossfading to the next question.
+          // Answer exits left while the next question fades in at full frame.
           current.classList.remove("is-answer-split");
           current.classList.add("is-leaving", "is-leave-answer");
           current.classList.remove("is-active");
