@@ -6,10 +6,10 @@ const translations = {
         "zuraio ist der AI-Orchestrator für Schweizer KMU, die KI nutzen wollen, ohne Kontrolle über Daten, Wissen und Prozesse zu verlieren.",
     },
     nav: {
-      why: "Was wir lösen",
+      why: "Lösung",
       solution: "Sicherheit",
-      security: "Integrationen",
-      orchestrator: "Preise und Modelle",
+      security: "Integration",
+      orchestrator: "Preise",
       roadmap: "Über uns",
       demo: "Demo anfragen",
       language: "Sprache",
@@ -33,11 +33,11 @@ const translations = {
       storyValueLabel: "Mehrwert",
     },
     heroFeatures: [
-      { title: "Sicherheits-Modelle", body: "Massgeschneidert an<br>Ihrem Unternehmen" },
+      { title: "Sicherheit", body: "Massgeschneidert an<br>Ihrem Unternehmen" },
       { title: "Skalierbar", body: "Die KI wächst<br>nach Ihrem Tempo" },
       { title: "Unternehmenswissen", body: "Am sicheren Ort<br>Ihrer Wahl" },
       { title: "Entlastung", body: "Sie wählen Ihre<br>digitalen Spezialisten" },
-      { title: "Digitale Lösungen", body: "Persönliche Ansprechpartner<br>für Sie vor Ort." },
+      { title: "Menschen", body: "Persönliche Ansprechpartner" },
     ],
     hero: {
       titleLines: [
@@ -186,6 +186,50 @@ const translations = {
         "Sprachnotizen",
       ],
       link: "Weitere Informationen",
+    },
+    assistantShowcase: {
+      titleLine1Before: "Sehen Sie ",
+      titleAccent: "Ihren Assistenten",
+      titleLine2: "bei der Arbeit",
+      lead: "Die zuraio-Umgebung löst täglich anfallende Zeitfresser im Handumdrehen.",
+      progressAriaLabel: "Fortschritt der Beispiele",
+      prevAriaLabel: "Vorheriges Beispiel",
+      nextAriaLabel: "Nächstes Beispiel",
+      pauseAriaLabel: "Animation pausieren",
+      playAriaLabel: "Animation fortsetzen",
+      pauseLabel: "Pause",
+      playLabel: "Weiter",
+      exampleAriaLabel: "Beispiel {n} anzeigen",
+      statusQuestion: "Beispiel {n} von {total} · Frage",
+      statusAnswer: "Beispiel {n} von {total} · Antwort",
+      statusAnswerPart: "Beispiel {n} von {total} · Antwort {part}",
+      alts: [
+        [
+          "Eingabe: Zeige mir die letzte E-Mail von Michael Keller zum Projekt Areal Meierwiesen",
+          "Antwort: zuraio zeigt die letzte E-Mail zum Projekt Areal Meierwiesen",
+        ],
+        [
+          "Eingabe: Fasse mir den aktuellen Stand des Projekts Areal Meierwiesen zusammen",
+          "Antwort: zuraio liefert eine Projektzusammenfassung zu Areal Meierwiesen",
+        ],
+        [
+          "Eingabe: Schlage drei Termine vor und beantworte die E-Mail",
+          "Antwort: zuraio erstellt eine E-Mail-Antwort mit Terminvorschlägen",
+          "Antwort: zuraio trägt drei Terminvorschläge in den Kalender ein",
+        ],
+        [
+          "Eingabe: Starte das Meetingtranskript zum Projekt Areal Meierwiesen",
+          "Antwort: zuraio zeigt das Meetingtranskript mit Audio-Wellenform",
+        ],
+        [
+          "Eingabe: Erstelle aus dem Meeting die Aufgaben für mich",
+          "Antwort: zuraio legt die Meeting-Aufgaben im Board an",
+        ],
+        [
+          "Eingabe: Erstelle mir ein kompaktes Briefing für das Statusmeeting mit dem Kunden",
+          "Antwort: zuraio liefert ein kompaktes Meetingbriefing",
+        ],
+      ],
     },
     useCases: {
       eyebrow: "USE CASES",
@@ -589,10 +633,10 @@ const translations = {
         "zuraio is the AI orchestrator for Swiss SMEs that want to use AI without losing control over data, knowledge, and processes.",
     },
     nav: {
-      why: "What we solve",
+      why: "Solution",
       solution: "Security",
-      security: "Integrations",
-      orchestrator: "Pricing and models",
+      security: "Integration",
+      orchestrator: "Pricing",
       roadmap: "About us",
       demo: "Request demo",
       language: "Language",
@@ -765,6 +809,50 @@ const translations = {
         "Voice notes",
       ],
       link: "More information",
+    },
+    assistantShowcase: {
+      titleLine1Before: "See ",
+      titleAccent: "your assistant",
+      titleLine2: "at work",
+      lead: "The zuraio environment clears everyday time sinks in no time.",
+      progressAriaLabel: "Example progress",
+      prevAriaLabel: "Previous example",
+      nextAriaLabel: "Next example",
+      pauseAriaLabel: "Pause animation",
+      playAriaLabel: "Resume animation",
+      pauseLabel: "Pause",
+      playLabel: "Play",
+      exampleAriaLabel: "Show example {n}",
+      statusQuestion: "Example {n} of {total} · Question",
+      statusAnswer: "Example {n} of {total} · Answer",
+      statusAnswerPart: "Example {n} of {total} · Answer {part}",
+      alts: [
+        [
+          "Input: Show me the latest email from Michael Keller about the Areal Meierwiesen project",
+          "Answer: zuraio shows the latest email about the Areal Meierwiesen project",
+        ],
+        [
+          "Input: Summarize the current status of the Areal Meierwiesen project for me",
+          "Answer: zuraio delivers a project summary for Areal Meierwiesen",
+        ],
+        [
+          "Input: Suggest three appointments and answer the email",
+          "Answer: zuraio drafts an email reply with appointment suggestions",
+          "Answer: zuraio places three appointment suggestions in the calendar",
+        ],
+        [
+          "Input: Start the meeting transcript for the Areal Meierwiesen project",
+          "Answer: zuraio shows the meeting transcript with an audio waveform",
+        ],
+        [
+          "Input: Create my tasks from the meeting",
+          "Answer: zuraio adds the meeting tasks to the board",
+        ],
+        [
+          "Input: Create a compact briefing for the status meeting with the customer",
+          "Answer: zuraio delivers a compact meeting briefing",
+        ],
+      ],
     },
     useCases: {
       eyebrow: "USE CASES",
@@ -1131,10 +1219,10 @@ const translations = {
         "zuraio é o orquestrador de IA para PMEs suíças que querem usar IA sem perder o controle sobre dados, conhecimento e processos.",
     },
     nav: {
-      why: "O que resolvemos",
+      why: "Solução",
       solution: "Segurança",
-      security: "Integrações",
-      orchestrator: "Preços e modelos",
+      security: "Integração",
+      orchestrator: "Preços",
       roadmap: "Sobre nós",
       demo: "Solicitar demo",
       language: "Idioma",
@@ -1307,6 +1395,50 @@ const translations = {
         "Notas de voz",
       ],
       link: "Mais informações",
+    },
+    assistantShowcase: {
+      titleLine1Before: "Veja ",
+      titleAccent: "o seu assistente",
+      titleLine2: "em ação",
+      lead: "O ambiente zuraio resolve os consumidores de tempo do dia a dia num instante.",
+      progressAriaLabel: "Progresso dos exemplos",
+      prevAriaLabel: "Exemplo anterior",
+      nextAriaLabel: "Próximo exemplo",
+      pauseAriaLabel: "Pausar animação",
+      playAriaLabel: "Retomar animação",
+      pauseLabel: "Pausa",
+      playLabel: "Continuar",
+      exampleAriaLabel: "Mostrar exemplo {n}",
+      statusQuestion: "Exemplo {n} de {total} · Pergunta",
+      statusAnswer: "Exemplo {n} de {total} · Resposta",
+      statusAnswerPart: "Exemplo {n} de {total} · Resposta {part}",
+      alts: [
+        [
+          "Entrada: Mostre-me o último e-mail de Michael Keller sobre o projeto Areal Meierwiesen",
+          "Resposta: a zuraio mostra o último e-mail sobre o projeto Areal Meierwiesen",
+        ],
+        [
+          "Entrada: Faça-me um resumo do estado atual do projeto Areal Meierwiesen",
+          "Resposta: a zuraio entrega um resumo do projeto Areal Meierwiesen",
+        ],
+        [
+          "Entrada: Sugira três horários e responda ao e-mail",
+          "Resposta: a zuraio cria uma resposta de e-mail com sugestões de horário",
+          "Resposta: a zuraio coloca três sugestões de horário no calendário",
+        ],
+        [
+          "Entrada: Inicie a transcrição da reunião do projeto Areal Meierwiesen",
+          "Resposta: a zuraio mostra a transcrição da reunião com forma de onda de áudio",
+        ],
+        [
+          "Entrada: Crie as tarefas para mim a partir da reunião",
+          "Resposta: a zuraio coloca as tarefas da reunião no board",
+        ],
+        [
+          "Entrada: Crie um briefing compacto para a reunião de status com o cliente",
+          "Resposta: a zuraio entrega um briefing compacto da reunião",
+        ],
+      ],
     },
     useCases: {
       eyebrow: "USE CASES",
@@ -2655,6 +2787,495 @@ function applyHeroFeatures(features) {
   });
 }
 
+
+const ASSISTANT_SHOWCASE_STEP_COUNTS = [2, 2, 3, 2, 2, 2];
+const ASSISTANT_SHOWCASE_QUESTION_MS = 2800;
+const ASSISTANT_SHOWCASE_ANSWER_MS = 3600;
+const ASSISTANT_SHOWCASE_TRANSITION_MS = 900;
+
+let assistantShowcaseController = null;
+
+function formatAssistantShowcaseCopy(template, values) {
+  return String(template || "").replace(/\{(\w+)\}/g, (_, key) => {
+    return values[key] == null ? "" : String(values[key]);
+  });
+}
+
+function applyAssistantShowcaseLanguage(copy) {
+  const root = document.getElementById("assistent-bei-der-arbeit");
+  if (!root || !copy) {
+    return;
+  }
+
+  const title = root.querySelector("#assistant-showcase-title");
+  if (
+    title &&
+    copy.titleLine1Before != null &&
+    copy.titleAccent != null &&
+    copy.titleLine2 != null
+  ) {
+    title.replaceChildren();
+    const line1 = document.createElement("span");
+    line1.className = "assistant-showcase-title-line";
+    line1.append(document.createTextNode(copy.titleLine1Before));
+    const accent = document.createElement("span");
+    accent.className = "assistant-showcase-accent";
+    accent.textContent = copy.titleAccent;
+    line1.append(accent);
+    const line2 = document.createElement("span");
+    line2.className = "assistant-showcase-title-line";
+    line2.textContent = copy.titleLine2;
+    title.append(line1, line2);
+  }
+
+  setText("#assistent-bei-der-arbeit .assistant-showcase-lead", copy.lead);
+
+  const progress = root.querySelector("[data-assistant-loader]");
+  if (progress && copy.progressAriaLabel) {
+    progress.setAttribute("aria-label", copy.progressAriaLabel);
+  }
+
+  const prev = root.querySelector('[data-action="prev"]');
+  if (prev && copy.prevAriaLabel) {
+    prev.setAttribute("aria-label", copy.prevAriaLabel);
+  }
+
+  const next = root.querySelector('[data-action="next"]');
+  if (next && copy.nextAriaLabel) {
+    next.setAttribute("aria-label", copy.nextAriaLabel);
+  }
+
+  const pauseLabel = root.querySelector("[data-label-pause]");
+  if (pauseLabel && copy.pauseLabel) {
+    pauseLabel.textContent = copy.pauseLabel;
+  }
+
+  const playLabel = root.querySelector("[data-label-play]");
+  if (playLabel && copy.playLabel) {
+    playLabel.textContent = copy.playLabel;
+  }
+
+  if (Array.isArray(copy.alts)) {
+    copy.alts.forEach((alts, exampleIndex) => {
+      alts.forEach((alt, stepIndex) => {
+        const image = root.querySelector(
+          `.assistant-showcase-slide[data-example="${exampleIndex}"][data-step="${stepIndex}"] img`
+        );
+        if (image && alt) {
+          image.alt = alt;
+        }
+      });
+    });
+  }
+
+  if (assistantShowcaseController) {
+    assistantShowcaseController.setCopy(copy);
+    assistantShowcaseController.refreshStatus();
+    assistantShowcaseController.refreshToggleLabels();
+  }
+}
+
+function initAssistantShowcase() {
+  const root = document.getElementById("assistent-bei-der-arbeit");
+  if (!root || assistantShowcaseController) {
+    return assistantShowcaseController;
+  }
+
+  const stage = root.querySelector("[data-assistant-stage]");
+  const slides = [...root.querySelectorAll(".assistant-showcase-slide")];
+  const loader = root.querySelector("[data-assistant-loader]");
+  const loaderFill = root.querySelector("[data-assistant-loader-fill]");
+  const status = root.querySelector("[data-assistant-status]");
+  const toggle = root.querySelector('[data-action="toggle"]');
+  const prev = root.querySelector('[data-action="prev"]');
+  const next = root.querySelector('[data-action="next"]');
+  const pauseLabel = root.querySelector("[data-label-pause]");
+  const playLabel = root.querySelector("[data-label-play]");
+
+  if (!stage || !slides.length || !loaderFill) {
+    return null;
+  }
+
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let copy = translations.de.assistantShowcase;
+  let exampleIndex = 0;
+  let stepIndex = 0;
+  let playing = !reducedMotion;
+  let inView = false;
+  let hoverPaused = false;
+  let focusPaused = false;
+  let tabHidden = document.hidden;
+  let timerId = null;
+  let progressRaf = null;
+  let stepStartedAt = 0;
+  let stepDuration = ASSISTANT_SHOWCASE_QUESTION_MS;
+  let leavingTimeout = null;
+
+  const totalExamples = ASSISTANT_SHOWCASE_STEP_COUNTS.length;
+  const totalSteps = ASSISTANT_SHOWCASE_STEP_COUNTS.reduce((sum, count) => sum + count, 0);
+
+  function getStepCount(index) {
+    return ASSISTANT_SHOWCASE_STEP_COUNTS[index] || 2;
+  }
+
+  function getDurationForStep(step) {
+    return step === 0 ? ASSISTANT_SHOWCASE_QUESTION_MS : ASSISTANT_SHOWCASE_ANSWER_MS;
+  }
+
+  function getCompletedStepsBefore(example) {
+    let completed = 0;
+    for (let index = 0; index < example; index += 1) {
+      completed += getStepCount(index);
+    }
+    return completed;
+  }
+
+  function canAutoplay() {
+    return playing && inView && !hoverPaused && !focusPaused && !tabHidden && !reducedMotion;
+  }
+
+  function setCopy(nextCopy) {
+    if (nextCopy) {
+      copy = nextCopy;
+    }
+  }
+
+  function refreshToggleLabels() {
+    if (!toggle) {
+      return;
+    }
+
+    const showPause = playing;
+    if (pauseLabel) {
+      pauseLabel.hidden = !showPause;
+    }
+    if (playLabel) {
+      playLabel.hidden = showPause;
+    }
+    toggle.setAttribute("aria-pressed", showPause ? "false" : "true");
+    toggle.setAttribute(
+      "aria-label",
+      showPause ? copy.pauseAriaLabel || "Pause" : copy.playAriaLabel || "Play"
+    );
+  }
+
+  function refreshStatus() {
+    if (!status || !copy) {
+      return;
+    }
+
+    const values = {
+      n: exampleIndex + 1,
+      total: totalExamples,
+      part: stepIndex,
+    };
+
+    let template = copy.statusQuestion;
+    if (stepIndex > 0) {
+      template =
+        getStepCount(exampleIndex) > 2 ? copy.statusAnswerPart : copy.statusAnswer;
+    }
+
+    status.textContent = formatAssistantShowcaseCopy(template, values);
+  }
+
+  function clearTimers() {
+    if (timerId) {
+      window.clearTimeout(timerId);
+      timerId = null;
+    }
+    if (progressRaf) {
+      window.cancelAnimationFrame(progressRaf);
+      progressRaf = null;
+    }
+    if (leavingTimeout) {
+      window.clearTimeout(leavingTimeout);
+      leavingTimeout = null;
+    }
+  }
+
+  function updateLoader(progressRatio) {
+    const ratio = Math.max(0, Math.min(1, progressRatio || 0));
+    const absolute =
+      (getCompletedStepsBefore(exampleIndex) + stepIndex + ratio) / totalSteps;
+    const percent = Math.round(absolute * 1000) / 10;
+    loaderFill.style.width = `${percent}%`;
+    if (loader) {
+      loader.setAttribute("aria-valuenow", String(Math.round(percent)));
+    }
+  }
+
+  function clearMotionClasses(slide) {
+    slide.classList.remove(
+      "is-enter-question",
+      "is-enter-answer",
+      "is-leave-question",
+      "is-leave-answer",
+      "is-leaving"
+    );
+  }
+
+  function hideSlide(slide) {
+    if (!slide) {
+      return;
+    }
+
+    clearMotionClasses(slide);
+    slide.classList.remove("is-active", "is-companion-question");
+    slide.hidden = true;
+    slide.setAttribute("aria-hidden", "true");
+  }
+
+  function showSlide(nextExample, nextStep, options = {}) {
+    const immediate = Boolean(options.immediate) || reducedMotion;
+    const current = root.querySelector(
+      ".assistant-showcase-slide.is-active:not(.is-companion-question)"
+    );
+    const currentCompanion = root.querySelector(
+      ".assistant-showcase-slide.is-companion-question"
+    );
+    const target = root.querySelector(
+      `.assistant-showcase-slide[data-example="${nextExample}"][data-step="${nextStep}"]`
+    );
+    const targetQuestion = root.querySelector(
+      `.assistant-showcase-slide[data-example="${nextExample}"][data-step="0"]`
+    );
+    const targetIsAnswer = nextStep > 0;
+
+    if (!target) {
+      return;
+    }
+
+    if (current === target) {
+      exampleIndex = nextExample;
+      stepIndex = nextStep;
+      target.hidden = false;
+      target.setAttribute("aria-hidden", "false");
+      refreshStatus();
+      updateLoader(0);
+      return;
+    }
+
+    slides.forEach((slide) => {
+      if (
+        slide !== target &&
+        slide !== current &&
+        slide !== currentCompanion &&
+        slide !== targetQuestion
+      ) {
+        hideSlide(slide);
+      }
+    });
+
+    const enterClass = nextStep === 0 ? "is-enter-question" : "is-enter-answer";
+    target.hidden = false;
+    target.setAttribute("aria-hidden", "false");
+    const leavingSlides = [];
+
+    if (targetIsAnswer && targetQuestion) {
+      if (currentCompanion && currentCompanion !== targetQuestion) {
+        hideSlide(currentCompanion);
+      }
+
+      clearMotionClasses(targetQuestion);
+      targetQuestion.classList.remove("is-active");
+      targetQuestion.classList.add("is-companion-question");
+      targetQuestion.hidden = false;
+      targetQuestion.setAttribute("aria-hidden", "true");
+
+      if (current && current !== targetQuestion) {
+        if (immediate) {
+          hideSlide(current);
+        } else {
+          current.classList.remove("is-active");
+          current.classList.add("is-leaving", "is-leave-answer");
+          current.setAttribute("aria-hidden", "true");
+          leavingSlides.push(current);
+        }
+      }
+    } else {
+      if (current) {
+        if (immediate) {
+          hideSlide(current);
+        } else {
+          current.classList.remove("is-active");
+          current.classList.add(
+            "is-leaving",
+            Number(current.dataset.step || 0) === 0
+              ? "is-leave-question"
+              : "is-leave-answer"
+          );
+          current.setAttribute("aria-hidden", "true");
+          leavingSlides.push(current);
+        }
+      }
+
+      if (currentCompanion && currentCompanion !== target) {
+        if (immediate) {
+          hideSlide(currentCompanion);
+        } else {
+          currentCompanion.classList.add("is-leaving", "is-leave-question");
+          currentCompanion.setAttribute("aria-hidden", "true");
+          leavingSlides.push(currentCompanion);
+        }
+      }
+    }
+
+    if (!immediate) {
+      target.classList.add(enterClass);
+      void target.offsetWidth;
+    }
+
+    target.classList.add("is-active");
+    if (!immediate) {
+      window.requestAnimationFrame(() => {
+        target.classList.remove(enterClass);
+      });
+    }
+
+    if (leavingSlides.length) {
+      leavingTimeout = window.setTimeout(() => {
+        leavingSlides.forEach(hideSlide);
+      }, ASSISTANT_SHOWCASE_TRANSITION_MS);
+    }
+
+    exampleIndex = nextExample;
+    stepIndex = nextStep;
+    refreshStatus();
+    updateLoader(0);
+  }
+
+  function advance() {
+    const stepCount = getStepCount(exampleIndex);
+    if (stepIndex + 1 < stepCount) {
+      goTo(exampleIndex, stepIndex + 1);
+      return;
+    }
+
+    goTo((exampleIndex + 1) % totalExamples, 0);
+  }
+
+  function goTo(nextExample, nextStep, options = {}) {
+    clearTimers();
+    showSlide(nextExample, nextStep, options);
+    stepDuration = getDurationForStep(nextStep);
+    stepStartedAt = performance.now();
+    if (canAutoplay()) {
+      scheduleAdvance();
+    } else {
+      updateLoader(0);
+    }
+  }
+
+  function tickProgress() {
+    if (!canAutoplay()) {
+      progressRaf = null;
+      return;
+    }
+
+    const elapsed = performance.now() - stepStartedAt;
+    const ratio = stepDuration > 0 ? elapsed / stepDuration : 1;
+    updateLoader(ratio);
+    progressRaf = window.requestAnimationFrame(tickProgress);
+  }
+
+  function scheduleAdvance() {
+    clearTimers();
+    stepStartedAt = performance.now();
+    stepDuration = getDurationForStep(stepIndex);
+    updateLoader(0);
+    progressRaf = window.requestAnimationFrame(tickProgress);
+    timerId = window.setTimeout(() => {
+      advance();
+    }, stepDuration);
+  }
+
+  function syncPlayback() {
+    if (canAutoplay()) {
+      scheduleAdvance();
+    } else {
+      clearTimers();
+      updateLoader(0);
+    }
+    refreshToggleLabels();
+  }
+
+  function setPlaying(nextPlaying) {
+    playing = Boolean(nextPlaying) && !reducedMotion;
+    syncPlayback();
+  }
+
+  prev?.addEventListener("click", () => {
+    const previousExample = (exampleIndex - 1 + totalExamples) % totalExamples;
+    goTo(previousExample, 0, { immediate: true });
+    if (!reducedMotion) {
+      setPlaying(true);
+    }
+  });
+
+  next?.addEventListener("click", () => {
+    goTo((exampleIndex + 1) % totalExamples, 0, { immediate: true });
+    if (!reducedMotion) {
+      setPlaying(true);
+    }
+  });
+
+  toggle?.addEventListener("click", () => {
+    setPlaying(!playing);
+  });
+
+  stage.addEventListener("pointerenter", () => {
+    hoverPaused = true;
+    syncPlayback();
+  });
+
+  stage.addEventListener("pointerleave", () => {
+    hoverPaused = false;
+    syncPlayback();
+  });
+
+  stage.addEventListener("focusin", () => {
+    focusPaused = true;
+    syncPlayback();
+  });
+
+  stage.addEventListener("focusout", (event) => {
+    if (!stage.contains(event.relatedTarget)) {
+      focusPaused = false;
+      syncPlayback();
+    }
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    tabHidden = document.hidden;
+    syncPlayback();
+  });
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      inView = entries.some((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.35);
+      syncPlayback();
+    },
+    { threshold: [0, 0.35, 0.6, 1] }
+  );
+  observer.observe(root);
+
+  showSlide(0, 0, { immediate: true });
+  refreshToggleLabels();
+  refreshStatus();
+  syncPlayback();
+
+  assistantShowcaseController = {
+    setCopy,
+    refreshStatus,
+    refreshToggleLabels,
+    setPlaying,
+    goTo,
+  };
+
+  return assistantShowcaseController;
+}
+
 function applyProductLanguage(product) {
   if (!product) {
     return;
@@ -2931,6 +3552,8 @@ function applyLanguage(languageCode) {
   });
   setupIntegrationPills(content.integrations.pills);
   setText("#integrationen .intro-link", content.integrations.link);
+
+  applyAssistantShowcaseLanguage(content.assistantShowcase);
 
   setText("#use-cases .use-cases-eyebrow", content.useCases.eyebrow);
   setHTML("#use-cases .use-cases-title", content.useCases.titleHtml);
@@ -3410,364 +4033,6 @@ initSynapseCanvas(".product-section", ".product-synapse-canvas", {
 }, { glow: true, glowFromLayer: 3 });
 
 
-function roundedRectPerimeter(x, y, width, height, radius) {
-  const r = Math.min(radius, width / 2, height / 2);
-  return [
-    `M ${x + r} ${y}`,
-    `H ${x + width - r}`,
-    `A ${r} ${r} 0 0 1 ${x + width} ${y + r}`,
-    `V ${y + height - r}`,
-    `A ${r} ${r} 0 0 1 ${x + width - r} ${y + height}`,
-    `H ${x + r}`,
-    `A ${r} ${r} 0 0 1 ${x} ${y + height - r}`,
-    `V ${y + r}`,
-    `A ${r} ${r} 0 0 1 ${x + r} ${y}`,
-  ].join(" ");
-}
-
-function initHeroLeadBorder() {
-  const shell = document.querySelector(".hero-lead-shell");
-  if (!shell) {
-    return;
-  }
-
-  const svg = shell.querySelector(".hero-lead-border");
-  const track = shell.querySelector(".hero-lead-border-track");
-  const borderPath = shell.querySelector(".hero-lead-border-path");
-  const canvas = shell.querySelector(".hero-lead-border-flow");
-  if (!svg || !track || !borderPath || !canvas) {
-    return;
-  }
-
-  const context = canvas.getContext("2d");
-  if (!context) {
-    return;
-  }
-
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let perimeter = 0;
-  let width = 0;
-  let height = 0;
-  let dpr = 1;
-  let animationFrame = 0;
-  let isRunning = false;
-  let particles = [];
-
-  function getFlowPad() {
-    const value = Number.parseFloat(getComputedStyle(shell).getPropertyValue("--hero-flow-pad"));
-    return Number.isFinite(value) && value > 0 ? value : 22;
-  }
-
-  function pickTargetSpeed(bias = 1) {
-    const roll = Math.random();
-    if (roll < 0.1) {
-      return (0.35 + Math.random() * 0.55) * bias;
-    }
-    if (roll < 0.38) {
-      return (0.9 + Math.random() * 1.2) * bias;
-    }
-    if (roll < 0.68) {
-      return (1.8 + Math.random() * 2.2) * bias;
-    }
-    return (3.8 + Math.random() * 5.8) * bias;
-  }
-
-  function createParticles() {
-    if (!perimeter) {
-      return;
-    }
-
-    particles = [
-      {
-        progress: perimeter * 0.08,
-        speed: 1.1,
-        targetSpeed: 1.1,
-        modeTimer: 18,
-        phase: 0.2,
-        tailLength: 185,
-        speedBias: 1.05,
-      },
-      {
-        progress: perimeter * 0.46,
-        speed: 2.4,
-        targetSpeed: 2.4,
-        modeTimer: 14,
-        phase: 1.8,
-        tailLength: 165,
-        speedBias: 1.45,
-      },
-      {
-        progress: perimeter * 0.78,
-        speed: 0.85,
-        targetSpeed: 0.85,
-        modeTimer: 22,
-        phase: 3.4,
-        tailLength: 200,
-        speedBias: 0.95,
-      },
-    ];
-  }
-
-  function buildPath() {
-    const flowPad = getFlowPad();
-    const shellWidth = shell.offsetWidth;
-    const shellHeight = shell.offsetHeight;
-    if (!shellWidth || !shellHeight) {
-      return;
-    }
-
-    width = shellWidth + flowPad * 2;
-    height = shellHeight + flowPad * 2;
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.round(width * dpr);
-    canvas.height = Math.round(height * dpr);
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
-    context.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
-    const path = roundedRectPerimeter(
-      flowPad + 0.5,
-      flowPad + 0.5,
-      shellWidth - 1,
-      shellHeight - 1,
-      8
-    );
-
-    track.setAttribute("d", path);
-    borderPath.setAttribute("d", path);
-    perimeter = borderPath.getTotalLength();
-    particles.forEach((particle) => {
-      particle.progress %= perimeter || 1;
-    });
-
-    if (!particles.length) {
-      createParticles();
-    }
-  }
-
-  function pointAt(distance) {
-    return borderPath.getPointAtLength((distance + perimeter) % perimeter);
-  }
-
-  function smoothstep(t) {
-    const x = Math.max(0, Math.min(1, t));
-    return x * x * (3 - 2 * x);
-  }
-
-  function mixColor(from, to, amount) {
-    return [
-      from[0] + (to[0] - from[0]) * amount,
-      from[1] + (to[1] - from[1]) * amount,
-      from[2] + (to[2] - from[2]) * amount,
-    ];
-  }
-
-  function cometTailStyle(t) {
-    const accent = [208, 220, 154];
-    const primary = [159, 175, 82];
-    const white = [255, 255, 252];
-    const stops = [
-      { at: 0, color: accent },
-      { at: 0.46, color: primary },
-      { at: 1, color: white },
-    ];
-
-    let rgb = stops[0].color;
-
-    for (let index = 0; index < stops.length - 1; index += 1) {
-      const current = stops[index];
-      const next = stops[index + 1];
-
-      if (t <= next.at) {
-        const local = (t - current.at) / (next.at - current.at);
-        rgb = mixColor(current.color, next.color, smoothstep(local));
-        break;
-      }
-    }
-
-    const alpha = smoothstep(t) * 0.9;
-    return { rgb, alpha };
-  }
-
-  function traceSmoothPath(points) {
-    if (points.length < 2) {
-      return;
-    }
-
-    context.moveTo(points[0].x, points[0].y);
-
-    if (points.length === 2) {
-      context.lineTo(points[1].x, points[1].y);
-      return;
-    }
-
-    for (let index = 1; index < points.length - 1; index += 1) {
-      const current = points[index];
-      const next = points[index + 1];
-      const midX = (current.x + next.x) / 2;
-      const midY = (current.y + next.y) / 2;
-      context.quadraticCurveTo(current.x, current.y, midX, midY);
-    }
-
-    const last = points[points.length - 1];
-    const beforeLast = points[points.length - 2];
-    context.quadraticCurveTo(beforeLast.x, beforeLast.y, last.x, last.y);
-  }
-
-  function drawTail(particle) {
-    const steps = Math.min(240, Math.max(130, Math.round(particle.tailLength / 4)));
-    const tailPoints = [];
-
-    for (let index = steps; index >= 0; index -= 1) {
-      const t = index / steps;
-      const distance = particle.progress - particle.tailLength * t;
-      tailPoints.push(pointAt(distance));
-    }
-
-    context.save();
-    context.lineCap = "round";
-    context.lineJoin = "round";
-
-    const lastIndex = tailPoints.length - 1;
-
-    for (let index = 0; index < lastIndex; index += 1) {
-      const t0 = index / lastIndex;
-      const t1 = (index + 1) / lastIndex;
-      const start = tailPoints[index];
-      const end = tailPoints[index + 1];
-      const color0 = cometTailStyle(t0);
-      const color1 = cometTailStyle(t1);
-      const lineWidth = 0.85 + ((t0 + t1) / 2) * 3.8;
-      const gradient = context.createLinearGradient(start.x, start.y, end.x, end.y);
-
-      gradient.addColorStop(
-        0,
-        `rgba(${color0.rgb[0]}, ${color0.rgb[1]}, ${color0.rgb[2]}, ${color0.alpha})`,
-      );
-      gradient.addColorStop(
-        1,
-        `rgba(${color1.rgb[0]}, ${color1.rgb[1]}, ${color1.rgb[2]}, ${color1.alpha})`,
-      );
-
-      context.beginPath();
-      context.moveTo(start.x, start.y);
-      context.lineTo(end.x, end.y);
-      context.strokeStyle = gradient;
-      context.lineWidth = lineWidth;
-      context.stroke();
-    }
-
-    context.restore();
-  }
-
-  function drawHead(particle, time) {
-    const head = pointAt(particle.progress);
-    const shimmer = 0.62 + Math.sin(time * 0.007 + particle.phase) * 0.28;
-
-    context.save();
-    context.shadowBlur = 16;
-    context.shadowColor = `rgba(208, 220, 154, ${0.55 + shimmer * 0.4})`;
-    context.beginPath();
-    context.arc(head.x, head.y, 5.2, 0, Math.PI * 2);
-    context.fillStyle = `rgba(245, 250, 220, ${0.28 + shimmer * 0.22})`;
-    context.fill();
-
-    context.shadowBlur = 8;
-    context.shadowColor = "rgba(247, 251, 232, 0.95)";
-    context.beginPath();
-    context.arc(head.x, head.y, 3.1, 0, Math.PI * 2);
-    context.fillStyle = "#f7fbe8";
-    context.fill();
-
-    context.shadowBlur = 0;
-    context.beginPath();
-    context.arc(head.x, head.y, 1.35, 0, Math.PI * 2);
-    context.fillStyle = "#ffffff";
-    context.fill();
-    context.restore();
-  }
-
-  function renderBorder(time) {
-    context.clearRect(0, 0, width, height);
-    if (!perimeter) {
-      return;
-    }
-
-    particles.forEach((particle) => {
-      drawTail(particle);
-      drawHead(particle, time);
-    });
-  }
-
-  function tick(time) {
-    if (!isRunning || !perimeter) {
-      return;
-    }
-
-    particles.forEach((particle) => {
-      if (particle.modeTimer <= 0) {
-        particle.targetSpeed = pickTargetSpeed(particle.speedBias);
-        particle.modeTimer = 14 + Math.floor(Math.random() * 52);
-      } else {
-        particle.modeTimer -= 1;
-      }
-
-      const acceleration = particle.targetSpeed > particle.speed ? 0.14 : 0.055;
-      particle.speed += (particle.targetSpeed - particle.speed) * acceleration;
-      if (particle.speed < 0.28) {
-        particle.speed = 0.28;
-      }
-      particle.progress = (particle.progress + particle.speed) % perimeter;
-    });
-
-    renderBorder(time);
-    animationFrame = window.requestAnimationFrame(tick);
-  }
-
-  function start() {
-    if (isRunning || reducedMotion) {
-      return;
-    }
-    isRunning = true;
-    animationFrame = window.requestAnimationFrame(tick);
-  }
-
-  function stop() {
-    isRunning = false;
-    window.cancelAnimationFrame(animationFrame);
-  }
-
-  const resizeObserver = new ResizeObserver(() => {
-    buildPath();
-    renderBorder(performance.now());
-  });
-  resizeObserver.observe(shell);
-
-  document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") {
-      start();
-    } else {
-      stop();
-    }
-  });
-
-  buildPath();
-  renderBorder(performance.now());
-
-  if (reducedMotion) {
-    return;
-  }
-
-  window.requestAnimationFrame(() => {
-    buildPath();
-    renderBorder(performance.now());
-    start();
-  });
-}
-
-initHeroLeadBorder();
-
 const DEMO_SELECTABLE_SLOTS = ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"];
 const DEMO_SLOT_PATTERNS = [
   ["09:00", "14:00"],
@@ -4246,6 +4511,7 @@ function initDemoBookingModal() {
 }
 
 initDemoBookingModal();
+initAssistantShowcase();
 applyLanguage(getPreferredLanguage());
 
 (function syncSiteHeaderOffset() {
@@ -4254,17 +4520,245 @@ applyLanguage(getPreferredLanguage());
     return;
   }
 
-  function update() {
-    document.documentElement.style.setProperty(
-      "--site-header-height",
-      `${Math.ceil(header.getBoundingClientRect().height)}px`
+  // Enter quickly on any real scroll; leave only when fully back at the top.
+  const enterCompactAt = 1;
+  const exitCompactAt = 0;
+  const exitSettleMs = 160;
+  const transitionMs = 420;
+  let sectionHold = false;
+  let settlingSectionJump = false;
+  let settleTimer = null;
+  let exitTimer = null;
+  let transitionLock = false;
+  let transitionTimer = null;
+  let expandedHeight = 0;
+  let lastAppliedHeight = 0;
+  let compact = false;
+
+  const spacer = document.createElement("div");
+  spacer.className = "site-header-spacer";
+  spacer.setAttribute("aria-hidden", "true");
+  header.after(spacer);
+
+  function applyHeaderHeight(height) {
+    const next = Math.max(1, Math.ceil(height));
+    if (next === lastAppliedHeight) {
+      return;
+    }
+    lastAppliedHeight = next;
+    document.documentElement.style.setProperty("--site-header-height", `${next}px`);
+  }
+
+  function measureExpandedHeight() {
+    if (compact) {
+      return expandedHeight || lastAppliedHeight;
+    }
+    const measured = Math.ceil(header.getBoundingClientRect().height);
+    if (measured > 0) {
+      expandedHeight = measured;
+    }
+    return expandedHeight || lastAppliedHeight;
+  }
+
+  function updateHeight() {
+    applyHeaderHeight(measureExpandedHeight());
+  }
+
+  function setCompact(shouldCompact) {
+    if (compact === shouldCompact) {
+      updateHeight();
+      return;
+    }
+
+    window.clearTimeout(exitTimer);
+    exitTimer = null;
+
+    if (shouldCompact) {
+      const height = measureExpandedHeight();
+      applyHeaderHeight(height);
+      spacer.style.height = `${height}px`;
+      compact = true;
+      header.classList.add("is-compact");
+    } else {
+      compact = false;
+      header.classList.remove("is-compact");
+      spacer.style.height = "0px";
+      applyHeaderHeight(expandedHeight || lastAppliedHeight);
+      window.setTimeout(() => {
+        if (compact) {
+          return;
+        }
+        updateHeight();
+      }, transitionMs);
+    }
+
+    transitionLock = true;
+    window.clearTimeout(transitionTimer);
+    transitionTimer = window.setTimeout(() => {
+      transitionLock = false;
+    }, transitionMs);
+  }
+
+  function scheduleSectionSettle() {
+    window.clearTimeout(settleTimer);
+    settleTimer = window.setTimeout(() => {
+      settlingSectionJump = false;
+      setCompact(false);
+    }, 220);
+  }
+
+  function beginSectionJump() {
+    sectionHold = true;
+    settlingSectionJump = true;
+    setCompact(false);
+    scheduleSectionSettle();
+  }
+
+  function releaseSectionHold() {
+    if (!sectionHold && !settlingSectionJump) {
+      return;
+    }
+    sectionHold = false;
+    settlingSectionJump = false;
+    window.clearTimeout(settleTimer);
+    // Tiny scroll gestures after a section jump should still open the pill.
+    const y = window.scrollY || window.pageYOffset || 0;
+    setCompact(y > exitCompactAt);
+  }
+
+  function updateCompact() {
+    if (sectionHold || settlingSectionJump) {
+      window.clearTimeout(exitTimer);
+      exitTimer = null;
+      setCompact(false);
+      if (settlingSectionJump) {
+        scheduleSectionSettle();
+      }
+      return;
+    }
+
+    if (transitionLock) {
+      return;
+    }
+
+    const y = window.scrollY || window.pageYOffset || 0;
+
+    if (!compact) {
+      window.clearTimeout(exitTimer);
+      exitTimer = null;
+      if (y >= enterCompactAt) {
+        setCompact(true);
+      }
+      return;
+    }
+
+    // Stay in pill mode while scrolling; only expand after resting at the top.
+    if (y > exitCompactAt) {
+      window.clearTimeout(exitTimer);
+      exitTimer = null;
+      return;
+    }
+
+    if (exitTimer) {
+      return;
+    }
+
+    exitTimer = window.setTimeout(() => {
+      exitTimer = null;
+      if (sectionHold || settlingSectionJump || transitionLock) {
+        return;
+      }
+      const currentY = window.scrollY || window.pageYOffset || 0;
+      if (currentY <= exitCompactAt) {
+        setCompact(false);
+      }
+    }, exitSettleMs);
+  }
+
+  function isScrollKey(event) {
+    return (
+      event.key === "ArrowUp" ||
+      event.key === "ArrowDown" ||
+      event.key === "PageUp" ||
+      event.key === "PageDown" ||
+      event.key === "Home" ||
+      event.key === "End" ||
+      event.key === " "
     );
   }
 
-  update();
-  window.addEventListener("resize", update);
+  function isSamePageHashLink(link) {
+    if (!(link instanceof HTMLAnchorElement)) {
+      return false;
+    }
+
+    const href = link.getAttribute("href");
+    if (!href || href === "#") {
+      return false;
+    }
+
+    let url;
+    try {
+      url = new URL(link.href, window.location.href);
+    } catch (error) {
+      return false;
+    }
+
+    if (!url.hash || url.hash === "#") {
+      return false;
+    }
+
+    return (
+      url.origin === window.location.origin &&
+      url.pathname === window.location.pathname
+    );
+  }
+
+  updateHeight();
+  updateCompact();
+  window.addEventListener("scroll", updateCompact, { passive: true });
+  window.addEventListener("scrollend", () => {
+    if (!sectionHold) {
+      return;
+    }
+    settlingSectionJump = false;
+    setCompact(false);
+  });
+  window.addEventListener("resize", () => {
+    if (!compact && !transitionLock) {
+      updateHeight();
+      return;
+    }
+    if (compact && expandedHeight) {
+      spacer.style.height = `${expandedHeight}px`;
+    }
+  });
+  window.addEventListener("hashchange", beginSectionJump);
+  window.addEventListener("wheel", releaseSectionHold, { passive: true });
+  window.addEventListener("touchmove", releaseSectionHold, { passive: true });
+  window.addEventListener("keydown", (event) => {
+    if (isScrollKey(event)) {
+      releaseSectionHold();
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest("a[href]");
+    if (isSamePageHashLink(link)) {
+      beginSectionJump();
+    }
+  });
+
+  if (window.location.hash) {
+    beginSectionJump();
+  }
 
   if ("ResizeObserver" in window) {
-    new ResizeObserver(update).observe(header);
+    new ResizeObserver(() => {
+      if (transitionLock || compact) {
+        return;
+      }
+      updateHeight();
+    }).observe(header);
   }
 })();

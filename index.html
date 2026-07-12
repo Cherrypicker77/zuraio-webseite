@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=106">
+    <link rel="stylesheet" href="styles.css?v=118">
   </head>
   <body>
     <header class="site-header">
@@ -17,10 +17,10 @@
       </a>
       <button class="menu-toggle" type="button" aria-label="Navigation öffnen" aria-expanded="false">Menu</button>
       <nav class="site-nav" aria-label="Hauptnavigation">
-        <a href="#warum">Was wir lösen</a>
+        <a href="#warum">Lösung</a>
         <a href="#loesung">Sicherheit</a>
-        <a href="#integrationen">Integrationen</a>
-        <a href="pages/preise-und-modelle.html">Preise und Modelle</a>
+        <a href="#integrationen">Integration</a>
+        <a href="pages/preise-und-modelle.html">Preise</a>
         <a href="pages/ueber-uns.html">Über uns</a>
         <div class="lang-switcher">
           <button id="language-toggle" class="lang-toggle" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Sprache wählen">
@@ -38,18 +38,16 @@
 
     <main id="home">
       <section class="hero">
-        <picture>
-          <source srcset="assets/images/hero-zuraio-terrace.png" media="(min-width: 760px)">
-          <img src="assets/images/hero-zuraio-terrace.png" alt="Moderner Arbeitsplatz mit Panoramablick auf See, Stadt und Berge">
-        </picture>
+        <div class="hero-media">
+          <picture>
+            <source srcset="assets/images/hero-zurich.png" media="(min-width: 760px)">
+            <img src="assets/images/hero-zurich.png" alt="Luftaufnahme der Zürcher Altstadt bei Sonnenuntergang mit Blick auf Limmat, See und Alpen">
+          </picture>
+          <img class="hero-popup" src="assets/images/hero-zuraio-ui.png" alt="zuraio Oberfläche – Startansicht mit Skillmaker" width="1024" height="595">
+        </div>
         <div class="hero-copy">
           <h1 class="hero-title">Deine Arbeit<br><span class="hero-accent">ist bereit</span>,<br>bevor du es bist.</h1>
           <div class="hero-lead-shell">
-            <svg class="hero-lead-border" aria-hidden="true" preserveAspectRatio="none">
-              <path class="hero-lead-border-track"></path>
-              <path class="hero-lead-border-path"></path>
-            </svg>
-            <canvas class="hero-lead-border-flow"></canvas>
             <div class="hero-lead">
               <p class="hero-lead-line">Ihr persönlicher AI Executive Assistant</p>
               <p class="hero-lead-line">für sicheres Unternehmenswissen,</p>
@@ -65,7 +63,7 @@
               <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M16 4L6 8v8c0 6 4.2 11.6 10 13 5.8-1.4 10-7 10-13V8L16 4z"/><circle cx="16" cy="15" r="4"/><path d="M16 13v4M14 15h4"/></svg>
             </span>
             <span class="hero-feature-text">
-              <strong>Sicherheits-Modelle</strong>
+              <strong>Sicherheit</strong>
               <span>Massgeschneidert an<br>Ihrem Unternehmen</span>
             </span>
           </a>
@@ -101,8 +99,8 @@
               <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="4"/><circle cx="21" cy="11" r="4"/><path d="M4 26c0-3.3 3.1-6 7-6M21 20c4 0 7 2.7 7 6"/></svg>
             </span>
             <span class="hero-feature-text">
-              <strong>Digitale Lösungen</strong>
-              <span>Persönliche Ansprechpartner<br>für Sie vor Ort.</span>
+              <strong>Menschen</strong>
+              <span>Persönliche Ansprechpartner</span>
             </span>
           </a>
         </nav>
@@ -221,7 +219,7 @@
         <div class="integrations-hero">
           <div class="integrations-image-wrap">
             <picture class="integrations-image">
-              <img src="assets/images/integrations-tools-buero.png" alt="Arbeitsplatz mit Laptop und zuraio-Oberfläche als Symbol für Tool-Integration">
+              <img src="assets/images/integrations-tools-buero.jpg?v=20260712c" alt="Arbeitsplatz mit Laptop und zuraio-Oberfläche als Symbol für Tool-Integration" width="3200" height="1786" decoding="async">
             </picture>
             <div class="integrations-tool-watermark intro-band-mark" aria-hidden="true">
               <div class="intro-band-mark-inner">
@@ -262,6 +260,184 @@
             <span class="integration-pill"><img src="assets/icons/integrations/salesforce.svg" alt="" width="20" height="20"><span class="integration-pill-label">Salesforce</span></span>
             <span class="integration-pill"><img src="assets/icons/integrations/whatsapp.svg" alt="" width="20" height="20"><span class="integration-pill-label">WhatsApp</span></span>
             <span class="integration-pill"><img src="assets/icons/integrations/voice-notes.svg" alt="" width="20" height="20"><span class="integration-pill-label">Sprachnotizen</span></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="assistant-showcase" id="assistent-bei-der-arbeit" aria-labelledby="assistant-showcase-title">
+        <div class="assistant-showcase-inner">
+          <header class="assistant-showcase-copy">
+            <h2 id="assistant-showcase-title" class="assistant-showcase-title">
+              <span class="assistant-showcase-title-line">Sehen Sie <span class="assistant-showcase-accent">Ihren Assistenten</span></span>
+              <span class="assistant-showcase-title-line">bei der Arbeit</span>
+            </h2>
+            <p class="assistant-showcase-lead">Die zuraio-Umgebung löst täglich anfallende Zeitfresser im Handumdrehen.</p>
+          </header>
+
+          <div class="assistant-showcase-stage" data-assistant-stage>
+            <div class="assistant-showcase-viewport" aria-live="polite">
+              <figure class="assistant-showcase-slide is-active" data-example="0" data-step="0">
+                <img
+                  src="assets/images/Asistent%20bei%20der%20Arbeit/Frage%201%20-%20Mail.png"
+                  alt="Eingabe: Zeige mir die letzte E-Mail von Michael Keller zum Projekt Areal Meierwiesen"
+                  width="1600"
+                  height="900"
+                  decoding="async"
+                >
+              </figure>
+              <figure class="assistant-showcase-slide" data-example="0" data-step="1" hidden>
+                <img
+                  src="assets/images/Asistent%20bei%20der%20Arbeit/Amtwort%201%20-%20Mail.png"
+                  alt="Antwort: zuraio zeigt die letzte E-Mail zum Projekt Areal Meierwiesen"
+                  width="1600"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </figure>
+              <figure class="assistant-showcase-slide" data-example="1" data-step="0" hidden>
+                <img
+                  src="assets/images/Asistent%20bei%20der%20Arbeit/Frage%202%20-%20Zusammenfassung.png"
+                  alt="Eingabe: Fasse mir den aktuellen Stand des Projekts Areal Meierwiesen zusammen"
+                  width="1600"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </figure>
+              <figure class="assistant-showcase-slide" data-example="1" data-step="1" hidden>
+                <img
+                  src="assets/images/Asistent%20bei%20der%20Arbeit/Antwort%202%20-%20Zusammenfassung.png"
+                  alt="Antwort: zuraio liefert eine Projektzusammenfassung zu Areal Meierwiesen"
+                  width="1600"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </figure>
+              <figure class="assistant-showcase-slide" data-example="2" data-step="0" hidden>
+                <img
+                  src="assets/images/Asistent%20bei%20der%20Arbeit/Frage%203%20-%20Termine%20und%20Antwort.png"
+                  alt="Eingabe: Schlage drei Termine vor und beantworte die E-Mail"
+                  width="1600"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </figure>
+              <figure class="assistant-showcase-slide" data-example="2" data-step="1" hidden>
+                <img
+                  src="assets/images/Asistent%20bei%20der%20Arbeit/Antwort%203%20-%20Mail.png"
+                  alt="Antwort: zuraio erstellt eine E-Mail-Antwort mit Terminvorschlägen"
+                  width="1600"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </figure>
+              <figure class="assistant-showcase-slide" data-example="2" data-step="2" hidden>
+                <img
+                  src="assets/images/Asistent%20bei%20der%20Arbeit/Antwort%203%20-%20Termin.png"
+                  alt="Antwort: zuraio trägt drei Terminvorschläge in den Kalender ein"
+                  width="1600"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </figure>
+              <figure class="assistant-showcase-slide" data-example="3" data-step="0" hidden>
+                <img
+                  src="assets/images/Asistent%20bei%20der%20Arbeit/Frage%204%20-%20Meetingtranskript.png"
+                  alt="Eingabe: Starte das Meetingtranskript zum Projekt Areal Meierwiesen"
+                  width="1600"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </figure>
+              <figure class="assistant-showcase-slide" data-example="3" data-step="1" hidden>
+                <img
+                  src="assets/images/Asistent%20bei%20der%20Arbeit/Antwort%204%20-%20Meetingtranskript.png"
+                  alt="Antwort: zuraio zeigt das Meetingtranskript mit Audio-Wellenform"
+                  width="1600"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </figure>
+              <figure class="assistant-showcase-slide" data-example="4" data-step="0" hidden>
+                <img
+                  src="assets/images/Asistent%20bei%20der%20Arbeit/Frage%205%20-%20Aufgabe.png"
+                  alt="Eingabe: Erstelle aus dem Meeting die Aufgaben für mich"
+                  width="1600"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </figure>
+              <figure class="assistant-showcase-slide" data-example="4" data-step="1" hidden>
+                <img
+                  src="assets/images/Asistent%20bei%20der%20Arbeit/Antwort%205%20-%20Aufgabe.png"
+                  alt="Antwort: zuraio legt die Meeting-Aufgaben im Board an"
+                  width="1600"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </figure>
+              <figure class="assistant-showcase-slide" data-example="5" data-step="0" hidden>
+                <img
+                  src="assets/images/Asistent%20bei%20der%20Arbeit/Frage%206%20-%20Briefing.png"
+                  alt="Eingabe: Erstelle mir ein kompaktes Briefing für das Statusmeeting mit dem Kunden"
+                  width="1600"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </figure>
+              <figure class="assistant-showcase-slide" data-example="5" data-step="1" hidden>
+                <img
+                  src="assets/images/Asistent%20bei%20der%20Arbeit/Antwort%206%20-%20Briefing.png"
+                  alt="Antwort: zuraio liefert ein kompaktes Meetingbriefing"
+                  width="1600"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </figure>
+            </div>
+
+            <div class="assistant-showcase-controls">
+              <div
+                class="assistant-showcase-loader"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+                aria-label="Fortschritt der Beispiele"
+                data-assistant-loader
+              >
+                <span class="assistant-showcase-loader-track">
+                  <span class="assistant-showcase-loader-fill" data-assistant-loader-fill></span>
+                </span>
+              </div>
+
+              <div class="assistant-showcase-nav-row">
+                <p class="assistant-showcase-status" data-assistant-status aria-live="polite">Beispiel 1 von 6 · Frage</p>
+                <div class="assistant-showcase-nav">
+                  <button type="button" class="assistant-showcase-nav-btn" data-action="prev" aria-label="Vorheriges Beispiel">
+                    <span aria-hidden="true">←</span>
+                  </button>
+                  <button type="button" class="assistant-showcase-nav-btn assistant-showcase-toggle" data-action="toggle" aria-label="Animation pausieren" aria-pressed="false">
+                    <span class="assistant-showcase-toggle-label" data-label-play hidden>Weiter</span>
+                    <span class="assistant-showcase-toggle-label" data-label-pause>Pause</span>
+                  </button>
+                  <button type="button" class="assistant-showcase-nav-btn" data-action="next" aria-label="Nächstes Beispiel">
+                    <span aria-hidden="true">→</span>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -502,6 +678,6 @@
     </div>
 
     <script src="i18n-pages.js"></script>
-    <script src="script.js?v=55"></script>
+    <script src="script.js?v=61"></script>
   </body>
 </html>
