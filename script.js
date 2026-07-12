@@ -2791,7 +2791,7 @@ function applyHeroFeatures(features) {
 const ASSISTANT_SHOWCASE_STEP_COUNTS = [2, 2, 3, 2, 2, 2];
 const ASSISTANT_SHOWCASE_QUESTION_MS = 2800;
 const ASSISTANT_SHOWCASE_ANSWER_MS = 3600;
-const ASSISTANT_SHOWCASE_TRANSITION_MS = 900;
+const ASSISTANT_SHOWCASE_TRANSITION_MS = 1400;
 
 let assistantShowcaseController = null;
 
@@ -3078,9 +3078,11 @@ function initAssistantShowcase() {
       }
 
       clearMotionClasses(targetQuestion);
-      targetQuestion.classList.remove("is-active");
-      targetQuestion.classList.add("is-companion-question");
       targetQuestion.hidden = false;
+      targetQuestion.classList.add("is-companion-question");
+      // Keep full-size styles as the animation start, then shrink to companion.
+      void targetQuestion.offsetWidth;
+      targetQuestion.classList.remove("is-active");
       targetQuestion.setAttribute("aria-hidden", "true");
 
       if (current && current !== targetQuestion) {
