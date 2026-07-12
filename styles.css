@@ -1312,7 +1312,7 @@ button.button {
 
 .assistant-showcase-copy {
   flex: 0 0 auto;
-  max-width: 760px;
+  max-width: min(100%, 980px);
 }
 
 .assistant-showcase-eyebrow {
@@ -1335,6 +1335,7 @@ button.button {
 
 .assistant-showcase-title-line {
   display: block;
+  white-space: nowrap;
 }
 
 .assistant-showcase-accent {
@@ -1590,6 +1591,10 @@ button.button {
     max-height: none;
     min-height: calc(100svh - var(--assistant-header-space));
     padding: 22px 0 18px;
+  }
+
+  .assistant-showcase-title-line {
+    white-space: normal;
   }
 
   .assistant-showcase-viewport {
