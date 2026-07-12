@@ -1423,7 +1423,7 @@ button.button {
   filter: blur(0) saturate(1);
   border-radius: 0;
   background: transparent;
-  box-shadow: 0 14px 32px rgba(32, 35, 38, 0.16);
+  box-shadow: none;
   overflow: visible;
   z-index: 4;
 }
@@ -1435,6 +1435,11 @@ button.button {
   height: 100%;
   object-fit: contain;
   background: transparent;
+}
+
+.assistant-showcase-slide.is-active img,
+.assistant-showcase-slide.is-companion-question img {
+  filter: drop-shadow(0 16px 34px rgba(32, 35, 38, 0.22));
 }
 
 .assistant-showcase-slide.is-enter-question {
