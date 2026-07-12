@@ -1503,9 +1503,9 @@ button.button {
 }
 
 .assistant-showcase-slide[data-step]:not([data-step="0"]).is-active.is-answer-split {
-  left: auto;
+  left: 28%;
   right: 44px;
-  width: 70%;
+  width: auto;
 }
 
 .assistant-showcase-slide img {
@@ -1634,7 +1634,8 @@ button.button {
   }
 
   .assistant-showcase-slide[data-step]:not([data-step="0"]).is-active.is-answer-split {
-    width: 72%;
+    left: 26%;
+    width: auto;
     right: 32px;
   }
 

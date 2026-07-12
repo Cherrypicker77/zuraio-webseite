@@ -2992,7 +2992,7 @@ function initAssistantShowcase() {
     status.textContent = formatAssistantShowcaseCopy(template, values);
   }
 
-  function clearTimers() {
+  function clearAdvanceTimers() {
     if (timerId) {
       window.clearTimeout(timerId);
       timerId = null;
@@ -3001,6 +3001,10 @@ function initAssistantShowcase() {
       window.cancelAnimationFrame(progressRaf);
       progressRaf = null;
     }
+  }
+
+  function clearTimers() {
+    clearAdvanceTimers();
     if (leavingTimeout) {
       window.clearTimeout(leavingTimeout);
       leavingTimeout = null;
@@ -3049,8 +3053,14 @@ function initAssistantShowcase() {
       return;
     }
 
+    if (leavingTimeout) {
+      window.clearTimeout(leavingTimeout);
+      leavingTimeout = null;
+    }
+
     leavingTimeout = window.setTimeout(() => {
       slidesToHide.forEach(hideSlide);
+      leavingTimeout = null;
     }, ASSISTANT_SHOWCASE_TRANSITION_MS);
   }
 
@@ -3067,12 +3077,24 @@ function initAssistantShowcase() {
       return;
     }
 
+    if (settleTimeout) {
+      window.clearTimeout(settleTimeout);
+      settleTimeout = null;
+    }
+
     settleTimeout = window.setTimeout(() => {
-      if (companionSlide && companionSlide.isConnected) {
+      settleTimeout = null;
+
+      if (companionSlide && companionSlide.isConnected && !companionSlide.hidden) {
+        companionSlide.classList.remove("is-leaving", "is-leave-question");
+        void companionSlide.offsetWidth;
         companionSlide.classList.add("is-leaving", "is-leave-question");
         companionSlide.setAttribute("aria-hidden", "true");
         scheduleLeave([companionSlide]);
       }
+
+      // Expand answer from split to full-center after the question starts leaving.
+      void answerSlide.offsetWidth;
       answerSlide.classList.remove("is-answer-split");
     }, ASSISTANT_SHOWCASE_TRANSITION_MS + ASSISTANT_SHOWCASE_SPLIT_HOLD_MS);
   }
@@ -3083,7 +3105,7 @@ function initAssistantShowcase() {
       ".assistant-showcase-slide.is-active:not(.is-companion-question)"
     );
     const currentCompanion = root.querySelector(
-      ".assistant-showcase-slide.is-companion-question"
+      ".assistant-showcase-slide.is-companion-question:not(.is-leaving)"
     );
     const target = root.querySelector(
       `.assistant-showcase-slide[data-example="${nextExample}"][data-step="${nextStep}"]`
@@ -3138,6 +3160,7 @@ function initAssistantShowcase() {
       targetQuestion.classList.remove("is-active");
       targetQuestion.setAttribute("aria-hidden", "true");
 
+      clearMotionClasses(target);
       target.classList.add("is-answer-split");
       if (!immediate) {
         target.classList.add("is-enter-answer");
@@ -3173,6 +3196,7 @@ function initAssistantShowcase() {
         }
       }
 
+      clearMotionClasses(target);
       if (!immediate) {
         target.classList.add("is-enter-answer");
         void target.offsetWidth;
@@ -3208,6 +3232,7 @@ function initAssistantShowcase() {
         }
       }
 
+      clearMotionClasses(target);
       if (!immediate) {
         target.classList.add("is-enter-question");
         void target.offsetWidth;
@@ -3263,7 +3288,7 @@ function initAssistantShowcase() {
   }
 
   function scheduleAdvance() {
-    clearTimers();
+    clearAdvanceTimers();
     stepStartedAt = performance.now();
     stepDuration = getDurationForStep(stepIndex);
     updateLoader(0);
@@ -3277,7 +3302,7 @@ function initAssistantShowcase() {
     if (canAutoplay()) {
       scheduleAdvance();
     } else {
-      clearTimers();
+      clearAdvanceTimers();
       updateLoader(0);
     }
     refreshToggleLabels();
