@@ -1422,7 +1422,7 @@ button.button {
   filter: blur(0) saturate(1);
   border-radius: 0;
   background: transparent;
-  box-shadow: none;
+  box-shadow: 0 14px 32px rgba(32, 35, 38, 0.16);
   overflow: visible;
   z-index: 4;
 }
