@@ -3221,12 +3221,16 @@ function initAssistantShowcase() {
       if (current) {
         if (immediate) {
           hideSlide(current);
+        } else if (comingFromAnswer) {
+          // Keep full-frame geometry while crossfading to the next question.
+          current.classList.remove("is-answer-split");
+          current.classList.add("is-leaving", "is-leave-answer");
+          current.classList.remove("is-active");
+          current.setAttribute("aria-hidden", "true");
+          leavingSlides.push(current);
         } else {
           current.classList.remove("is-active", "is-answer-split");
-          current.classList.add(
-            "is-leaving",
-            comingFromAnswer ? "is-leave-answer" : "is-leave-question"
-          );
+          current.classList.add("is-leaving", "is-leave-question");
           current.setAttribute("aria-hidden", "true");
           leavingSlides.push(current);
         }
@@ -3234,6 +3238,7 @@ function initAssistantShowcase() {
 
       clearMotionClasses(target);
       if (!immediate) {
+        // Place the new question in the same full-frame slot, then only fade opacity.
         target.classList.add("is-enter-question");
         void target.offsetWidth;
       }

@@ -1447,9 +1447,23 @@ button.button {
 }
 
 .assistant-showcase-slide.is-enter-question {
-  transform: scale(1) translate3d(0, 0, 0);
+  top: 0;
+  right: 44px;
+  bottom: 28px;
+  left: 0;
+  width: auto;
+  height: auto;
+  transform: none;
   filter: none;
   opacity: 0;
+  transition:
+    opacity 1000ms cubic-bezier(0.33, 1, 0.68, 1),
+    top 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+    right 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+    bottom 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+    left 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+    height 1100ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .assistant-showcase-slide.is-enter-answer {
@@ -1479,8 +1493,15 @@ button.button {
 }
 
 .assistant-showcase-slide.is-leave-answer {
-  transform: scale(1) translate3d(0, 0, 0);
+  top: 0;
+  right: 44px;
+  bottom: 28px;
+  left: 0;
+  width: auto;
+  height: auto;
+  transform: none;
   filter: none;
+  transition: opacity 1000ms cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 .assistant-showcase-slide[data-step="0"].is-active {
@@ -1640,6 +1661,12 @@ button.button {
   }
 
   .assistant-showcase-slide[data-step="0"].is-active {
+    right: 32px;
+    bottom: 22px;
+  }
+
+  .assistant-showcase-slide.is-enter-question,
+  .assistant-showcase-slide.is-leave-answer {
     right: 32px;
     bottom: 22px;
   }
