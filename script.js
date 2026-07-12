@@ -2790,8 +2790,9 @@ function applyHeroFeatures(features) {
 
 const ASSISTANT_SHOWCASE_STEP_COUNTS = [2, 2, 3, 2, 2, 2];
 const ASSISTANT_SHOWCASE_QUESTION_MS = 2800;
-const ASSISTANT_SHOWCASE_ANSWER_MS = 3600;
+const ASSISTANT_SHOWCASE_ANSWER_MS = 4200;
 const ASSISTANT_SHOWCASE_TRANSITION_MS = 1400;
+const ASSISTANT_SHOWCASE_SPLIT_HOLD_MS = 700;
 
 let assistantShowcaseController = null;
 
@@ -2910,6 +2911,7 @@ function initAssistantShowcase() {
   let stepStartedAt = 0;
   let stepDuration = ASSISTANT_SHOWCASE_QUESTION_MS;
   let leavingTimeout = null;
+  let settleTimeout = null;
 
   const totalExamples = ASSISTANT_SHOWCASE_STEP_COUNTS.length;
   const totalSteps = ASSISTANT_SHOWCASE_STEP_COUNTS.reduce((sum, count) => sum + count, 0);
@@ -2992,6 +2994,10 @@ function initAssistantShowcase() {
       window.clearTimeout(leavingTimeout);
       leavingTimeout = null;
     }
+    if (settleTimeout) {
+      window.clearTimeout(settleTimeout);
+      settleTimeout = null;
+    }
   }
 
   function updateLoader(progressRatio) {
@@ -3011,7 +3017,8 @@ function initAssistantShowcase() {
       "is-enter-answer",
       "is-leave-question",
       "is-leave-answer",
-      "is-leaving"
+      "is-leaving",
+      "is-answer-split"
     );
   }
 
@@ -3024,6 +3031,39 @@ function initAssistantShowcase() {
     slide.classList.remove("is-active", "is-companion-question");
     slide.hidden = true;
     slide.setAttribute("aria-hidden", "true");
+  }
+
+  function scheduleLeave(slidesToHide) {
+    if (!slidesToHide.length) {
+      return;
+    }
+
+    leavingTimeout = window.setTimeout(() => {
+      slidesToHide.forEach(hideSlide);
+    }, ASSISTANT_SHOWCASE_TRANSITION_MS);
+  }
+
+  function settleAnswerSolo(answerSlide, companionSlide, immediate) {
+    if (!answerSlide) {
+      return;
+    }
+
+    if (immediate || reducedMotion) {
+      if (companionSlide) {
+        hideSlide(companionSlide);
+      }
+      answerSlide.classList.remove("is-answer-split");
+      return;
+    }
+
+    settleTimeout = window.setTimeout(() => {
+      if (companionSlide && companionSlide.isConnected) {
+        companionSlide.classList.add("is-leaving", "is-leave-question");
+        companionSlide.setAttribute("aria-hidden", "true");
+        scheduleLeave([companionSlide]);
+      }
+      answerSlide.classList.remove("is-answer-split");
+    }, ASSISTANT_SHOWCASE_TRANSITION_MS + ASSISTANT_SHOWCASE_SPLIT_HOLD_MS);
   }
 
   function showSlide(nextExample, nextStep, options = {}) {
@@ -3041,6 +3081,10 @@ function initAssistantShowcase() {
       `.assistant-showcase-slide[data-example="${nextExample}"][data-step="0"]`
     );
     const targetIsAnswer = nextStep > 0;
+    const comingFromQuestion =
+      Boolean(current) && Number(current.dataset.step || 0) === 0;
+    const comingFromAnswer =
+      Boolean(current) && Number(current.dataset.step || 0) > 0;
 
     if (!target) {
       return;
@@ -3067,12 +3111,11 @@ function initAssistantShowcase() {
       }
     });
 
-    const enterClass = nextStep === 0 ? "is-enter-question" : "is-enter-answer";
     target.hidden = false;
     target.setAttribute("aria-hidden", "false");
     const leavingSlides = [];
 
-    if (targetIsAnswer && targetQuestion) {
+    if (targetIsAnswer && targetQuestion && comingFromQuestion) {
       if (currentCompanion && currentCompanion !== targetQuestion) {
         hideSlide(currentCompanion);
       }
@@ -3080,39 +3123,25 @@ function initAssistantShowcase() {
       clearMotionClasses(targetQuestion);
       targetQuestion.hidden = false;
       targetQuestion.classList.add("is-companion-question");
-      // Keep full-size styles as the animation start, then shrink to companion.
       void targetQuestion.offsetWidth;
       targetQuestion.classList.remove("is-active");
       targetQuestion.setAttribute("aria-hidden", "true");
 
-      if (current && current !== targetQuestion) {
-        if (immediate) {
-          hideSlide(current);
-        } else {
-          current.classList.remove("is-active");
-          current.classList.add("is-leaving", "is-leave-answer");
-          current.setAttribute("aria-hidden", "true");
-          leavingSlides.push(current);
-        }
+      target.classList.add("is-answer-split");
+      if (!immediate) {
+        target.classList.add("is-enter-answer");
+        void target.offsetWidth;
       }
-    } else {
-      if (current) {
-        if (immediate) {
-          hideSlide(current);
-        } else {
-          current.classList.remove("is-active");
-          current.classList.add(
-            "is-leaving",
-            Number(current.dataset.step || 0) === 0
-              ? "is-leave-question"
-              : "is-leave-answer"
-          );
-          current.setAttribute("aria-hidden", "true");
-          leavingSlides.push(current);
-        }
+      target.classList.add("is-active");
+      if (!immediate) {
+        window.requestAnimationFrame(() => {
+          target.classList.remove("is-enter-answer");
+        });
       }
 
-      if (currentCompanion && currentCompanion !== target) {
+      settleAnswerSolo(target, targetQuestion, immediate);
+    } else if (targetIsAnswer) {
+      if (currentCompanion) {
         if (immediate) {
           hideSlide(currentCompanion);
         } else {
@@ -3121,25 +3150,66 @@ function initAssistantShowcase() {
           leavingSlides.push(currentCompanion);
         }
       }
+
+      if (current) {
+        if (immediate) {
+          hideSlide(current);
+        } else {
+          current.classList.remove("is-active", "is-answer-split");
+          current.classList.add("is-leaving", "is-leave-answer");
+          current.setAttribute("aria-hidden", "true");
+          leavingSlides.push(current);
+        }
+      }
+
+      if (!immediate) {
+        target.classList.add("is-enter-answer");
+        void target.offsetWidth;
+      }
+      target.classList.add("is-active");
+      if (!immediate) {
+        window.requestAnimationFrame(() => {
+          target.classList.remove("is-enter-answer");
+        });
+      }
+    } else {
+      if (currentCompanion) {
+        if (immediate) {
+          hideSlide(currentCompanion);
+        } else {
+          currentCompanion.classList.add("is-leaving", "is-leave-question");
+          currentCompanion.setAttribute("aria-hidden", "true");
+          leavingSlides.push(currentCompanion);
+        }
+      }
+
+      if (current) {
+        if (immediate) {
+          hideSlide(current);
+        } else {
+          current.classList.remove("is-active", "is-answer-split");
+          current.classList.add(
+            "is-leaving",
+            comingFromAnswer ? "is-leave-answer" : "is-leave-question"
+          );
+          current.setAttribute("aria-hidden", "true");
+          leavingSlides.push(current);
+        }
+      }
+
+      if (!immediate) {
+        target.classList.add("is-enter-question");
+        void target.offsetWidth;
+      }
+      target.classList.add("is-active");
+      if (!immediate) {
+        window.requestAnimationFrame(() => {
+          target.classList.remove("is-enter-question");
+        });
+      }
     }
 
-    if (!immediate) {
-      target.classList.add(enterClass);
-      void target.offsetWidth;
-    }
-
-    target.classList.add("is-active");
-    if (!immediate) {
-      window.requestAnimationFrame(() => {
-        target.classList.remove(enterClass);
-      });
-    }
-
-    if (leavingSlides.length) {
-      leavingTimeout = window.setTimeout(() => {
-        leavingSlides.forEach(hideSlide);
-      }, ASSISTANT_SHOWCASE_TRANSITION_MS);
-    }
+    scheduleLeave(leavingSlides);
 
     exampleIndex = nextExample;
     stepIndex = nextStep;
