@@ -188,10 +188,10 @@ const translations = {
       link: "Weitere Informationen",
     },
     assistantShowcase: {
+      eyebrow: "TÄGLICHE AUFGABEN",
       titleLine1Before: "Sehen Sie ",
       titleAccent: "Ihren Assistenten",
       titleLine2: "bei der Arbeit",
-      lead: "Die zuraio-Umgebung löst täglich anfallende Zeitfresser im Handumdrehen.",
       progressAriaLabel: "Fortschritt der Beispiele",
       prevAriaLabel: "Vorheriges Beispiel",
       nextAriaLabel: "Nächstes Beispiel",
@@ -811,10 +811,10 @@ const translations = {
       link: "More information",
     },
     assistantShowcase: {
+      eyebrow: "DAILY TASKS",
       titleLine1Before: "See ",
       titleAccent: "your assistant",
       titleLine2: "at work",
-      lead: "The zuraio environment clears everyday time sinks in no time.",
       progressAriaLabel: "Example progress",
       prevAriaLabel: "Previous example",
       nextAriaLabel: "Next example",
@@ -1397,10 +1397,10 @@ const translations = {
       link: "Mais informações",
     },
     assistantShowcase: {
+      eyebrow: "TAREFAS DIÁRIAS",
       titleLine1Before: "Veja ",
       titleAccent: "o seu assistente",
       titleLine2: "em ação",
-      lead: "O ambiente zuraio resolve os consumidores de tempo do dia a dia num instante.",
       progressAriaLabel: "Progresso dos exemplos",
       prevAriaLabel: "Exemplo anterior",
       nextAriaLabel: "Próximo exemplo",
@@ -2807,6 +2807,8 @@ function applyAssistantShowcaseLanguage(copy) {
     return;
   }
 
+  setText("#assistent-bei-der-arbeit .assistant-showcase-eyebrow", copy.eyebrow);
+
   const title = root.querySelector("#assistant-showcase-title");
   if (
     title &&
@@ -2827,8 +2829,6 @@ function applyAssistantShowcaseLanguage(copy) {
     line2.textContent = copy.titleLine2;
     title.append(line1, line2);
   }
-
-  setText("#assistent-bei-der-arbeit .assistant-showcase-lead", copy.lead);
 
   const progress = root.querySelector("[data-assistant-loader]");
   if (progress && copy.progressAriaLabel) {
