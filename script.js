@@ -6,12 +6,12 @@ const translations = {
         "zuraio ist der AI-Orchestrator für Schweizer KMU, die KI nutzen wollen, ohne Kontrolle über Daten, Wissen und Prozesse zu verlieren.",
     },
     nav: {
-      why: "Lösung",
+      why: "Was wir lösen",
       solution: "Sicherheit",
       security: "Integration",
       orchestrator: "Preise",
       roadmap: "Über uns",
-      demo: "Demo anfragen",
+      demo: "Potenzial prüfen",
       language: "Sprache",
       menu: "Menü",
     },
@@ -33,11 +33,9 @@ const translations = {
       storyValueLabel: "Mehrwert",
     },
     heroFeatures: [
-      { title: "Sicherheit", body: "Massgeschneidert an<br>Ihrem Unternehmen" },
-      { title: "Skalierbar", body: "Die KI wächst<br>nach Ihrem Tempo" },
-      { title: "Unternehmenswissen", body: "Am sicheren Ort<br>Ihrer Wahl" },
-      { title: "Entlastung", body: "Sie wählen Ihre<br>digitalen Spezialisten" },
-      { title: "Menschen", body: "Persönliche Ansprechpartner" },
+      { title: "Sicher", body: "Massgeschneidert an<br>deinem Unternehmen" },
+      { title: "Vernetzt", body: "Integriere bestehende<br>Tools" },
+      { title: "Erweiterbar", body: "Die KI wächst<br>nach deinem Tempo" },
     ],
     hero: {
       titleLines: [
@@ -49,17 +47,16 @@ const translations = {
         [{ text: "bevor du es bist." }],
       ],
       leadLines: [
-        "Ihr persönlicher AI Executive Assistant",
-        "für sicheres Unternehmenswissen,",
-        "volle Datensouveränität,",
-        "und intelligente Verbindungen,",
-        "zwischen Menschen, Wissen und Systemen",
+        "zuraio verbindet Unternehmenswissen,",
+        "bestehende Systeme",
+        "und spezialisierte digitale Assistenten",
+        "in einer sicheren Plattform für Schweizer KMU.",
       ],
     },
     intro: {
       eyebrow: "KENNST DU DAS?",
       titleHtml:
-        "<span>Zu viele <span class=\"brand-highlight\">Tools</span>.</span><span>Zu wenig <span class=\"brand-highlight\">Kontrolle</span>.</span><span>Zu viel verlorene <span class=\"brand-highlight\">Zeit</span>.</span>",
+        "<span>Zu viele <span class=\"brand-highlight\">Tools</span>.</span><span>Zu wenig <span class=\"brand-highlight\">Kontrolle</span>.</span><span>Zu viel <span class=\"brand-highlight\">Zeitverlust</span>.</span>",
       lines: [
         "Unternehmenswissen ist da, aber schwer auffindbar. Mitarbeitende wechseln zwischen Systemen, wiederholen Arbeit und verlieren Zeit mit Administration.",
         "Gleichzeitig wächst die Unsicherheit: Wo landen sensible Daten? Wem gehört das Wissen? Und passt Standard-KI überhaupt zu Ihrem Unternehmen?",
@@ -135,7 +132,7 @@ const translations = {
           body: "zuraio bindet die wichtigsten Anwendungen an, statt noch ein weiteres isoliertes Tool zu sein.",
         },
       ],
-      link: "Weitere Informationen",
+      link: "Anwendungsbeispiele ansehen",
     },
     problem: {
       eyebrow: "VERTRAUEN & DATENKONTROLLE",
@@ -149,26 +146,26 @@ const translations = {
         {
           title: "Lokal",
           body:
-            "System, KI-Modelle und Daten werden vollständig in Ihrer eigenen Infrastruktur betrieben. Die richtige Wahl für maximale Datenhoheit und besonders sensible Informationen.",
+            "Datenhaltung: Eigene Infrastruktur<br>Geeignet für: Höchste Schutzanforderungen",
         },
         {
           title: "Hybrid",
           body:
-            "Sensible Daten und vertrauliche Prozesse bleiben in Ihrer eigenen Infrastruktur. Für leistungsintensive oder kreative Aufgaben können ausgewählte Inhalte kontrolliert über freigegebene Cloud-Modelle verarbeitet werden. Plattform und Datenhaltung bleiben in der Schweiz.",
+            "Datenhaltung: Sensible Daten lokal, ausgewählte Modelle in der Cloud<br>Geeignet für: Balance aus Kontrolle und Leistung",
         },
         {
           title: "Cloud",
           body:
-            "Für maximale KI-Leistung ohne eigene Hardware bietet die Cloud-Lösung mit Schweizer Hosting eine starke Kombination aus Leistung, Flexibilität und Sicherheit.",
+            "Datenhaltung: Schweizer Hosting<br>Geeignet für: Schneller Einstieg ohne eigene Hardware",
         },
       ],
     },
     integrations: {
       eyebrow: "FUNKTIONIERT DORT, WO DEIN TEAM ARBEITET",
-      titleHtml: '<span class="integrations-title-line">Passt zu den <span class="brand-highlight">Tools</span>,</span><span class="integrations-title-line">die Du bereits nutzt</span>',
+      titleHtml: '<span class="integrations-title-line">Passt zu den <span class="brand-highlight">Tools</span>, </span><span class="integrations-title-line">die Du bereits nutzt</span>',
       body: [
-        "Kommunikation entscheidet, wie gut ein Unternehmen funktioniert. Das gilt für Menschen genauso wie für digitale Systeme. zuraio verbindet die gängigsten Anwendungen und bringt Ihre Tools und Unternehmeswissen Schritt für Schritt in eine zentrale KI-Umgebung.",
-        "Nicht alles auf einmal. Sondern kontrolliert, nachvollziehbar und dort, wo es echten Mehrwert bringt. So entsteht eine Plattform, die bestehende Tools nicht ersetzt, sondern produktiver macht.",
+        "Kommunikation entscheidet, wie gut ein Unternehmen funktioniert. Das gilt für Menschen genauso wie für digitale Systeme. zuraio verbindet die gängigsten Anwendungen und bringt Deine Tools und Unternehmenswissen Schritt für Schritt in eine zentrale KI-Umgebung.",
+        "Noch nicht jede Integration ist sofort verfügbar. Gemeinsam prüfen wir, welche Systeme für Dein Unternehmen den grössten Nutzen bringen und binden sie Schritt für Schritt kontrolliert und nachvollziehbar an.",
       ],
       pills: [
         "Outlook",
@@ -189,8 +186,8 @@ const translations = {
     },
     assistantShowcase: {
       eyebrow: "TÄGLICHE AUFGABEN",
-      titleLine1Before: "Sehen Sie ",
-      titleAccent: "Ihren Assistenten",
+      titleLine1Before: "Erlebe ",
+      titleAccent: "Deinen Assistenten",
       titleLine2: "bei der Arbeit",
       progressAriaLabel: "Fortschritt der Beispiele",
       prevAriaLabel: "Vorheriges Beispiel",
@@ -236,7 +233,7 @@ const translations = {
       titleHtml:
         '<span>Damit Ihr Team</span><span class="use-cases-title-line"><span class="use-cases-accent">Zeit für das Wesentliche</span> hat</span>',
       leadHtml:
-        "zuraio übernimmt Zeitfresser im Alltag:<br>geführte Antworten im Unternehmenswording, sichere Verarbeitung<br>sensibler Daten, Wissenserfassung, automatisierte Recherchen,<br>Aufgaben per Sprache delegieren, und vieles mehr",
+        "zuraio übernimmt im Alltag:<br>Geführte Antworten im Unternehmenswording, sichere Verarbeitung<br>sensibler Daten, Wissenserfassung, automatisierte Recherchen,<br>Aufgaben per Sprache delegieren, und vieles mehr",
       closing:
         "Wir kümmern uns um Ihre Zeitfresser, damit Sie sich wieder auf Ihre Leidenschaft konzentrieren können.",
       nextCardAriaLabel: "Nächste Use-Case-Karte anzeigen",
@@ -253,12 +250,12 @@ const translations = {
         },
         {
           badge: "Wissen",
-          title: "Meetingtranscript",
+          title: "Meeting-Transkript",
           body: "Gespräche werden transkribiert, verdichtet und als nutzbares Wissen gesichert.",
         },
         {
           badge: "Sicherheit",
-          title: "Sensible Dateien nutzen",
+          title: "Sensible Daten nutzen",
           body: "Auch vertrauliche Inhalte können kontrolliert verarbeitet und ausgewertet werden.",
         },
         {
@@ -306,15 +303,15 @@ const translations = {
     product: {
       eyebrow: "DAS PRODUKT",
       titleHtml:
-        'Ein zentraler <span class="product-title-accent">Orchestrator</span>.<br><span class="product-title-sub">Vernetzt, kontrolliert, skalierbar.</span>',
+        'Eine <span class="product-title-accent">zentrale Einheit</span>.<br><span class="product-title-sub">Vernetzt, kontrolliert, skalierbar.</span>',
       body: [
         "zuraio ist ein zentraler KI-Orchestrator, der Unternehmenswissen, Systeme, Prozesse und Richtlinien intelligent verbindet.",
         "So entsteht eine KI, die nicht generisch arbeitet, sondern im Kontext deines Unternehmens denkt und mit deinen Anforderungen wächst.",
-        "Mit zuraio trägt deine KI eure DNA.",
+        "Mit zuraio trägt Deine KI die DNA Deines Unternehmens.",
       ],
       solutionLead: "Unsere Lösung",
-      solutionBody: "Ein sicherer Chatbot als Basis",
-      solutionSub: "Die Möglichkeiten dahinter nahezu unbegrenzt",
+      solutionBody: "Ein einfacher Zugang für die Mitarbeitenden.",
+      solutionSub: "Eine kontrollierte Orchestrierung im Hintergrund.",
       cards: [
         {
           title: "Tools",
@@ -633,12 +630,12 @@ const translations = {
         "zuraio is the AI orchestrator for Swiss SMEs that want to use AI without losing control over data, knowledge, and processes.",
     },
     nav: {
-      why: "Solution",
+      why: "What we solve",
       solution: "Security",
       security: "Integration",
       orchestrator: "Pricing",
       roadmap: "About us",
-      demo: "Request demo",
+      demo: "Check potential",
       language: "Language",
       menu: "Menu",
     },
@@ -660,11 +657,9 @@ const translations = {
       storyValueLabel: "Value",
     },
     heroFeatures: [
-      { title: "Security models", body: "Tailored to<br>your company" },
-      { title: "Scalable", body: "AI grows<br>at your pace" },
-      { title: "Company knowledge", body: "At the secure location<br>of your choice" },
-      { title: "Relief", body: "You choose your<br>digital specialists" },
-      { title: "Digital solutions", body: "Personal contacts<br>for you on site." },
+      { title: "Secure", body: "Tailored to<br>your company" },
+      { title: "Connected", body: "Integrate existing<br>tools" },
+      { title: "Expandable", body: "AI grows<br>at your pace" },
     ],
     hero: {
       titleLines: [
@@ -673,11 +668,9 @@ const translations = {
         [{ text: "before you are." }],
       ],
       leadLines: [
-        "Your personal AI executive assistant",
-        "for secure company knowledge,",
-        "full data sovereignty,",
-        "and intelligent connections,",
-        "between people, knowledge, and systems",
+        "zuraio connects company knowledge,",
+        "existing systems and specialized digital assistants",
+        "in a secure platform for Swiss SMEs.",
       ],
     },
     intro: {
@@ -758,7 +751,7 @@ const translations = {
           body: "zuraio connects the most important applications instead of being yet another isolated tool.",
         },
       ],
-      link: "Opportunities",
+      link: "View use cases",
     },
     problem: {
       eyebrow: "TRUST & DATA CONTROL",
@@ -772,17 +765,17 @@ const translations = {
         {
           title: "Local",
           body:
-            "System, AI models, and data run entirely in your own infrastructure. The right choice for maximum data sovereignty and especially sensitive information.",
+            "Data storage: Own infrastructure<br>Suitable for: Highest protection requirements",
         },
         {
           title: "Hybrid",
           body:
-            "Sensitive data and confidential processes stay in your own infrastructure. For compute-intensive or creative tasks, selected content can be processed in a controlled way through approved cloud models. Platform and data storage remain in Switzerland.",
+            "Data storage: Sensitive data local, selected models in the cloud<br>Suitable for: Balance of control and performance",
         },
         {
           title: "Cloud",
           body:
-            "For maximum AI performance without your own hardware, the cloud solution with Swiss hosting offers a strong combination of performance, flexibility, and security.",
+            "Data storage: Swiss hosting<br>Suitable for: Fast start without own hardware",
         },
       ],
     },
@@ -1219,12 +1212,12 @@ const translations = {
         "zuraio é o orquestrador de IA para PMEs suíças que querem usar IA sem perder o controle sobre dados, conhecimento e processos.",
     },
     nav: {
-      why: "Solução",
+      why: "O que resolvemos",
       solution: "Segurança",
       security: "Integração",
       orchestrator: "Preços",
       roadmap: "Sobre nós",
-      demo: "Solicitar demo",
+      demo: "Verificar potencial",
       language: "Idioma",
       menu: "Menu",
     },
@@ -1246,11 +1239,9 @@ const translations = {
       storyValueLabel: "Valor",
     },
     heroFeatures: [
-      { title: "Modelos de segurança", body: "Sob medida para<br>sua empresa" },
-      { title: "Escalável", body: "A IA cresce<br>no seu ritmo" },
-      { title: "Conhecimento empresarial", body: "No local seguro<br>de sua escolha" },
-      { title: "Alívio", body: "Você escolhe seus<br>especialistas digitais" },
-      { title: "Soluções digitais", body: "Contatos pessoais<br>para você no local." },
+      { title: "Seguro", body: "Sob medida para<br>sua empresa" },
+      { title: "Conectado", body: "Integre ferramentas<br>existentes" },
+      { title: "Expansível", body: "A IA cresce<br>no seu ritmo" },
     ],
     hero: {
       titleLines: [
@@ -1259,11 +1250,9 @@ const translations = {
         [{ text: "antes de você." }],
       ],
       leadLines: [
-        "O seu assistente executivo de IA pessoal",
-        "para conhecimento empresarial seguro,",
-        "plena soberania de dados,",
-        "e ligações inteligentes,",
-        "entre pessoas, conhecimento e sistemas",
+        "zuraio conecta conhecimento empresarial,",
+        "sistemas existentes e assistentes digitais especializados",
+        "em uma plataforma segura para PMEs suíças.",
       ],
     },
     intro: {
@@ -1344,7 +1333,7 @@ const translations = {
           body: "A zuraio integra as aplicações mais importantes, em vez de ser mais uma ferramenta isolada.",
         },
       ],
-      link: "Possibilidades",
+      link: "Ver exemplos de aplicação",
     },
     problem: {
       eyebrow: "CONFIANÇA & CONTROLE DE DADOS",
@@ -1358,17 +1347,17 @@ const translations = {
         {
           title: "Local",
           body:
-            "Sistema, modelos de IA e dados operam totalmente em sua própria infraestrutura. A escolha certa para máxima soberania de dados e informações especialmente sensíveis.",
+            "Armazenamento: Infraestrutura própria<br>Adequado para: Máximos requisitos de proteção",
         },
         {
           title: "Híbrida",
           body:
-            "Dados sensíveis e processos confidenciais permanecem em sua própria infraestrutura. Para tarefas intensivas ou criativas, conteúdos selecionados podem ser processados de forma controlada por modelos de nuvem aprovados. Plataforma e armazenamento de dados permanecem na Suíça.",
+            "Armazenamento: Dados sensíveis locais, modelos selecionados na nuvem<br>Adequado para: Equilíbrio entre controle e desempenho",
         },
         {
           title: "Nuvem",
           body:
-            "Para máximo desempenho de IA sem hardware próprio, a solução em nuvem com hosting suíço oferece uma forte combinação de desempenho, flexibilidade e segurança.",
+            "Armazenamento: Hosting suíço<br>Adequado para: Entrada rápida sem hardware próprio",
         },
       ],
     },
@@ -1807,8 +1796,8 @@ const menuToggle = document.querySelector(".menu-toggle");
 const nav = document.querySelector(".site-nav");
 const htmlElement = document.documentElement;
 const languageStorageKey = "zuraio-language";
-const USE_CASE_SWAP_MS = 1500;
-const USE_CASE_ROTATE_MS = 2000;
+const USE_CASE_SWAP_MS = 1250;
+const USE_CASE_ROTATE_MS = 2400;
 let useCaseRotateTimer = null;
 let useCaseInView = false;
 let useCaseObserverBound = false;
@@ -2523,14 +2512,17 @@ function rotateUseCaseRow() {
   const oldCard = slot.querySelector(".use-case-card");
   newCard.classList.add("is-entering");
   slot.appendChild(newCard);
-
-  if (oldCard) {
-    oldCard.classList.add("is-leaving");
-  }
+  // Force layout so the enter state paints before Soft Bloom starts
+  void newCard.offsetHeight;
 
   requestAnimationFrame(() => {
-    newCard.classList.remove("is-entering");
-    newCard.classList.add("is-visible", "has-entered");
+    requestAnimationFrame(() => {
+      if (oldCard) {
+        oldCard.classList.add("is-leaving");
+      }
+      newCard.classList.remove("is-entering");
+      newCard.classList.add("is-visible", "has-entered");
+    });
   });
 
   window.setTimeout(() => {
@@ -2789,14 +2781,25 @@ function applyHeroFeatures(features) {
 
 
 const ASSISTANT_SHOWCASE_STEP_COUNTS = [2, 2, 3, 2, 2, 2];
-const ASSISTANT_SHOWCASE_QUESTION_MS = 2800;
+const ASSISTANT_SHOWCASE_QUESTION_MS = 2000;
 const ASSISTANT_SHOWCASE_ANSWER_SOLO_MS = 3000;
-const ASSISTANT_SHOWCASE_TRANSITION_MS = 1200;
-const ASSISTANT_SHOWCASE_SPLIT_HOLD_MS = 800;
+const ASSISTANT_SHOWCASE_TRANSITION_MS = 1500;
+const ASSISTANT_SHOWCASE_SPLIT_HOLD_MS = 900;
+const ASSISTANT_SHOWCASE_ZOOM_MS = 1000;
+const ASSISTANT_SHOWCASE_ZOOM_SETTLE_MS = 100;
+const ASSISTANT_SHOWCASE_ZOOM_FRAME_HOLD_MS = 225;
 const ASSISTANT_SHOWCASE_ANSWER_MS =
   ASSISTANT_SHOWCASE_TRANSITION_MS +
   ASSISTANT_SHOWCASE_SPLIT_HOLD_MS +
   ASSISTANT_SHOWCASE_TRANSITION_MS +
+  ASSISTANT_SHOWCASE_ANSWER_SOLO_MS;
+const ASSISTANT_SHOWCASE_ANSWER_ZOOM_MS =
+  ASSISTANT_SHOWCASE_TRANSITION_MS +
+  ASSISTANT_SHOWCASE_SPLIT_HOLD_MS +
+  ASSISTANT_SHOWCASE_TRANSITION_MS +
+  ASSISTANT_SHOWCASE_ZOOM_SETTLE_MS +
+  ASSISTANT_SHOWCASE_ZOOM_FRAME_HOLD_MS +
+  ASSISTANT_SHOWCASE_ZOOM_MS +
   ASSISTANT_SHOWCASE_ANSWER_SOLO_MS;
 
 let assistantShowcaseController = null;
@@ -2865,8 +2868,16 @@ function applyAssistantShowcaseLanguage(copy) {
     copy.alts.forEach((alts, exampleIndex) => {
       alts.forEach((alt, stepIndex) => {
         const image = root.querySelector(
-          `.assistant-showcase-slide[data-example="${exampleIndex}"][data-step="${stepIndex}"] img`
+          `.assistant-showcase-slide[data-example="${exampleIndex}"][data-step="${stepIndex}"]:not([data-zoom]) img`
         );
+        const zoomImage = root.querySelector(
+          `.assistant-showcase-slide[data-example="${exampleIndex}"][data-step="${stepIndex}"][data-zoom] img`
+        );
+        if (zoomImage && alt) {
+          zoomImage.alt = alt.startsWith("Detail:") || alt.startsWith("Detail：")
+            ? alt
+            : `Detail: ${alt.replace(/^(Antwort|Answer|Resposta):\s*/i, "")}`;
+        }
         if (image && alt) {
           image.alt = alt;
         }
@@ -2888,6 +2899,7 @@ function initAssistantShowcase() {
   }
 
   const stage = root.querySelector("[data-assistant-stage]");
+  const viewport = root.querySelector(".assistant-showcase-viewport");
   const slides = [...root.querySelectorAll(".assistant-showcase-slide")];
   const loader = root.querySelector("[data-assistant-loader]");
   const loaderFill = root.querySelector("[data-assistant-loader-fill]");
@@ -2925,9 +2937,24 @@ function initAssistantShowcase() {
     return ASSISTANT_SHOWCASE_STEP_COUNTS[index] || 2;
   }
 
-  function getDurationForStep(step) {
+  function getAnswerSlide(example, step) {
+    return root.querySelector(
+      `.assistant-showcase-slide[data-example="${example}"][data-step="${step}"]:not([data-zoom])`
+    );
+  }
+
+  function getZoomSlide(example, step) {
+    return root.querySelector(
+      `.assistant-showcase-slide[data-example="${example}"][data-step="${step}"][data-zoom]`
+    );
+  }
+
+  function getDurationForStep(example, step) {
     if (step === 0) {
       return ASSISTANT_SHOWCASE_QUESTION_MS;
+    }
+    if (getZoomSlide(example, step)) {
+      return ASSISTANT_SHOWCASE_ANSWER_ZOOM_MS;
     }
     if (step === 1) {
       return ASSISTANT_SHOWCASE_ANSWER_MS;
@@ -3013,6 +3040,9 @@ function initAssistantShowcase() {
       window.clearTimeout(settleTimeout);
       settleTimeout = null;
     }
+    if (viewport) {
+      viewport.classList.remove("is-zooming");
+    }
   }
 
   function updateLoader(progressRatio) {
@@ -3030,10 +3060,14 @@ function initAssistantShowcase() {
     slide.classList.remove(
       "is-enter-question",
       "is-enter-answer",
+      "is-enter-answer-centered",
       "is-leave-question",
       "is-leave-answer",
       "is-leaving",
-      "is-answer-split"
+      "is-answer-split",
+      "is-zoom-source",
+      "is-zooming-out",
+      "is-fixed-frame-start"
     );
   }
 
@@ -3046,6 +3080,28 @@ function initAssistantShowcase() {
     slide.classList.remove("is-active", "is-companion-question");
     slide.hidden = true;
     slide.setAttribute("aria-hidden", "true");
+  }
+
+  function activateZoomImmediate(answerSlide, zoomSlide, companionSlide) {
+    if (viewport) {
+      viewport.classList.remove("is-zooming");
+    }
+    if (companionSlide) {
+      hideSlide(companionSlide);
+    }
+    if (zoomSlide) {
+      if (answerSlide) {
+        hideSlide(answerSlide);
+      }
+      clearMotionClasses(zoomSlide);
+      zoomSlide.hidden = false;
+      zoomSlide.classList.add("is-active");
+      zoomSlide.setAttribute("aria-hidden", "false");
+      return;
+    }
+    if (answerSlide) {
+      answerSlide.classList.remove("is-answer-split", "is-zoom-source", "is-zooming-out");
+    }
   }
 
   function scheduleLeave(slidesToHide) {
@@ -3064,16 +3120,13 @@ function initAssistantShowcase() {
     }, ASSISTANT_SHOWCASE_TRANSITION_MS);
   }
 
-  function settleAnswerSolo(answerSlide, companionSlide, immediate) {
-    if (!answerSlide) {
+  function settleAnswerSolo(answerSlide, companionSlide, zoomSlide, immediate) {
+    if (!answerSlide && !zoomSlide) {
       return;
     }
 
     if (immediate || reducedMotion) {
-      if (companionSlide) {
-        hideSlide(companionSlide);
-      }
-      answerSlide.classList.remove("is-answer-split");
+      activateZoomImmediate(answerSlide, zoomSlide, companionSlide);
       return;
     }
 
@@ -3093,14 +3146,58 @@ function initAssistantShowcase() {
         scheduleLeave([companionSlide]);
       }
 
-      // Let the companion start exiting left, then expand the answer to full.
+      if (!zoomSlide) {
+        window.setTimeout(() => {
+          if (!answerSlide || !answerSlide.isConnected) {
+            return;
+          }
+          void answerSlide.offsetWidth;
+          answerSlide.classList.remove("is-answer-split");
+        }, 90);
+        return;
+      }
+
+      // Let the question leave above the answer while the overview expands below it.
       window.setTimeout(() => {
-        if (!answerSlide.isConnected) {
+        if (!answerSlide || !answerSlide.isConnected) {
           return;
         }
         void answerSlide.offsetWidth;
         answerSlide.classList.remove("is-answer-split");
-      }, 90);
+      }, ASSISTANT_SHOWCASE_ZOOM_SETTLE_MS);
+
+      // Keep the frame fixed and blend the detail image slowly inside it.
+      window.setTimeout(() => {
+        if (!answerSlide || !answerSlide.isConnected || !zoomSlide.isConnected) {
+          return;
+        }
+
+        if (viewport) {
+          viewport.classList.add("is-zooming");
+        }
+
+        answerSlide.classList.add("is-zoom-source");
+        clearMotionClasses(zoomSlide);
+        zoomSlide.hidden = false;
+        zoomSlide.classList.add("is-active", "is-fixed-frame-start");
+        zoomSlide.setAttribute("aria-hidden", "false");
+        void answerSlide.offsetWidth;
+        void zoomSlide.offsetWidth;
+
+        answerSlide.classList.add("is-zooming-out");
+        zoomSlide.classList.remove("is-fixed-frame-start");
+
+        window.setTimeout(() => {
+          if (answerSlide.isConnected) {
+            hideSlide(answerSlide);
+          }
+          if (viewport) {
+            viewport.classList.remove("is-zooming");
+          }
+        }, ASSISTANT_SHOWCASE_ZOOM_MS);
+      }, ASSISTANT_SHOWCASE_ZOOM_SETTLE_MS +
+        ASSISTANT_SHOWCASE_TRANSITION_MS +
+        ASSISTANT_SHOWCASE_ZOOM_FRAME_HOLD_MS);
     }, ASSISTANT_SHOWCASE_TRANSITION_MS + ASSISTANT_SHOWCASE_SPLIT_HOLD_MS);
   }
 
@@ -3112,27 +3209,29 @@ function initAssistantShowcase() {
     const currentCompanion = root.querySelector(
       ".assistant-showcase-slide.is-companion-question:not(.is-leaving)"
     );
-    const target = root.querySelector(
-      `.assistant-showcase-slide[data-example="${nextExample}"][data-step="${nextStep}"]`
-    );
-    const targetQuestion = root.querySelector(
-      `.assistant-showcase-slide[data-example="${nextExample}"][data-step="0"]`
-    );
+    const target = getAnswerSlide(nextExample, nextStep);
+    const targetZoom = getZoomSlide(nextExample, nextStep);
+    const targetQuestion = getAnswerSlide(nextExample, 0);
     const targetIsAnswer = nextStep > 0;
     const comingFromQuestion =
-      Boolean(current) && Number(current.dataset.step || 0) === 0;
+      Boolean(current) && Number(current.dataset.step || 0) === 0 && !current.hasAttribute("data-zoom");
     const comingFromAnswer =
-      Boolean(current) && Number(current.dataset.step || 0) > 0;
+      Boolean(current) &&
+      (Number(current.dataset.step || 0) > 0 || current.hasAttribute("data-zoom"));
 
     if (!target) {
       return;
     }
 
-    if (current === target) {
+    if (current === target || (targetZoom && current === targetZoom)) {
       exampleIndex = nextExample;
       stepIndex = nextStep;
-      target.hidden = false;
-      target.setAttribute("aria-hidden", "false");
+      if (targetZoom) {
+        activateZoomImmediate(target, targetZoom, currentCompanion);
+      } else {
+        target.hidden = false;
+        target.setAttribute("aria-hidden", "false");
+      }
       refreshStatus();
       updateLoader(0);
       return;
@@ -3141,6 +3240,7 @@ function initAssistantShowcase() {
     slides.forEach((slide) => {
       if (
         slide !== target &&
+        slide !== targetZoom &&
         slide !== current &&
         slide !== currentCompanion &&
         slide !== targetQuestion
@@ -3179,7 +3279,7 @@ function initAssistantShowcase() {
         });
       }
 
-      settleAnswerSolo(target, targetQuestion, immediate);
+      settleAnswerSolo(target, targetQuestion, targetZoom, immediate);
     } else if (targetIsAnswer) {
       if (currentCompanion) {
         if (immediate) {
@@ -3195,7 +3295,7 @@ function initAssistantShowcase() {
         if (immediate) {
           hideSlide(current);
         } else {
-          current.classList.remove("is-active", "is-answer-split");
+          current.classList.remove("is-active", "is-answer-split", "is-zoom-source", "is-zooming-out");
           current.classList.add("is-leaving", "is-leave-answer");
           current.setAttribute("aria-hidden", "true");
           leavingSlides.push(current);
@@ -3203,15 +3303,23 @@ function initAssistantShowcase() {
       }
 
       clearMotionClasses(target);
+      if (targetZoom && !comingFromAnswer) {
+        target.classList.add("is-answer-split");
+      }
+      const answerEntryClass = comingFromAnswer ? "is-enter-answer-centered" : "is-enter-answer";
       if (!immediate) {
-        target.classList.add("is-enter-answer");
+        target.classList.add(answerEntryClass);
         void target.offsetWidth;
       }
       target.classList.add("is-active");
       if (!immediate) {
         window.requestAnimationFrame(() => {
-          target.classList.remove("is-enter-answer");
+          target.classList.remove(answerEntryClass);
         });
+      }
+
+      if (targetZoom) {
+        settleAnswerSolo(target, null, targetZoom, immediate);
       }
     } else {
       if (currentCompanion) {
@@ -3228,8 +3336,8 @@ function initAssistantShowcase() {
         if (immediate) {
           hideSlide(current);
         } else if (comingFromAnswer) {
-          // Answer exits left while the next question fades in at full frame.
-          current.classList.remove("is-answer-split");
+          // Answer/zoom exits left while the next question fades in at full frame.
+          current.classList.remove("is-answer-split", "is-zoom-source", "is-zooming-out");
           current.classList.add("is-leaving", "is-leave-answer");
           current.classList.remove("is-active");
           current.setAttribute("aria-hidden", "true");
@@ -3277,7 +3385,7 @@ function initAssistantShowcase() {
   function goTo(nextExample, nextStep, options = {}) {
     clearTimers();
     showSlide(nextExample, nextStep, options);
-    stepDuration = getDurationForStep(nextStep);
+    stepDuration = getDurationForStep(nextExample, nextStep);
     stepStartedAt = performance.now();
     if (canAutoplay()) {
       scheduleAdvance();
@@ -3301,7 +3409,7 @@ function initAssistantShowcase() {
   function scheduleAdvance() {
     clearAdvanceTimers();
     stepStartedAt = performance.now();
-    stepDuration = getDurationForStep(stepIndex);
+    stepDuration = getDurationForStep(exampleIndex, stepIndex);
     updateLoader(0);
     progressRaf = window.requestAnimationFrame(tickProgress);
     timerId = window.setTimeout(() => {
@@ -3658,7 +3766,7 @@ function applyLanguage(languageCode) {
   setText("#loesung .trust-solution-sub", content.problem.solutionSub);
   setCards("#loesung .trust-cards .trust-card", content.problem.cards, (cardElement, cardData) => {
     setTextSelector(cardElement, ".trust-card-text h3", cardData.title);
-    setTextSelector(cardElement, ".trust-card-text p", cardData.body);
+    setHTMLSelector(cardElement, ".trust-card-text p", cardData.body);
   });
 
   setText("#integrationen .integrations-eyebrow", content.integrations.eyebrow);
