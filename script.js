@@ -4690,9 +4690,10 @@ applyLanguage(getPreferredLanguage());
 
   const ICON_FILL = { r: 208, g: 220, b: 154 }; // #D0DC9A
   const ICON_STROKE = { r: 159, g: 175, b: 82 }; // #9FAF52
+  const OUTLINE_STROKE = { r: 122, g: 122, b: 122 }; // #7A7A7A
+  const CENTER_QMARK_COLOR = "rgba(122, 122, 122, 1)"; // #7A7A7A
   const TIME_SCALE = 0.62;
   const DRIFT_SPEED = 14;
-  const KEEP_OUT_SCALE = 0.28;
 
   const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   let reducedMotion = reducedMotionQuery.matches;
@@ -4706,6 +4707,8 @@ applyLanguage(getPreferredLanguage());
   let iconWeights = [];
   let iconSlots = [];
   let nextIconCursor = 0;
+  let centerBrainImage = null;
+  let centerIconCluster = [];
   let animationFrame = 0;
   let isVisible = false;
   let isRunning = false;
@@ -4713,8 +4716,6 @@ applyLanguage(getPreferredLanguage());
   let animTime = 0;
   let centerX = 0;
   let centerY = 0;
-  let qmarkSize = 0;
-  let keepOutRadius = 0;
   let chaosStrokes = [];
 
   function randomBetween(min, max) {
@@ -4731,8 +4732,6 @@ applyLanguage(getPreferredLanguage());
     maxIconSlots = isNarrow ? 13 : 16;
     dpr = Math.min(window.devicePixelRatio || 1, isNarrow ? 1.5 : 2);
     padding = clamp(shortSide * 0.08, 24, 40);
-    qmarkSize = shortSide * (isNarrow ? 0.52 : 0.58);
-    keepOutRadius = shortSide * KEEP_OUT_SCALE;
     centerX = width * 0.5;
     centerY = height * 0.5;
   }
@@ -4787,7 +4786,6 @@ applyLanguage(getPreferredLanguage());
     const cloudRy = shortSide * 0.54;
     chaosStrokes = Array.from({ length: count }, () => {
       const stroke = createChaosStroke(shortSide, cloudRx, cloudRy);
-      // Stagger initial ages so the cloud already feels alive
       stroke.life = randomBetween(0, stroke.maxLife * 0.85);
       stroke.alpha = stroke.baseAlpha;
       return stroke;
@@ -4806,12 +4804,10 @@ applyLanguage(getPreferredLanguage());
 
     chaosStrokes = chaosStrokes.filter((stroke) => {
       stroke.life += dt;
-
       const fadeIn = clamp(stroke.life / 0.8, 0, 1);
       const fadeOut = clamp((stroke.maxLife - stroke.life) / 1.1, 0, 1);
       stroke.alpha = stroke.baseAlpha * Math.min(fadeIn, fadeOut);
 
-      // Continuously reshape the scribble so the cloud keeps changing
       stroke.points.forEach((point, index) => {
         point.vx += Math.sin(stroke.phase + index + stroke.life * stroke.morph) * 4 * dt;
         point.vy += Math.cos(stroke.phase * 0.8 + index * 0.7 + stroke.life * stroke.speed) * 4 * dt;
@@ -4823,7 +4819,6 @@ applyLanguage(getPreferredLanguage());
         const nx = point.x / cloudRx;
         const ny = point.y / cloudRy;
         const outside = nx * nx + ny * ny;
-        // Soft pull inward — no hard elliptical wall
         if (outside > 0.85) {
           const pull = (outside - 0.85) * 0.08;
           point.vx -= point.x * pull;
@@ -4866,41 +4861,35 @@ applyLanguage(getPreferredLanguage());
       return src[(y * size + x) * 4 + 3];
     }
 
-    // Pass 1: 1px silhouette / detail edges
     for (let y = 0; y < size; y += 1) {
       for (let x = 0; x < size; x += 1) {
         const alpha = alphaAt(x, y);
         if (alpha < threshold) {
           continue;
         }
-
         const isEdge =
           alphaAt(x - 1, y) < threshold ||
           alphaAt(x + 1, y) < threshold ||
           alphaAt(x, y - 1) < threshold ||
           alphaAt(x, y + 1) < threshold;
-
         if (isEdge) {
           edge[y * size + x] = 1;
         }
       }
     }
 
-    // Pass 2: slim ~2px stroke + fill interior
     for (let y = 0; y < size; y += 1) {
       for (let x = 0; x < size; x += 1) {
         const i = y * size + x;
         if (alphaAt(x, y) < threshold) {
           continue;
         }
-
         const isStroke =
           edge[i] ||
           (x > 0 && edge[i - 1]) ||
           (x < size - 1 && edge[i + 1]) ||
           (y > 0 && edge[i - size]) ||
           (y < size - 1 && edge[i + size]);
-
         const tone = isStroke ? ICON_STROKE : ICON_FILL;
         const index = i * 4;
         dst[index] = tone.r;
@@ -4915,13 +4904,388 @@ applyLanguage(getPreferredLanguage());
     return offscreen;
   }
 
-  function loadSourceIcon(file) {
+  function makeOutlineIcon(source) {
+    const size = 96;
+    const pad = 10;
+    const offscreen = document.createElement("canvas");
+    offscreen.width = size;
+    offscreen.height = size;
+    const ctx = offscreen.getContext("2d");
+    if (!ctx) {
+      return null;
+    }
+
+    ctx.clearRect(0, 0, size, size);
+    ctx.drawImage(source, pad, pad, size - pad * 2, size - pad * 2);
+    const imageData = ctx.getImageData(0, 0, size, size);
+    const src = imageData.data;
+    const out = ctx.createImageData(size, size);
+    const dst = out.data;
+    const threshold = 28;
+    const edge = new Uint8Array(size * size);
+
+    function alphaAt(x, y) {
+      if (x < 0 || y < 0 || x >= size || y >= size) {
+        return 0;
+      }
+      return src[(y * size + x) * 4 + 3];
+    }
+
+    for (let y = 0; y < size; y += 1) {
+      for (let x = 0; x < size; x += 1) {
+        const alpha = alphaAt(x, y);
+        if (alpha < threshold) {
+          continue;
+        }
+        const isEdge =
+          alphaAt(x - 1, y) < threshold ||
+          alphaAt(x + 1, y) < threshold ||
+          alphaAt(x, y - 1) < threshold ||
+          alphaAt(x, y + 1) < threshold;
+        if (isEdge) {
+          edge[y * size + x] = 1;
+        }
+      }
+    }
+
+    for (let y = 0; y < size; y += 1) {
+      for (let x = 0; x < size; x += 1) {
+        const i = y * size + x;
+        if (alphaAt(x, y) < threshold) {
+          continue;
+        }
+        const isStroke =
+          edge[i] ||
+          (x > 0 && edge[i - 1]) ||
+          (x < size - 1 && edge[i + 1]) ||
+          (y > 0 && edge[i - size]) ||
+          (y < size - 1 && edge[i + size]);
+        if (!isStroke) {
+          continue;
+        }
+        const index = i * 4;
+        dst[index] = OUTLINE_STROKE.r;
+        dst[index + 1] = OUTLINE_STROKE.g;
+        dst[index + 2] = OUTLINE_STROKE.b;
+        dst[index + 3] = 255;
+      }
+    }
+
+    ctx.clearRect(0, 0, size, size);
+    ctx.putImageData(out, 0, 0);
+    return offscreen;
+  }
+
+  function loadSourceIcon(file, basePath = "assets/icons/integrations") {
     return new Promise((resolve) => {
       const image = new Image();
       image.decoding = "async";
       image.onload = () => resolve(image);
       image.onerror = () => resolve(null);
-      image.src = `assets/icons/integrations/${file}`;
+      image.src = `${basePath}/${file}`;
+    });
+  }
+
+  function centerIconPixelSize(item) {
+    const shortSide = Math.min(width, height);
+    const base = shortSide * (shortSide < 340 ? 0.105 : 0.098);
+    return base * item.sizeScale;
+  }
+
+  function iconPixelSize(slot) {
+    const base = 24 + Math.min(width, height) * 0.028;
+    return base * slot.sizeScale * Math.max(slot.scale, 0.35);
+  }
+
+  function fieldZoneRadii() {
+    const shortSide = Math.min(width, height);
+    return {
+      rx: shortSide * 0.64,
+      ry: shortSide * 0.54,
+    };
+  }
+
+  function entityRadius(entity) {
+    if (entity.kind) {
+      return centerIconPixelSize(entity) * 0.52;
+    }
+    return iconPixelSize(entity) * 0.52;
+  }
+
+  function generateEvenHomes(count) {
+    const homes = [];
+    if (count <= 0 || !width || !height) {
+      return homes;
+    }
+    const { rx, ry } = fieldZoneRadii();
+    const golden = Math.PI * (3 - Math.sqrt(5));
+    for (let index = 0; index < count; index += 1) {
+      const t = (index + 0.5) / count;
+      const radial = Math.sqrt(t) * 0.9;
+      const angle = index * golden;
+      homes.push({
+        x: centerX + Math.cos(angle) * rx * radial,
+        y: centerY + Math.sin(angle) * ry * radial,
+      });
+    }
+    return homes;
+  }
+
+  function assignWanderAroundHome(entity, nearestHomeDist) {
+    const maxWander = Math.max(6, nearestHomeDist * 0.2);
+    entity.wanderRx = maxWander * randomBetween(0.65, 1);
+    entity.wanderRy = maxWander * randomBetween(0.65, 1);
+    entity.pathPhaseX = Math.random() * Math.PI * 2;
+    entity.pathPhaseY = Math.random() * Math.PI * 2;
+    entity.pathFreqX = randomBetween(0.1, 0.2);
+    entity.pathFreqY = randomBetween(0.12, 0.24);
+    if (typeof entity.pathTime !== "number") {
+      entity.pathTime = Math.random() * 40;
+    }
+  }
+
+  function sampleEntityPath(entity) {
+    const t = entity.pathTime || 0;
+    entity.targetX = entity.homeX + Math.sin(t * entity.pathFreqX + entity.pathPhaseX) * entity.wanderRx;
+    entity.targetY = entity.homeY + Math.cos(t * entity.pathFreqY + entity.pathPhaseY) * entity.wanderRy;
+  }
+
+  function clampEntityToField(entity) {
+    const { rx, ry } = fieldZoneRadii();
+    const half = entityRadius(entity);
+    const maxRx = Math.max(12, rx - half);
+    const maxRy = Math.max(12, ry - half);
+    const dx = entity.x - centerX;
+    const dy = entity.y - centerY;
+    const nx = dx / maxRx;
+    const ny = dy / maxRy;
+    const outside = nx * nx + ny * ny;
+    if (outside <= 1) {
+      return;
+    }
+    const scale = 1 / Math.sqrt(outside);
+    entity.x = centerX + dx * scale;
+    entity.y = centerY + dy * scale;
+  }
+
+  function applySharedHomes() {
+    const entities = [];
+    const integ = iconSlots.slice();
+    const center = centerIconCluster.slice();
+    const maxLen = Math.max(integ.length, center.length);
+    for (let index = 0; index < maxLen; index += 1) {
+      if (index < integ.length) {
+        entities.push(integ[index]);
+      }
+      if (index < center.length) {
+        entities.push(center[index]);
+      }
+    }
+
+    const homes = generateEvenHomes(entities.length);
+    entities.forEach((entity, index) => {
+      const home = homes[index];
+      entity.homeX = home.x;
+      entity.homeY = home.y;
+
+      let nearest = Infinity;
+      for (let other = 0; other < homes.length; other += 1) {
+        if (other === index) {
+          continue;
+        }
+        nearest = Math.min(nearest, Math.hypot(homes[other].x - home.x, homes[other].y - home.y));
+      }
+      if (!Number.isFinite(nearest)) {
+        nearest = Math.min(width, height) * 0.2;
+      }
+
+      assignWanderAroundHome(entity, nearest);
+      entity.x = home.x;
+      entity.y = home.y;
+      entity.targetX = home.x;
+      entity.targetY = home.y;
+    });
+
+    separateAllIcons();
+  }
+
+  function separateAllIcons() {
+    const active = [];
+    iconSlots.forEach((slot) => {
+      if (slot.phase !== "wait" && slot.alpha > 0.02) {
+        active.push(slot);
+      }
+    });
+    centerIconCluster.forEach((item) => {
+      if (item.lifePhase !== "wait" && item.alpha > 0.02) {
+        active.push(item);
+      }
+    });
+
+    if (!active.length) {
+      return;
+    }
+
+    const gap = 10;
+    for (let iter = 0; iter < 14; iter += 1) {
+      for (let i = 0; i < active.length; i += 1) {
+        for (let j = i + 1; j < active.length; j += 1) {
+          const a = active[i];
+          const b = active[j];
+          let dx = b.x - a.x;
+          let dy = b.y - a.y;
+          let dist = Math.hypot(dx, dy);
+          const minDist = entityRadius(a) + entityRadius(b) + gap;
+          if (dist >= minDist) {
+            continue;
+          }
+          if (dist < 0.001) {
+            const angle = (i + j + iter) * 0.9;
+            dx = Math.cos(angle);
+            dy = Math.sin(angle);
+            dist = 1;
+          }
+          const push = (minDist - dist) * 0.5;
+          const nx = dx / dist;
+          const ny = dy / dist;
+          a.x -= nx * push;
+          a.y -= ny * push;
+          b.x += nx * push;
+          b.y += ny * push;
+        }
+      }
+      active.forEach((entity) => {
+        clampEntityToField(entity);
+      });
+    }
+  }
+
+  function centerFadeBusy() {
+    return centerIconCluster.some((item) => item.lifePhase === "in" || item.lifePhase === "out");
+  }
+
+  function beginCenterFadeIn(item) {
+    item.sizeScale = randomBetween(0.88, 1.12);
+    item.hold = randomBetween(2.4, 5.2);
+    item.fadeIn = randomBetween(0.8, 1.2);
+    item.fadeOut = randomBetween(0.8, 1.2);
+    const nearest = Math.min(width, height) * 0.18;
+    assignWanderAroundHome(item, nearest);
+    sampleEntityPath(item);
+    item.x = item.targetX;
+    item.y = item.targetY;
+    item.lifePhase = "in";
+    item.timer = item.fadeIn;
+    item.alpha = 0;
+  }
+
+  function buildCenterCluster() {
+    if (!width || !height) {
+      centerIconCluster = [];
+      return;
+    }
+
+    const shortSide = Math.min(width, height);
+    const each = shortSide < 340 ? 2 : 3;
+    const total = each * 2;
+    const cluster = [];
+
+    for (let index = 0; index < total; index += 1) {
+      const kind = index % 2 === 0 ? "question" : "brain";
+      if (kind === "brain" && !centerBrainImage) {
+        continue;
+      }
+      cluster.push({
+        kind,
+        slotIndex: index,
+        x: centerX,
+        y: centerY,
+        targetX: centerX,
+        targetY: centerY,
+        homeX: centerX,
+        homeY: centerY,
+        wanderRx: 12,
+        wanderRy: 12,
+        sizeScale: randomBetween(0.88, 1.12),
+        alpha: 1,
+        lifePhase: "hold",
+        timer: 1.4 + index * 1.7 + randomBetween(0, 0.5),
+        hold: randomBetween(2.4, 5.2),
+        fadeIn: randomBetween(0.8, 1.2),
+        fadeOut: randomBetween(0.8, 1.2),
+        pathPhaseX: Math.random() * Math.PI * 2,
+        pathPhaseY: Math.random() * Math.PI * 2,
+        pathFreqX: randomBetween(0.1, 0.2),
+        pathFreqY: randomBetween(0.12, 0.24),
+        pathTime: Math.random() * 40,
+      });
+    }
+
+    centerIconCluster = cluster;
+    applySharedHomes();
+  }
+
+  function updateCenterCluster(dt) {
+    if (!centerIconCluster.length || reducedMotion) {
+      return;
+    }
+
+    const follow = 1 - Math.exp(-3.2 * dt);
+
+    centerIconCluster.forEach((item) => {
+      item.pathTime += dt;
+      sampleEntityPath(item);
+      item.x += (item.targetX - item.x) * follow;
+      item.y += (item.targetY - item.y) * follow;
+      item.timer -= dt;
+
+      if (item.lifePhase === "in") {
+        const t = 1 - clamp(item.timer / item.fadeIn, 0, 1);
+        item.alpha = t * t * (3 - 2 * t);
+        if (item.timer <= 0) {
+          item.lifePhase = "hold";
+          item.timer = item.hold;
+          item.alpha = 1;
+        }
+      } else if (item.lifePhase === "out") {
+        const t = clamp(item.timer / item.fadeOut, 0, 1);
+        item.alpha = t * t * (3 - 2 * t);
+        if (item.timer <= 0) {
+          item.lifePhase = "wait";
+          item.timer = randomBetween(0.25, 0.55);
+          item.alpha = 0;
+        }
+      } else if (item.lifePhase === "hold") {
+        item.alpha = 1;
+      }
+    });
+
+    // Strictly one fade at a time: out first, then in — alternating flow
+    if (!centerFadeBusy()) {
+      const readyOut = centerIconCluster.find((item) => item.lifePhase === "hold" && item.timer <= 0);
+      if (readyOut) {
+        readyOut.fadeOut = randomBetween(0.8, 1.2);
+        readyOut.lifePhase = "out";
+        readyOut.timer = readyOut.fadeOut;
+      } else {
+        const readyIn = centerIconCluster.find((item) => item.lifePhase === "wait" && item.timer <= 0);
+        if (readyIn) {
+          beginCenterFadeIn(readyIn);
+        }
+      }
+    } else {
+      centerIconCluster.forEach((item) => {
+        if ((item.lifePhase === "hold" || item.lifePhase === "wait") && item.timer <= 0) {
+          item.timer = randomBetween(0.12, 0.28);
+        }
+      });
+    }
+  }
+
+  function loadCenterIcons() {
+    return loadSourceIcon("brain.png", "assets/icons").then((image) => {
+      centerBrainImage = image ? makeOutlineIcon(image) : null;
+      buildCenterCluster();
     });
   }
 
@@ -4965,144 +5329,10 @@ applyLanguage(getPreferredLanguage());
     return last.index;
   }
 
-  function iconPixelSize(slot) {
-    const base = 24 + Math.min(width, height) * 0.028;
-    return base * slot.sizeScale * Math.max(slot.scale, 0.35);
-  }
-
-  function boundsFor(slot) {
-    const half = iconPixelSize(slot) * 0.5 + 4;
-    return {
-      minX: padding + half,
-      maxX: width - padding - half,
-      minY: padding + half,
-      maxY: height - padding - half,
-    };
-  }
-
-  function pushOutOfKeepOut(slot) {
-    const dx = slot.x - centerX;
-    const dy = slot.y - centerY;
-    const dist = Math.hypot(dx, dy);
-    const minDist = keepOutRadius + iconPixelSize(slot) * 0.45;
-    if (dist >= minDist || dist < 0.001) {
-      if (dist < 0.001) {
-        const angle = Math.random() * Math.PI * 2;
-        slot.x = centerX + Math.cos(angle) * minDist;
-        slot.y = centerY + Math.sin(angle) * minDist;
-      }
-      return;
-    }
-    const scale = minDist / dist;
-    slot.x = centerX + dx * scale;
-    slot.y = centerY + dy * scale;
-  }
-
-  function randomFreePose(slot, others) {
-    const bounds = boundsFor(slot);
-    let bestX = randomBetween(bounds.minX, bounds.maxX);
-    let bestY = randomBetween(bounds.minY, bounds.maxY);
-    let bestScore = -1;
-
-    for (let attempt = 0; attempt < 40; attempt += 1) {
-      const x = randomBetween(bounds.minX, bounds.maxX);
-      const y = randomBetween(bounds.minY, bounds.maxY);
-      const fromCenter = Math.hypot(x - centerX, y - centerY);
-      if (fromCenter < keepOutRadius + iconPixelSize(slot) * 0.5) {
-        continue;
-      }
-
-      let minGap = Infinity;
-      others.forEach((other) => {
-        if (other === slot || other.phase === "wait") {
-          return;
-        }
-        const needed = (iconPixelSize(slot) + iconPixelSize(other)) * 0.58 + 10;
-        const gap = Math.hypot(x - other.x, y - other.y) - needed;
-        minGap = Math.min(minGap, gap);
-      });
-
-      const score = (minGap === Infinity ? 40 : minGap) + fromCenter * 0.02 + Math.random();
-      if (score > bestScore) {
-        bestScore = score;
-        bestX = x;
-        bestY = y;
-      }
-    }
-
-    slot.x = bestX;
-    slot.y = bestY;
-    pushOutOfKeepOut(slot);
-    const finalBounds = boundsFor(slot);
-    slot.x = clamp(slot.x, finalBounds.minX, finalBounds.maxX);
-    slot.y = clamp(slot.y, finalBounds.minY, finalBounds.maxY);
-  }
-
-  function assignDrift(slot) {
-    const angle = Math.random() * Math.PI * 2;
-    const speed = randomBetween(DRIFT_SPEED * 0.45, DRIFT_SPEED);
-    slot.vx = Math.cos(angle) * speed;
-    slot.vy = Math.sin(angle) * speed;
-    slot.driftPhase = Math.random() * Math.PI * 2;
-    slot.driftSpeed = randomBetween(0.35, 0.7);
-  }
-
-  function resolveOverlaps() {
-    const active = iconSlots.filter((slot) => slot.phase !== "wait" && slot.alpha > 0.02);
-    if (active.length < 2) {
-      active.forEach((slot) => {
-        pushOutOfKeepOut(slot);
-        const bounds = boundsFor(slot);
-        slot.x = clamp(slot.x, bounds.minX, bounds.maxX);
-        slot.y = clamp(slot.y, bounds.minY, bounds.maxY);
-      });
-      return;
-    }
-
-    for (let iter = 0; iter < 6; iter += 1) {
-      for (let i = 0; i < active.length; i += 1) {
-        for (let j = i + 1; j < active.length; j += 1) {
-          const a = active[i];
-          const b = active[j];
-          let dx = b.x - a.x;
-          let dy = b.y - a.y;
-          let dist = Math.hypot(dx, dy);
-          const minDist = (iconPixelSize(a) + iconPixelSize(b)) * 0.58 + 10;
-          if (dist >= minDist) {
-            continue;
-          }
-          if (dist < 0.001) {
-            const pushAngle = (a.imageIndex + b.imageIndex) * 0.9;
-            dx = Math.cos(pushAngle);
-            dy = Math.sin(pushAngle);
-            dist = 1;
-          }
-          const push = (minDist - dist) * 0.5;
-          const nx = dx / dist;
-          const ny = dy / dist;
-          a.x -= nx * push;
-          a.y -= ny * push;
-          b.x += nx * push;
-          b.y += ny * push;
-          a.vx -= nx * 4;
-          a.vy -= ny * 4;
-          b.vx += nx * 4;
-          b.vy += ny * 4;
-        }
-      }
-    }
-
-    active.forEach((slot) => {
-      pushOutOfKeepOut(slot);
-      const bounds = boundsFor(slot);
-      slot.x = clamp(slot.x, bounds.minX, bounds.maxX);
-      slot.y = clamp(slot.y, bounds.minY, bounds.maxY);
-    });
-  }
-
   function buildIconSlots() {
     if (!iconImages.length) {
       iconSlots = [];
+      applySharedHomes();
       return;
     }
 
@@ -5110,35 +5340,40 @@ applyLanguage(getPreferredLanguage());
     iconSlots = [];
     const count = Math.min(maxIconSlots, iconImages.length);
     for (let index = 0; index < count; index += 1) {
-      const slot = {
+      iconSlots.push({
         imageIndex: pickNextImageIndex(),
         x: centerX,
         y: centerY,
-        vx: 0,
-        vy: 0,
+        targetX: centerX,
+        targetY: centerY,
+        homeX: centerX,
+        homeY: centerY,
+        wanderRx: 12,
+        wanderRy: 12,
         sizeScale: randomBetween(0.72, 1.35),
         driftPhase: Math.random() * Math.PI * 2,
         driftSpeed: randomBetween(0.35, 0.7),
+        pathPhaseX: Math.random() * Math.PI * 2,
+        pathPhaseY: Math.random() * Math.PI * 2,
+        pathFreqX: randomBetween(0.1, 0.2),
+        pathFreqY: randomBetween(0.12, 0.24),
+        pathTime: Math.random() * 40,
         alpha: 0,
         scale: 0.2,
         phase: "wait",
         timer: randomBetween(0.02, 0.25) + index * 0.06,
         hold: randomBetween(3.0, 4.8),
-      };
-      assignDrift(slot);
-      iconSlots.push(slot);
+      });
     }
 
     iconSlots.forEach((slot, index) => {
-      randomFreePose(slot, iconSlots.slice(0, index));
       slot.phase = "hold";
       slot.alpha = 1;
       slot.scale = 1;
-      // Start cycling immediately: first slots swap almost at once, others follow quickly
       slot.timer = randomBetween(0.05, 0.35) + index * 0.22;
     });
 
-    resolveOverlaps();
+    applySharedHomes();
   }
 
   function loadIcons() {
@@ -5167,43 +5402,19 @@ applyLanguage(getPreferredLanguage());
       return;
     }
 
+    const follow = 1 - Math.exp(-3.2 * dt);
+
     iconSlots.forEach((slot) => {
       slot.timer -= dt;
 
-      // Slow free drift — not circular
-      const swayX = Math.sin(animTime * slot.driftSpeed + slot.driftPhase) * 6;
-      const swayY = Math.cos(animTime * slot.driftSpeed * 0.8 + slot.driftPhase * 1.1) * 6;
-      slot.vx += swayX * dt * 0.35;
-      slot.vy += swayY * dt * 0.35;
-      slot.vx = clamp(slot.vx, -DRIFT_SPEED, DRIFT_SPEED);
-      slot.vy = clamp(slot.vy, -DRIFT_SPEED, DRIFT_SPEED);
-      slot.x += slot.vx * dt;
-      slot.y += slot.vy * dt;
-
-      // Soft bounce on edges
-      const bounds = boundsFor(slot);
-      if (slot.x <= bounds.minX || slot.x >= bounds.maxX) {
-        slot.vx *= -0.85;
-        slot.x = clamp(slot.x, bounds.minX, bounds.maxX);
-      }
-      if (slot.y <= bounds.minY || slot.y >= bounds.maxY) {
-        slot.vy *= -0.85;
-        slot.y = clamp(slot.y, bounds.minY, bounds.maxY);
-      }
-
-      // Soft push away from question mark
-      const dx = slot.x - centerX;
-      const dy = slot.y - centerY;
-      const dist = Math.hypot(dx, dy) || 1;
-      const minDist = keepOutRadius + iconPixelSize(slot) * 0.45;
-      if (dist < minDist) {
-        const force = ((minDist - dist) / minDist) * 28;
-        slot.vx += (dx / dist) * force * dt;
-        slot.vy += (dy / dist) * force * dt;
+      if (slot.phase !== "wait") {
+        slot.pathTime += dt;
+        sampleEntityPath(slot);
+        slot.x += (slot.targetX - slot.x) * follow;
+        slot.y += (slot.targetY - slot.y) * follow;
       }
 
       if (slot.phase === "wait" && slot.timer <= 0) {
-        // Keep a calm middle pace: a few swaps at once, not all at once
         const transitioning = iconSlots.filter(
           (item) => item !== slot && (item.phase === "in" || item.phase === "out")
         ).length;
@@ -5215,8 +5426,13 @@ applyLanguage(getPreferredLanguage());
         slot.imageIndex = pickNextImageIndex();
         slot.sizeScale = randomBetween(0.72, 1.35);
         slot.hold = randomBetween(3.0, 4.8);
-        assignDrift(slot);
-        randomFreePose(slot, iconSlots);
+        slot.driftPhase = Math.random() * Math.PI * 2;
+        slot.driftSpeed = randomBetween(0.35, 0.7);
+        const nearest = Math.min(width, height) * 0.18;
+        assignWanderAroundHome(slot, nearest);
+        sampleEntityPath(slot);
+        slot.x = slot.targetX;
+        slot.y = slot.targetY;
         slot.phase = "in";
         slot.timer = randomBetween(0.34, 0.48);
         slot.alpha = 0;
@@ -5260,8 +5476,6 @@ applyLanguage(getPreferredLanguage());
         }
       }
     });
-
-    resolveOverlaps();
   }
 
   function drawChaosCloud(elapsed) {
@@ -5284,7 +5498,6 @@ applyLanguage(getPreferredLanguage());
       }
       const drift = reducedMotion ? 0 : Math.sin(elapsed * stroke.speed + stroke.phase) * 2.5;
 
-      // Soft radial fade: strokes near the outer edge dissolve instead of cutting off hard
       let midX = 0;
       let midY = 0;
       stroke.points.forEach((point) => {
@@ -5300,7 +5513,6 @@ applyLanguage(getPreferredLanguage());
         return;
       }
 
-      // Subtle: nearer the center → slightly darker + sharper
       const centerBias = clamp(1 - edge / 0.75, 0, 1);
       const darkMix = centerBias * 0.22;
       const r = Math.round(159 * (1 - darkMix) + 120 * darkMix);
@@ -5329,19 +5541,35 @@ applyLanguage(getPreferredLanguage());
     context.restore();
   }
 
-  function drawQuestionMark(elapsed) {
-    const breath = reducedMotion ? 1 : 1 + Math.sin(elapsed * 0.55) * 0.025;
-    const alpha = reducedMotion ? 0.96 : 0.9 + Math.sin(elapsed * 0.45) * 0.05;
-    const size = qmarkSize * breath;
+  function drawCenterIconCluster() {
+    if (!centerIconCluster.length) {
+      return;
+    }
 
-    context.save();
-    context.translate(centerX, centerY);
-    context.font = `bold ${size}px Arial, Helvetica, sans-serif`;
-    context.textAlign = "center";
-    context.textBaseline = "middle";
-    context.fillStyle = `rgba(70, 70, 70, ${alpha})`; // #464646
-    context.fillText("?", 0, size * 0.02);
-    context.restore();
+    centerIconCluster.forEach((item) => {
+      if (item.alpha <= 0.01 || item.lifePhase === "wait") {
+        return;
+      }
+
+      const size = centerIconPixelSize(item);
+      const half = size * 0.5;
+
+      context.save();
+      context.translate(item.x, item.y);
+      context.globalAlpha = clamp(item.alpha, 0, 1);
+
+      if (item.kind === "question") {
+        context.font = `bold ${size}px Arial, Helvetica, sans-serif`;
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        context.fillStyle = CENTER_QMARK_COLOR;
+        context.fillText("?", 0, size * 0.02);
+      } else if (centerBrainImage) {
+        context.drawImage(centerBrainImage, -half, -half, size, size);
+      }
+
+      context.restore();
+    });
   }
 
   function drawIcons() {
@@ -5368,7 +5596,7 @@ applyLanguage(getPreferredLanguage());
   function drawFrame(elapsed) {
     context.clearRect(0, 0, width, height);
     drawChaosCloud(elapsed);
-    drawQuestionMark(elapsed);
+    drawCenterIconCluster();
     drawIcons();
   }
 
@@ -5383,7 +5611,9 @@ applyLanguage(getPreferredLanguage());
 
     if (!reducedMotion) {
       updateChaosCloud(dt);
+      updateCenterCluster(dt);
       updateIcons(dt);
+      separateAllIcons();
     }
 
     drawFrame(animTime);
@@ -5409,24 +5639,17 @@ applyLanguage(getPreferredLanguage());
     if (!iconSlots.length && iconImages.length) {
       buildIconSlots();
     }
-    // Freeze visible icons evenly around the mark
-    const visible = iconSlots.filter((slot) => slot.phase === "hold" || slot.phase === "in");
-    if (!visible.length && iconSlots.length) {
-      const count = Math.min(6, iconSlots.length);
-      for (let index = 0; index < count; index += 1) {
-        const slot = iconSlots[index];
-        slot.phase = "hold";
-        slot.alpha = 1;
-        slot.scale = 1;
-        slot.angle = (index / count) * Math.PI * 2;
-        slot.radiusScale = 1;
-      }
-    }
     iconSlots.forEach((slot) => {
       if (slot.phase !== "wait") {
         slot.phase = "hold";
         slot.alpha = 1;
         slot.scale = 1;
+      }
+    });
+    centerIconCluster.forEach((item) => {
+      if (item.lifePhase !== "wait") {
+        item.lifePhase = "hold";
+        item.alpha = 1;
       }
     });
     drawFrame(animTime);
@@ -5443,9 +5666,12 @@ applyLanguage(getPreferredLanguage());
     canvas.style.height = `${height}px`;
     context.setTransform(dpr, 0, 0, dpr, 0, 0);
     rebuildChaosCloud();
+    buildCenterCluster();
 
     if (iconImages.length && iconSlots.length !== Math.min(maxIconSlots, Math.max(iconImages.length, 8))) {
       buildIconSlots();
+    } else {
+      applySharedHomes();
     }
   }
 
@@ -5509,7 +5735,8 @@ applyLanguage(getPreferredLanguage());
 
   resizeCanvas();
 
-  loadIcons().then(() => {
+  Promise.all([loadIcons(), loadCenterIcons()]).then(() => {
+    applySharedHomes();
     if (reducedMotion) {
       renderStatic();
       return;
