@@ -22,7 +22,8 @@ const translations = {
       chooseLanguageAriaLabel: "Sprache wählen",
       selectLanguageAriaLabel: "Sprache auswählen",
       heroFeaturesAriaLabel: "Kernfunktionen",
-      heroImageAlt: "Moderner Arbeitsplatz mit Panoramablick auf See, Stadt und Berge",
+      heroImageAlt: "Luftaufnahme der Zürcher Altstadt bei Sonnenuntergang mit Blick auf Limmat, See und Alpen",
+      heroPopupAlt: "zuraio Oberfläche – Apps Vision",
       integrationsImageAlt: "Arbeitsplatz mit Laptop und zuraio-Oberfläche als Symbol für Tool-Integration",
       integrationsAriaLabel: "Unterstützte Integrationen",
       answerImageAlt: "Orchestrator-Grafik mit zuraio Systemlogik vor Schweizer Stadt",
@@ -54,85 +55,37 @@ const translations = {
       ],
     },
     intro: {
-      eyebrow: "KENNST DU DAS?",
-      titleHtml:
-        "<span>Zu viele <span class=\"brand-highlight\">Tools</span>.</span><span>Zu wenig <span class=\"brand-highlight\">Kontrolle</span>.</span><span>Zu viel <span class=\"brand-highlight\">Zeitverlust</span>.</span>",
-      lines: [
-        "Unternehmenswissen ist da, aber schwer auffindbar. Mitarbeitende wechseln zwischen Systemen, wiederholen Arbeit und verlieren Zeit mit Administration.",
-        "Gleichzeitig wächst die Unsicherheit: Wo landen sensible Daten? Wem gehört das Wissen? Und passt Standard-KI überhaupt zu Ihrem Unternehmen?",
+      eyebrow: "KOMMT IHNEN DAS BEKANNT VOR?",
+      titleParts: [
+        { text: "Zu viele " },
+        { text: "Tools", accent: true },
+        { text: "." },
+        { br: true },
+        { text: "Zu wenig " },
+        { text: "Kontrolle", accent: true },
+        { text: "." },
+        { br: true },
+        { text: "Zu viel " },
+        { text: "Zeitverlust", accent: true },
+        { text: "." },
       ],
-      badges: [
-        "Besuchsberichte",
-        "Beschlüsse",
-        "Zusammenfassung",
-        "Vorbereitung",
-        "Follow-ups",
-        "Email",
-        "Antworten",
-        "Ideen",
-        "Projekttagebuch",
-        "Telefonnotiz",
-        "Pendenzenlisten",
-        "Termine",
-        "Traktanden",
-        "Projektrisiken",
-        "Eskalationen",
-        "Erinnerungen",
-        "Übergaben",
-      ],
-      featureBadges: [
+      lead:
+        "Deine Mitarbeitenden suchen Informationen, wechseln zwischen Anwendungen und erledigen Aufgaben mehrfach. zuraio verbindet, was heute getrennt arbeitet.",
+      link: "So löst zuraio dieses Problem",
+      cards: [
         {
-          number: "01",
-          title: "Zeitverlust durch Administration",
-          body: "Digitale Spezialisten übernehmen wiederkehrende Aufgaben und schaffen Zeit für die Arbeit, die wirklich zählt.",
+          title: "Wissen bleibt verstreut",
+          body: "Wichtige Informationen liegen in E-Mails, Dokumenten, Meetings und verschiedenen Systemen. Wer sie braucht, muss zuerst danach suchen.",
         },
         {
-          number: "02",
-          title: "Wichtiges Wissen ist verstreut",
-          body: "zuraio macht Unternehmenswissen zentral auffindbar und jederzeit nutzbar.",
+          title: "Administration frisst Zeit",
+          body: "Zusammenfassungen, Berichte, Vorbereitungen und Follow-ups verdrängen die Aufgaben, die Dein Unternehmen wirklich voranbringen.",
         },
         {
-          number: "03",
-          title: "Wissen geht bei Abgängen verloren",
-          body: "Wissen wird mittels Interviews gesichert, bevor es verloren geht.",
-        },
-        {
-          number: "04",
-          title: "Toolhopping nervt und braucht Zeit",
-          body: "Eine zentrale KI-Plattform verbindet Wissen, Aufgaben und Anwendungen an einem Ort.",
-        },
-        {
-          number: "05",
-          title: "Sensible Daten landen in fremden Systemen",
-          body: "Datensouveränität ist bei zuraio kein Zusatz, sondern Grundprinzip.",
-        },
-        {
-          number: "06",
-          title: "Standard-KI kennt das Unternehmen nicht",
-          body: "zuraio arbeitet mit Ihren Richtlinien, Ihrem Wording, Ihrem Wissen und Ihren Daten.",
-        },
-        {
-          number: "07",
-          title: "Pläne der Anbieter geben Leistungen vor",
-          body: "Der modulare Aufbau wächst mit Ihrem Unternehmen und nicht mit starren Paketgrenzen.",
-        },
-        {
-          number: "08",
-          title: "Abhängigkeit von grossen Anbietern",
-          body: "Modelle, Provider und sogar zuraio selbst bleiben ersetzbar, Ihr Wissen bleibt Ihres.",
-        },
-        {
-          number: "09",
-          title: "Wenig bis keine Kontrolle",
-          body: "Sie bestimmen, wo Daten liegen, wer Zugriff hat und wie KI im Unternehmen arbeitet.",
-        },
-        {
-          number: "10",
-          title: "Bestehende Softwarelösungen",
-          body: "zuraio bindet die wichtigsten Anwendungen an, statt noch ein weiteres isoliertes Tool zu sein.",
+          title: "Antworten fehlt der Zusammenhang",
+          body: "Ohne vollständige Historie, verlässliche Quellen und den richtigen Kontext dauern Abklärungen länger und Entscheidungen werden unsicherer.",
         },
       ],
-      link: "Anwendungsbeispiele ansehen",
     },
     problem: {
       eyebrow: "VERTRAUEN & DATENKONTROLLE",
@@ -646,7 +599,8 @@ const translations = {
       chooseLanguageAriaLabel: "Choose language",
       selectLanguageAriaLabel: "Select language",
       heroFeaturesAriaLabel: "Core features",
-      heroImageAlt: "Modern workspace with panoramic view of lake, city, and mountains",
+      heroImageAlt: "Aerial view of Zurich’s old town at sunset overlooking the Limmat, lake, and Alps",
+      heroPopupAlt: "zuraio interface – Apps Vision",
       integrationsImageAlt: "Workspace with laptop and zuraio interface as a symbol for tool integration",
       integrationsAriaLabel: "Supported integrations",
       answerImageAlt: "Orchestrator graphic with zuraio system logic in front of a Swiss city",
@@ -669,89 +623,43 @@ const translations = {
       ],
       leadLines: [
         "zuraio connects company knowledge,",
-        "existing systems and specialized digital assistants",
+        "existing systems",
+        "and specialized digital assistants",
         "in a secure platform for Swiss SMEs.",
       ],
     },
     intro: {
-      eyebrow: "DO YOU KNOW THIS?",
-      titleHtml: "<span>Too many <span class=\"brand-highlight\">tools</span></span><span>Too little <span class=\"brand-highlight\">control</span>.</span><span>Too much lost <span class=\"brand-highlight\">time</span></span>",
-      lines: [
-        "Company knowledge exists but is hard to find. Employees switch between systems, repeat work, and lose time on administration.",
-        "At the same time, uncertainty grows: Where do sensitive data end up? Who owns the knowledge? And does standard AI even fit your company?",
+      eyebrow: "RECOGNISE THIS?",
+      titleParts: [
+        { text: "Too many " },
+        { text: "tools", accent: true },
+        { text: "." },
+        { br: true },
+        { text: "Too little " },
+        { text: "control", accent: true },
+        { text: "." },
+        { br: true },
+        { text: "Too much " },
+        { text: "time lost", accent: true },
+        { text: "." },
       ],
-      badges: [
-        "Visit reports",
-        "Decisions",
-        "Summary",
-        "Preparation",
-        "Follow-ups",
-        "Email",
-        "Answers",
-        "Ideas",
-        "Project diary",
-        "Phone note",
-        "Task lists",
-        "Appointments",
-        "Agenda items",
-        "Project risks",
-        "Escalations",
-        "Reminders",
-        "Handoffs",
-      ],
-      featureBadges: [
+      lead:
+        "Your employees search for information, switch between applications, and complete the same tasks more than once. zuraio connects what today works separately.",
+      link: "How zuraio solves this problem",
+      cards: [
         {
-          number: "01",
-          title: "Time lost to administration",
-          body: "Digital specialists take over recurring tasks and create time for the work that really matters.",
+          title: "Knowledge stays scattered",
+          body: "Important information sits in emails, documents, meetings, and different systems. Anyone who needs it has to search for it first.",
         },
         {
-          number: "02",
-          title: "Important knowledge is scattered",
-          body: "zuraio makes company knowledge centrally findable and always usable.",
+          title: "Admin work eats time",
+          body: "Summaries, reports, preparation, and follow-ups push aside the tasks that really move your company forward.",
         },
         {
-          number: "03",
-          title: "Knowledge is lost when people leave",
-          body: "Knowledge is secured through interviews before it is lost.",
-        },
-        {
-          number: "04",
-          title: "Tool hopping is annoying and time-consuming",
-          body: "One central AI platform connects knowledge, tasks and applications in one place.",
-        },
-        {
-          number: "05",
-          title: "Sensitive data ends up in foreign systems",
-          body: "Data sovereignty is not an add-on at zuraio, but a core principle.",
-        },
-        {
-          number: "06",
-          title: "Standard AI does not know the company",
-          body: "zuraio works with your policies, your wording, your knowledge and your data.",
-        },
-        {
-          number: "07",
-          title: "Provider plans dictate capabilities",
-          body: "The modular design grows with your company, not with rigid package limits.",
-        },
-        {
-          number: "08",
-          title: "Dependence on large providers",
-          body: "Models, providers and even zuraio itself remain replaceable; your knowledge stays yours.",
-        },
-        {
-          number: "09",
-          title: "Little to no control",
-          body: "You decide where data resides, who has access and how AI works in the company.",
-        },
-        {
-          number: "10",
-          title: "Existing software solutions",
-          body: "zuraio connects the most important applications instead of being yet another isolated tool.",
+          title: "Answers lack the full picture",
+          body: "Without complete history, reliable sources, and the right context, clarifications take longer and decisions become less certain.",
         },
       ],
-      link: "View use cases",
     },
     problem: {
       eyebrow: "TRUST & DATA CONTROL",
@@ -1228,7 +1136,8 @@ const translations = {
       chooseLanguageAriaLabel: "Escolher idioma",
       selectLanguageAriaLabel: "Selecionar idioma",
       heroFeaturesAriaLabel: "Funcionalidades principais",
-      heroImageAlt: "Espaço de trabalho moderno com vista panorâmica para lago, cidade e montanhas",
+      heroImageAlt: "Vista aérea da cidade velha de Zurique ao pôr do sol com Limmat, lago e Alpes",
+      heroPopupAlt: "Interface zuraio – Apps Vision",
       integrationsImageAlt: "Espaço de trabalho com laptop e interface zuraio como símbolo de integração de ferramentas",
       integrationsAriaLabel: "Integrações suportadas",
       answerImageAlt: "Gráfico do orquestrador com lógica do sistema zuraio diante de uma cidade suíça",
@@ -1251,89 +1160,43 @@ const translations = {
       ],
       leadLines: [
         "zuraio conecta conhecimento empresarial,",
-        "sistemas existentes e assistentes digitais especializados",
+        "sistemas existentes",
+        "e assistentes digitais especializados",
         "em uma plataforma segura para PMEs suíças.",
       ],
     },
     intro: {
-      eyebrow: "VOCÊ CONHECE ISSO?",
-      titleHtml: "<span><span class=\"brand-highlight\">Ferramentas</span> demais</span><span><span class=\"brand-highlight\">Controle</span> de menos.</span><span><span class=\"brand-highlight\">Tempo</span> perdido demais</span>",
-      lines: [
-        "O conhecimento da empresa existe, mas é difícil de encontrar. Colaboradores alternam entre sistemas, repetem trabalho e perdem tempo com administração.",
-        "Ao mesmo tempo, a incerteza cresce: Onde vão parar dados sensíveis? De quem é o conhecimento? E a IA padrão se encaixa na sua empresa?",
+      eyebrow: "ISTO PARECE-LHE FAMILIAR?",
+      titleParts: [
+        { text: "Demasiadas " },
+        { text: "ferramentas", accent: true },
+        { text: "." },
+        { br: true },
+        { text: "Pouco " },
+        { text: "controle", accent: true },
+        { text: "." },
+        { br: true },
+        { text: "Muito " },
+        { text: "tempo perdido", accent: true },
+        { text: "." },
       ],
-      badges: [
-        "Relatórios de visita",
-        "Decisões",
-        "Resumo",
-        "Preparação",
-        "Follow-ups",
-        "E-mail",
-        "Respostas",
-        "Ideias",
-        "Diário do projeto",
-        "Nota telefônica",
-        "Listas de pendências",
-        "Compromissos",
-        "Pautas",
-        "Riscos do projeto",
-        "Escaladas",
-        "Lembretes",
-        "Transferências",
-      ],
-      featureBadges: [
+      lead:
+        "Os seus colaboradores procuram informações, alternam entre aplicações e realizam tarefas mais do que uma vez. A zuraio liga o que hoje trabalha em separado.",
+      link: "Como a zuraio resolve este problema",
+      cards: [
         {
-          number: "01",
-          title: "Perda de tempo com administração",
-          body: "Especialistas digitais assumem tarefas recorrentes e criam tempo para o trabalho que realmente importa.",
+          title: "O conhecimento continua disperso",
+          body: "Informações importantes estão em e-mails, documentos, reuniões e sistemas diferentes. Quem precisa delas tem de as procurar primeiro.",
         },
         {
-          number: "02",
-          title: "Conhecimento importante está disperso",
-          body: "A zuraio torna o conhecimento da empresa centralmente acessível e sempre utilizável.",
+          title: "A administração consome tempo",
+          body: "Resumos, relatórios, preparação e follow-ups empurram para segundo plano as tarefas que realmente fazem avançar a sua empresa.",
         },
         {
-          number: "03",
-          title: "Conhecimento se perde com saídas",
-          body: "O conhecimento é preservado por meio de entrevistas antes de se perder.",
-        },
-        {
-          number: "04",
-          title: "Trocar de ferramentas irrita e consome tempo",
-          body: "Uma plataforma central de IA conecta conhecimento, tarefas e aplicações em um só lugar.",
-        },
-        {
-          number: "05",
-          title: "Dados sensíveis acabam em sistemas externos",
-          body: "Soberania de dados na zuraio não é um extra, é princípio fundamental.",
-        },
-        {
-          number: "06",
-          title: "IA padrão não conhece a empresa",
-          body: "A zuraio trabalha com suas políticas, sua linguagem, seu conhecimento e seus dados.",
-        },
-        {
-          number: "07",
-          title: "Planos dos fornecedores definem o que é possível",
-          body: "A estrutura modular cresce com a sua empresa, não com limites rígidos de pacotes.",
-        },
-        {
-          number: "08",
-          title: "Dependência de grandes fornecedores",
-          body: "Modelos, provedores e até a própria zuraio permanecem substituíveis; seu conhecimento continua seu.",
-        },
-        {
-          number: "09",
-          title: "Pouco ou nenhum controle",
-          body: "Você decide onde os dados ficam, quem tem acesso e como a IA funciona na empresa.",
-        },
-        {
-          number: "10",
-          title: "Soluções de software existentes",
-          body: "A zuraio integra as aplicações mais importantes, em vez de ser mais uma ferramenta isolada.",
+          title: "Às respostas falta o quadro completo",
+          body: "Sem histórico completo, fontes fiáveis e o contexto certo, as clarificações demoram mais e as decisões tornam-se menos seguras.",
         },
       ],
-      link: "Ver exemplos de aplicação",
     },
     problem: {
       eyebrow: "CONFIANÇA & CONTROLE DE DADOS",
@@ -1838,6 +1701,35 @@ function setHeroLead(leadLines) {
     }
 
     leadContainer.appendChild(lineElement);
+  });
+}
+
+function setIntroTitle(titleParts) {
+  const titleElement = document.querySelector(".intro-band-title");
+  if (!titleElement || !titleParts?.length) {
+    return;
+  }
+
+  titleElement.replaceChildren();
+  titleParts.forEach((part) => {
+    if (part?.br) {
+      titleElement.appendChild(document.createElement("br"));
+      return;
+    }
+
+    if (!part?.text) {
+      return;
+    }
+
+    if (part.accent) {
+      const accentElement = document.createElement("span");
+      accentElement.className = "intro-band-title-accent";
+      accentElement.textContent = part.text;
+      titleElement.appendChild(accentElement);
+      return;
+    }
+
+    titleElement.appendChild(document.createTextNode(part.text));
   });
 }
 
@@ -2730,6 +2622,11 @@ function applyCommonUILanguage(ui) {
     heroImage.alt = ui.heroImageAlt;
   }
 
+  const heroPopupImage = document.querySelector(".hero-popup");
+  if (heroPopupImage && ui.heroPopupAlt) {
+    heroPopupImage.alt = ui.heroPopupAlt;
+  }
+
   const integrationsImage = document.querySelector("#integrationen .integrations-image img");
   if (integrationsImage && ui.integrationsImageAlt) {
     integrationsImage.alt = ui.integrationsImageAlt;
@@ -2874,9 +2771,12 @@ function applyAssistantShowcaseLanguage(copy) {
           `.assistant-showcase-slide[data-example="${exampleIndex}"][data-step="${stepIndex}"][data-zoom] img`
         );
         if (zoomImage && alt) {
-          zoomImage.alt = alt.startsWith("Detail:") || alt.startsWith("Detail：")
+          const detailPrefix =
+            htmlElement.lang === "pt-BR" ? "Detalhe" : htmlElement.lang === "en" ? "Detail" : "Detail";
+          const alreadyPrefixed = /^(Detail|Detalhe)\s*[:：]/i.test(alt);
+          zoomImage.alt = alreadyPrefixed
             ? alt
-            : `Detail: ${alt.replace(/^(Antwort|Answer|Resposta):\s*/i, "")}`;
+            : `${detailPrefix}: ${alt.replace(/^(Antwort|Answer|Resposta):\s*/i, "")}`;
         }
         if (image && alt) {
           image.alt = alt;
@@ -3747,16 +3647,13 @@ function applyLanguage(languageCode) {
   applyHeroFeatures(content.heroFeatures);
 
   setText(".intro-band .eyebrow", content.intro.eyebrow);
-  setHTML(".project-title", content.intro.titleHtml);
-  const introParagraphs = document.querySelectorAll(".intro-copy p");
-  introParagraphs.forEach((paragraph, index) => {
-    if (content.intro.lines[index]) {
-      paragraph.textContent = content.intro.lines[index];
-    }
+  setIntroTitle(content.intro.titleParts);
+  setText(".intro-band-lead", content.intro.lead);
+  setText(".intro-band-link", content.intro.link);
+  setCards("#warum .intro-pain-card", content.intro.cards, (cardElement, cardData) => {
+    setTextSelector(cardElement, "h3", cardData.title);
+    setTextSelector(cardElement, "p", cardData.body);
   });
-  setText("#warum .intro-link", content.intro.link);
-  setMarquee(".hero-badges-track", content.intro.badges);
-  setFeatureMarquee(".hero-feature-batches-track", content.intro.featureBadges);
 
   setText("#loesung .trust-eyebrow", content.problem.eyebrow);
   setHTML("#loesung .trust-title", content.problem.titleHtml);
@@ -4740,6 +4637,897 @@ function initDemoBookingModal() {
 initDemoBookingModal();
 initAssistantShowcase();
 applyLanguage(getPreferredLanguage());
+
+(function initIntroDataQuestionVisual() {
+  const visual = document.querySelector("#warum .intro-band-visual");
+  const canvas = document.querySelector("#warum .intro-synapse-canvas");
+  if (!visual || !canvas) {
+    return;
+  }
+
+  const context = canvas.getContext("2d");
+  if (!context) {
+    return;
+  }
+
+  const ICON_FILES = [
+    "teams.png",
+    "word.png",
+    "excel.png",
+    "pdf.png",
+    "clock-1.png",
+    "clock-2.png",
+    "clock-3.png",
+    "clock-4.png",
+    "outlook.png",
+    "slack.png",
+    "whatsapp.png",
+    "telegram.png",
+    "onedrive.png",
+    "google-drive.png",
+    "google-docs.png",
+    "sharepoint.png",
+    "onenote.png",
+    "google.png",
+    "apple.png",
+    "windows.png",
+    "cloud.png",
+    "folder.png",
+    "database.png",
+    "server.png",
+  ];
+
+  const FAVORED_ICON_FILES = new Set([
+    "teams.png",
+    "outlook.png",
+    "whatsapp.png",
+    "slack.png",
+    "sharepoint.png",
+    "onedrive.png",
+  ]);
+  const FAVORED_ICON_WEIGHT = 3.5;
+  const NORMAL_ICON_WEIGHT = 1;
+
+  const ICON_FILL = { r: 208, g: 220, b: 154 }; // #D0DC9A
+  const ICON_STROKE = { r: 159, g: 175, b: 82 }; // #9FAF52
+  const TIME_SCALE = 0.62;
+  const DRIFT_SPEED = 14;
+  const KEEP_OUT_SCALE = 0.28;
+
+  const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let reducedMotion = reducedMotionQuery.matches;
+
+  let width = 0;
+  let height = 0;
+  let dpr = 1;
+  let padding = 36;
+  let maxIconSlots = 16;
+  let iconImages = [];
+  let iconWeights = [];
+  let iconSlots = [];
+  let nextIconCursor = 0;
+  let animationFrame = 0;
+  let isVisible = false;
+  let isRunning = false;
+  let lastTime = 0;
+  let animTime = 0;
+  let centerX = 0;
+  let centerY = 0;
+  let qmarkSize = 0;
+  let keepOutRadius = 0;
+  let chaosStrokes = [];
+
+  function randomBetween(min, max) {
+    return min + Math.random() * (max - min);
+  }
+
+  function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+  }
+
+  function qualityProfile() {
+    const shortSide = Math.min(width, height);
+    const isNarrow = width < 700 || shortSide < 340;
+    maxIconSlots = isNarrow ? 13 : 16;
+    dpr = Math.min(window.devicePixelRatio || 1, isNarrow ? 1.5 : 2);
+    padding = clamp(shortSide * 0.08, 24, 40);
+    qmarkSize = shortSide * (isNarrow ? 0.52 : 0.58);
+    keepOutRadius = shortSide * KEEP_OUT_SCALE;
+    centerX = width * 0.5;
+    centerY = height * 0.5;
+  }
+
+  function createChaosStroke(shortSide, cloudRx, cloudRy) {
+    const lobe = Math.random();
+    const baseAngle = Math.random() * Math.PI * 2;
+    const baseRadius = Math.pow(Math.random(), 0.55) * (lobe < 0.35 ? 0.55 : 1);
+    let x = Math.cos(baseAngle) * cloudRx * baseRadius * randomBetween(0.7, 1.15);
+    let y = Math.sin(baseAngle) * cloudRy * baseRadius * randomBetween(0.65, 1.2);
+    const points = [{ x, y, vx: 0, vy: 0 }];
+    const segments = 5 + Math.floor(Math.random() * 7);
+    let heading = Math.random() * Math.PI * 2;
+
+    for (let step = 0; step < segments; step += 1) {
+      heading += randomBetween(-0.9, 0.9);
+      const stepLen = randomBetween(8, 28) * (shortSide / 420);
+      x += Math.cos(heading) * stepLen;
+      y += Math.sin(heading) * stepLen;
+      const nx = x / cloudRx;
+      const ny = y / cloudRy;
+      if (nx * nx + ny * ny > 1.15) {
+        x *= 0.82;
+        y *= 0.82;
+        heading += Math.PI * randomBetween(0.4, 0.9);
+      }
+      points.push({
+        x,
+        y,
+        vx: randomBetween(-6, 6),
+        vy: randomBetween(-6, 6),
+      });
+    }
+
+    return {
+      points,
+      width: randomBetween(0.7, 1.8),
+      baseAlpha: randomBetween(0.1, 0.24),
+      alpha: 0,
+      phase: Math.random() * Math.PI * 2,
+      speed: randomBetween(0.2, 0.55),
+      life: 0,
+      maxLife: randomBetween(3.5, 8.5),
+      morph: randomBetween(0.6, 1.4),
+    };
+  }
+
+  function rebuildChaosCloud() {
+    const shortSide = Math.min(width, height);
+    const count = Math.round(shortSide < 340 ? 42 : 62);
+    const cloudRx = shortSide * 0.64;
+    const cloudRy = shortSide * 0.54;
+    chaosStrokes = Array.from({ length: count }, () => {
+      const stroke = createChaosStroke(shortSide, cloudRx, cloudRy);
+      // Stagger initial ages so the cloud already feels alive
+      stroke.life = randomBetween(0, stroke.maxLife * 0.85);
+      stroke.alpha = stroke.baseAlpha;
+      return stroke;
+    });
+  }
+
+  function updateChaosCloud(dt) {
+    if (!width || !height) {
+      return;
+    }
+
+    const shortSide = Math.min(width, height);
+    const cloudRx = shortSide * 0.64;
+    const cloudRy = shortSide * 0.54;
+    const targetCount = Math.round(shortSide < 340 ? 42 : 62);
+
+    chaosStrokes = chaosStrokes.filter((stroke) => {
+      stroke.life += dt;
+
+      const fadeIn = clamp(stroke.life / 0.8, 0, 1);
+      const fadeOut = clamp((stroke.maxLife - stroke.life) / 1.1, 0, 1);
+      stroke.alpha = stroke.baseAlpha * Math.min(fadeIn, fadeOut);
+
+      // Continuously reshape the scribble so the cloud keeps changing
+      stroke.points.forEach((point, index) => {
+        point.vx += Math.sin(stroke.phase + index + stroke.life * stroke.morph) * 4 * dt;
+        point.vy += Math.cos(stroke.phase * 0.8 + index * 0.7 + stroke.life * stroke.speed) * 4 * dt;
+        point.vx = clamp(point.vx, -14, 14);
+        point.vy = clamp(point.vy, -14, 14);
+        point.x += point.vx * dt;
+        point.y += point.vy * dt;
+
+        const nx = point.x / cloudRx;
+        const ny = point.y / cloudRy;
+        const outside = nx * nx + ny * ny;
+        // Soft pull inward — no hard elliptical wall
+        if (outside > 0.85) {
+          const pull = (outside - 0.85) * 0.08;
+          point.vx -= point.x * pull;
+          point.vy -= point.y * pull;
+        }
+      });
+
+      return stroke.life < stroke.maxLife;
+    });
+
+    while (chaosStrokes.length < targetCount) {
+      chaosStrokes.push(createChaosStroke(shortSide, cloudRx, cloudRy));
+    }
+  }
+
+  function makeTintedIcon(source) {
+    const size = 96;
+    const pad = 8;
+    const offscreen = document.createElement("canvas");
+    offscreen.width = size;
+    offscreen.height = size;
+    const ctx = offscreen.getContext("2d");
+    if (!ctx) {
+      return null;
+    }
+
+    ctx.clearRect(0, 0, size, size);
+    ctx.drawImage(source, pad, pad, size - pad * 2, size - pad * 2);
+    const imageData = ctx.getImageData(0, 0, size, size);
+    const src = imageData.data;
+    const out = ctx.createImageData(size, size);
+    const dst = out.data;
+    const threshold = 28;
+    const edge = new Uint8Array(size * size);
+
+    function alphaAt(x, y) {
+      if (x < 0 || y < 0 || x >= size || y >= size) {
+        return 0;
+      }
+      return src[(y * size + x) * 4 + 3];
+    }
+
+    // Pass 1: 1px silhouette / detail edges
+    for (let y = 0; y < size; y += 1) {
+      for (let x = 0; x < size; x += 1) {
+        const alpha = alphaAt(x, y);
+        if (alpha < threshold) {
+          continue;
+        }
+
+        const isEdge =
+          alphaAt(x - 1, y) < threshold ||
+          alphaAt(x + 1, y) < threshold ||
+          alphaAt(x, y - 1) < threshold ||
+          alphaAt(x, y + 1) < threshold;
+
+        if (isEdge) {
+          edge[y * size + x] = 1;
+        }
+      }
+    }
+
+    // Pass 2: slim ~2px stroke + fill interior
+    for (let y = 0; y < size; y += 1) {
+      for (let x = 0; x < size; x += 1) {
+        const i = y * size + x;
+        if (alphaAt(x, y) < threshold) {
+          continue;
+        }
+
+        const isStroke =
+          edge[i] ||
+          (x > 0 && edge[i - 1]) ||
+          (x < size - 1 && edge[i + 1]) ||
+          (y > 0 && edge[i - size]) ||
+          (y < size - 1 && edge[i + size]);
+
+        const tone = isStroke ? ICON_STROKE : ICON_FILL;
+        const index = i * 4;
+        dst[index] = tone.r;
+        dst[index + 1] = tone.g;
+        dst[index + 2] = tone.b;
+        dst[index + 3] = 255;
+      }
+    }
+
+    ctx.clearRect(0, 0, size, size);
+    ctx.putImageData(out, 0, 0);
+    return offscreen;
+  }
+
+  function loadSourceIcon(file) {
+    return new Promise((resolve) => {
+      const image = new Image();
+      image.decoding = "async";
+      image.onload = () => resolve(image);
+      image.onerror = () => resolve(null);
+      image.src = `assets/icons/integrations/${file}`;
+    });
+  }
+
+  function pickNextImageIndex() {
+    if (!iconImages.length) {
+      return 0;
+    }
+
+    const visible = new Set(iconSlots.map((item) => item.imageIndex));
+    const candidates = [];
+    let totalWeight = 0;
+
+    for (let index = 0; index < iconImages.length; index += 1) {
+      if (visible.has(index)) {
+        continue;
+      }
+      const weight = iconWeights[index] || NORMAL_ICON_WEIGHT;
+      candidates.push({ index, weight });
+      totalWeight += weight;
+    }
+
+    if (!candidates.length) {
+      for (let index = 0; index < iconImages.length; index += 1) {
+        const weight = iconWeights[index] || NORMAL_ICON_WEIGHT;
+        candidates.push({ index, weight });
+        totalWeight += weight;
+      }
+    }
+
+    let roll = Math.random() * totalWeight;
+    for (let i = 0; i < candidates.length; i += 1) {
+      roll -= candidates[i].weight;
+      if (roll <= 0) {
+        nextIconCursor = (candidates[i].index + 1) % iconImages.length;
+        return candidates[i].index;
+      }
+    }
+
+    const last = candidates[candidates.length - 1];
+    nextIconCursor = (last.index + 1) % iconImages.length;
+    return last.index;
+  }
+
+  function iconPixelSize(slot) {
+    const base = 24 + Math.min(width, height) * 0.028;
+    return base * slot.sizeScale * Math.max(slot.scale, 0.35);
+  }
+
+  function boundsFor(slot) {
+    const half = iconPixelSize(slot) * 0.5 + 4;
+    return {
+      minX: padding + half,
+      maxX: width - padding - half,
+      minY: padding + half,
+      maxY: height - padding - half,
+    };
+  }
+
+  function pushOutOfKeepOut(slot) {
+    const dx = slot.x - centerX;
+    const dy = slot.y - centerY;
+    const dist = Math.hypot(dx, dy);
+    const minDist = keepOutRadius + iconPixelSize(slot) * 0.45;
+    if (dist >= minDist || dist < 0.001) {
+      if (dist < 0.001) {
+        const angle = Math.random() * Math.PI * 2;
+        slot.x = centerX + Math.cos(angle) * minDist;
+        slot.y = centerY + Math.sin(angle) * minDist;
+      }
+      return;
+    }
+    const scale = minDist / dist;
+    slot.x = centerX + dx * scale;
+    slot.y = centerY + dy * scale;
+  }
+
+  function randomFreePose(slot, others) {
+    const bounds = boundsFor(slot);
+    let bestX = randomBetween(bounds.minX, bounds.maxX);
+    let bestY = randomBetween(bounds.minY, bounds.maxY);
+    let bestScore = -1;
+
+    for (let attempt = 0; attempt < 40; attempt += 1) {
+      const x = randomBetween(bounds.minX, bounds.maxX);
+      const y = randomBetween(bounds.minY, bounds.maxY);
+      const fromCenter = Math.hypot(x - centerX, y - centerY);
+      if (fromCenter < keepOutRadius + iconPixelSize(slot) * 0.5) {
+        continue;
+      }
+
+      let minGap = Infinity;
+      others.forEach((other) => {
+        if (other === slot || other.phase === "wait") {
+          return;
+        }
+        const needed = (iconPixelSize(slot) + iconPixelSize(other)) * 0.58 + 10;
+        const gap = Math.hypot(x - other.x, y - other.y) - needed;
+        minGap = Math.min(minGap, gap);
+      });
+
+      const score = (minGap === Infinity ? 40 : minGap) + fromCenter * 0.02 + Math.random();
+      if (score > bestScore) {
+        bestScore = score;
+        bestX = x;
+        bestY = y;
+      }
+    }
+
+    slot.x = bestX;
+    slot.y = bestY;
+    pushOutOfKeepOut(slot);
+    const finalBounds = boundsFor(slot);
+    slot.x = clamp(slot.x, finalBounds.minX, finalBounds.maxX);
+    slot.y = clamp(slot.y, finalBounds.minY, finalBounds.maxY);
+  }
+
+  function assignDrift(slot) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = randomBetween(DRIFT_SPEED * 0.45, DRIFT_SPEED);
+    slot.vx = Math.cos(angle) * speed;
+    slot.vy = Math.sin(angle) * speed;
+    slot.driftPhase = Math.random() * Math.PI * 2;
+    slot.driftSpeed = randomBetween(0.35, 0.7);
+  }
+
+  function resolveOverlaps() {
+    const active = iconSlots.filter((slot) => slot.phase !== "wait" && slot.alpha > 0.02);
+    if (active.length < 2) {
+      active.forEach((slot) => {
+        pushOutOfKeepOut(slot);
+        const bounds = boundsFor(slot);
+        slot.x = clamp(slot.x, bounds.minX, bounds.maxX);
+        slot.y = clamp(slot.y, bounds.minY, bounds.maxY);
+      });
+      return;
+    }
+
+    for (let iter = 0; iter < 6; iter += 1) {
+      for (let i = 0; i < active.length; i += 1) {
+        for (let j = i + 1; j < active.length; j += 1) {
+          const a = active[i];
+          const b = active[j];
+          let dx = b.x - a.x;
+          let dy = b.y - a.y;
+          let dist = Math.hypot(dx, dy);
+          const minDist = (iconPixelSize(a) + iconPixelSize(b)) * 0.58 + 10;
+          if (dist >= minDist) {
+            continue;
+          }
+          if (dist < 0.001) {
+            const pushAngle = (a.imageIndex + b.imageIndex) * 0.9;
+            dx = Math.cos(pushAngle);
+            dy = Math.sin(pushAngle);
+            dist = 1;
+          }
+          const push = (minDist - dist) * 0.5;
+          const nx = dx / dist;
+          const ny = dy / dist;
+          a.x -= nx * push;
+          a.y -= ny * push;
+          b.x += nx * push;
+          b.y += ny * push;
+          a.vx -= nx * 4;
+          a.vy -= ny * 4;
+          b.vx += nx * 4;
+          b.vy += ny * 4;
+        }
+      }
+    }
+
+    active.forEach((slot) => {
+      pushOutOfKeepOut(slot);
+      const bounds = boundsFor(slot);
+      slot.x = clamp(slot.x, bounds.minX, bounds.maxX);
+      slot.y = clamp(slot.y, bounds.minY, bounds.maxY);
+    });
+  }
+
+  function buildIconSlots() {
+    if (!iconImages.length) {
+      iconSlots = [];
+      return;
+    }
+
+    nextIconCursor = 0;
+    iconSlots = [];
+    const count = Math.min(maxIconSlots, iconImages.length);
+    for (let index = 0; index < count; index += 1) {
+      const slot = {
+        imageIndex: pickNextImageIndex(),
+        x: centerX,
+        y: centerY,
+        vx: 0,
+        vy: 0,
+        sizeScale: randomBetween(0.72, 1.35),
+        driftPhase: Math.random() * Math.PI * 2,
+        driftSpeed: randomBetween(0.35, 0.7),
+        alpha: 0,
+        scale: 0.2,
+        phase: "wait",
+        timer: randomBetween(0.02, 0.25) + index * 0.06,
+        hold: randomBetween(3.0, 4.8),
+      };
+      assignDrift(slot);
+      iconSlots.push(slot);
+    }
+
+    iconSlots.forEach((slot, index) => {
+      randomFreePose(slot, iconSlots.slice(0, index));
+      slot.phase = "hold";
+      slot.alpha = 1;
+      slot.scale = 1;
+      // Start cycling immediately: first slots swap almost at once, others follow quickly
+      slot.timer = randomBetween(0.05, 0.35) + index * 0.22;
+    });
+
+    resolveOverlaps();
+  }
+
+  function loadIcons() {
+    return Promise.all(ICON_FILES.map((file) => loadSourceIcon(file))).then((images) => {
+      iconImages = [];
+      iconWeights = [];
+      images.forEach((image, index) => {
+        if (!image) {
+          return;
+        }
+        const tinted = makeTintedIcon(image);
+        if (!tinted) {
+          return;
+        }
+        iconImages.push(tinted);
+        iconWeights.push(
+          FAVORED_ICON_FILES.has(ICON_FILES[index]) ? FAVORED_ICON_WEIGHT : NORMAL_ICON_WEIGHT
+        );
+      });
+      buildIconSlots();
+    });
+  }
+
+  function updateIcons(dt) {
+    if (!iconSlots.length || !iconImages.length) {
+      return;
+    }
+
+    iconSlots.forEach((slot) => {
+      slot.timer -= dt;
+
+      // Slow free drift — not circular
+      const swayX = Math.sin(animTime * slot.driftSpeed + slot.driftPhase) * 6;
+      const swayY = Math.cos(animTime * slot.driftSpeed * 0.8 + slot.driftPhase * 1.1) * 6;
+      slot.vx += swayX * dt * 0.35;
+      slot.vy += swayY * dt * 0.35;
+      slot.vx = clamp(slot.vx, -DRIFT_SPEED, DRIFT_SPEED);
+      slot.vy = clamp(slot.vy, -DRIFT_SPEED, DRIFT_SPEED);
+      slot.x += slot.vx * dt;
+      slot.y += slot.vy * dt;
+
+      // Soft bounce on edges
+      const bounds = boundsFor(slot);
+      if (slot.x <= bounds.minX || slot.x >= bounds.maxX) {
+        slot.vx *= -0.85;
+        slot.x = clamp(slot.x, bounds.minX, bounds.maxX);
+      }
+      if (slot.y <= bounds.minY || slot.y >= bounds.maxY) {
+        slot.vy *= -0.85;
+        slot.y = clamp(slot.y, bounds.minY, bounds.maxY);
+      }
+
+      // Soft push away from question mark
+      const dx = slot.x - centerX;
+      const dy = slot.y - centerY;
+      const dist = Math.hypot(dx, dy) || 1;
+      const minDist = keepOutRadius + iconPixelSize(slot) * 0.45;
+      if (dist < minDist) {
+        const force = ((minDist - dist) / minDist) * 28;
+        slot.vx += (dx / dist) * force * dt;
+        slot.vy += (dy / dist) * force * dt;
+      }
+
+      if (slot.phase === "wait" && slot.timer <= 0) {
+        // Keep a calm middle pace: a few swaps at once, not all at once
+        const transitioning = iconSlots.filter(
+          (item) => item !== slot && (item.phase === "in" || item.phase === "out")
+        ).length;
+        if (transitioning >= 3) {
+          slot.timer = randomBetween(0.2, 0.5);
+          return;
+        }
+
+        slot.imageIndex = pickNextImageIndex();
+        slot.sizeScale = randomBetween(0.72, 1.35);
+        slot.hold = randomBetween(3.0, 4.8);
+        assignDrift(slot);
+        randomFreePose(slot, iconSlots);
+        slot.phase = "in";
+        slot.timer = randomBetween(0.34, 0.48);
+        slot.alpha = 0;
+        slot.scale = 0.12;
+      } else if (slot.phase === "in") {
+        const duration = 0.42;
+        const t = 1 - clamp(slot.timer / duration, 0, 1);
+        const pop = t < 0.75 ? t / 0.75 : 1 - (t - 0.75) * 0.08;
+        slot.alpha = Math.min(1, t * 1.25);
+        slot.scale = 0.12 + pop * 0.98;
+        if (slot.timer <= 0) {
+          slot.phase = "hold";
+          slot.timer = slot.hold;
+          slot.alpha = 1;
+          slot.scale = 1;
+        }
+      } else if (slot.phase === "hold") {
+        slot.alpha = 0.93 + Math.sin(animTime * slot.driftSpeed + slot.driftPhase) * 0.05;
+        slot.scale = 1 + Math.sin(animTime * slot.driftSpeed * 0.7 + slot.driftPhase) * 0.04;
+        if (slot.timer <= 0) {
+          const transitioning = iconSlots.filter(
+            (item) => item !== slot && (item.phase === "in" || item.phase === "out")
+          ).length;
+          if (transitioning >= 3) {
+            slot.timer = randomBetween(0.25, 0.7);
+          } else {
+            slot.phase = "out";
+            slot.timer = randomBetween(0.34, 0.48);
+          }
+        }
+      } else if (slot.phase === "out") {
+        const duration = 0.42;
+        const t = clamp(slot.timer / duration, 0, 1);
+        slot.alpha = t;
+        slot.scale = 0.16 + t * 0.84;
+        if (slot.timer <= 0) {
+          slot.phase = "wait";
+          slot.timer = randomBetween(0.12, 0.35);
+          slot.alpha = 0;
+          slot.scale = 0.12;
+        }
+      }
+    });
+
+    resolveOverlaps();
+  }
+
+  function drawChaosCloud(elapsed) {
+    if (!chaosStrokes.length) {
+      return;
+    }
+
+    const shortSide = Math.min(width, height);
+    const fadeRx = shortSide * 0.68;
+    const fadeRy = shortSide * 0.58;
+
+    context.save();
+    context.translate(centerX, centerY);
+    context.lineCap = "round";
+    context.lineJoin = "round";
+
+    chaosStrokes.forEach((stroke) => {
+      if (stroke.alpha <= 0.01) {
+        return;
+      }
+      const drift = reducedMotion ? 0 : Math.sin(elapsed * stroke.speed + stroke.phase) * 2.5;
+
+      // Soft radial fade: strokes near the outer edge dissolve instead of cutting off hard
+      let midX = 0;
+      let midY = 0;
+      stroke.points.forEach((point) => {
+        midX += point.x;
+        midY += point.y;
+      });
+      midX /= stroke.points.length;
+      midY /= stroke.points.length;
+      const edge = Math.hypot(midX / fadeRx, midY / fadeRy);
+      const edgeFade = edge <= 0.55 ? 1 : edge >= 1.05 ? 0 : 1 - (edge - 0.55) / 0.5;
+      const alpha = stroke.alpha * edgeFade;
+      if (alpha <= 0.01) {
+        return;
+      }
+
+      // Subtle: nearer the center → slightly darker + sharper
+      const centerBias = clamp(1 - edge / 0.75, 0, 1);
+      const darkMix = centerBias * 0.22;
+      const r = Math.round(159 * (1 - darkMix) + 120 * darkMix);
+      const g = Math.round(175 * (1 - darkMix) + 132 * darkMix);
+      const b = Math.round(82 * (1 - darkMix) + 52 * darkMix);
+      const blurPx = 1.35 - centerBias * 0.75;
+      const lineAlpha = clamp(alpha * (1 + centerBias * 0.18), 0, 0.42);
+
+      context.filter = `blur(${blurPx.toFixed(2)}px)`;
+      context.beginPath();
+      stroke.points.forEach((point, index) => {
+        const px = point.x + drift * Math.cos(stroke.phase + index);
+        const py = point.y + drift * Math.sin(stroke.phase * 0.7 + index);
+        if (index === 0) {
+          context.moveTo(px, py);
+        } else {
+          context.lineTo(px, py);
+        }
+      });
+      context.strokeStyle = `rgba(${r}, ${g}, ${b}, ${lineAlpha})`;
+      context.lineWidth = stroke.width * (1 - centerBias * 0.1);
+      context.stroke();
+    });
+
+    context.filter = "none";
+    context.restore();
+  }
+
+  function drawQuestionMark(elapsed) {
+    const breath = reducedMotion ? 1 : 1 + Math.sin(elapsed * 0.55) * 0.025;
+    const alpha = reducedMotion ? 0.96 : 0.9 + Math.sin(elapsed * 0.45) * 0.05;
+    const size = qmarkSize * breath;
+
+    context.save();
+    context.translate(centerX, centerY);
+    context.font = `bold ${size}px Arial, Helvetica, sans-serif`;
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.fillStyle = `rgba(70, 70, 70, ${alpha})`; // #464646
+    context.fillText("?", 0, size * 0.02);
+    context.restore();
+  }
+
+  function drawIcons() {
+    iconSlots.forEach((slot) => {
+      if (slot.alpha <= 0.01 || slot.phase === "wait") {
+        return;
+      }
+
+      const image = iconImages[slot.imageIndex];
+      if (!image) {
+        return;
+      }
+
+      const size = iconPixelSize(slot);
+      const half = size * 0.5;
+
+      context.save();
+      context.globalAlpha = clamp(slot.alpha, 0, 1);
+      context.drawImage(image, slot.x - half, slot.y - half, size, size);
+      context.restore();
+    });
+  }
+
+  function drawFrame(elapsed) {
+    context.clearRect(0, 0, width, height);
+    drawChaosCloud(elapsed);
+    drawQuestionMark(elapsed);
+    drawIcons();
+  }
+
+  function tick(time) {
+    if (!isRunning) {
+      return;
+    }
+
+    const dt = Math.min(0.033, ((time - lastTime) || 16) / 1000) * TIME_SCALE;
+    lastTime = time;
+    animTime += dt;
+
+    if (!reducedMotion) {
+      updateChaosCloud(dt);
+      updateIcons(dt);
+    }
+
+    drawFrame(animTime);
+    animationFrame = window.requestAnimationFrame(tick);
+  }
+
+  function start() {
+    if (isRunning || reducedMotion) {
+      return;
+    }
+    isRunning = true;
+    lastTime = performance.now();
+    animTime = 0;
+    animationFrame = window.requestAnimationFrame(tick);
+  }
+
+  function stop() {
+    isRunning = false;
+    window.cancelAnimationFrame(animationFrame);
+  }
+
+  function renderStatic() {
+    if (!iconSlots.length && iconImages.length) {
+      buildIconSlots();
+    }
+    // Freeze visible icons evenly around the mark
+    const visible = iconSlots.filter((slot) => slot.phase === "hold" || slot.phase === "in");
+    if (!visible.length && iconSlots.length) {
+      const count = Math.min(6, iconSlots.length);
+      for (let index = 0; index < count; index += 1) {
+        const slot = iconSlots[index];
+        slot.phase = "hold";
+        slot.alpha = 1;
+        slot.scale = 1;
+        slot.angle = (index / count) * Math.PI * 2;
+        slot.radiusScale = 1;
+      }
+    }
+    iconSlots.forEach((slot) => {
+      if (slot.phase !== "wait") {
+        slot.phase = "hold";
+        slot.alpha = 1;
+        slot.scale = 1;
+      }
+    });
+    drawFrame(animTime);
+  }
+
+  function resizeCanvas() {
+    const bounds = visual.getBoundingClientRect();
+    width = Math.max(1, Math.round(bounds.width));
+    height = Math.max(1, Math.round(bounds.height));
+    qualityProfile();
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    context.setTransform(dpr, 0, 0, dpr, 0, 0);
+    rebuildChaosCloud();
+
+    if (iconImages.length && iconSlots.length !== Math.min(maxIconSlots, Math.max(iconImages.length, 8))) {
+      buildIconSlots();
+    }
+  }
+
+  const resizeObserver = new ResizeObserver(() => {
+    resizeCanvas();
+    if (reducedMotion) {
+      renderStatic();
+      return;
+    }
+    if (isVisible || !isRunning) {
+      drawFrame(animTime);
+    }
+  });
+  resizeObserver.observe(visual);
+
+  const intersectionObserver = new IntersectionObserver(
+    (entries) => {
+      isVisible = entries.some((entry) => entry.isIntersecting);
+      if (reducedMotion) {
+        stop();
+        return;
+      }
+      if (isVisible && document.visibilityState === "visible") {
+        start();
+      } else {
+        stop();
+      }
+    },
+    { threshold: 0.08 }
+  );
+  intersectionObserver.observe(visual);
+
+  document.addEventListener("visibilitychange", () => {
+    if (reducedMotion) {
+      return;
+    }
+    if (document.visibilityState === "visible" && isVisible) {
+      start();
+    } else {
+      stop();
+    }
+  });
+
+  function syncMotionPreference() {
+    reducedMotion = reducedMotionQuery.matches;
+    if (reducedMotion) {
+      stop();
+      renderStatic();
+      return;
+    }
+    if (isVisible && document.visibilityState === "visible") {
+      start();
+    }
+  }
+
+  if (typeof reducedMotionQuery.addEventListener === "function") {
+    reducedMotionQuery.addEventListener("change", syncMotionPreference);
+  } else if (typeof reducedMotionQuery.addListener === "function") {
+    reducedMotionQuery.addListener(syncMotionPreference);
+  }
+
+  resizeCanvas();
+
+  loadIcons().then(() => {
+    if (reducedMotion) {
+      renderStatic();
+      return;
+    }
+    drawFrame(animTime);
+    const bounds = visual.getBoundingClientRect();
+    isVisible = bounds.bottom > 0 && bounds.top < window.innerHeight;
+    if (isVisible && document.visibilityState === "visible") {
+      start();
+    }
+  });
+
+  if (reducedMotion) {
+    renderStatic();
+  } else {
+    drawFrame(animTime);
+  }
+})();
 
 (function syncSiteHeaderOffset() {
   const header = document.querySelector(".site-header");

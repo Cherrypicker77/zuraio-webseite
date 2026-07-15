@@ -793,13 +793,10 @@ button.button {
 .intro-band {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.72fr);
-  grid-template-rows: auto auto auto auto;
-  gap: clamp(14px, 2vh, 20px) 38px;
-  padding: clamp(28px, 3.5vh, 40px) 0 clamp(16px, 2vh, 24px);
+  gap: clamp(28px, 4vh, 48px);
+  padding: clamp(36px, 5vh, 64px) 0 clamp(36px, 4.5vh, 56px);
   border-bottom: 1px solid var(--line);
   overflow: visible;
-  clip-path: inset(-100% -100vw 0 -100vw);
 }
 
 .intro-band-mark {
@@ -810,8 +807,6 @@ button.button {
   right: -16%;
   z-index: 1;
   pointer-events: none;
-  grid-column: 1 / -1;
-  grid-row: 1 / -1;
 }
 
 .intro-band-mark-inner {
@@ -836,64 +831,161 @@ button.button {
   fill-opacity: 0.5;
 }
 
-.intro-band > :not(.intro-band-mark) {
-  position: relative;
-  z-index: 3;
+.intro-band-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(24px, 4vw, 48px);
+  align-items: center;
+  overflow: visible;
+}
+
+.intro-band-copy {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+  max-width: 34rem;
 }
 
 .intro-band-eyebrow {
-  grid-column: 1;
-  grid-row: 1;
   margin-bottom: 0;
 }
 
-.project-title {
-  grid-column: 1;
-  grid-row: 2;
-  margin-bottom: 0;
-  font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
-  font-size: var(--hero-title-size);
+.intro-band-title {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(34px, 4.2vw, 52px);
+  font-weight: 750;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+}
+
+.intro-band-title-accent {
+  display: inline;
+  color: #9faf52;
+  font-family: "Bradley Hand", "Bradley Hand ITC", "Segoe Print", "Comic Sans MS", cursive;
+  font-size: 1.12em;
   font-weight: 500;
-  font-style: normal;
-  line-height: 0.95;
-  letter-spacing: -0.01em;
-}
-
-.project-title > span {
-  display: block;
-}
-
-.intro-band .project-title > span {
-  display: block;
+  line-height: 1;
+  letter-spacing: 0;
   white-space: nowrap;
 }
 
-.intro-band .project-title .brand-highlight {
-  display: inline;
-}
-
-.intro-copy {
-  grid-column: 2;
-  grid-row: 2;
-  display: grid;
-  align-content: start;
-  align-self: start;
-  gap: 6px;
-  max-width: 100%;
-}
-
-.intro-copy p {
-  margin-bottom: 0;
+.intro-band-lead {
+  margin: 0;
   color: var(--muted);
+  font-size: 19px;
+  line-height: 1.6;
 }
 
-.intro-copy .text-link {
-  margin-top: 10px;
+.intro-band-copy .intro-band-link {
   justify-self: start;
   width: fit-content;
+  max-width: 100%;
+  margin-top: 18px;
 }
 
-.intro-band p:last-child,
+.intro-band-visual {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-height: clamp(340px, 42vw, 480px);
+  height: clamp(340px, 42vw, 480px);
+  padding: 0;
+  isolation: isolate;
+  overflow: hidden;
+  contain: paint;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-band-visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
+  background:
+    radial-gradient(
+      circle at 50% 48%,
+      rgba(208, 220, 154, 0.36) 0%,
+      rgba(208, 220, 154, 0.18) 26%,
+      rgba(159, 175, 82, 0.1) 48%,
+      transparent 72%
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.intro-synapse-canvas {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-synapse-canvas {
+    opacity: 0.96;
+  }
+}
+
+.intro-pain-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.intro-pain-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 100%;
+  padding: 22px 20px;
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(208, 220, 154, 0.38) 0%, rgba(255, 255, 255, 0) 55%),
+    var(--white);
+  border: 1px solid rgba(32, 35, 38, 0.06);
+  border-radius: 14px;
+  box-shadow: 0 12px 28px rgba(32, 35, 38, 0.05);
+}
+
+.intro-pain-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  color: var(--ink);
+  background: rgba(208, 220, 154, 0.45);
+  border-radius: 50%;
+}
+
+.intro-pain-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.intro-pain-card h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 750;
+  line-height: 1.3;
+}
+
+.intro-pain-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
 .section-heading p,
 .feature-copy p,
 .cta-section p {
@@ -4029,28 +4121,32 @@ body[data-page="kontakt-demo"] .detail-chapter-kernaussage {
     grid-template-columns: 1fr;
   }
 
-  .intro-band-eyebrow {
-    grid-column: 1;
-    grid-row: 1;
+  .intro-band-top {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 
-  .intro-band .project-title {
-    grid-column: 1;
-    grid-row: 2;
+  .intro-band-copy {
+    max-width: none;
   }
 
-  .intro-copy {
-    grid-column: 1;
-    grid-row: 3;
-    gap: 6px;
+  .intro-band-visual {
+    min-height: 320px;
+    height: 320px;
+    max-width: 620px;
+    margin-inline: auto;
+    padding: 0;
+    overflow: hidden;
   }
 
-  .intro-band .hero-badges {
-    grid-row: 4;
+  .intro-synapse-canvas {
+    width: 100%;
+    height: 100%;
+    margin: 0;
   }
 
-  .intro-band .hero-feature-batches {
-    grid-row: 5;
+  .intro-pain-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .intro-band-mark {
@@ -4507,8 +4603,44 @@ body[data-page="kontakt-demo"] .detail-chapter-kernaussage {
 
   .intro-band {
     width: calc(100% - 28px);
-    padding: 32px 0 20px;
-    gap: 12px;
+    padding: 32px 0 28px;
+    gap: 24px;
+  }
+
+  .intro-band-title {
+    font-size: 32px;
+  }
+
+  .intro-band-title-accent {
+    font-size: 1.06em;
+    white-space: nowrap;
+  }
+
+  .intro-band-lead {
+    font-size: 16px;
+  }
+
+  .intro-band-visual {
+    min-height: 280px;
+    height: 280px;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .intro-pain-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .intro-pain-card {
+    padding: 18px 16px;
+  }
+
+  .intro-pain-card h3 {
+    font-size: 17px;
+  }
+
+  .intro-pain-card p {
+    font-size: 15px;
   }
 
   .eyebrow {
@@ -4603,15 +4735,6 @@ body[data-page="kontakt-demo"] .detail-chapter-kernaussage {
 
   .project-title > span {
     white-space: normal;
-  }
-
-  .intro-band .project-title > span {
-    display: block;
-    white-space: nowrap;
-  }
-
-  .intro-band .project-title .brand-highlight {
-    display: inline;
   }
 
   .section {
