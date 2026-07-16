@@ -4998,18 +4998,22 @@ applyLanguage(getPreferredLanguage());
     if (count <= 0 || !width || !height) {
       return homes;
     }
-    const inset = Math.max(28, Math.min(width, height) * 0.08);
+    const inset = Math.max(36, Math.min(width, height) * 0.1);
     const usableW = Math.max(40, width - inset * 2);
     const usableH = Math.max(40, height - inset * 2);
-    const cols = Math.max(2, Math.ceil(Math.sqrt(count * (usableW / usableH))));
-    const rows = Math.max(2, Math.ceil(count / cols));
+    const cols = Math.max(1, Math.ceil(Math.sqrt(count * (usableW / Math.max(usableH, 1)))));
+    const rows = Math.max(1, Math.ceil(count / cols));
     const cellW = usableW / cols;
     const cellH = usableH / rows;
     for (let index = 0; index < count; index += 1) {
       const col = index % cols;
       const row = Math.floor(index / cols);
+      // Center leftover cells if last row is short.
+      const itemsInRow =
+        row === rows - 1 ? count - row * cols : cols;
+      const rowOffset = ((cols - itemsInRow) * cellW) * 0.5;
       homes.push({
-        x: inset + cellW * (col + 0.5),
+        x: inset + rowOffset + cellW * (col + 0.5),
         y: inset + cellH * (row + 0.5),
         cellW,
         cellH,
@@ -5018,32 +5022,35 @@ applyLanguage(getPreferredLanguage());
     return homes;
   }
 
-  function assignFlightPath(entity) {
+  function assignFlightPath(entity, options = {}) {
+    const keepPosition = Boolean(options.keepPosition);
     const bounds = visibleBoundsFor(entity);
     const cx = (bounds.minX + bounds.maxX) * 0.5;
     const cy = (bounds.minY + bounds.maxY) * 0.5;
-    const spanX = bounds.maxX - bounds.minX;
-    const spanY = bounds.maxY - bounds.minY;
 
-    // Slightly offset homes so paths feel wild and unsynced across the full canvas.
-    entity.homeX = cx + spanX * randomBetween(-0.15, 0.15);
-    entity.homeY = cy + spanY * randomBetween(-0.15, 0.15);
+    entity.homeX = cx;
+    entity.homeY = cy;
 
-    const maxAmpX = Math.max(12, Math.min(entity.homeX - bounds.minX, bounds.maxX - entity.homeX));
-    const maxAmpY = Math.max(12, Math.min(entity.homeY - bounds.minY, bounds.maxY - entity.homeY));
-    entity.pathAmpX = maxAmpX * randomBetween(0.85, 0.98);
-    entity.pathAmpY = maxAmpY * randomBetween(0.85, 0.98);
+    const maxAmpX = Math.max(12, Math.min(cx - bounds.minX, bounds.maxX - cx));
+    const maxAmpY = Math.max(12, Math.min(cy - bounds.minY, bounds.maxY - cy));
+    entity.pathAmpX = maxAmpX * randomBetween(0.88, 0.98);
+    entity.pathAmpY = maxAmpY * randomBetween(0.88, 0.98);
     entity.zoneWander = Math.min(entity.pathAmpX, entity.pathAmpY);
 
-    entity.pathPhaseX = Math.random() * Math.PI * 2;
-    entity.pathPhaseY = Math.random() * Math.PI * 2;
-    // Slow, calm frequencies — continuous motion, never still.
     entity.pathFreqX = randomBetween(0.07, 0.15);
     entity.pathFreqY = randomBetween(0.08, 0.17);
-    if (typeof entity.pathTime !== "number") {
-      entity.pathTime = Math.random() * 40;
+    entity.pathTime = 0;
+
+    if (keepPosition) {
+      // Lock phases so the path starts exactly at the current (even) position.
+      const nx = clamp((entity.x - entity.homeX) / entity.pathAmpX, -1, 1);
+      const ny = clamp((entity.y - entity.homeY) / entity.pathAmpY, -1, 1);
+      entity.pathPhaseX = Math.asin(nx);
+      entity.pathPhaseY = Math.acos(ny);
     } else {
-      entity.pathTime += randomBetween(0.5, 2.5);
+      entity.pathPhaseX = Math.random() * Math.PI * 2;
+      entity.pathPhaseY = Math.random() * Math.PI * 2;
+      entity.pathTime = Math.random() * 40;
     }
   }
 
@@ -5098,11 +5105,37 @@ applyLanguage(getPreferredLanguage());
   }
 
   function applySharedHomes() {
-    const entities = [];
-    iconSlots.forEach((slot) => entities.push(slot));
-    centerIconCluster.forEach((item) => entities.push(item));
+    const visible = [];
+    const waiting = [];
 
-    entities.forEach((entity) => {
+    iconSlots.forEach((slot) => {
+      if (slot.phase === "wait") {
+        waiting.push(slot);
+      } else {
+        visible.push(slot);
+      }
+    });
+    centerIconCluster.forEach((item) => {
+      if (item.lifePhase === "wait") {
+        waiting.push(item);
+      } else {
+        visible.push(item);
+      }
+    });
+
+    const homes = generateEvenHomes(visible.length);
+    visible.forEach((entity, index) => {
+      const home = homes[index] || { x: centerX, y: centerY };
+      entity.x = home.x;
+      entity.y = home.y;
+      assignFlightPath(entity, { keepPosition: true });
+      sampleFlightPath(entity);
+      entity.targetX = entity.x;
+      entity.targetY = entity.y;
+      clampToVisibleBounds(entity);
+    });
+
+    waiting.forEach((entity) => {
       assignFlightPath(entity);
       sampleFlightPath(entity);
       entity.targetX = entity.x;
