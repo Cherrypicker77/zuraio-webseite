@@ -4691,17 +4691,19 @@ applyLanguage(getPreferredLanguage());
   const ICON_FILL = { r: 208, g: 220, b: 154 }; // #D0DC9A
   const ICON_STROKE = { r: 159, g: 175, b: 82 }; // #9FAF52
   const OUTLINE_STROKE = { r: 122, g: 122, b: 122 }; // #7A7A7A
-  const OUTLINE_FILL = { r: 122, g: 122, b: 122 }; // same as outline
-  const CENTER_QMARK_COLOR = "rgba(122, 122, 122, 1)"; // #7A7A7A
-  const TIME_SCALE = 0.62;
-  const DRIFT_SPEED = 14;
-  // Real-time lifecycle for every icon (green, ?, brain): 2s in → 4s hold → 2s out.
-  const ICON_FADE_IN = 2;
-  const ICON_HOLD = 4;
-  const ICON_FADE_OUT = 2;
-  const ICON_MIN_HOLD = 2; // don't yank freshly faded-in icons
-  let pendingCenterFadeIns = [];
-  let targetVisibleIcons = 0;
+  const OUTLINE_FILL = { r: 122, g: 122, b: 122 };
+  const CENTER_QMARK_COLOR = "rgba(122, 122, 122, 1)";
+
+  const FADE_IN_MIN = 0.4;
+  const FADE_IN_MAX = 2.0;
+  const HOLD_MIN = 1.0;
+  const HOLD_MAX = 4.0;
+  const FADE_OUT_MIN = 0.4;
+  const FADE_OUT_MAX = 2.0;
+  const POSITION_COOLDOWN_MIN = 3.0;
+  const POSITION_COOLDOWN_MAX = 6.0;
+  const INNER_SPAWN_RATIO = 0.75;
+  const SPACING_GAP = 18;
 
   const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   let reducedMotion = reducedMotionQuery.matches;
@@ -4709,14 +4711,14 @@ applyLanguage(getPreferredLanguage());
   let width = 0;
   let height = 0;
   let dpr = 1;
-  let padding = 36;
-  let maxIconSlots = 16;
+  let maxIconSlots = 18;
+  let targetVisibleIcons = 16;
   let iconImages = [];
   let iconWeights = [];
   let iconSlots = [];
-  let nextIconCursor = 0;
   let centerBrainImage = null;
-  let centerIconCluster = [];
+  let recentPositions = [];
+  let nextIconCursor = 0;
   let lastLayoutWidth = 0;
   let lastLayoutHeight = 0;
   let animationFrame = 0;
@@ -4732,21 +4734,21 @@ applyLanguage(getPreferredLanguage());
     return min + Math.random() * (max - min);
   }
 
-  // Convert wall-clock seconds into animation timer units (dt is scaled by TIME_SCALE).
-  function lifeSeconds(realSeconds) {
-    return realSeconds / TIME_SCALE;
-  }
-
   function clamp(value, min, max) {
     return Math.max(min, Math.min(max, value));
+  }
+
+  function easeSmooth(t) {
+    const x = clamp(t, 0, 1);
+    return x * x * (3 - 2 * x);
   }
 
   function qualityProfile() {
     const shortSide = Math.min(width, height);
     const isNarrow = width < 700 || shortSide < 340;
-    maxIconSlots = isNarrow ? 13 : 16;
+    maxIconSlots = isNarrow ? 16 : 20;
+    targetVisibleIcons = isNarrow ? 14 : 17;
     dpr = Math.min(window.devicePixelRatio || 1, isNarrow ? 1.5 : 2);
-    padding = clamp(shortSide * 0.08, 24, 40);
     centerX = width * 0.5;
     centerY = height * 0.5;
   }
@@ -4795,6 +4797,10 @@ applyLanguage(getPreferredLanguage());
   }
 
   function rebuildChaosCloud() {
+    if (!width || !height) {
+      chaosStrokes = [];
+      return;
+    }
     const shortSide = Math.min(width, height);
     const count = Math.round(shortSide < 340 ? 42 : 62);
     const cloudRx = shortSide * 0.64;
@@ -4847,6 +4853,69 @@ applyLanguage(getPreferredLanguage());
     while (chaosStrokes.length < targetCount) {
       chaosStrokes.push(createChaosStroke(shortSide, cloudRx, cloudRy));
     }
+  }
+
+  function drawChaosCloud(elapsed) {
+    if (!chaosStrokes.length) {
+      return;
+    }
+
+    const shortSide = Math.min(width, height);
+    const fadeRx = shortSide * 0.68;
+    const fadeRy = shortSide * 0.58;
+
+    context.save();
+    context.translate(centerX, centerY);
+    context.lineCap = "round";
+    context.lineJoin = "round";
+
+    chaosStrokes.forEach((stroke) => {
+      if (stroke.alpha <= 0.01) {
+        return;
+      }
+      const drift = reducedMotion ? 0 : Math.sin(elapsed * stroke.speed + stroke.phase) * 2.5;
+
+      let midX = 0;
+      let midY = 0;
+      stroke.points.forEach((point) => {
+        midX += point.x;
+        midY += point.y;
+      });
+      midX /= stroke.points.length;
+      midY /= stroke.points.length;
+      const edge = Math.hypot(midX / fadeRx, midY / fadeRy);
+      const edgeFade = edge <= 0.55 ? 1 : edge >= 1.05 ? 0 : 1 - (edge - 0.55) / 0.5;
+      const alpha = stroke.alpha * edgeFade;
+      if (alpha <= 0.01) {
+        return;
+      }
+
+      const centerBias = clamp(1 - edge / 0.75, 0, 1);
+      const darkMix = centerBias * 0.22;
+      const r = Math.round(159 * (1 - darkMix) + 120 * darkMix);
+      const g = Math.round(175 * (1 - darkMix) + 132 * darkMix);
+      const b = Math.round(82 * (1 - darkMix) + 52 * darkMix);
+      const blurPx = 1.35 - centerBias * 0.75;
+      const lineAlpha = clamp(alpha * (1 + centerBias * 0.18), 0, 0.42);
+
+      context.filter = `blur(${blurPx.toFixed(2)}px)`;
+      context.beginPath();
+      stroke.points.forEach((point, index) => {
+        const px = point.x + drift * Math.cos(stroke.phase + index);
+        const py = point.y + drift * Math.sin(stroke.phase * 0.7 + index);
+        if (index === 0) {
+          context.moveTo(px, py);
+        } else {
+          context.lineTo(px, py);
+        }
+      });
+      context.strokeStyle = `rgba(${r}, ${g}, ${b}, ${lineAlpha})`;
+      context.lineWidth = stroke.width * (1 - centerBias * 0.1);
+      context.stroke();
+    });
+
+    context.filter = "none";
+    context.restore();
   }
 
   function makeTintedIcon(source) {
@@ -4999,34 +5068,13 @@ applyLanguage(getPreferredLanguage());
     });
   }
 
-  function centerIconPixelSize(item) {
-    const shortSide = Math.min(width, height);
-    const base = shortSide * (shortSide < 340 ? 0.105 : 0.098);
-    return base * item.sizeScale;
-  }
-
   function iconPixelSize(slot) {
     const base = 24 + Math.min(width, height) * 0.028;
     return base * slot.sizeScale * Math.max(slot.scale, 0.35);
   }
 
-  function fieldZoneRadii() {
-    const shortSide = Math.min(width, height);
-    return {
-      rx: shortSide * 0.64,
-      ry: shortSide * 0.54,
-    };
-  }
-
   function entityDrawHalf(entity) {
-    if (entity.kind) {
-      return centerIconPixelSize(entity) * 0.5;
-    }
     return iconPixelSize(entity) * 0.5;
-  }
-
-  function entityRadius(entity) {
-    return entityDrawHalf(entity);
   }
 
   function visibleBoundsFor(entity) {
@@ -5039,7 +5087,6 @@ applyLanguage(getPreferredLanguage());
     };
   }
 
-  // Inner disk ≈ half the canvas area (AABB used for motion clamp).
   function innerDisk(full) {
     const cx = (full.minX + full.maxX) * 0.5;
     const cy = (full.minY + full.maxY) * 0.5;
@@ -5050,16 +5097,6 @@ applyLanguage(getPreferredLanguage());
     return { cx, cy, r: Math.min(halfAreaR, fitR) };
   }
 
-  function innerHalfBounds(full) {
-    const disk = innerDisk(full);
-    return {
-      minX: disk.cx - disk.r,
-      maxX: disk.cx + disk.r,
-      minY: disk.cy - disk.r,
-      maxY: disk.cy + disk.r,
-    };
-  }
-
   function pointInInnerDisk(x, y, full) {
     const disk = innerDisk(full);
     return Math.hypot(x - disk.cx, y - disk.cy) <= disk.r;
@@ -5068,8 +5105,7 @@ applyLanguage(getPreferredLanguage());
   function samplePointInRegion(full, region) {
     const disk = innerDisk(full);
     if (region === "inner") {
-      // Uniform in disk via radius^0.5, plus light angular chaos.
-      for (let tryIndex = 0; tryIndex < 20; tryIndex += 1) {
+      for (let tryIndex = 0; tryIndex < 24; tryIndex += 1) {
         const angle = Math.random() * Math.PI * 2;
         const rad = disk.r * Math.sqrt(Math.random());
         const x = disk.cx + Math.cos(angle) * rad;
@@ -5080,720 +5116,194 @@ applyLanguage(getPreferredLanguage());
       }
       return { x: disk.cx, y: disk.cy };
     }
-    if (region === "outer") {
-      for (let tryIndex = 0; tryIndex < 36; tryIndex += 1) {
-        const candidate = {
-          x: randomBetween(full.minX, full.maxX),
-          y: randomBetween(full.minY, full.maxY),
-        };
-        if (!pointInInnerDisk(candidate.x, candidate.y, full)) {
-          return candidate;
-        }
-      }
-      // Fallback: rim just outside the disk.
-      const angle = Math.random() * Math.PI * 2;
-      const rad = Math.min(
-        disk.r + randomBetween(12, 48),
-        Math.min(
-          Math.hypot(full.maxX - disk.cx, full.maxY - disk.cy),
-          Math.max(disk.r + 8, Math.min(full.maxX - disk.cx, disk.cx - full.minX, full.maxY - disk.cy, disk.cy - full.minY))
-        )
-      );
-      return {
-        x: clamp(disk.cx + Math.cos(angle) * rad, full.minX, full.maxX),
-        y: clamp(disk.cy + Math.sin(angle) * rad, full.minY, full.maxY),
+
+    for (let tryIndex = 0; tryIndex < 40; tryIndex += 1) {
+      const candidate = {
+        x: randomBetween(full.minX, full.maxX),
+        y: randomBetween(full.minY, full.maxY),
       };
+      if (!pointInInnerDisk(candidate.x, candidate.y, full)) {
+        return candidate;
+      }
     }
+
+    const angle = Math.random() * Math.PI * 2;
+    const rad = Math.min(
+      disk.r + randomBetween(12, 48),
+      Math.min(
+        Math.hypot(full.maxX - disk.cx, full.maxY - disk.cy),
+        Math.max(
+          disk.r + 8,
+          Math.min(full.maxX - disk.cx, disk.cx - full.minX, full.maxY - disk.cy, disk.cy - full.minY)
+        )
+      )
+    );
     return {
-      x: randomBetween(full.minX, full.maxX),
-      y: randomBetween(full.minY, full.maxY),
+      x: clamp(disk.cx + Math.cos(angle) * rad, full.minX, full.maxX),
+      y: clamp(disk.cy + Math.sin(angle) * rad, full.minY, full.maxY),
     };
   }
 
-  // Even base (soft grid) + chaotic jitter + maximin polish.
-  function generateWildScatteredPositions(count, sampleEntity, region = "full") {
-    const positions = [];
-    if (count <= 0 || !width || !height) {
-      return positions;
-    }
-
-    const full = visibleBoundsFor(sampleEntity || { sizeScale: 1, scale: 1 });
-    const disk = innerDisk(full);
-    const regionArea =
-      region === "inner"
-        ? Math.PI * disk.r * disk.r
-        : region === "outer"
-          ? Math.max(1, (full.maxX - full.minX) * (full.maxY - full.minY) - Math.PI * disk.r * disk.r)
-          : Math.max(1, (full.maxX - full.minX) * (full.maxY - full.minY));
-    const minDist = Math.max(
-      36,
-      Math.min(Math.sqrt(regionArea / Math.max(count, 1)) * 0.92, Math.min(width, height) * 0.22)
+  function getActiveSlots(exclude) {
+    return iconSlots.filter(
+      (slot) => slot !== exclude && slot.phase !== "wait" && slot.alpha > 0.02
     );
-
-    // Soft grid seeds for even coverage, then jitter for chaos.
-    const aspect =
-      region === "inner"
-        ? 1
-        : Math.max(0.55, (full.maxX - full.minX) / Math.max(1, full.maxY - full.minY));
-    const cols = Math.max(1, Math.ceil(Math.sqrt(count * aspect)));
-    const rows = Math.max(1, Math.ceil(count / cols));
-    const seeds = [];
-    for (let row = 0; row < rows; row += 1) {
-      for (let col = 0; col < cols; col += 1) {
-        if (seeds.length >= count) {
-          break;
-        }
-        const u = (col + randomBetween(0.22, 0.78)) / cols;
-        const v = (row + randomBetween(0.22, 0.78)) / rows;
-        let candidate;
-        if (region === "inner") {
-          const angle = u * Math.PI * 2 + randomBetween(-0.35, 0.35);
-          const rad = disk.r * Math.sqrt(clamp(v * randomBetween(0.85, 1.05), 0, 1));
-          candidate = {
-            x: disk.cx + Math.cos(angle) * rad,
-            y: disk.cy + Math.sin(angle) * rad,
-          };
-          if (!pointInInnerDisk(candidate.x, candidate.y, full)) {
-            candidate = samplePointInRegion(full, "inner");
-          }
-        } else if (region === "outer") {
-          candidate = {
-            x: full.minX + u * (full.maxX - full.minX),
-            y: full.minY + v * (full.maxY - full.minY),
-          };
-          if (pointInInnerDisk(candidate.x, candidate.y, full)) {
-            candidate = samplePointInRegion(full, "outer");
-          }
-        } else {
-          candidate = {
-            x: full.minX + u * (full.maxX - full.minX),
-            y: full.minY + v * (full.maxY - full.minY),
-          };
-        }
-        candidate.x = clamp(candidate.x, full.minX, full.maxX);
-        candidate.y = clamp(candidate.y, full.minY, full.maxY);
-        seeds.push(candidate);
-      }
-    }
-    while (seeds.length < count) {
-      seeds.push(samplePointInRegion(full, region === "full" ? "full" : region));
-    }
-
-    // Maximin polish: prefer spacing without killing chaos.
-    for (let index = 0; index < count; index += 1) {
-      let best = seeds[index];
-      let bestScore = -1;
-      const attempts = 28 + index * 3;
-      for (let tryIndex = 0; tryIndex < attempts; tryIndex += 1) {
-        const candidate =
-          tryIndex === 0 ? seeds[index] : samplePointInRegion(full, region === "full" ? "full" : region);
-        let nearest = Infinity;
-        for (let other = 0; other < positions.length; other += 1) {
-          nearest = Math.min(
-            nearest,
-            Math.hypot(candidate.x - positions[other].x, candidate.y - positions[other].y)
-          );
-        }
-        if (!Number.isFinite(nearest)) {
-          nearest = minDist * 2;
-        }
-        // Mild center bias inside disk so the field feels filled, not rim-heavy.
-        const diskDist = Math.hypot(candidate.x - disk.cx, candidate.y - disk.cy) / Math.max(1, disk.r);
-        const evenBonus = region === "inner" ? (1 - Math.abs(diskDist - 0.55) * 0.35) : 1;
-        const score = nearest * evenBonus;
-        if (nearest >= minDist && score > bestScore) {
-          best = candidate;
-          bestScore = score;
-          if (tryIndex > 0 && nearest >= minDist * 1.05) {
-            break;
-          }
-        } else if (score > bestScore) {
-          best = candidate;
-          bestScore = score;
-        }
-      }
-      positions.push(best);
-    }
-
-    for (let i = positions.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      const tmp = positions[i];
-      positions[i] = positions[j];
-      positions[j] = tmp;
-    }
-    return positions;
   }
 
-  function getActiveMotionEntities(exclude) {
-    const active = [];
-    iconSlots.forEach((slot) => {
-      if (slot !== exclude && slot.phase !== "wait" && slot.alpha > 0.02) {
-        active.push(slot);
-      }
-    });
-    centerIconCluster.forEach((item) => {
-      if (item !== exclude && item.lifePhase !== "wait" && item.alpha > 0.02) {
-        active.push(item);
-      }
-    });
-    return active;
+  function pruneRecentPositions() {
+    recentPositions = recentPositions.filter((entry) => entry.until > animTime);
   }
 
-  function assignNonOverlapZone(entity, neighbors) {
-    const half = entityDrawHalf(entity);
-    const gap = 8;
+  function rememberPosition(slot) {
+    if (typeof slot.x !== "number" || typeof slot.y !== "number") {
+      return;
+    }
+    recentPositions.push({
+      x: slot.x,
+      y: slot.y,
+      radius: entityDrawHalf(slot) + SPACING_GAP * 0.65,
+      until: animTime + randomBetween(POSITION_COOLDOWN_MIN, POSITION_COOLDOWN_MAX),
+    });
+  }
+
+  function minDistanceFor(slot, other) {
+    return entityDrawHalf(slot) + entityDrawHalf(other) + SPACING_GAP;
+  }
+
+  function scoreCandidate(candidate, slot, others) {
     let nearest = Infinity;
-    neighbors.forEach((other) => {
-      if (other === entity) {
-        return;
+    for (let i = 0; i < others.length; i += 1) {
+      const other = others[i];
+      const ox = typeof other.x === "number" ? other.x : other.anchorX;
+      const oy = typeof other.y === "number" ? other.y : other.anchorY;
+      const dist = Math.hypot(candidate.x - ox, candidate.y - oy);
+      if (dist < minDistanceFor(slot, other)) {
+        return -1;
       }
-      const ox = other.anchorX != null ? other.anchorX : other.homeX != null ? other.homeX : other.x;
-      const oy = other.anchorY != null ? other.anchorY : other.homeY != null ? other.homeY : other.y;
-      const ax = entity.anchorX != null ? entity.anchorX : entity.homeX;
-      const ay = entity.anchorY != null ? entity.anchorY : entity.homeY;
-      nearest = Math.min(nearest, Math.hypot(ax - ox, ay - oy));
-    });
+      nearest = Math.min(nearest, dist);
+    }
+
+    for (let i = 0; i < recentPositions.length; i += 1) {
+      const recent = recentPositions[i];
+      const dist = Math.hypot(candidate.x - recent.x, candidate.y - recent.y);
+      const need = recent.radius + entityDrawHalf(slot) + SPACING_GAP * 0.35;
+      if (dist < need) {
+        return -1;
+      }
+      nearest = Math.min(nearest, dist);
+    }
+
     if (!Number.isFinite(nearest)) {
-      nearest = Math.min(width, height) * 0.2;
+      nearest = Math.min(width, height) * 0.25;
     }
-    const full = visibleBoundsFor(entity);
-    const regionBounds =
-      entity.motionRegion === "inner" ? innerHalfBounds(full) : full;
-    const maxByRegion = Math.min(
-      (entity.anchorX != null ? entity.anchorX : entity.homeX) - regionBounds.minX,
-      regionBounds.maxX - (entity.anchorX != null ? entity.anchorX : entity.homeX),
-      (entity.anchorY != null ? entity.anchorY : entity.homeY) - regionBounds.minY,
-      regionBounds.maxY - (entity.anchorY != null ? entity.anchorY : entity.homeY)
-    );
-    // Budget to neighbor keeps disks from overlapping; split into roam + local orbit.
-    const shortSide = Math.min(width, height);
-    const minBudget = Math.max(28, shortSide * 0.055);
-    const budget = Math.max(
-      minBudget,
-      Math.min(nearest * 0.5 - half - gap, Number.isFinite(maxByRegion) ? maxByRegion : nearest)
-    );
-    entity.motionBudget = budget;
-    entity.zoneWander = Math.max(16, budget * randomBetween(0.4, 0.52));
-    entity.roamAmpX = Math.max(18, budget * randomBetween(0.45, 0.58));
-    entity.roamAmpY = Math.max(18, budget * randomBetween(0.45, 0.58));
+    return nearest;
   }
 
-  function assignFlightPath(entity) {
-    const full = visibleBoundsFor(entity);
-    const regionBounds =
-      entity.motionRegion === "inner" ? innerHalfBounds(full) : full;
-
-    if (typeof entity.anchorX !== "number" || typeof entity.anchorY !== "number") {
-      if (typeof entity.homeX === "number" && typeof entity.homeY === "number") {
-        entity.anchorX = entity.homeX;
-        entity.anchorY = entity.homeY;
-      } else {
-        const start = samplePointInRegion(full, entity.motionRegion || "full");
-        entity.anchorX = start.x;
-        entity.anchorY = start.y;
-      }
-    }
-
-    entity.anchorX = clamp(entity.anchorX, regionBounds.minX, regionBounds.maxX);
-    entity.anchorY = clamp(entity.anchorY, regionBounds.minY, regionBounds.maxY);
-    entity.homeX = entity.anchorX;
-    entity.homeY = entity.anchorY;
-
-    if (typeof entity.motionBudget !== "number") {
-      assignNonOverlapZone(entity, getActiveMotionEntities(entity));
-    }
-
-    const local = Math.max(18, entity.zoneWander || 20);
-    entity.pathAmpX = local * randomBetween(0.88, 1);
-    entity.pathAmpY = local * randomBetween(0.88, 1);
-    entity.roamAmpX = Math.max(20, entity.roamAmpX || local);
-    entity.roamAmpY = Math.max(20, entity.roamAmpY || local);
-
-    entity.pathPhaseX = Math.random() * Math.PI * 2;
-    entity.pathPhaseY = Math.random() * Math.PI * 2;
-    entity.roamPhaseX = Math.random() * Math.PI * 2;
-    entity.roamPhaseY = Math.random() * Math.PI * 2;
-    // Always-on motion: local orbit + slower home roam (never near zero).
-    entity.pathFreqX = randomBetween(0.2, 0.34);
-    entity.pathFreqY = randomBetween(0.22, 0.36);
-    entity.roamFreqX = randomBetween(0.09, 0.16);
-    entity.roamFreqY = randomBetween(0.1, 0.17);
-    if (typeof entity.pathTime !== "number") {
-      entity.pathTime = Math.random() * 40;
-    } else {
-      entity.pathTime += randomBetween(0.5, 2.5);
-    }
-  }
-
-  function fitFlightPathToPosition(entity) {
-    assignFlightPath(entity);
-    // Snap path so current frame starts at the chosen scatter position.
-    entity.homeX = entity.anchorX;
-    entity.homeY = entity.anchorY;
-    const ampX = Math.max(1, entity.pathAmpX || 1);
-    const ampY = Math.max(1, entity.pathAmpY || 1);
-    const nx = clamp((entity.x - entity.homeX) / ampX, -1, 1);
-    const ny = clamp((entity.y - entity.homeY) / ampY, -1, 1);
-    const t = entity.pathTime || 0;
-    const branchX = Math.random() < 0.5 ? 1 : -1;
-    entity.pathPhaseX =
-      branchX * Math.asin(nx) - t * (entity.pathFreqX || 0.18);
-    entity.pathPhaseY = Math.acos(ny) - t * (entity.pathFreqY || 0.2);
-    if (Math.random() < 0.5) {
-      entity.pathPhaseY = -entity.pathPhaseY;
-    }
-    entity.roamPhaseX = -t * (entity.roamFreqX || 0.07);
-    entity.roamPhaseY = -t * (entity.roamFreqY || 0.08);
-    sampleFlightPath(entity);
-    clampToVisibleBounds(entity);
-  }
-
-  function sampleFlightPath(entity) {
-    lockStaticPosition(entity);
-  }
-
-  function clampToVisibleBounds(entity) {
-    const bounds = visibleBoundsFor(entity);
-    entity.x = clamp(entity.x, bounds.minX, bounds.maxX);
-    entity.y = clamp(entity.y, bounds.minY, bounds.maxY);
-    if (entity.motionRegion === "inner") {
-      const disk = innerDisk(bounds);
-      const dx = entity.x - disk.cx;
-      const dy = entity.y - disk.cy;
-      const dist = Math.hypot(dx, dy);
-      if (dist > disk.r && dist > 0.001) {
-        const scale = disk.r / dist;
-        entity.x = disk.cx + dx * scale;
-        entity.y = disk.cy + dy * scale;
-      }
-    }
-  }
-
-  function pinStaticPosition(entity, x, y) {
-    entity.anchorX = x;
-    entity.anchorY = y;
-    entity.homeX = x;
-    entity.homeY = y;
-    entity.x = x;
-    entity.y = y;
-    entity.targetX = x;
-    entity.targetY = y;
-  }
-
-  // Keep draw position identical to the fade-in pin — never re-clamp or drift.
-  function lockStaticPosition(entity) {
-    if (typeof entity.anchorX === "number" && typeof entity.anchorY === "number") {
-      entity.x = entity.anchorX;
-      entity.y = entity.anchorY;
-      entity.homeX = entity.anchorX;
-      entity.homeY = entity.anchorY;
-      entity.targetX = entity.anchorX;
-      entity.targetY = entity.anchorY;
-    }
-  }
-
-  function placeEntityForFadeIn(entity) {
-    if (!entity.motionRegion) {
-      entity.motionRegion = Math.random() < 0.75 ? "inner" : "outer";
-    }
-    const full = visibleBoundsFor(entity);
-    const others = getActiveMotionEntities(entity);
-    const half = entityDrawHalf(entity);
-    const minDistBase = half * 2 + 16;
-    const exitMin = Math.max(56, Math.min(width, height) * 0.22);
-
+  function placeSlot(slot) {
+    slot.region = Math.random() < INNER_SPAWN_RATIO ? "inner" : "outer";
+    const full = visibleBoundsFor(slot);
+    const others = getActiveSlots(slot);
     let best = null;
     let bestScore = -1;
-    for (let tryIndex = 0; tryIndex < 40; tryIndex += 1) {
-      const candidate = samplePointInRegion(full, entity.motionRegion || "full");
-      let nearest = Infinity;
-      others.forEach((other) => {
-        const ox = other.anchorX != null ? other.anchorX : other.x;
-        const oy = other.anchorY != null ? other.anchorY : other.y;
-        nearest = Math.min(nearest, Math.hypot(candidate.x - ox, candidate.y - oy));
-      });
-      if (!Number.isFinite(nearest)) {
-        nearest = minDistBase * 2;
+
+    for (let tryIndex = 0; tryIndex < 56; tryIndex += 1) {
+      const candidate = samplePointInRegion(full, slot.region);
+      const score = scoreCandidate(candidate, slot, others);
+      if (score < 0) {
+        continue;
       }
-      const exitDist =
-        typeof entity.exitX === "number" && typeof entity.exitY === "number"
-          ? Math.hypot(candidate.x - entity.exitX, candidate.y - entity.exitY)
-          : exitMin * 2;
-      if (nearest >= minDistBase && exitDist >= exitMin) {
+      if (score > bestScore) {
         best = candidate;
-        bestScore = nearest;
-        break;
-      }
-      if (nearest > bestScore) {
-        best = candidate;
-        bestScore = nearest;
-      }
-    }
-
-    if (best) {
-      entity.x = best.x;
-      entity.y = best.y;
-    }
-    clampToVisibleBounds(entity);
-    pinStaticPosition(entity, entity.x, entity.y);
-  }
-
-  function anySynapseFadeBusy() {
-    return (
-      iconSlots.some((slot) => slot.phase === "in" || slot.phase === "out") ||
-      centerIconCluster.some((item) => item.lifePhase === "in" || item.lifePhase === "out")
-    );
-  }
-
-  function interleaveByColor(entities) {
-    const greens = entities.filter((entity) => !entity.kind);
-    const grays = entities.filter((entity) => Boolean(entity.kind));
-    for (let i = greens.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      const tmp = greens[i];
-      greens[i] = greens[j];
-      greens[j] = tmp;
-    }
-    for (let i = grays.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      const tmp = grays[i];
-      grays[i] = grays[j];
-      grays[j] = tmp;
-    }
-    const mixed = [];
-    let gi = 0;
-    let yi = 0;
-    // Alternate green / gray so colors stay mixed across the field.
-    while (gi < greens.length || yi < grays.length) {
-      if (gi < greens.length) {
-        mixed.push(greens[gi]);
-        gi += 1;
-      }
-      if (yi < grays.length) {
-        mixed.push(grays[yi]);
-        yi += 1;
-      }
-    }
-    return mixed;
-  }
-
-  function applySharedHomes() {
-    const entities = [];
-    iconSlots.forEach((slot) => entities.push(slot));
-    centerIconCluster.forEach((item) => entities.push(item));
-
-    const visibleRaw = entities.filter((entity) => {
-      if (entity.kind) {
-        return entity.lifePhase !== "wait";
-      }
-      return entity.phase !== "wait";
-    });
-    const hidden = entities.filter((entity) => !visibleRaw.includes(entity));
-    const visible = interleaveByColor(visibleRaw);
-
-    const innerCount = Math.round(visible.length * 0.75);
-    visible.forEach((entity, index) => {
-      entity.motionRegion = index < innerCount ? "inner" : "outer";
-    });
-
-    const innerEntities = visible.filter((entity) => entity.motionRegion === "inner");
-    const outerEntities = visible.filter((entity) => entity.motionRegion === "outer");
-    const sample = visible[0] || entities[0];
-    const innerStarts = generateWildScatteredPositions(
-      innerEntities.length,
-      sample,
-      "inner"
-    );
-
-    // Place outer after inner so spacing stays even across the whole field.
-    const outerStarts = [];
-    const occupied = innerStarts.map((p) => ({ x: p.x, y: p.y }));
-    const full = visibleBoundsFor(sample || { sizeScale: 1, scale: 1 });
-    const disk = innerDisk(full);
-    const outerArea = Math.max(
-      1,
-      (full.maxX - full.minX) * (full.maxY - full.minY) - Math.PI * disk.r * disk.r
-    );
-    const outerMinDist = Math.max(
-      36,
-      Math.min(
-        Math.sqrt(outerArea / Math.max(outerEntities.length, 1)) * 0.9,
-        Math.min(width, height) * 0.2
-      )
-    );
-    for (let index = 0; index < outerEntities.length; index += 1) {
-      let best = null;
-      let bestScore = -1;
-      for (let tryIndex = 0; tryIndex < 48 + index * 4; tryIndex += 1) {
-        const candidate = samplePointInRegion(full, "outer");
-        let nearest = Infinity;
-        for (let other = 0; other < occupied.length; other += 1) {
-          nearest = Math.min(
-            nearest,
-            Math.hypot(candidate.x - occupied[other].x, candidate.y - occupied[other].y)
-          );
-        }
-        if (!Number.isFinite(nearest)) {
-          nearest = outerMinDist * 2;
-        }
-        if (nearest >= outerMinDist) {
-          best = candidate;
-          bestScore = nearest;
+        bestScore = score;
+        if (score >= entityDrawHalf(slot) * 2 + SPACING_GAP * 1.4) {
           break;
         }
-        if (nearest > bestScore) {
+      }
+    }
+
+    if (!best) {
+      return false;
+    }
+
+    slot.x = best.x;
+    slot.y = best.y;
+    slot.anchorX = best.x;
+    slot.anchorY = best.y;
+    return true;
+  }
+
+  function rehomeActiveSlots() {
+    const active = getActiveSlots(null);
+    active.forEach((slot) => {
+      slot.region = Math.random() < INNER_SPAWN_RATIO ? "inner" : "outer";
+    });
+
+    // Place denser inner first for stable packing.
+    const ordered = active.slice().sort((a, b) => {
+      if (a.region === b.region) {
+        return 0;
+      }
+      return a.region === "inner" ? -1 : 1;
+    });
+
+    const placed = [];
+    ordered.forEach((slot) => {
+      const full = visibleBoundsFor(slot);
+      let best = null;
+      let bestScore = -1;
+      for (let tryIndex = 0; tryIndex < 64; tryIndex += 1) {
+        const candidate = samplePointInRegion(full, slot.region || "inner");
+        const score = scoreCandidate(candidate, slot, placed);
+        if (score < 0) {
+          continue;
+        }
+        if (score > bestScore) {
           best = candidate;
-          bestScore = nearest;
+          bestScore = score;
         }
       }
-      const chosen = best || samplePointInRegion(full, "outer");
-      outerStarts.push(chosen);
-      occupied.push(chosen);
+      if (!best) {
+        best = samplePointInRegion(full, slot.region || "inner");
+      }
+      slot.x = best.x;
+      slot.y = best.y;
+      slot.anchorX = best.x;
+      slot.anchorY = best.y;
+      placed.push(slot);
+    });
+  }
+
+  function countVisibleKind(kind) {
+    return iconSlots.filter((slot) => slot.phase !== "wait" && slot.kind === kind).length;
+  }
+
+  function pickSlotKind() {
+    const specialTarget = Math.max(4, Math.round(targetVisibleIcons * 0.4));
+    const questionTarget = Math.ceil(specialTarget / 2);
+    const brainTarget = Math.floor(specialTarget / 2);
+    const questions = countVisibleKind("question");
+    const brains = countVisibleKind("brain");
+
+    const needQuestion = questions < questionTarget;
+    const needBrain = Boolean(centerBrainImage) && brains < brainTarget;
+
+    if (needQuestion && needBrain) {
+      return Math.random() < 0.5 ? "question" : "brain";
     }
-
-    // Assign starts in interleaved color order within each region.
-    innerEntities.forEach((entity, index) => {
-      const start = innerStarts[index];
-      if (start) {
-        entity.anchorX = start.x;
-        entity.anchorY = start.y;
-        entity.homeX = start.x;
-        entity.homeY = start.y;
-        entity.x = start.x;
-        entity.y = start.y;
-      }
-    });
-    outerEntities.forEach((entity, index) => {
-      const start = outerStarts[index];
-      if (start) {
-        entity.anchorX = start.x;
-        entity.anchorY = start.y;
-        entity.homeX = start.x;
-        entity.homeY = start.y;
-        entity.x = start.x;
-        entity.y = start.y;
-      }
-    });
-
-    visible.forEach((entity) => {
-      clampToVisibleBounds(entity);
-      pinStaticPosition(entity, entity.x, entity.y);
-    });
-
-    hidden.forEach((entity, index) => {
-      entity.motionRegion = index % 4 === 0 ? "outer" : "inner";
-      const regionFull = visibleBoundsFor(entity);
-      const start = samplePointInRegion(regionFull, entity.motionRegion);
-      entity.x = start.x;
-      entity.y = start.y;
-      clampToVisibleBounds(entity);
-      pinStaticPosition(entity, entity.x, entity.y);
-    });
-  }
-
-  function beginCenterFadeIn(item) {
-    item.sizeScale = randomBetween(0.88, 1.12);
-    item.hold = lifeSeconds(ICON_HOLD);
-    item.fadeIn = lifeSeconds(ICON_FADE_IN);
-    item.fadeOut = lifeSeconds(ICON_FADE_OUT);
-    item.motionRegion = Math.random() < 0.75 ? "inner" : "outer";
-    placeEntityForFadeIn(item);
-    item.lifePhase = "in";
-    item.timer = item.fadeIn;
-    item.alpha = 0;
-  }
-
-  function beginCenterFadeOut(item) {
-    lockStaticPosition(item);
-    item.exitX = item.anchorX;
-    item.exitY = item.anchorY;
-    item.fadeOut = lifeSeconds(ICON_FADE_OUT);
-    item.lifePhase = "out";
-    item.timer = item.fadeOut;
-  }
-
-  function beginIconFadeIn(slot) {
-    slot.imageIndex = pickNextImageIndex();
-    slot.sizeScale = randomBetween(0.72, 1.35);
-    slot.hold = lifeSeconds(ICON_HOLD);
-    slot.fadeIn = lifeSeconds(ICON_FADE_IN);
-    slot.fadeOut = lifeSeconds(ICON_FADE_OUT);
-    slot.motionRegion = Math.random() < 0.75 ? "inner" : "outer";
-    placeEntityForFadeIn(slot);
-    slot.phase = "in";
-    slot.timer = slot.fadeIn;
-    slot.alpha = 0;
-    slot.scale = 0.12;
-  }
-
-  function beginIconFadeOut(slot) {
-    lockStaticPosition(slot);
-    slot.exitX = slot.anchorX;
-    slot.exitY = slot.anchorY;
-    slot.fadeOut = lifeSeconds(ICON_FADE_OUT);
-    slot.phase = "out";
-    slot.timer = slot.fadeOut;
-  }
-
-  function holdElapsed(entity) {
-    const total = entity.hold || lifeSeconds(ICON_HOLD);
-    return total - (entity.timer || 0);
-  }
-
-  function isHoldEligible(entity) {
-    return entity.timer <= 0 || holdElapsed(entity) >= lifeSeconds(ICON_MIN_HOLD);
-  }
-
-  function scheduleSynapseTransition() {
-    if (anySynapseFadeBusy()) {
-      return;
+    if (needQuestion) {
+      return "question";
     }
-
-    // 1) Restore center icons that finished fading out.
-    if (pendingCenterFadeIns.length) {
-      const kind = pendingCenterFadeIns[0];
-      const incoming = centerIconCluster.find(
-        (item) => item.kind === kind && item.lifePhase === "wait"
-      );
-      if (incoming) {
-        pendingCenterFadeIns.shift();
-        beginCenterFadeIn(incoming);
-        return;
-      }
-      pendingCenterFadeIns.shift();
+    if (needBrain) {
+      return "brain";
     }
-
-    // 2) Keep green icon count at target.
-    const visibleIconCount = iconSlots.filter((slot) => slot.phase !== "wait").length;
-    if (visibleIconCount < targetVisibleIcons) {
-      const readyIn = iconSlots.find((slot) => slot.phase === "wait" && slot.timer <= 0);
-      if (readyIn) {
-        beginIconFadeIn(readyIn);
-        return;
+    // Soft mix even near target so the field never becomes green-only.
+    if (questions + brains < specialTarget && Math.random() < 0.35) {
+      if (centerBrainImage && Math.random() < 0.5) {
+        return "brain";
       }
+      return "question";
     }
-
-    // 3) Permanent fade-out cadence: expired first, else earliest eligible hold.
-    const outCandidates = [];
-    iconSlots.forEach((slot) => {
-      if (slot.phase === "hold" && isHoldEligible(slot)) {
-        outCandidates.push({ kind: "icon", entity: slot, timer: slot.timer });
-      }
-    });
-    centerIconCluster.forEach((item) => {
-      if (item.lifePhase === "hold" && isHoldEligible(item)) {
-        outCandidates.push({ kind: "center", entity: item, timer: item.timer });
-      }
-    });
-
-    if (!outCandidates.length) {
-      return;
-    }
-
-    outCandidates.sort((a, b) => a.timer - b.timer);
-    const expired = outCandidates.filter((item) => item.timer <= 0);
-    const pool = expired.length ? expired : outCandidates;
-    const pick = pool[Math.floor(Math.random() * Math.min(pool.length, 3))];
-
-    if (pick.kind === "icon") {
-      beginIconFadeOut(pick.entity);
-    } else {
-      beginCenterFadeOut(pick.entity);
-      pendingCenterFadeIns.push(pick.entity.kind);
-    }
-  }
-
-  function buildCenterCluster() {
-    if (!width || !height) {
-      centerIconCluster = [];
-      return;
-    }
-
-    // 3 visible + 1 spare per kind so one can fade in while another fades out.
-    const visibleEach = 3;
-    const spareEach = 1;
-    const cluster = [];
-    const kinds = ["question", "brain"];
-
-    kinds.forEach((kind) => {
-      if (kind === "brain" && !centerBrainImage) {
-        return;
-      }
-      for (let index = 0; index < visibleEach + spareEach; index += 1) {
-        const isSpare = index >= visibleEach;
-        cluster.push({
-          kind,
-          slotIndex: cluster.length,
-          x: centerX,
-          y: centerY,
-          targetX: centerX,
-          targetY: centerY,
-          homeX: centerX,
-          homeY: centerY,
-          wanderRx: 12,
-          wanderRy: 12,
-          vx: 0,
-          vy: 0,
-          sizeScale: randomBetween(0.88, 1.12),
-          alpha: isSpare ? 0 : 1,
-          lifePhase: isSpare ? "wait" : "hold",
-          timer: isSpare ? 0.2 : lifeSeconds(ICON_HOLD),
-          hold: lifeSeconds(ICON_HOLD),
-          fadeIn: lifeSeconds(ICON_FADE_IN),
-          fadeOut: lifeSeconds(ICON_FADE_OUT),
-          pathPhaseX: Math.random() * Math.PI * 2,
-          pathPhaseY: Math.random() * Math.PI * 2,
-          pathFreqX: randomBetween(0.1, 0.2),
-          pathFreqY: randomBetween(0.12, 0.24),
-          pathTime: Math.random() * 40,
-        });
-      }
-    });
-
-    centerIconCluster = cluster;
-    pendingCenterFadeIns = [];
-    applySharedHomes();
-  }
-
-  function updateCenterCluster(dt) {
-    if (!centerIconCluster.length || reducedMotion) {
-      return;
-    }
-
-    centerIconCluster.forEach((item) => {
-      lockStaticPosition(item);
-      item.timer -= dt;
-
-      if (item.lifePhase === "in") {
-        const t = 1 - clamp(item.timer / item.fadeIn, 0, 1);
-        item.alpha = t * t * (3 - 2 * t);
-        lockStaticPosition(item);
-        if (item.timer <= 0) {
-          item.lifePhase = "hold";
-          item.timer = lifeSeconds(ICON_HOLD);
-          item.hold = item.timer;
-          item.alpha = 1;
-        }
-      } else if (item.lifePhase === "out") {
-        const t = clamp(item.timer / item.fadeOut, 0, 1);
-        item.alpha = t * t * (3 - 2 * t);
-        lockStaticPosition(item);
-        if (item.timer <= 0) {
-          item.lifePhase = "wait";
-          item.timer = 0.05;
-          item.alpha = 0;
-        }
-      } else if (item.lifePhase === "hold") {
-        item.alpha = 1;
-      }
-    });
-  }
-
-  function loadCenterIcons() {
-    return loadSourceIcon("brain.png", "assets/icons").then((image) => {
-      centerBrainImage = image ? makeOutlineIcon(image) : null;
-      buildCenterCluster();
-    });
+    return "icon";
   }
 
   function pickNextImageIndex() {
@@ -5801,7 +5311,11 @@ applyLanguage(getPreferredLanguage());
       return 0;
     }
 
-    const visible = new Set(iconSlots.map((item) => item.imageIndex));
+    const visible = new Set(
+      iconSlots
+        .filter((slot) => slot.phase !== "wait" && slot.kind === "icon")
+        .map((slot) => slot.imageIndex)
+    );
     const candidates = [];
     let totalWeight = 0;
 
@@ -5836,70 +5350,165 @@ applyLanguage(getPreferredLanguage());
     return last.index;
   }
 
+  function beginIconFadeIn(slot) {
+    slot.kind = pickSlotKind();
+    if (slot.kind === "icon") {
+      slot.imageIndex = pickNextImageIndex();
+      slot.sizeScale = randomBetween(0.72, 1.35);
+    } else {
+      slot.imageIndex = -1;
+      slot.sizeScale = randomBetween(0.88, 1.22);
+    }
+    slot.fadeIn = randomBetween(FADE_IN_MIN, FADE_IN_MAX);
+    slot.hold = randomBetween(HOLD_MIN, HOLD_MAX);
+    slot.fadeOut = randomBetween(FADE_OUT_MIN, FADE_OUT_MAX);
+    if (!placeSlot(slot)) {
+      slot.phase = "wait";
+      slot.timer = randomBetween(0.08, 0.22);
+      slot.alpha = 0;
+      slot.scale = 0.12;
+      return false;
+    }
+    slot.phase = "in";
+    slot.timer = slot.fadeIn;
+    slot.alpha = 0;
+    slot.scale = 0.12;
+    return true;
+  }
+
+  function beginIconFadeOut(slot) {
+    slot.fadeOut = slot.fadeOut || randomBetween(FADE_OUT_MIN, FADE_OUT_MAX);
+    slot.phase = "out";
+    slot.timer = slot.fadeOut;
+  }
+
+  function visibleIconCount() {
+    return iconSlots.filter((slot) => slot.phase !== "wait").length;
+  }
+
+  function scheduleTransitions() {
+    // Keep the field dense: spawn as many free slots as placement allows.
+    let spawnBudget = 5;
+    while (spawnBudget > 0 && visibleIconCount() < targetVisibleIcons) {
+      const ready = iconSlots.find((slot) => slot.phase === "wait" && slot.timer <= 0);
+      if (!ready) {
+        break;
+      }
+      if (!beginIconFadeIn(ready)) {
+        break;
+      }
+      spawnBudget -= 1;
+    }
+
+    const transitioning = iconSlots.filter(
+      (slot) => slot.phase === "in" || slot.phase === "out"
+    ).length;
+
+    // Busy overlap: keep several concurrent fades; expire holds first, then nudge oldest.
+    const expiredHolds = iconSlots.filter((slot) => slot.phase === "hold" && slot.timer <= 0);
+    const earlyHolds =
+      transitioning < 5
+        ? iconSlots
+            .filter((slot) => {
+              if (slot.phase !== "hold" || slot.timer <= 0) {
+                return false;
+              }
+              const total = slot.hold || HOLD_MIN;
+              const elapsed = total - slot.timer;
+              return elapsed >= HOLD_MIN * 0.9;
+            })
+            .slice()
+            .sort((a, b) => a.timer - b.timer)
+        : [];
+
+    const overflow = Math.max(0, visibleIconCount() - targetVisibleIcons);
+    const wantTransitions = clamp(5 + overflow, 4, 8);
+    const fadeBudget = Math.max(0, wantTransitions - transitioning);
+    if (fadeBudget <= 0) {
+      return;
+    }
+
+    const pool = expiredHolds.length ? expiredHolds : earlyHolds;
+    if (!pool.length) {
+      return;
+    }
+
+    pool.slice(0, fadeBudget).forEach((slot) => beginIconFadeOut(slot));
+  }
+
   function buildIconSlots() {
-    if (!iconImages.length) {
+    if (!iconImages.length || !width || !height) {
       iconSlots = [];
-      applySharedHomes();
       return;
     }
 
     nextIconCursor = 0;
     iconSlots = [];
-    const count = Math.min(maxIconSlots, iconImages.length);
-    const visibleCount = Math.max(8, count - 3);
-    targetVisibleIcons = visibleCount;
-    for (let index = 0; index < count; index += 1) {
-      const isSpare = index >= visibleCount;
+    recentPositions = [];
+    const count = Math.min(maxIconSlots, Math.max(targetVisibleIcons + 3, iconImages.length));
+    const slotCount = Math.min(maxIconSlots, Math.max(count, targetVisibleIcons + 3));
+
+    for (let index = 0; index < slotCount; index += 1) {
       iconSlots.push({
-        imageIndex: pickNextImageIndex(),
+        kind: "icon",
+        imageIndex: 0,
         x: centerX,
         y: centerY,
-        targetX: centerX,
-        targetY: centerY,
-        homeX: centerX,
-        homeY: centerY,
-        wanderRx: 12,
-        wanderRy: 12,
-        vx: 0,
-        vy: 0,
+        anchorX: centerX,
+        anchorY: centerY,
         sizeScale: randomBetween(0.72, 1.35),
-        driftPhase: Math.random() * Math.PI * 2,
-        driftSpeed: randomBetween(0.35, 0.7),
-        pathPhaseX: Math.random() * Math.PI * 2,
-        pathPhaseY: Math.random() * Math.PI * 2,
-        pathFreqX: randomBetween(0.1, 0.2),
-        pathFreqY: randomBetween(0.12, 0.24),
-        pathTime: Math.random() * 40,
-        alpha: isSpare ? 0 : 1,
-        scale: isSpare ? 0.12 : 1,
-        phase: isSpare ? "wait" : "hold",
-        timer: isSpare ? 0.02 : lifeSeconds(ICON_HOLD),
-        hold: lifeSeconds(ICON_HOLD),
-        fadeIn: lifeSeconds(ICON_FADE_IN),
-        fadeOut: lifeSeconds(ICON_FADE_OUT),
+        alpha: 0,
+        scale: 0.12,
+        phase: "wait",
+        timer: randomBetween(0, 0.35),
+        hold: randomBetween(HOLD_MIN, HOLD_MAX),
+        fadeIn: randomBetween(FADE_IN_MIN, FADE_IN_MAX),
+        fadeOut: randomBetween(FADE_OUT_MIN, FADE_OUT_MAX),
+        region: "inner",
       });
     }
 
-    applySharedHomes();
+    // Immediate first wave so the canvas is never empty on open.
+    let seeded = 0;
+    const seedTarget = Math.min(targetVisibleIcons, iconSlots.length);
+    for (let i = 0; i < iconSlots.length && seeded < seedTarget; i += 1) {
+      if (beginIconFadeIn(iconSlots[i])) {
+        // Stagger start progress so many are mid-fade at once.
+        const progress = randomBetween(0.05, 0.85);
+        iconSlots[i].timer = iconSlots[i].fadeIn * (1 - progress);
+        iconSlots[i].alpha = easeSmooth(progress);
+        iconSlots[i].scale = 0.12 + iconSlots[i].alpha * 0.88;
+        seeded += 1;
+      }
+    }
   }
 
   function loadIcons() {
-    return Promise.all(ICON_FILES.map((file) => loadSourceIcon(file))).then((images) => {
-      iconImages = [];
-      iconWeights = [];
-      images.forEach((image, index) => {
-        if (!image) {
-          return;
-        }
-        const tinted = makeTintedIcon(image);
-        if (!tinted) {
-          return;
-        }
-        iconImages.push(tinted);
-        iconWeights.push(
-          FAVORED_ICON_FILES.has(ICON_FILES[index]) ? FAVORED_ICON_WEIGHT : NORMAL_ICON_WEIGHT
-        );
-      });
+    const integrationPromise = Promise.all(ICON_FILES.map((file) => loadSourceIcon(file))).then(
+      (images) => {
+        iconImages = [];
+        iconWeights = [];
+        images.forEach((image, index) => {
+          if (!image) {
+            return;
+          }
+          const tinted = makeTintedIcon(image);
+          if (!tinted) {
+            return;
+          }
+          iconImages.push(tinted);
+          iconWeights.push(
+            FAVORED_ICON_FILES.has(ICON_FILES[index]) ? FAVORED_ICON_WEIGHT : NORMAL_ICON_WEIGHT
+          );
+        });
+      }
+    );
+
+    const brainPromise = loadSourceIcon("brain.png", "assets/icons").then((image) => {
+      centerBrainImage = image ? makeOutlineIcon(image) : null;
+    });
+
+    return Promise.all([integrationPromise, brainPromise]).then(() => {
       buildIconSlots();
     });
   }
@@ -5909,138 +5518,60 @@ applyLanguage(getPreferredLanguage());
       return;
     }
 
+    pruneRecentPositions();
+
     iconSlots.forEach((slot) => {
       slot.timer -= dt;
-      lockStaticPosition(slot);
+      if (typeof slot.anchorX === "number") {
+        slot.x = slot.anchorX;
+        slot.y = slot.anchorY;
+      }
+
+      if (slot.phase === "wait") {
+        slot.alpha = 0;
+        slot.scale = 0.12;
+        return;
+      }
 
       if (slot.phase === "in") {
-        const duration = slot.fadeIn || lifeSeconds(ICON_FADE_IN);
+        const duration = Math.max(slot.fadeIn || FADE_IN_MIN, 0.01);
         const t = 1 - clamp(slot.timer / duration, 0, 1);
-        const eased = t * t * (3 - 2 * t);
+        const eased = easeSmooth(t);
         slot.alpha = eased;
         slot.scale = 0.12 + eased * 0.88;
-        lockStaticPosition(slot);
         if (slot.timer <= 0) {
           slot.phase = "hold";
-          slot.timer = lifeSeconds(ICON_HOLD);
+          slot.timer = slot.hold || randomBetween(HOLD_MIN, HOLD_MAX);
           slot.hold = slot.timer;
           slot.alpha = 1;
           slot.scale = 1;
         }
-      } else if (slot.phase === "hold") {
+        return;
+      }
+
+      if (slot.phase === "hold") {
         slot.alpha = 1;
         slot.scale = 1;
-      } else if (slot.phase === "out") {
-        const duration = slot.fadeOut || lifeSeconds(ICON_FADE_OUT);
+        return;
+      }
+
+      if (slot.phase === "out") {
+        const duration = Math.max(slot.fadeOut || FADE_OUT_MIN, 0.01);
         const t = clamp(slot.timer / duration, 0, 1);
-        const eased = t * t * (3 - 2 * t);
+        const eased = easeSmooth(t);
         slot.alpha = eased;
         slot.scale = 0.12 + eased * 0.88;
-        lockStaticPosition(slot);
         if (slot.timer <= 0) {
-          slot.exitX = slot.anchorX;
-          slot.exitY = slot.anchorY;
+          rememberPosition(slot);
           slot.phase = "wait";
-          slot.timer = 0.05;
+          slot.timer = randomBetween(0.02, 0.12);
           slot.alpha = 0;
           slot.scale = 0.12;
         }
       }
     });
-  }
 
-  function drawChaosCloud(elapsed) {
-    if (!chaosStrokes.length) {
-      return;
-    }
-
-    const shortSide = Math.min(width, height);
-    const fadeRx = shortSide * 0.68;
-    const fadeRy = shortSide * 0.58;
-
-    context.save();
-    context.translate(centerX, centerY);
-    context.lineCap = "round";
-    context.lineJoin = "round";
-
-    chaosStrokes.forEach((stroke) => {
-      if (stroke.alpha <= 0.01) {
-        return;
-      }
-      const drift = reducedMotion ? 0 : Math.sin(elapsed * stroke.speed + stroke.phase) * 2.5;
-
-      let midX = 0;
-      let midY = 0;
-      stroke.points.forEach((point) => {
-        midX += point.x;
-        midY += point.y;
-      });
-      midX /= stroke.points.length;
-      midY /= stroke.points.length;
-      const edge = Math.hypot(midX / fadeRx, midY / fadeRy);
-      const edgeFade = edge <= 0.55 ? 1 : edge >= 1.05 ? 0 : 1 - (edge - 0.55) / 0.5;
-      const alpha = stroke.alpha * edgeFade;
-      if (alpha <= 0.01) {
-        return;
-      }
-
-      const centerBias = clamp(1 - edge / 0.75, 0, 1);
-      const darkMix = centerBias * 0.22;
-      const r = Math.round(159 * (1 - darkMix) + 120 * darkMix);
-      const g = Math.round(175 * (1 - darkMix) + 132 * darkMix);
-      const b = Math.round(82 * (1 - darkMix) + 52 * darkMix);
-      const blurPx = 1.35 - centerBias * 0.75;
-      const lineAlpha = clamp(alpha * (1 + centerBias * 0.18), 0, 0.42);
-
-      context.filter = `blur(${blurPx.toFixed(2)}px)`;
-      context.beginPath();
-      stroke.points.forEach((point, index) => {
-        const px = point.x + drift * Math.cos(stroke.phase + index);
-        const py = point.y + drift * Math.sin(stroke.phase * 0.7 + index);
-        if (index === 0) {
-          context.moveTo(px, py);
-        } else {
-          context.lineTo(px, py);
-        }
-      });
-      context.strokeStyle = `rgba(${r}, ${g}, ${b}, ${lineAlpha})`;
-      context.lineWidth = stroke.width * (1 - centerBias * 0.1);
-      context.stroke();
-    });
-
-    context.filter = "none";
-    context.restore();
-  }
-
-  function drawCenterIconCluster() {
-    if (!centerIconCluster.length) {
-      return;
-    }
-
-    centerIconCluster.forEach((item) => {
-      if (item.alpha <= 0.01 || item.lifePhase === "wait") {
-        return;
-      }
-
-      const size = centerIconPixelSize(item);
-      const half = size * 0.5;
-
-      context.save();
-      context.translate(item.x, item.y);
-      context.globalAlpha = clamp(item.alpha, 0, 1);
-
-      if (item.kind === "question") {
-        context.font = `bold ${size}px Arial, Helvetica, sans-serif`;
-        context.textAlign = "center";
-        context.textBaseline = "middle";
-        context.fillStyle = CENTER_QMARK_COLOR;
-        context.fillText("?", 0, size * 0.02);
-      } else if (centerBrainImage) {
-        context.drawImage(centerBrainImage, -half, -half, size, size);
-      }
-
-      context.restore();
-    });
+    scheduleTransitions();
   }
 
   function drawIcons() {
@@ -6049,25 +5580,41 @@ applyLanguage(getPreferredLanguage());
         return;
       }
 
-      const image = iconImages[slot.imageIndex];
-      if (!image) {
-        return;
-      }
-
       const size = iconPixelSize(slot);
       const half = size * 0.5;
 
       context.save();
+      context.translate(slot.x, slot.y);
       context.globalAlpha = clamp(slot.alpha, 0, 1);
-      context.drawImage(image, slot.x - half, slot.y - half, size, size);
+
+      if (slot.kind === "question") {
+        context.font = `bold ${size}px Arial, Helvetica, sans-serif`;
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        context.fillStyle = CENTER_QMARK_COLOR;
+        context.fillText("?", 0, size * 0.02);
+      } else if (slot.kind === "brain") {
+        if (!centerBrainImage) {
+          context.restore();
+          return;
+        }
+        context.drawImage(centerBrainImage, -half, -half, size, size);
+      } else {
+        const image = iconImages[slot.imageIndex];
+        if (!image) {
+          context.restore();
+          return;
+        }
+        context.drawImage(image, -half, -half, size, size);
+      }
+
       context.restore();
     });
   }
 
-  function drawFrame(elapsed) {
+  function drawFrame() {
     context.clearRect(0, 0, width, height);
-    drawChaosCloud(elapsed);
-    drawCenterIconCluster();
+    drawChaosCloud(animTime);
     drawIcons();
   }
 
@@ -6075,58 +5622,17 @@ applyLanguage(getPreferredLanguage());
     if (!isRunning) {
       return;
     }
-
-    const dt = Math.min(0.033, ((time - lastTime) || 16) / 1000) * TIME_SCALE;
+    const dt = Math.min(0.033, ((time - lastTime) || 16) / 1000);
     lastTime = time;
     animTime += dt;
 
     if (!reducedMotion) {
       updateChaosCloud(dt);
-      updateCenterCluster(dt);
       updateIcons(dt);
-      scheduleSynapseTransition();
     }
 
-    drawFrame(animTime);
+    drawFrame();
     animationFrame = window.requestAnimationFrame(tick);
-  }
-
-  function armVisibilityCycle() {
-    const holds = iconSlots.filter((slot) => slot.phase === "hold");
-    holds.forEach((slot, index) => {
-      slot.hold = lifeSeconds(ICON_HOLD);
-      slot.fadeIn = lifeSeconds(ICON_FADE_IN);
-      slot.fadeOut = lifeSeconds(ICON_FADE_OUT);
-      // Stagger initial hold remaining so icons don't expire together.
-      const stagger = holds.length > 1 ? index / holds.length : 0;
-      slot.timer = lifeSeconds(ICON_HOLD) * (1 - stagger * 0.85);
-    });
-
-    const centerHolds = centerIconCluster.filter((item) => item.lifePhase === "hold");
-    centerHolds.forEach((item, index) => {
-      item.hold = lifeSeconds(ICON_HOLD);
-      item.fadeIn = lifeSeconds(ICON_FADE_IN);
-      item.fadeOut = lifeSeconds(ICON_FADE_OUT);
-      const stagger = centerHolds.length > 1 ? index / centerHolds.length : 0;
-      item.timer = lifeSeconds(ICON_HOLD) * (1 - stagger * 0.85);
-    });
-
-    iconSlots.forEach((slot) => {
-      if (slot.phase === "wait") {
-        slot.timer = Math.min(slot.timer, 0.05);
-      }
-    });
-    pendingCenterFadeIns = [];
-
-    // Kick the cycle immediately so refresh/scroll never starts idle.
-    const kickPool = [
-      ...holds.map((entity) => ({ kind: "icon", entity })),
-      ...centerHolds.map((entity) => ({ kind: "center", entity })),
-    ];
-    if (kickPool.length) {
-      const kick = kickPool[Math.floor(Math.random() * kickPool.length)];
-      kick.entity.timer = 0;
-    }
   }
 
   function start() {
@@ -6135,9 +5641,6 @@ applyLanguage(getPreferredLanguage());
     }
     isRunning = true;
     lastTime = performance.now();
-    animTime = 0;
-    armVisibilityCycle();
-    scheduleSynapseTransition();
     animationFrame = window.requestAnimationFrame(tick);
   }
 
@@ -6150,20 +5653,23 @@ applyLanguage(getPreferredLanguage());
     if (!iconSlots.length && iconImages.length) {
       buildIconSlots();
     }
-    iconSlots.forEach((slot) => {
-      if (slot.phase !== "wait") {
+    const keep = Math.min(targetVisibleIcons, iconSlots.length);
+    iconSlots.forEach((slot, index) => {
+      if (index < keep) {
+        if (slot.phase === "wait") {
+          beginIconFadeIn(slot);
+        }
         slot.phase = "hold";
         slot.alpha = 1;
         slot.scale = 1;
+        slot.timer = 999;
+      } else {
+        slot.phase = "wait";
+        slot.alpha = 0;
+        slot.scale = 0.12;
       }
     });
-    centerIconCluster.forEach((item) => {
-      if (item.lifePhase !== "wait") {
-        item.lifePhase = "hold";
-        item.alpha = 1;
-      }
-    });
-    drawFrame(animTime);
+    drawFrame();
   }
 
   function resizeCanvas() {
@@ -6184,7 +5690,6 @@ applyLanguage(getPreferredLanguage());
     canvas.style.height = `${height}px`;
     context.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    // Avoid resetting icon positions on tiny layout jitter — that froze motion after ~2s.
     if (!firstLayout && !sizeChanged) {
       return;
     }
@@ -6194,20 +5699,15 @@ applyLanguage(getPreferredLanguage());
     rebuildChaosCloud();
 
     const expectedSlots = iconImages.length
-      ? Math.min(maxIconSlots, iconImages.length)
+      ? Math.min(maxIconSlots, Math.max(targetVisibleIcons + 3, Math.min(maxIconSlots, iconImages.length + 3)))
       : 0;
-    const needsSlotRebuild =
-      Boolean(iconImages.length) && iconSlots.length !== expectedSlots;
+    const needsSlotRebuild = Boolean(iconImages.length) && iconSlots.length !== expectedSlots;
 
-    if (firstLayout || !centerIconCluster.length) {
-      buildCenterCluster();
-    }
-
-    if (needsSlotRebuild) {
+    if (needsSlotRebuild || (firstLayout && iconImages.length && !iconSlots.length)) {
       buildIconSlots();
-    } else if (!firstLayout && sizeChanged) {
-      // Real size change only: re-home without wiping fade lifecycle.
-      applySharedHomes();
+    } else if (!firstLayout && sizeChanged && iconSlots.length) {
+      recentPositions = [];
+      rehomeActiveSlots();
     }
   }
 
@@ -6218,7 +5718,7 @@ applyLanguage(getPreferredLanguage());
       return;
     }
     if (isVisible || !isRunning) {
-      drawFrame(animTime);
+      drawFrame();
     }
   });
   resizeObserver.observe(visual);
@@ -6271,13 +5771,12 @@ applyLanguage(getPreferredLanguage());
 
   resizeCanvas();
 
-  Promise.all([loadIcons(), loadCenterIcons()]).then(() => {
-    applySharedHomes();
+  loadIcons().then(() => {
     if (reducedMotion) {
       renderStatic();
       return;
     }
-    drawFrame(animTime);
+    drawFrame();
     const bounds = visual.getBoundingClientRect();
     isVisible = bounds.bottom > 0 && bounds.top < window.innerHeight;
     if (isVisible && document.visibilityState === "visible") {
@@ -6288,9 +5787,10 @@ applyLanguage(getPreferredLanguage());
   if (reducedMotion) {
     renderStatic();
   } else {
-    drawFrame(animTime);
+    drawFrame();
   }
 })();
+
 
 (function syncSiteHeaderOffset() {
   const header = document.querySelector(".site-header");
