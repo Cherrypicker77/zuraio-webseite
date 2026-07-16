@@ -4695,6 +4695,9 @@ applyLanguage(getPreferredLanguage());
   const CENTER_QMARK_COLOR = "rgba(122, 122, 122, 1)"; // #7A7A7A
   const TIME_SCALE = 0.62;
   const DRIFT_SPEED = 14;
+  const MAX_HOLD = 4;
+  let pendingCenterFadeIns = [];
+  let targetVisibleIcons = 0;
 
   const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   let reducedMotion = reducedMotionQuery.matches;
@@ -4725,6 +4728,10 @@ applyLanguage(getPreferredLanguage());
 
   function randomBetween(min, max) {
     return min + Math.random() * (max - min);
+  }
+
+  function randomHoldDuration() {
+    return randomBetween(2.0, MAX_HOLD);
   }
 
   function clamp(value, min, max) {
@@ -5339,13 +5346,7 @@ applyLanguage(getPreferredLanguage());
   }
 
   function sampleFlightPath(entity) {
-    // Fully static while visible — only fade/reappear changes position.
-    const x = entity.anchorX != null ? entity.anchorX : entity.homeX != null ? entity.homeX : entity.x;
-    const y = entity.anchorY != null ? entity.anchorY : entity.homeY != null ? entity.homeY : entity.y;
-    entity.homeX = x;
-    entity.homeY = y;
-    entity.x = x;
-    entity.y = y;
+    lockStaticPosition(entity);
   }
 
   function clampToVisibleBounds(entity) {
@@ -5362,6 +5363,29 @@ applyLanguage(getPreferredLanguage());
         entity.x = disk.cx + dx * scale;
         entity.y = disk.cy + dy * scale;
       }
+    }
+  }
+
+  function pinStaticPosition(entity, x, y) {
+    entity.anchorX = x;
+    entity.anchorY = y;
+    entity.homeX = x;
+    entity.homeY = y;
+    entity.x = x;
+    entity.y = y;
+    entity.targetX = x;
+    entity.targetY = y;
+  }
+
+  // Keep draw position identical to the fade-in pin — never re-clamp or drift.
+  function lockStaticPosition(entity) {
+    if (typeof entity.anchorX === "number" && typeof entity.anchorY === "number") {
+      entity.x = entity.anchorX;
+      entity.y = entity.anchorY;
+      entity.homeX = entity.anchorX;
+      entity.homeY = entity.anchorY;
+      entity.targetX = entity.anchorX;
+      entity.targetY = entity.anchorY;
     }
   }
 
@@ -5404,20 +5428,18 @@ applyLanguage(getPreferredLanguage());
     }
 
     if (best) {
-      entity.anchorX = best.x;
-      entity.anchorY = best.y;
-      entity.homeX = best.x;
-      entity.homeY = best.y;
       entity.x = best.x;
       entity.y = best.y;
     }
-    assignNonOverlapZone(entity, others);
-    fitFlightPathToPosition(entity);
+    clampToVisibleBounds(entity);
+    pinStaticPosition(entity, entity.x, entity.y);
   }
 
-  function updateEntityDrift(entity) {
-    sampleFlightPath(entity);
-    clampToVisibleBounds(entity);
+  function anySynapseFadeBusy() {
+    return (
+      iconSlots.some((slot) => slot.phase === "in" || slot.phase === "out") ||
+      centerIconCluster.some((item) => item.lifePhase === "in" || item.lifePhase === "out")
+    );
   }
 
   function interleaveByColor(entities) {
@@ -5551,28 +5573,18 @@ applyLanguage(getPreferredLanguage());
     });
 
     visible.forEach((entity) => {
-      assignNonOverlapZone(entity, visible);
-      fitFlightPathToPosition(entity);
-      entity.targetX = entity.x;
-      entity.targetY = entity.y;
+      clampToVisibleBounds(entity);
+      pinStaticPosition(entity, entity.x, entity.y);
     });
 
     hidden.forEach((entity, index) => {
       entity.motionRegion = index % 4 === 0 ? "outer" : "inner";
-      const full = visibleBoundsFor(entity);
-      const start = samplePointInRegion(full, entity.motionRegion);
-      entity.anchorX = start.x;
-      entity.anchorY = start.y;
-      entity.homeX = start.x;
-      entity.homeY = start.y;
+      const regionFull = visibleBoundsFor(entity);
+      const start = samplePointInRegion(regionFull, entity.motionRegion);
       entity.x = start.x;
       entity.y = start.y;
-      assignNonOverlapZone(entity, entities);
-      assignFlightPath(entity);
-      sampleFlightPath(entity);
-      entity.targetX = entity.x;
-      entity.targetY = entity.y;
       clampToVisibleBounds(entity);
+      pinStaticPosition(entity, entity.x, entity.y);
     });
   }
 
@@ -5582,9 +5594,10 @@ applyLanguage(getPreferredLanguage());
 
   function beginCenterFadeIn(item) {
     item.sizeScale = randomBetween(0.88, 1.12);
-    item.hold = randomBetween(2.8, 5.0);
+    item.hold = randomHoldDuration();
     item.fadeIn = randomBetween(0.8, 1.2);
     item.fadeOut = randomBetween(0.8, 1.2);
+    item.motionRegion = Math.random() < 0.75 ? "inner" : "outer";
     placeEntityForFadeIn(item);
     item.lifePhase = "in";
     item.timer = item.fadeIn;
@@ -5592,31 +5605,86 @@ applyLanguage(getPreferredLanguage());
   }
 
   function beginCenterFadeOut(item) {
-    item.exitX = item.x;
-    item.exitY = item.y;
+    lockStaticPosition(item);
+    item.exitX = item.anchorX;
+    item.exitY = item.anchorY;
     item.fadeOut = randomBetween(0.8, 1.2);
     item.lifePhase = "out";
     item.timer = item.fadeOut;
   }
 
-  function startCenterReplace(kind) {
-    const outgoing = centerIconCluster.find(
-      (item) => item.kind === kind && item.lifePhase === "hold"
-    );
-    const incoming = centerIconCluster.find(
-      (item) => item.kind === kind && item.lifePhase === "wait"
-    );
-    if (!outgoing || !incoming) {
-      return false;
+  function beginIconFadeIn(slot) {
+    slot.imageIndex = pickNextImageIndex();
+    slot.sizeScale = randomBetween(0.72, 1.35);
+    slot.hold = randomHoldDuration();
+    slot.motionRegion = Math.random() < 0.75 ? "inner" : "outer";
+    placeEntityForFadeIn(slot);
+    slot.phase = "in";
+    slot.timer = randomBetween(0.34, 0.48);
+    slot.alpha = 0;
+    slot.scale = 0.12;
+  }
+
+  function beginIconFadeOut(slot) {
+    lockStaticPosition(slot);
+    slot.exitX = slot.anchorX;
+    slot.exitY = slot.anchorY;
+    slot.phase = "out";
+    slot.timer = randomBetween(0.34, 0.48);
+  }
+
+  function scheduleSynapseTransition() {
+    if (anySynapseFadeBusy()) {
+      return;
     }
-    if (centerIconCluster.some((item) => item.lifePhase === "in")) {
-      return false;
+
+    const actions = [];
+
+    if (pendingCenterFadeIns.length) {
+      const kind = pendingCenterFadeIns[0];
+      const incoming = centerIconCluster.find(
+        (item) => item.kind === kind && item.lifePhase === "wait"
+      );
+      if (incoming) {
+        actions.push({
+          run() {
+            pendingCenterFadeIns.shift();
+            beginCenterFadeIn(incoming);
+          },
+        });
+      } else {
+        pendingCenterFadeIns.shift();
+      }
     }
-    beginCenterFadeOut(outgoing);
-    incoming.exitX = outgoing.exitX;
-    incoming.exitY = outgoing.exitY;
-    beginCenterFadeIn(incoming);
-    return true;
+
+    const visibleIconCount = iconSlots.filter((slot) => slot.phase !== "wait").length;
+    iconSlots.forEach((slot) => {
+      if (slot.phase === "hold" && slot.timer <= 0) {
+        actions.push({ run: () => beginIconFadeOut(slot) });
+      } else if (
+        slot.phase === "wait" &&
+        slot.timer <= 0 &&
+        visibleIconCount < targetVisibleIcons
+      ) {
+        actions.push({ run: () => beginIconFadeIn(slot) });
+      }
+    });
+
+    centerIconCluster.forEach((item) => {
+      if (item.lifePhase === "hold" && item.timer <= 0) {
+        actions.push({
+          run() {
+            beginCenterFadeOut(item);
+            pendingCenterFadeIns.push(item.kind);
+          },
+        });
+      }
+    });
+
+    if (!actions.length) {
+      return;
+    }
+    actions[Math.floor(Math.random() * actions.length)].run();
   }
 
   function buildCenterCluster() {
@@ -5653,8 +5721,8 @@ applyLanguage(getPreferredLanguage());
           sizeScale: randomBetween(0.88, 1.12),
           alpha: isSpare ? 0 : 1,
           lifePhase: isSpare ? "wait" : "hold",
-          timer: isSpare ? 0.2 : randomBetween(2.8, 5.0),
-          hold: randomBetween(2.8, 5.0),
+          timer: isSpare ? 0.2 : randomHoldDuration(),
+          hold: randomHoldDuration(),
           fadeIn: randomBetween(0.8, 1.2),
           fadeOut: randomBetween(0.8, 1.2),
           pathPhaseX: Math.random() * Math.PI * 2,
@@ -5669,6 +5737,7 @@ applyLanguage(getPreferredLanguage());
     centerIconCluster = cluster;
     centerBootTimer = 1;
     centerBootStep = 0;
+    pendingCenterFadeIns = [];
     applySharedHomes();
   }
 
@@ -5678,20 +5747,22 @@ applyLanguage(getPreferredLanguage());
     }
 
     centerIconCluster.forEach((item) => {
-      updateEntityDrift(item);
+      lockStaticPosition(item);
       item.timer -= dt;
 
       if (item.lifePhase === "in") {
         const t = 1 - clamp(item.timer / item.fadeIn, 0, 1);
         item.alpha = t * t * (3 - 2 * t);
+        lockStaticPosition(item);
         if (item.timer <= 0) {
           item.lifePhase = "hold";
-          item.timer = Math.min(5, item.hold || 5);
+          item.timer = Math.min(MAX_HOLD, item.hold || MAX_HOLD);
           item.alpha = 1;
         }
       } else if (item.lifePhase === "out") {
         const t = clamp(item.timer / item.fadeOut, 0, 1);
         item.alpha = t * t * (3 - 2 * t);
+        lockStaticPosition(item);
         if (item.timer <= 0) {
           item.lifePhase = "wait";
           item.timer = 0.05;
@@ -5704,8 +5775,13 @@ applyLanguage(getPreferredLanguage());
 
     if (centerBootStep === 0) {
       centerBootTimer -= dt;
-      if (centerBootTimer <= 0) {
-        if (startCenterReplace("question")) {
+      if (centerBootTimer <= 0 && !anySynapseFadeBusy()) {
+        const outgoing = centerIconCluster.find(
+          (item) => item.kind === "question" && item.lifePhase === "hold"
+        );
+        if (outgoing) {
+          beginCenterFadeOut(outgoing);
+          pendingCenterFadeIns.push("question");
           centerBootStep = 1;
         }
       }
@@ -5713,29 +5789,18 @@ applyLanguage(getPreferredLanguage());
     }
 
     if (centerBootStep === 1) {
-      if (!centerFadeBusy()) {
-        if (startCenterReplace("brain")) {
+      if (!anySynapseFadeBusy() && !pendingCenterFadeIns.includes("brain")) {
+        const outgoing = centerIconCluster.find(
+          (item) => item.kind === "brain" && item.lifePhase === "hold"
+        );
+        if (outgoing) {
+          beginCenterFadeOut(outgoing);
+          pendingCenterFadeIns.push("brain");
+          centerBootStep = 2;
+        } else {
           centerBootStep = 2;
         }
       }
-      return;
-    }
-
-    // Running: replace one kind at a time when a hold expires (out + new in together).
-    if (centerFadeBusy() || centerIconCluster.some((item) => item.lifePhase === "in")) {
-      centerIconCluster.forEach((item) => {
-        if (item.lifePhase === "hold" && item.timer <= 0) {
-          item.timer = randomBetween(0.12, 0.28);
-        }
-      });
-      return;
-    }
-
-    const readyOut = centerIconCluster
-      .filter((item) => item.lifePhase === "hold" && item.timer <= 0)
-      .sort((a, b) => a.timer - b.timer)[0];
-    if (readyOut) {
-      startCenterReplace(readyOut.kind);
     }
   }
 
@@ -5797,6 +5862,7 @@ applyLanguage(getPreferredLanguage());
     iconSlots = [];
     const count = Math.min(maxIconSlots, iconImages.length);
     const visibleCount = Math.max(8, count - 3);
+    targetVisibleIcons = visibleCount;
     for (let index = 0; index < count; index += 1) {
       const isSpare = index >= visibleCount;
       iconSlots.push({
@@ -5822,8 +5888,8 @@ applyLanguage(getPreferredLanguage());
         alpha: isSpare ? 0 : 1,
         scale: isSpare ? 0.12 : 1,
         phase: isSpare ? "wait" : "hold",
-        timer: isSpare ? 0.02 : randomBetween(2.4, 4.8),
-        hold: randomBetween(3.0, 4.8),
+        timer: isSpare ? 0.02 : randomHoldDuration(),
+        hold: randomHoldDuration(),
       });
     }
 
@@ -5832,13 +5898,6 @@ applyLanguage(getPreferredLanguage());
     if (firstHold) {
       firstHold.timer = randomBetween(0.1, 0.22);
     }
-
-    iconSlots.forEach((slot) => {
-      if (slot.phase !== "wait") {
-        assignFlightPath(slot);
-        sampleFlightPath(slot);
-      }
-    });
 
     applySharedHomes();
   }
@@ -5871,7 +5930,7 @@ applyLanguage(getPreferredLanguage());
 
     iconSlots.forEach((slot) => {
       slot.timer -= dt;
-      updateEntityDrift(slot);
+      lockStaticPosition(slot);
 
       if (slot.phase === "in") {
         const duration = 0.42;
@@ -5879,29 +5938,25 @@ applyLanguage(getPreferredLanguage());
         const pop = t < 0.75 ? t / 0.75 : 1 - (t - 0.75) * 0.08;
         slot.alpha = Math.min(1, t * 1.25);
         slot.scale = 0.12 + pop * 0.98;
+        lockStaticPosition(slot);
         if (slot.timer <= 0) {
           slot.phase = "hold";
-          slot.timer = Math.min(5, slot.hold || 5);
+          slot.timer = Math.min(MAX_HOLD, slot.hold || MAX_HOLD);
           slot.alpha = 1;
           slot.scale = 1;
         }
       } else if (slot.phase === "hold") {
         slot.alpha = 1;
         slot.scale = 1;
-        if (slot.timer <= 0) {
-          slot.exitX = slot.x;
-          slot.exitY = slot.y;
-          slot.phase = "out";
-          slot.timer = randomBetween(0.34, 0.48);
-        }
       } else if (slot.phase === "out") {
         const duration = 0.42;
         const t = clamp(slot.timer / duration, 0, 1);
         slot.alpha = t;
         slot.scale = 0.16 + t * 0.84;
+        lockStaticPosition(slot);
         if (slot.timer <= 0) {
-          slot.exitX = slot.x;
-          slot.exitY = slot.y;
+          slot.exitX = slot.anchorX;
+          slot.exitY = slot.anchorY;
           slot.phase = "wait";
           slot.timer = randomBetween(0.05, 0.18);
           slot.alpha = 0;
@@ -5909,23 +5964,6 @@ applyLanguage(getPreferredLanguage());
         }
       }
     });
-
-    // Only one icon may fade in at a time; never batch-fade several together.
-    if (!iconSlots.some((item) => item.phase === "in")) {
-      const readyIn = iconSlots.find((slot) => slot.phase === "wait" && slot.timer <= 0);
-      if (readyIn) {
-        readyIn.imageIndex = pickNextImageIndex();
-        readyIn.sizeScale = randomBetween(0.72, 1.35);
-        readyIn.hold = randomBetween(3.0, 4.8);
-        readyIn.driftPhase = Math.random() * Math.PI * 2;
-        readyIn.driftSpeed = randomBetween(0.35, 0.7);
-        placeEntityForFadeIn(readyIn);
-        readyIn.phase = "in";
-        readyIn.timer = randomBetween(0.34, 0.48);
-        readyIn.alpha = 0;
-        readyIn.scale = 0.12;
-      }
-    }
   }
 
   function drawChaosCloud(elapsed) {
@@ -6063,6 +6101,7 @@ applyLanguage(getPreferredLanguage());
       updateChaosCloud(dt);
       updateCenterCluster(dt);
       updateIcons(dt);
+      scheduleSynapseTransition();
     }
 
     drawFrame(animTime);
@@ -6075,14 +6114,21 @@ applyLanguage(getPreferredLanguage());
 
     const holds = iconSlots.filter((slot) => slot.phase === "hold");
     holds.forEach((slot, index) => {
-      slot.hold = randomBetween(3.0, 4.8);
-      slot.timer = index === 0 ? randomBetween(0.1, 0.22) : randomBetween(2.4, 4.8);
+      slot.hold = randomHoldDuration();
+      slot.timer = index === 0 ? randomBetween(0.1, 0.22) : randomHoldDuration();
+    });
+    centerIconCluster.forEach((item) => {
+      if (item.lifePhase === "hold") {
+        item.hold = randomHoldDuration();
+        item.timer = Math.min(MAX_HOLD, item.timer > 0 ? item.timer : randomHoldDuration());
+      }
     });
     iconSlots.forEach((slot) => {
       if (slot.phase === "wait") {
         slot.timer = Math.min(slot.timer, 0.05);
       }
     });
+    pendingCenterFadeIns = [];
   }
 
   function start() {
