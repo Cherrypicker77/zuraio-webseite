@@ -5023,103 +5023,89 @@ applyLanguage(getPreferredLanguage());
     const gap = 10;
     const fromNeighbor = nearestHomeDist * 0.5 - half - gap;
     const fromCell = Math.min(cellW, cellH) * 0.42 - half;
-    entity.zoneWander = Math.max(6, Math.min(fromNeighbor, fromCell));
-  }
+    let zone = Math.max(6, Math.min(fromNeighbor, fromCell));
 
-  function assignRandomDrift(entity, speedMin = 34, speedMax = 58) {
-    const angle = Math.random() * Math.PI * 2;
-    const speed = randomBetween(speedMin, speedMax);
-    entity.vx = Math.cos(angle) * speed;
-    entity.vy = Math.sin(angle) * speed;
-    entity.driftSpeedPx = speed;
-  }
-
-  function restoreDriftSpeed(entity) {
-    const target = entity.driftSpeedPx || randomBetween(34, 58);
-    const speed = Math.hypot(entity.vx || 0, entity.vy || 0);
-    if (speed < 0.001) {
-      assignRandomDrift(entity);
-      return;
+    // Keep the full flight ellipse inside the visible canvas.
+    const bounds = visibleBoundsFor(entity);
+    const homeX = entity.homeX || centerX;
+    const homeY = entity.homeY || centerY;
+    const maxByBounds = Math.min(
+      homeX - bounds.minX,
+      bounds.maxX - homeX,
+      homeY - bounds.minY,
+      bounds.maxY - homeY
+    );
+    if (Number.isFinite(maxByBounds)) {
+      zone = Math.min(zone, Math.max(4, maxByBounds));
     }
-    entity.vx = (entity.vx / speed) * target;
-    entity.vy = (entity.vy / speed) * target;
-    entity.driftSpeedPx = target;
+    entity.zoneWander = zone;
+  }
+
+  function assignFlightPath(entity) {
+    const zone = Math.max(4, entity.zoneWander || 8);
+    entity.pathPhaseX = Math.random() * Math.PI * 2;
+    entity.pathPhaseY = Math.random() * Math.PI * 2;
+    // Slow frequencies: roughly half to one loop per 4–6 s visibility cycle.
+    entity.pathFreqX = randomBetween(0.12, 0.24);
+    entity.pathFreqY = randomBetween(0.14, 0.28);
+    entity.pathAmpX = zone * randomBetween(0.6, 0.95);
+    entity.pathAmpY = zone * randomBetween(0.6, 0.95);
+    if (typeof entity.pathTime !== "number") {
+      entity.pathTime = Math.random() * 40;
+    }
+  }
+
+  function sampleFlightPath(entity) {
+    const t = entity.pathTime || 0;
+    const homeX = entity.homeX || centerX;
+    const homeY = entity.homeY || centerY;
+    const ampX = entity.pathAmpX || entity.zoneWander || 8;
+    const ampY = entity.pathAmpY || entity.zoneWander || 8;
+    const fx = entity.pathFreqX || 0.16;
+    const fy = entity.pathFreqY || 0.2;
+    const px = entity.pathPhaseX || 0;
+    const py = entity.pathPhaseY || 0;
+    entity.x = homeX + Math.sin(t * fx + px) * ampX;
+    entity.y = homeY + Math.cos(t * fy + py) * ampY;
   }
 
   function clampToVisibleBounds(entity) {
     const bounds = visibleBoundsFor(entity);
-    let bounced = false;
-    if (entity.x < bounds.minX) {
-      entity.x = bounds.minX;
-      entity.vx = Math.abs(entity.vx || 24);
-      bounced = true;
-    } else if (entity.x > bounds.maxX) {
-      entity.x = bounds.maxX;
-      entity.vx = -Math.abs(entity.vx || 24);
-      bounced = true;
-    }
-    if (entity.y < bounds.minY) {
-      entity.y = bounds.minY;
-      entity.vy = Math.abs(entity.vy || 24);
-      bounced = true;
-    } else if (entity.y > bounds.maxY) {
-      entity.y = bounds.maxY;
-      entity.vy = -Math.abs(entity.vy || 24);
-      bounced = true;
-    }
-    if (bounced) {
-      restoreDriftSpeed(entity);
-    }
-  }
-
-  function clampToPersonalZone(entity) {
-    const maxW = Math.max(4, entity.zoneWander || 8);
-    const dx = entity.x - entity.homeX;
-    const dy = entity.y - entity.homeY;
-    const dist = Math.hypot(dx, dy);
-    if (dist <= maxW || dist < 0.001) {
-      return;
-    }
-    const nx = dx / dist;
-    const ny = dy / dist;
-    const dot = (entity.vx || 0) * nx + (entity.vy || 0) * ny;
-    if (dot > 0) {
-      entity.vx -= 2 * dot * nx;
-      entity.vy -= 2 * dot * ny;
-    }
-    entity.x = entity.homeX + nx * maxW * 0.98;
-    entity.y = entity.homeY + ny * maxW * 0.98;
-    restoreDriftSpeed(entity);
+    entity.x = clamp(entity.x, bounds.minX, bounds.maxX);
+    entity.y = clamp(entity.y, bounds.minY, bounds.maxY);
   }
 
   function placeEntityForFadeIn(entity) {
-    const maxW = Math.max(4, entity.zoneWander || 8);
-    let angle = Math.random() * Math.PI * 2;
+    // Fresh path phases so fade-in starts elsewhere than the exit point.
+    assignFlightPath(entity);
     if (typeof entity.exitX === "number" && typeof entity.exitY === "number") {
-      const away = Math.atan2(entity.homeY - entity.exitY, entity.homeX - entity.exitX);
-      angle = away + randomBetween(-0.8, 0.8);
+      let tries = 0;
+      do {
+        entity.pathPhaseX = Math.random() * Math.PI * 2;
+        entity.pathPhaseY = Math.random() * Math.PI * 2;
+        sampleFlightPath(entity);
+        tries += 1;
+      } while (
+        tries < 12 &&
+        Math.hypot(entity.x - entity.exitX, entity.y - entity.exitY) <
+          Math.max(28, (entity.zoneWander || 8) * 0.55)
+      );
+    } else {
+      sampleFlightPath(entity);
     }
-    const radius = maxW * randomBetween(0.35, 0.92);
-    entity.x = entity.homeX + Math.cos(angle) * radius;
-    entity.y = entity.homeY + Math.sin(angle) * radius;
-    clampToPersonalZone(entity);
     clampToVisibleBounds(entity);
-    assignRandomDrift(entity);
   }
 
   function updateEntityDrift(entity, dt) {
-    if (typeof entity.vx !== "number" || typeof entity.vy !== "number") {
-      assignRandomDrift(entity);
+    if (
+      typeof entity.pathAmpX !== "number" ||
+      typeof entity.pathFreqX !== "number" ||
+      typeof entity.pathPhaseX !== "number"
+    ) {
+      assignFlightPath(entity);
     }
-    if (Math.hypot(entity.vx, entity.vy) < 20) {
-      assignRandomDrift(entity);
-    }
-
-    entity.x += entity.vx * dt;
-    entity.y += entity.vy * dt;
-
-    // Independent motion only: bounce inside own zone, never push other icons.
-    clampToPersonalZone(entity);
+    entity.pathTime = (entity.pathTime || 0) + dt;
+    sampleFlightPath(entity);
     clampToVisibleBounds(entity);
   }
 
@@ -5152,11 +5138,10 @@ applyLanguage(getPreferredLanguage());
       entity.cellW = home.cellW || nearest;
       entity.cellH = home.cellH || nearest;
       assignPersonalZone(entity, nearest, entity.cellW, entity.cellH);
-      assignRandomDrift(entity);
-      entity.x = home.x;
-      entity.y = home.y;
-      entity.targetX = home.x;
-      entity.targetY = home.y;
+      assignFlightPath(entity);
+      sampleFlightPath(entity);
+      entity.targetX = entity.x;
+      entity.targetY = entity.y;
       clampToVisibleBounds(entity);
     });
   }
@@ -5188,7 +5173,6 @@ applyLanguage(getPreferredLanguage());
     item.fadeOut = randomBetween(0.8, 1.2);
     item.lifePhase = "out";
     item.timer = item.fadeOut;
-    assignRandomDrift(item);
   }
 
   function startCenterReplace(kind) {
@@ -5429,7 +5413,8 @@ applyLanguage(getPreferredLanguage());
 
     iconSlots.forEach((slot) => {
       if (slot.phase !== "wait") {
-        assignRandomDrift(slot);
+        assignFlightPath(slot);
+        sampleFlightPath(slot);
       }
     });
 
@@ -5477,7 +5462,7 @@ applyLanguage(getPreferredLanguage());
         slot.scale = 0.12 + pop * 0.98;
         if (slot.timer <= 0) {
           slot.phase = "hold";
-          slot.timer = slot.hold;
+          slot.timer = Math.min(5, slot.hold || 5);
           slot.alpha = 1;
           slot.scale = 1;
         }
@@ -5489,7 +5474,6 @@ applyLanguage(getPreferredLanguage());
           slot.exitY = slot.y;
           slot.phase = "out";
           slot.timer = randomBetween(0.34, 0.48);
-          assignRandomDrift(slot);
         }
       } else if (slot.phase === "out") {
         const duration = 0.42;
