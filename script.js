@@ -4993,32 +4993,71 @@ applyLanguage(getPreferredLanguage());
     };
   }
 
-  function generateWildScatteredPositions(count, sampleEntity) {
+  // Inner half of the area (centered, same aspect → linear scale √0.5).
+  function innerHalfBounds(full) {
+    const cx = (full.minX + full.maxX) * 0.5;
+    const cy = (full.minY + full.maxY) * 0.5;
+    const halfW = ((full.maxX - full.minX) * 0.5) * Math.SQRT1_2;
+    const halfH = ((full.maxY - full.minY) * 0.5) * Math.SQRT1_2;
+    return {
+      minX: cx - halfW,
+      maxX: cx + halfW,
+      minY: cy - halfH,
+      maxY: cy + halfH,
+    };
+  }
+
+  function pointInBounds(x, y, bounds) {
+    return x >= bounds.minX && x <= bounds.maxX && y >= bounds.minY && y <= bounds.maxY;
+  }
+
+  function samplePointInRegion(bounds, region, inner) {
+    if (region !== "outer") {
+      return {
+        x: randomBetween(bounds.minX, bounds.maxX),
+        y: randomBetween(bounds.minY, bounds.maxY),
+      };
+    }
+    for (let tryIndex = 0; tryIndex < 24; tryIndex += 1) {
+      const candidate = {
+        x: randomBetween(bounds.minX, bounds.maxX),
+        y: randomBetween(bounds.minY, bounds.maxY),
+      };
+      if (!pointInBounds(candidate.x, candidate.y, inner)) {
+        return candidate;
+      }
+    }
+    return {
+      x: randomBetween(bounds.minX, bounds.maxX),
+      y: randomBetween(bounds.minY, bounds.maxY),
+    };
+  }
+
+  function generateWildScatteredPositions(count, sampleEntity, region = "full") {
     const positions = [];
     if (count <= 0 || !width || !height) {
       return positions;
     }
 
-    const bounds = visibleBoundsFor(sampleEntity || { sizeScale: 1, scale: 1 });
+    const full = visibleBoundsFor(sampleEntity || { sizeScale: 1, scale: 1 });
+    const inner = innerHalfBounds(full);
+    const bounds = region === "inner" ? inner : full;
     const area = Math.max(1, (bounds.maxX - bounds.minX) * (bounds.maxY - bounds.minY));
     const minDist = Math.max(
-      36,
+      40,
       Math.min(
-        Math.sqrt(area / Math.max(count, 1)) * 0.72,
-        Math.min(width, height) * 0.22
+        Math.sqrt(area / Math.max(count, 1)) * 0.78,
+        Math.min(width, height) * 0.2
       )
     );
 
     for (let index = 0; index < count; index += 1) {
       let best = null;
       let bestScore = -1;
-      const attempts = 40 + index * 4;
+      const attempts = 48 + index * 5;
 
       for (let tryIndex = 0; tryIndex < attempts; tryIndex += 1) {
-        const candidate = {
-          x: randomBetween(bounds.minX, bounds.maxX),
-          y: randomBetween(bounds.minY, bounds.maxY),
-        };
+        const candidate = samplePointInRegion(bounds, region, inner);
         let nearest = Infinity;
         for (let other = 0; other < positions.length; other += 1) {
           nearest = Math.min(
@@ -5040,13 +5079,9 @@ applyLanguage(getPreferredLanguage());
         }
       }
 
-      positions.push(best || {
-        x: randomBetween(bounds.minX, bounds.maxX),
-        y: randomBetween(bounds.minY, bounds.maxY),
-      });
+      positions.push(best || samplePointInRegion(bounds, region, inner));
     }
 
-    // Shuffle so assignment order never implies a pattern.
     for (let i = positions.length - 1; i > 0; i -= 1) {
       const j = Math.floor(Math.random() * (i + 1));
       const tmp = positions[i];
@@ -5056,26 +5091,76 @@ applyLanguage(getPreferredLanguage());
     return positions;
   }
 
+  function getActiveMotionEntities(exclude) {
+    const active = [];
+    iconSlots.forEach((slot) => {
+      if (slot !== exclude && slot.phase !== "wait" && slot.alpha > 0.02) {
+        active.push(slot);
+      }
+    });
+    centerIconCluster.forEach((item) => {
+      if (item !== exclude && item.lifePhase !== "wait" && item.alpha > 0.02) {
+        active.push(item);
+      }
+    });
+    return active;
+  }
+
+  function assignNonOverlapZone(entity, neighbors) {
+    const half = entityDrawHalf(entity);
+    const gap = 8;
+    let nearest = Infinity;
+    neighbors.forEach((other) => {
+      if (other === entity) {
+        return;
+      }
+      const ox = other.homeX != null ? other.homeX : other.x;
+      const oy = other.homeY != null ? other.homeY : other.y;
+      nearest = Math.min(nearest, Math.hypot(entity.homeX - ox, entity.homeY - oy));
+    });
+    if (!Number.isFinite(nearest)) {
+      nearest = Math.min(width, height) * 0.18;
+    }
+    const fromNeighbor = nearest * 0.5 - half - gap;
+    const full = visibleBoundsFor(entity);
+    const regionBounds =
+      entity.motionRegion === "inner" ? innerHalfBounds(full) : full;
+    const maxByRegion = Math.min(
+      entity.homeX - regionBounds.minX,
+      regionBounds.maxX - entity.homeX,
+      entity.homeY - regionBounds.minY,
+      regionBounds.maxY - entity.homeY
+    );
+    entity.zoneWander = Math.max(
+      6,
+      Math.min(fromNeighbor, Number.isFinite(maxByRegion) ? maxByRegion : fromNeighbor)
+    );
+  }
+
   function assignFlightPath(entity) {
-    const bounds = visibleBoundsFor(entity);
-    const cx = (bounds.minX + bounds.maxX) * 0.5;
-    const cy = (bounds.minY + bounds.maxY) * 0.5;
-    const spanX = bounds.maxX - bounds.minX;
-    const spanY = bounds.maxY - bounds.minY;
+    const full = visibleBoundsFor(entity);
+    const regionBounds =
+      entity.motionRegion === "inner" ? innerHalfBounds(full) : full;
 
-    // Slightly offset homes so paths feel wild and unsynced across the full canvas.
-    entity.homeX = cx + spanX * randomBetween(-0.15, 0.15);
-    entity.homeY = cy + spanY * randomBetween(-0.15, 0.15);
+    if (typeof entity.homeX !== "number" || typeof entity.homeY !== "number") {
+      const start = samplePointInRegion(
+        regionBounds,
+        entity.motionRegion || "full",
+        innerHalfBounds(full)
+      );
+      entity.homeX = start.x;
+      entity.homeY = start.y;
+    }
 
-    const maxAmpX = Math.max(12, Math.min(entity.homeX - bounds.minX, bounds.maxX - entity.homeX));
-    const maxAmpY = Math.max(12, Math.min(entity.homeY - bounds.minY, bounds.maxY - entity.homeY));
-    entity.pathAmpX = maxAmpX * randomBetween(0.85, 0.98);
-    entity.pathAmpY = maxAmpY * randomBetween(0.85, 0.98);
-    entity.zoneWander = Math.min(entity.pathAmpX, entity.pathAmpY);
+    entity.homeX = clamp(entity.homeX, regionBounds.minX, regionBounds.maxX);
+    entity.homeY = clamp(entity.homeY, regionBounds.minY, regionBounds.maxY);
+
+    const zone = Math.max(6, entity.zoneWander || 12);
+    entity.pathAmpX = zone * randomBetween(0.7, 0.92);
+    entity.pathAmpY = zone * randomBetween(0.7, 0.92);
 
     entity.pathPhaseX = Math.random() * Math.PI * 2;
     entity.pathPhaseY = Math.random() * Math.PI * 2;
-    // Slow, calm frequencies — continuous motion, never still.
     entity.pathFreqX = randomBetween(0.07, 0.15);
     entity.pathFreqY = randomBetween(0.08, 0.17);
     if (typeof entity.pathTime !== "number") {
@@ -5092,7 +5177,6 @@ applyLanguage(getPreferredLanguage());
     const nx = clamp((entity.x - entity.homeX) / ampX, -1, 1);
     const ny = clamp((entity.y - entity.homeY) / ampY, -1, 1);
     const t = entity.pathTime || 0;
-    // Two asin branches; pick randomly so trajectories diverge.
     const branchX = Math.random() < 0.5 ? 1 : -1;
     entity.pathPhaseX =
       branchX * Math.asin(nx) - t * (entity.pathFreqX || 0.1);
@@ -5125,19 +5209,55 @@ applyLanguage(getPreferredLanguage());
   }
 
   function placeEntityForFadeIn(entity) {
-    const minDist = Math.max(72, Math.min(width, height) * 0.28);
-    let tries = 0;
-    do {
-      assignFlightPath(entity);
-      sampleFlightPath(entity);
-      tries += 1;
-    } while (
-      tries < 16 &&
-      typeof entity.exitX === "number" &&
-      typeof entity.exitY === "number" &&
-      Math.hypot(entity.x - entity.exitX, entity.y - entity.exitY) < minDist
-    );
-    clampToVisibleBounds(entity);
+    if (!entity.motionRegion) {
+      entity.motionRegion = Math.random() < 0.75 ? "inner" : "outer";
+    }
+    const full = visibleBoundsFor(entity);
+    const inner = innerHalfBounds(full);
+    const regionBounds = entity.motionRegion === "inner" ? inner : full;
+    const others = getActiveMotionEntities(entity);
+    const half = entityDrawHalf(entity);
+    const minDistBase = half * 2 + 14;
+    const exitMin = Math.max(56, Math.min(width, height) * 0.22);
+
+    let best = null;
+    let bestScore = -1;
+    for (let tryIndex = 0; tryIndex < 36; tryIndex += 1) {
+      const candidate = samplePointInRegion(
+        regionBounds,
+        entity.motionRegion || "full",
+        inner
+      );
+      let nearest = Infinity;
+      others.forEach((other) => {
+        nearest = Math.min(nearest, Math.hypot(candidate.x - other.x, candidate.y - other.y));
+      });
+      if (!Number.isFinite(nearest)) {
+        nearest = minDistBase * 2;
+      }
+      const exitDist =
+        typeof entity.exitX === "number" && typeof entity.exitY === "number"
+          ? Math.hypot(candidate.x - entity.exitX, candidate.y - entity.exitY)
+          : exitMin * 2;
+      if (nearest >= minDistBase && exitDist >= exitMin) {
+        best = candidate;
+        bestScore = nearest;
+        break;
+      }
+      if (nearest > bestScore) {
+        best = candidate;
+        bestScore = nearest;
+      }
+    }
+
+    if (best) {
+      entity.homeX = best.x;
+      entity.homeY = best.y;
+      entity.x = best.x;
+      entity.y = best.y;
+    }
+    assignNonOverlapZone(entity, others);
+    fitFlightPathToPosition(entity);
   }
 
   function updateEntityDrift(entity, dt) {
@@ -5148,7 +5268,6 @@ applyLanguage(getPreferredLanguage());
     ) {
       assignFlightPath(entity);
     }
-    // Always advance path time so icons never stand still (also while fading).
     entity.pathTime = (entity.pathTime || 0) + dt;
     sampleFlightPath(entity);
     clampToVisibleBounds(entity);
@@ -5166,23 +5285,69 @@ applyLanguage(getPreferredLanguage());
       return entity.phase !== "wait";
     });
     const hidden = entities.filter((entity) => !visible.includes(entity));
-    const starts = generateWildScatteredPositions(
-      visible.length,
-      visible[0] || entities[0]
+
+    for (let i = visible.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const tmp = visible[i];
+      visible[i] = visible[j];
+      visible[j] = tmp;
+    }
+    const innerCount = Math.round(visible.length * 0.75);
+    visible.forEach((entity, index) => {
+      entity.motionRegion = index < innerCount ? "inner" : "outer";
+    });
+
+    const innerEntities = visible.filter((entity) => entity.motionRegion === "inner");
+    const outerEntities = visible.filter((entity) => entity.motionRegion === "outer");
+    const sample = visible[0] || entities[0];
+    const innerStarts = generateWildScatteredPositions(
+      innerEntities.length,
+      sample,
+      "inner"
+    );
+    const outerStarts = generateWildScatteredPositions(
+      outerEntities.length,
+      sample,
+      "outer"
     );
 
-    visible.forEach((entity, index) => {
-      const start = starts[index];
+    innerEntities.forEach((entity, index) => {
+      const start = innerStarts[index];
       if (start) {
+        entity.homeX = start.x;
+        entity.homeY = start.y;
         entity.x = start.x;
         entity.y = start.y;
       }
+    });
+    outerEntities.forEach((entity, index) => {
+      const start = outerStarts[index];
+      if (start) {
+        entity.homeX = start.x;
+        entity.homeY = start.y;
+        entity.x = start.x;
+        entity.y = start.y;
+      }
+    });
+
+    visible.forEach((entity) => {
+      assignNonOverlapZone(entity, visible);
       fitFlightPathToPosition(entity);
       entity.targetX = entity.x;
       entity.targetY = entity.y;
     });
 
-    hidden.forEach((entity) => {
+    hidden.forEach((entity, index) => {
+      entity.motionRegion = index % 4 === 0 ? "outer" : "inner";
+      const full = visibleBoundsFor(entity);
+      const inner = innerHalfBounds(full);
+      const regionBounds = entity.motionRegion === "inner" ? inner : full;
+      const start = samplePointInRegion(regionBounds, entity.motionRegion, inner);
+      entity.homeX = start.x;
+      entity.homeY = start.y;
+      entity.x = start.x;
+      entity.y = start.y;
+      assignNonOverlapZone(entity, entities);
       assignFlightPath(entity);
       sampleFlightPath(entity);
       entity.targetX = entity.x;
