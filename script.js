@@ -4709,6 +4709,10 @@ applyLanguage(getPreferredLanguage());
   let nextIconCursor = 0;
   let centerBrainImage = null;
   let centerIconCluster = [];
+  let centerBootTimer = 1;
+  let centerBootStep = 0; // 0 wait → 1 question replace done → 2 brain replace done / running
+  let lastLayoutWidth = 0;
+  let lastLayoutHeight = 0;
   let animationFrame = 0;
   let isVisible = false;
   let isRunning = false;
@@ -4922,53 +4926,16 @@ applyLanguage(getPreferredLanguage());
     const out = ctx.createImageData(size, size);
     const dst = out.data;
     const threshold = 28;
-    const edge = new Uint8Array(size * size);
 
-    function alphaAt(x, y) {
-      if (x < 0 || y < 0 || x >= size || y >= size) {
-        return 0;
+    // Fill and contour use the same color.
+    for (let i = 0; i < src.length; i += 4) {
+      if (src[i + 3] < threshold) {
+        continue;
       }
-      return src[(y * size + x) * 4 + 3];
-    }
-
-    for (let y = 0; y < size; y += 1) {
-      for (let x = 0; x < size; x += 1) {
-        const alpha = alphaAt(x, y);
-        if (alpha < threshold) {
-          continue;
-        }
-        const isEdge =
-          alphaAt(x - 1, y) < threshold ||
-          alphaAt(x + 1, y) < threshold ||
-          alphaAt(x, y - 1) < threshold ||
-          alphaAt(x, y + 1) < threshold;
-        if (isEdge) {
-          edge[y * size + x] = 1;
-        }
-      }
-    }
-
-    for (let y = 0; y < size; y += 1) {
-      for (let x = 0; x < size; x += 1) {
-        const i = y * size + x;
-        if (alphaAt(x, y) < threshold) {
-          continue;
-        }
-        const isStroke =
-          edge[i] ||
-          (x > 0 && edge[i - 1]) ||
-          (x < size - 1 && edge[i + 1]) ||
-          (y > 0 && edge[i - size]) ||
-          (y < size - 1 && edge[i + size]);
-        if (!isStroke) {
-          continue;
-        }
-        const index = i * 4;
-        dst[index] = OUTLINE_STROKE.r;
-        dst[index + 1] = OUTLINE_STROKE.g;
-        dst[index + 2] = OUTLINE_STROKE.b;
-        dst[index + 3] = 255;
-      }
+      dst[i] = OUTLINE_STROKE.r;
+      dst[i + 1] = OUTLINE_STROKE.g;
+      dst[i + 2] = OUTLINE_STROKE.b;
+      dst[i + 3] = 255;
     }
 
     ctx.clearRect(0, 0, size, size);
@@ -5005,11 +4972,25 @@ applyLanguage(getPreferredLanguage());
     };
   }
 
-  function entityRadius(entity) {
+  function entityDrawHalf(entity) {
     if (entity.kind) {
-      return centerIconPixelSize(entity) * 0.52;
+      return centerIconPixelSize(entity) * 0.5;
     }
-    return iconPixelSize(entity) * 0.52;
+    return iconPixelSize(entity) * 0.5;
+  }
+
+  function entityRadius(entity) {
+    return entityDrawHalf(entity);
+  }
+
+  function visibleBoundsFor(entity) {
+    const half = entityDrawHalf(entity) + 3;
+    return {
+      minX: half,
+      maxX: Math.max(half, width - half),
+      minY: half,
+      maxY: Math.max(half, height - half),
+    };
   }
 
   function generateEvenHomes(count) {
@@ -5017,74 +4998,139 @@ applyLanguage(getPreferredLanguage());
     if (count <= 0 || !width || !height) {
       return homes;
     }
-    const { rx, ry } = fieldZoneRadii();
-    const golden = Math.PI * (3 - Math.sqrt(5));
+    const inset = Math.max(28, Math.min(width, height) * 0.08);
+    const usableW = Math.max(40, width - inset * 2);
+    const usableH = Math.max(40, height - inset * 2);
+    const cols = Math.max(2, Math.ceil(Math.sqrt(count * (usableW / usableH))));
+    const rows = Math.max(2, Math.ceil(count / cols));
+    const cellW = usableW / cols;
+    const cellH = usableH / rows;
     for (let index = 0; index < count; index += 1) {
-      const t = (index + 0.5) / count;
-      const radial = Math.sqrt(t) * 0.9;
-      const angle = index * golden;
+      const col = index % cols;
+      const row = Math.floor(index / cols);
       homes.push({
-        x: centerX + Math.cos(angle) * rx * radial,
-        y: centerY + Math.sin(angle) * ry * radial,
+        x: inset + cellW * (col + 0.5),
+        y: inset + cellH * (row + 0.5),
+        cellW,
+        cellH,
       });
     }
     return homes;
   }
 
-  function assignWanderAroundHome(entity, nearestHomeDist) {
-    const maxWander = Math.max(6, nearestHomeDist * 0.2);
-    entity.wanderRx = maxWander * randomBetween(0.65, 1);
-    entity.wanderRy = maxWander * randomBetween(0.65, 1);
-    entity.pathPhaseX = Math.random() * Math.PI * 2;
-    entity.pathPhaseY = Math.random() * Math.PI * 2;
-    entity.pathFreqX = randomBetween(0.1, 0.2);
-    entity.pathFreqY = randomBetween(0.12, 0.24);
-    if (typeof entity.pathTime !== "number") {
-      entity.pathTime = Math.random() * 40;
-    }
+  function assignPersonalZone(entity, nearestHomeDist, cellW, cellH) {
+    const half = entityDrawHalf(entity);
+    const gap = 10;
+    const fromNeighbor = nearestHomeDist * 0.5 - half - gap;
+    const fromCell = Math.min(cellW, cellH) * 0.42 - half;
+    entity.zoneWander = Math.max(6, Math.min(fromNeighbor, fromCell));
   }
 
-  function sampleEntityPath(entity) {
-    const t = entity.pathTime || 0;
-    entity.targetX = entity.homeX + Math.sin(t * entity.pathFreqX + entity.pathPhaseX) * entity.wanderRx;
-    entity.targetY = entity.homeY + Math.cos(t * entity.pathFreqY + entity.pathPhaseY) * entity.wanderRy;
+  function assignRandomDrift(entity, speedMin = 34, speedMax = 58) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = randomBetween(speedMin, speedMax);
+    entity.vx = Math.cos(angle) * speed;
+    entity.vy = Math.sin(angle) * speed;
+    entity.driftSpeedPx = speed;
   }
 
-  function clampEntityToField(entity) {
-    const { rx, ry } = fieldZoneRadii();
-    const half = entityRadius(entity);
-    const maxRx = Math.max(12, rx - half);
-    const maxRy = Math.max(12, ry - half);
-    const dx = entity.x - centerX;
-    const dy = entity.y - centerY;
-    const nx = dx / maxRx;
-    const ny = dy / maxRy;
-    const outside = nx * nx + ny * ny;
-    if (outside <= 1) {
+  function restoreDriftSpeed(entity) {
+    const target = entity.driftSpeedPx || randomBetween(34, 58);
+    const speed = Math.hypot(entity.vx || 0, entity.vy || 0);
+    if (speed < 0.001) {
+      assignRandomDrift(entity);
       return;
     }
-    const scale = 1 / Math.sqrt(outside);
-    entity.x = centerX + dx * scale;
-    entity.y = centerY + dy * scale;
+    entity.vx = (entity.vx / speed) * target;
+    entity.vy = (entity.vy / speed) * target;
+    entity.driftSpeedPx = target;
+  }
+
+  function clampToVisibleBounds(entity) {
+    const bounds = visibleBoundsFor(entity);
+    let bounced = false;
+    if (entity.x < bounds.minX) {
+      entity.x = bounds.minX;
+      entity.vx = Math.abs(entity.vx || 24);
+      bounced = true;
+    } else if (entity.x > bounds.maxX) {
+      entity.x = bounds.maxX;
+      entity.vx = -Math.abs(entity.vx || 24);
+      bounced = true;
+    }
+    if (entity.y < bounds.minY) {
+      entity.y = bounds.minY;
+      entity.vy = Math.abs(entity.vy || 24);
+      bounced = true;
+    } else if (entity.y > bounds.maxY) {
+      entity.y = bounds.maxY;
+      entity.vy = -Math.abs(entity.vy || 24);
+      bounced = true;
+    }
+    if (bounced) {
+      restoreDriftSpeed(entity);
+    }
+  }
+
+  function clampToPersonalZone(entity) {
+    const maxW = Math.max(4, entity.zoneWander || 8);
+    const dx = entity.x - entity.homeX;
+    const dy = entity.y - entity.homeY;
+    const dist = Math.hypot(dx, dy);
+    if (dist <= maxW || dist < 0.001) {
+      return;
+    }
+    const nx = dx / dist;
+    const ny = dy / dist;
+    const dot = (entity.vx || 0) * nx + (entity.vy || 0) * ny;
+    if (dot > 0) {
+      entity.vx -= 2 * dot * nx;
+      entity.vy -= 2 * dot * ny;
+    }
+    entity.x = entity.homeX + nx * maxW * 0.98;
+    entity.y = entity.homeY + ny * maxW * 0.98;
+    restoreDriftSpeed(entity);
+  }
+
+  function placeEntityForFadeIn(entity) {
+    const maxW = Math.max(4, entity.zoneWander || 8);
+    let angle = Math.random() * Math.PI * 2;
+    if (typeof entity.exitX === "number" && typeof entity.exitY === "number") {
+      const away = Math.atan2(entity.homeY - entity.exitY, entity.homeX - entity.exitX);
+      angle = away + randomBetween(-0.8, 0.8);
+    }
+    const radius = maxW * randomBetween(0.35, 0.92);
+    entity.x = entity.homeX + Math.cos(angle) * radius;
+    entity.y = entity.homeY + Math.sin(angle) * radius;
+    clampToPersonalZone(entity);
+    clampToVisibleBounds(entity);
+    assignRandomDrift(entity);
+  }
+
+  function updateEntityDrift(entity, dt) {
+    if (typeof entity.vx !== "number" || typeof entity.vy !== "number") {
+      assignRandomDrift(entity);
+    }
+    if (Math.hypot(entity.vx, entity.vy) < 20) {
+      assignRandomDrift(entity);
+    }
+
+    entity.x += entity.vx * dt;
+    entity.y += entity.vy * dt;
+
+    // Independent motion only: bounce inside own zone, never push other icons.
+    clampToPersonalZone(entity);
+    clampToVisibleBounds(entity);
   }
 
   function applySharedHomes() {
     const entities = [];
-    const integ = iconSlots.slice();
-    const center = centerIconCluster.slice();
-    const maxLen = Math.max(integ.length, center.length);
-    for (let index = 0; index < maxLen; index += 1) {
-      if (index < integ.length) {
-        entities.push(integ[index]);
-      }
-      if (index < center.length) {
-        entities.push(center[index]);
-      }
-    }
+    iconSlots.forEach((slot) => entities.push(slot));
+    centerIconCluster.forEach((item) => entities.push(item));
 
     const homes = generateEvenHomes(entities.length);
     entities.forEach((entity, index) => {
-      const home = homes[index];
+      const home = homes[index] || { x: centerX, y: centerY, cellW: 40, cellH: 40 };
       entity.homeX = home.x;
       entity.homeY = home.y;
 
@@ -5093,71 +5139,26 @@ applyLanguage(getPreferredLanguage());
         if (other === index) {
           continue;
         }
-        nearest = Math.min(nearest, Math.hypot(homes[other].x - home.x, homes[other].y - home.y));
+        nearest = Math.min(
+          nearest,
+          Math.hypot(homes[other].x - home.x, homes[other].y - home.y)
+        );
       }
       if (!Number.isFinite(nearest)) {
-        nearest = Math.min(width, height) * 0.2;
+        nearest = Math.min(home.cellW || 40, home.cellH || 40);
       }
 
-      assignWanderAroundHome(entity, nearest);
+      entity.nearestHomeDist = nearest;
+      entity.cellW = home.cellW || nearest;
+      entity.cellH = home.cellH || nearest;
+      assignPersonalZone(entity, nearest, entity.cellW, entity.cellH);
+      assignRandomDrift(entity);
       entity.x = home.x;
       entity.y = home.y;
       entity.targetX = home.x;
       entity.targetY = home.y;
+      clampToVisibleBounds(entity);
     });
-
-    separateAllIcons();
-  }
-
-  function separateAllIcons() {
-    const active = [];
-    iconSlots.forEach((slot) => {
-      if (slot.phase !== "wait" && slot.alpha > 0.02) {
-        active.push(slot);
-      }
-    });
-    centerIconCluster.forEach((item) => {
-      if (item.lifePhase !== "wait" && item.alpha > 0.02) {
-        active.push(item);
-      }
-    });
-
-    if (!active.length) {
-      return;
-    }
-
-    const gap = 10;
-    for (let iter = 0; iter < 14; iter += 1) {
-      for (let i = 0; i < active.length; i += 1) {
-        for (let j = i + 1; j < active.length; j += 1) {
-          const a = active[i];
-          const b = active[j];
-          let dx = b.x - a.x;
-          let dy = b.y - a.y;
-          let dist = Math.hypot(dx, dy);
-          const minDist = entityRadius(a) + entityRadius(b) + gap;
-          if (dist >= minDist) {
-            continue;
-          }
-          if (dist < 0.001) {
-            const angle = (i + j + iter) * 0.9;
-            dx = Math.cos(angle);
-            dy = Math.sin(angle);
-            dist = 1;
-          }
-          const push = (minDist - dist) * 0.5;
-          const nx = dx / dist;
-          const ny = dy / dist;
-          a.x -= nx * push;
-          a.y -= ny * push;
-          b.x += nx * push;
-          b.y += ny * push;
-        }
-      }
-      active.forEach((entity) => {
-        clampEntityToField(entity);
-      });
-    }
   }
 
   function centerFadeBusy() {
@@ -5166,17 +5167,48 @@ applyLanguage(getPreferredLanguage());
 
   function beginCenterFadeIn(item) {
     item.sizeScale = randomBetween(0.88, 1.12);
-    item.hold = randomBetween(2.4, 5.2);
+    item.hold = randomBetween(2.8, 5.0);
     item.fadeIn = randomBetween(0.8, 1.2);
     item.fadeOut = randomBetween(0.8, 1.2);
-    const nearest = Math.min(width, height) * 0.18;
-    assignWanderAroundHome(item, nearest);
-    sampleEntityPath(item);
-    item.x = item.targetX;
-    item.y = item.targetY;
+    assignPersonalZone(
+      item,
+      item.nearestHomeDist || 48,
+      item.cellW || 48,
+      item.cellH || 48
+    );
+    placeEntityForFadeIn(item);
     item.lifePhase = "in";
     item.timer = item.fadeIn;
     item.alpha = 0;
+  }
+
+  function beginCenterFadeOut(item) {
+    item.exitX = item.x;
+    item.exitY = item.y;
+    item.fadeOut = randomBetween(0.8, 1.2);
+    item.lifePhase = "out";
+    item.timer = item.fadeOut;
+    assignRandomDrift(item);
+  }
+
+  function startCenterReplace(kind) {
+    const outgoing = centerIconCluster.find(
+      (item) => item.kind === kind && item.lifePhase === "hold"
+    );
+    const incoming = centerIconCluster.find(
+      (item) => item.kind === kind && item.lifePhase === "wait"
+    );
+    if (!outgoing || !incoming) {
+      return false;
+    }
+    if (centerIconCluster.some((item) => item.lifePhase === "in")) {
+      return false;
+    }
+    beginCenterFadeOut(outgoing);
+    incoming.exitX = outgoing.exitX;
+    incoming.exitY = outgoing.exitY;
+    beginCenterFadeIn(incoming);
+    return true;
   }
 
   function buildCenterCluster() {
@@ -5185,43 +5217,50 @@ applyLanguage(getPreferredLanguage());
       return;
     }
 
-    const shortSide = Math.min(width, height);
-    const each = shortSide < 340 ? 2 : 3;
-    const total = each * 2;
+    // 3 visible + 1 spare per kind so one can fade in while another fades out.
+    const visibleEach = 3;
+    const spareEach = 1;
     const cluster = [];
+    const kinds = ["question", "brain"];
 
-    for (let index = 0; index < total; index += 1) {
-      const kind = index % 2 === 0 ? "question" : "brain";
+    kinds.forEach((kind) => {
       if (kind === "brain" && !centerBrainImage) {
-        continue;
+        return;
       }
-      cluster.push({
-        kind,
-        slotIndex: index,
-        x: centerX,
-        y: centerY,
-        targetX: centerX,
-        targetY: centerY,
-        homeX: centerX,
-        homeY: centerY,
-        wanderRx: 12,
-        wanderRy: 12,
-        sizeScale: randomBetween(0.88, 1.12),
-        alpha: 1,
-        lifePhase: "hold",
-        timer: 1.4 + index * 1.7 + randomBetween(0, 0.5),
-        hold: randomBetween(2.4, 5.2),
-        fadeIn: randomBetween(0.8, 1.2),
-        fadeOut: randomBetween(0.8, 1.2),
-        pathPhaseX: Math.random() * Math.PI * 2,
-        pathPhaseY: Math.random() * Math.PI * 2,
-        pathFreqX: randomBetween(0.1, 0.2),
-        pathFreqY: randomBetween(0.12, 0.24),
-        pathTime: Math.random() * 40,
-      });
-    }
+      for (let index = 0; index < visibleEach + spareEach; index += 1) {
+        const isSpare = index >= visibleEach;
+        cluster.push({
+          kind,
+          slotIndex: cluster.length,
+          x: centerX,
+          y: centerY,
+          targetX: centerX,
+          targetY: centerY,
+          homeX: centerX,
+          homeY: centerY,
+          wanderRx: 12,
+          wanderRy: 12,
+          vx: 0,
+          vy: 0,
+          sizeScale: randomBetween(0.88, 1.12),
+          alpha: isSpare ? 0 : 1,
+          lifePhase: isSpare ? "wait" : "hold",
+          timer: isSpare ? 0.2 : randomBetween(2.8, 5.0),
+          hold: randomBetween(2.8, 5.0),
+          fadeIn: randomBetween(0.8, 1.2),
+          fadeOut: randomBetween(0.8, 1.2),
+          pathPhaseX: Math.random() * Math.PI * 2,
+          pathPhaseY: Math.random() * Math.PI * 2,
+          pathFreqX: randomBetween(0.1, 0.2),
+          pathFreqY: randomBetween(0.12, 0.24),
+          pathTime: Math.random() * 40,
+        });
+      }
+    });
 
     centerIconCluster = cluster;
+    centerBootTimer = 1;
+    centerBootStep = 0;
     applySharedHomes();
   }
 
@@ -5230,13 +5269,10 @@ applyLanguage(getPreferredLanguage());
       return;
     }
 
-    const follow = 1 - Math.exp(-3.2 * dt);
-
     centerIconCluster.forEach((item) => {
-      item.pathTime += dt;
-      sampleEntityPath(item);
-      item.x += (item.targetX - item.x) * follow;
-      item.y += (item.targetY - item.y) * follow;
+      if (item.lifePhase !== "wait") {
+        updateEntityDrift(item, dt);
+      }
       item.timer -= dt;
 
       if (item.lifePhase === "in") {
@@ -5244,7 +5280,7 @@ applyLanguage(getPreferredLanguage());
         item.alpha = t * t * (3 - 2 * t);
         if (item.timer <= 0) {
           item.lifePhase = "hold";
-          item.timer = item.hold;
+          item.timer = Math.min(5, item.hold || 5);
           item.alpha = 1;
         }
       } else if (item.lifePhase === "out") {
@@ -5252,7 +5288,7 @@ applyLanguage(getPreferredLanguage());
         item.alpha = t * t * (3 - 2 * t);
         if (item.timer <= 0) {
           item.lifePhase = "wait";
-          item.timer = randomBetween(0.25, 0.55);
+          item.timer = 0.05;
           item.alpha = 0;
         }
       } else if (item.lifePhase === "hold") {
@@ -5260,25 +5296,40 @@ applyLanguage(getPreferredLanguage());
       }
     });
 
-    // Strictly one fade at a time: out first, then in — alternating flow
-    if (!centerFadeBusy()) {
-      const readyOut = centerIconCluster.find((item) => item.lifePhase === "hold" && item.timer <= 0);
-      if (readyOut) {
-        readyOut.fadeOut = randomBetween(0.8, 1.2);
-        readyOut.lifePhase = "out";
-        readyOut.timer = readyOut.fadeOut;
-      } else {
-        const readyIn = centerIconCluster.find((item) => item.lifePhase === "wait" && item.timer <= 0);
-        if (readyIn) {
-          beginCenterFadeIn(readyIn);
+    if (centerBootStep === 0) {
+      centerBootTimer -= dt;
+      if (centerBootTimer <= 0) {
+        if (startCenterReplace("question")) {
+          centerBootStep = 1;
         }
       }
-    } else {
+      return;
+    }
+
+    if (centerBootStep === 1) {
+      if (!centerFadeBusy()) {
+        if (startCenterReplace("brain")) {
+          centerBootStep = 2;
+        }
+      }
+      return;
+    }
+
+    // Running: replace one kind at a time when a hold expires (out + new in together).
+    if (centerFadeBusy() || centerIconCluster.some((item) => item.lifePhase === "in")) {
       centerIconCluster.forEach((item) => {
-        if ((item.lifePhase === "hold" || item.lifePhase === "wait") && item.timer <= 0) {
+        if (item.lifePhase === "hold" && item.timer <= 0) {
           item.timer = randomBetween(0.12, 0.28);
         }
       });
+      return;
+    }
+
+    const readyOut = centerIconCluster
+      .filter((item) => item.lifePhase === "hold" && item.timer <= 0)
+      .sort((a, b) => a.timer - b.timer)[0];
+    if (readyOut) {
+      startCenterReplace(readyOut.kind);
     }
   }
 
@@ -5339,7 +5390,9 @@ applyLanguage(getPreferredLanguage());
     nextIconCursor = 0;
     iconSlots = [];
     const count = Math.min(maxIconSlots, iconImages.length);
+    const visibleCount = Math.max(8, count - 3);
     for (let index = 0; index < count; index += 1) {
+      const isSpare = index >= visibleCount;
       iconSlots.push({
         imageIndex: pickNextImageIndex(),
         x: centerX,
@@ -5350,6 +5403,8 @@ applyLanguage(getPreferredLanguage());
         homeY: centerY,
         wanderRx: 12,
         wanderRy: 12,
+        vx: 0,
+        vy: 0,
         sizeScale: randomBetween(0.72, 1.35),
         driftPhase: Math.random() * Math.PI * 2,
         driftSpeed: randomBetween(0.35, 0.7),
@@ -5358,19 +5413,24 @@ applyLanguage(getPreferredLanguage());
         pathFreqX: randomBetween(0.1, 0.2),
         pathFreqY: randomBetween(0.12, 0.24),
         pathTime: Math.random() * 40,
-        alpha: 0,
-        scale: 0.2,
-        phase: "wait",
-        timer: randomBetween(0.02, 0.25) + index * 0.06,
+        alpha: isSpare ? 0 : 1,
+        scale: isSpare ? 0.12 : 1,
+        phase: isSpare ? "wait" : "hold",
+        timer: isSpare ? 0.02 : randomBetween(2.4, 4.8),
         hold: randomBetween(3.0, 4.8),
       });
     }
 
-    iconSlots.forEach((slot, index) => {
-      slot.phase = "hold";
-      slot.alpha = 1;
-      slot.scale = 1;
-      slot.timer = randomBetween(0.05, 0.35) + index * 0.22;
+    // First visible icon begins leaving almost immediately; a spare can fade in alone.
+    const firstHold = iconSlots.find((slot) => slot.phase === "hold");
+    if (firstHold) {
+      firstHold.timer = randomBetween(0.1, 0.22);
+    }
+
+    iconSlots.forEach((slot) => {
+      if (slot.phase !== "wait") {
+        assignRandomDrift(slot);
+      }
     });
 
     applySharedHomes();
@@ -5402,42 +5462,14 @@ applyLanguage(getPreferredLanguage());
       return;
     }
 
-    const follow = 1 - Math.exp(-3.2 * dt);
-
     iconSlots.forEach((slot) => {
       slot.timer -= dt;
 
       if (slot.phase !== "wait") {
-        slot.pathTime += dt;
-        sampleEntityPath(slot);
-        slot.x += (slot.targetX - slot.x) * follow;
-        slot.y += (slot.targetY - slot.y) * follow;
+        updateEntityDrift(slot, dt);
       }
 
-      if (slot.phase === "wait" && slot.timer <= 0) {
-        const transitioning = iconSlots.filter(
-          (item) => item !== slot && (item.phase === "in" || item.phase === "out")
-        ).length;
-        if (transitioning >= 3) {
-          slot.timer = randomBetween(0.2, 0.5);
-          return;
-        }
-
-        slot.imageIndex = pickNextImageIndex();
-        slot.sizeScale = randomBetween(0.72, 1.35);
-        slot.hold = randomBetween(3.0, 4.8);
-        slot.driftPhase = Math.random() * Math.PI * 2;
-        slot.driftSpeed = randomBetween(0.35, 0.7);
-        const nearest = Math.min(width, height) * 0.18;
-        assignWanderAroundHome(slot, nearest);
-        sampleEntityPath(slot);
-        slot.x = slot.targetX;
-        slot.y = slot.targetY;
-        slot.phase = "in";
-        slot.timer = randomBetween(0.34, 0.48);
-        slot.alpha = 0;
-        slot.scale = 0.12;
-      } else if (slot.phase === "in") {
+      if (slot.phase === "in") {
         const duration = 0.42;
         const t = 1 - clamp(slot.timer / duration, 0, 1);
         const pop = t < 0.75 ? t / 0.75 : 1 - (t - 0.75) * 0.08;
@@ -5453,15 +5485,11 @@ applyLanguage(getPreferredLanguage());
         slot.alpha = 0.93 + Math.sin(animTime * slot.driftSpeed + slot.driftPhase) * 0.05;
         slot.scale = 1 + Math.sin(animTime * slot.driftSpeed * 0.7 + slot.driftPhase) * 0.04;
         if (slot.timer <= 0) {
-          const transitioning = iconSlots.filter(
-            (item) => item !== slot && (item.phase === "in" || item.phase === "out")
-          ).length;
-          if (transitioning >= 3) {
-            slot.timer = randomBetween(0.25, 0.7);
-          } else {
-            slot.phase = "out";
-            slot.timer = randomBetween(0.34, 0.48);
-          }
+          slot.exitX = slot.x;
+          slot.exitY = slot.y;
+          slot.phase = "out";
+          slot.timer = randomBetween(0.34, 0.48);
+          assignRandomDrift(slot);
         }
       } else if (slot.phase === "out") {
         const duration = 0.42;
@@ -5469,13 +5497,38 @@ applyLanguage(getPreferredLanguage());
         slot.alpha = t;
         slot.scale = 0.16 + t * 0.84;
         if (slot.timer <= 0) {
+          slot.exitX = slot.x;
+          slot.exitY = slot.y;
           slot.phase = "wait";
-          slot.timer = randomBetween(0.12, 0.35);
+          slot.timer = randomBetween(0.05, 0.18);
           slot.alpha = 0;
           slot.scale = 0.12;
         }
       }
     });
+
+    // Only one icon may fade in at a time; never batch-fade several together.
+    if (!iconSlots.some((item) => item.phase === "in")) {
+      const readyIn = iconSlots.find((slot) => slot.phase === "wait" && slot.timer <= 0);
+      if (readyIn) {
+        readyIn.imageIndex = pickNextImageIndex();
+        readyIn.sizeScale = randomBetween(0.72, 1.35);
+        readyIn.hold = randomBetween(3.0, 4.8);
+        readyIn.driftPhase = Math.random() * Math.PI * 2;
+        readyIn.driftSpeed = randomBetween(0.35, 0.7);
+        assignPersonalZone(
+          readyIn,
+          readyIn.nearestHomeDist || 48,
+          readyIn.cellW || 48,
+          readyIn.cellH || 48
+        );
+        placeEntityForFadeIn(readyIn);
+        readyIn.phase = "in";
+        readyIn.timer = randomBetween(0.34, 0.48);
+        readyIn.alpha = 0;
+        readyIn.scale = 0.12;
+      }
+    }
   }
 
   function drawChaosCloud(elapsed) {
@@ -5613,11 +5666,26 @@ applyLanguage(getPreferredLanguage());
       updateChaosCloud(dt);
       updateCenterCluster(dt);
       updateIcons(dt);
-      separateAllIcons();
     }
 
     drawFrame(animTime);
     animationFrame = window.requestAnimationFrame(tick);
+  }
+
+  function armVisibilityCycle() {
+    centerBootTimer = 1;
+    centerBootStep = 0;
+
+    const holds = iconSlots.filter((slot) => slot.phase === "hold");
+    holds.forEach((slot, index) => {
+      slot.hold = randomBetween(3.0, 4.8);
+      slot.timer = index === 0 ? randomBetween(0.1, 0.22) : randomBetween(2.4, 4.8);
+    });
+    iconSlots.forEach((slot) => {
+      if (slot.phase === "wait") {
+        slot.timer = Math.min(slot.timer, 0.05);
+      }
+    });
   }
 
   function start() {
@@ -5627,6 +5695,7 @@ applyLanguage(getPreferredLanguage());
     isRunning = true;
     lastTime = performance.now();
     animTime = 0;
+    armVisibilityCycle();
     animationFrame = window.requestAnimationFrame(tick);
   }
 
@@ -5657,20 +5726,45 @@ applyLanguage(getPreferredLanguage());
 
   function resizeCanvas() {
     const bounds = visual.getBoundingClientRect();
-    width = Math.max(1, Math.round(bounds.width));
-    height = Math.max(1, Math.round(bounds.height));
+    const nextWidth = Math.max(1, Math.round(bounds.width));
+    const nextHeight = Math.max(1, Math.round(bounds.height));
+    const sizeChanged =
+      Math.abs(nextWidth - lastLayoutWidth) > 8 ||
+      Math.abs(nextHeight - lastLayoutHeight) > 8;
+    const firstLayout = lastLayoutWidth === 0 || lastLayoutHeight === 0;
+
+    width = nextWidth;
+    height = nextHeight;
     qualityProfile();
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
     context.setTransform(dpr, 0, 0, dpr, 0, 0);
-    rebuildChaosCloud();
-    buildCenterCluster();
 
-    if (iconImages.length && iconSlots.length !== Math.min(maxIconSlots, Math.max(iconImages.length, 8))) {
+    // Avoid resetting icon positions on tiny layout jitter — that froze motion after ~2s.
+    if (!firstLayout && !sizeChanged) {
+      return;
+    }
+
+    lastLayoutWidth = width;
+    lastLayoutHeight = height;
+    rebuildChaosCloud();
+
+    const expectedSlots = iconImages.length
+      ? Math.min(maxIconSlots, iconImages.length)
+      : 0;
+    const needsSlotRebuild =
+      Boolean(iconImages.length) && iconSlots.length !== expectedSlots;
+
+    if (firstLayout || !centerIconCluster.length) {
+      buildCenterCluster();
+    }
+
+    if (needsSlotRebuild) {
       buildIconSlots();
-    } else {
+    } else if (!firstLayout && sizeChanged) {
+      // Real size change only: re-home without wiping fade lifecycle.
       applySharedHomes();
     }
   }
