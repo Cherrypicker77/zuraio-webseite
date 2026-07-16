@@ -4691,6 +4691,7 @@ applyLanguage(getPreferredLanguage());
   const ICON_FILL = { r: 208, g: 220, b: 154 }; // #D0DC9A
   const ICON_STROKE = { r: 159, g: 175, b: 82 }; // #9FAF52
   const OUTLINE_STROKE = { r: 122, g: 122, b: 122 }; // #7A7A7A
+  const OUTLINE_FILL = { r: 210, g: 210, b: 210 }; // #D2D2D2 lighter gray fill
   const CENTER_QMARK_COLOR = "rgba(122, 122, 122, 1)"; // #7A7A7A
   const TIME_SCALE = 0.62;
   const DRIFT_SPEED = 14;
@@ -4926,6 +4927,7 @@ applyLanguage(getPreferredLanguage());
     const out = ctx.createImageData(size, size);
     const dst = out.data;
     const threshold = 28;
+    const edge = new Uint8Array(size * size);
 
     function alphaAt(x, y) {
       if (x < 0 || y < 0 || x >= size || y >= size) {
@@ -4934,7 +4936,6 @@ applyLanguage(getPreferredLanguage());
       return src[(y * size + x) * 4 + 3];
     }
 
-    // Thin contour only: edge pixels, no neighbor thickening.
     for (let y = 0; y < size; y += 1) {
       for (let x = 0; x < size; x += 1) {
         const alpha = alphaAt(x, y);
@@ -4946,13 +4947,29 @@ applyLanguage(getPreferredLanguage());
           alphaAt(x + 1, y) < threshold ||
           alphaAt(x, y - 1) < threshold ||
           alphaAt(x, y + 1) < threshold;
-        if (!isEdge) {
+        if (isEdge) {
+          edge[y * size + x] = 1;
+        }
+      }
+    }
+
+    for (let y = 0; y < size; y += 1) {
+      for (let x = 0; x < size; x += 1) {
+        const i = y * size + x;
+        if (alphaAt(x, y) < threshold) {
           continue;
         }
-        const index = (y * size + x) * 4;
-        dst[index] = OUTLINE_STROKE.r;
-        dst[index + 1] = OUTLINE_STROKE.g;
-        dst[index + 2] = OUTLINE_STROKE.b;
+        const isStroke =
+          edge[i] ||
+          (x > 0 && edge[i - 1]) ||
+          (x < size - 1 && edge[i + 1]) ||
+          (y > 0 && edge[i - size]) ||
+          (y < size - 1 && edge[i + size]);
+        const tone = isStroke ? OUTLINE_STROKE : OUTLINE_FILL;
+        const index = i * 4;
+        dst[index] = tone.r;
+        dst[index + 1] = tone.g;
+        dst[index + 2] = tone.b;
         dst[index + 3] = 255;
       }
     }
