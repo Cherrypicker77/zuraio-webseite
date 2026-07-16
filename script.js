@@ -4650,49 +4650,48 @@ applyLanguage(getPreferredLanguage());
     return;
   }
 
+  const ICON_BASE_PATH = "assets/icons/Icon-cloud";
   const ICON_FILES = [
-    "teams.png",
-    "word.png",
-    "excel.png",
-    "pdf.png",
-    "clock-1.png",
-    "clock-2.png",
-    "clock-3.png",
-    "clock-4.png",
-    "outlook.png",
-    "slack.png",
-    "whatsapp.png",
-    "telegram.png",
-    "onedrive.png",
-    "google-drive.png",
-    "google-docs.png",
-    "sharepoint.png",
-    "onenote.png",
-    "google.png",
-    "apple.png",
-    "windows.png",
-    "cloud.png",
-    "folder.png",
-    "database.png",
-    "server.png",
+    "apple.svg",
+    "clock-1.svg",
+    "clock-2.svg",
+    "clock-3.svg",
+    "clock-4.svg",
+    "clock-5.svg",
+    "cloud.svg",
+    "database.svg",
+    "gmail.svg",
+    "google.svg",
+    "hubspot.svg",
+    "microsoft.svg",
+    "notion.svg",
+    "onedrive.svg",
+    "outlook.svg",
+    "pdf.svg",
+    "salesforce.svg",
+    "sharepoint.svg",
+    "slack.svg",
+    "teams.svg",
+    "voice.svg",
+    "whatsapp.svg",
+    "word.svg",
   ];
 
   const FAVORED_ICON_FILES = new Set([
-    "teams.png",
-    "outlook.png",
-    "whatsapp.png",
-    "slack.png",
-    "sharepoint.png",
-    "onedrive.png",
+    "teams.svg",
+    "outlook.svg",
+    "whatsapp.svg",
+    "slack.svg",
+    "sharepoint.svg",
+    "onedrive.svg",
   ]);
   const FAVORED_ICON_WEIGHT = 3.5;
   const NORMAL_ICON_WEIGHT = 1;
 
-  const ICON_FILL = { r: 208, g: 220, b: 154 }; // #D0DC9A
+  const ICON_FILL = { r: 159, g: 175, b: 82 }; // #9FAF52
   const ICON_STROKE = { r: 159, g: 175, b: 82 }; // #9FAF52
   const OUTLINE_STROKE = { r: 122, g: 122, b: 122 }; // #7A7A7A
   const OUTLINE_FILL = { r: 122, g: 122, b: 122 };
-  const CENTER_QMARK_COLOR = "rgba(122, 122, 122, 1)";
 
   const FADE_IN_MIN = 0.4;
   const FADE_IN_MAX = 2.0;
@@ -4717,6 +4716,7 @@ applyLanguage(getPreferredLanguage());
   let iconWeights = [];
   let iconSlots = [];
   let centerBrainImage = null;
+  let centerQuestionImage = null;
   let recentPositions = [];
   let nextIconCursor = 0;
   let lastLayoutWidth = 0;
@@ -5058,7 +5058,7 @@ applyLanguage(getPreferredLanguage());
     return offscreen;
   }
 
-  function loadSourceIcon(file, basePath = "assets/icons/integrations") {
+  function loadSourceIcon(file, basePath = ICON_BASE_PATH) {
     return new Promise((resolve) => {
       const image = new Image();
       image.decoding = "async";
@@ -5284,7 +5284,7 @@ applyLanguage(getPreferredLanguage());
     const questions = countVisibleKind("question");
     const brains = countVisibleKind("brain");
 
-    const needQuestion = questions < questionTarget;
+    const needQuestion = Boolean(centerQuestionImage) && questions < questionTarget;
     const needBrain = Boolean(centerBrainImage) && brains < brainTarget;
 
     if (needQuestion && needBrain) {
@@ -5298,10 +5298,15 @@ applyLanguage(getPreferredLanguage());
     }
     // Soft mix even near target so the field never becomes green-only.
     if (questions + brains < specialTarget && Math.random() < 0.35) {
-      if (centerBrainImage && Math.random() < 0.5) {
+      if (centerBrainImage && centerQuestionImage) {
+        return Math.random() < 0.5 ? "brain" : "question";
+      }
+      if (centerBrainImage) {
         return "brain";
       }
-      return "question";
+      if (centerQuestionImage) {
+        return "question";
+      }
     }
     return "icon";
   }
@@ -5504,11 +5509,15 @@ applyLanguage(getPreferredLanguage());
       }
     );
 
-    const brainPromise = loadSourceIcon("brain.png", "assets/icons").then((image) => {
+    const brainPromise = loadSourceIcon("brain.svg").then((image) => {
       centerBrainImage = image ? makeOutlineIcon(image) : null;
     });
 
-    return Promise.all([integrationPromise, brainPromise]).then(() => {
+    const questionPromise = loadSourceIcon("questionmark.svg").then((image) => {
+      centerQuestionImage = image ? makeOutlineIcon(image) : null;
+    });
+
+    return Promise.all([integrationPromise, brainPromise, questionPromise]).then(() => {
       buildIconSlots();
     });
   }
@@ -5588,11 +5597,11 @@ applyLanguage(getPreferredLanguage());
       context.globalAlpha = clamp(slot.alpha, 0, 1);
 
       if (slot.kind === "question") {
-        context.font = `bold ${size}px Arial, Helvetica, sans-serif`;
-        context.textAlign = "center";
-        context.textBaseline = "middle";
-        context.fillStyle = CENTER_QMARK_COLOR;
-        context.fillText("?", 0, size * 0.02);
+        if (!centerQuestionImage) {
+          context.restore();
+          return;
+        }
+        context.drawImage(centerQuestionImage, -half, -half, size, size);
       } else if (slot.kind === "brain") {
         if (!centerBrainImage) {
           context.restore();
