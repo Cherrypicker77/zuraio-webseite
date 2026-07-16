@@ -4691,7 +4691,7 @@ applyLanguage(getPreferredLanguage());
   const ICON_FILL = { r: 208, g: 220, b: 154 }; // #D0DC9A
   const ICON_STROKE = { r: 159, g: 175, b: 82 }; // #9FAF52
   const OUTLINE_STROKE = { r: 122, g: 122, b: 122 }; // #7A7A7A
-  const OUTLINE_FILL = { r: 210, g: 210, b: 210 }; // #D2D2D2 lighter gray fill
+  const OUTLINE_FILL = { r: 159, g: 175, b: 82 }; // #9FAF52
   const CENTER_QMARK_COLOR = "rgba(122, 122, 122, 1)"; // #7A7A7A
   const TIME_SCALE = 0.62;
   const DRIFT_SPEED = 14;
@@ -5169,14 +5169,16 @@ applyLanguage(getPreferredLanguage());
       regionBounds.maxY - (entity.anchorY != null ? entity.anchorY : entity.homeY)
     );
     // Budget to neighbor keeps disks from overlapping; split into roam + local orbit.
+    const shortSide = Math.min(width, height);
+    const minBudget = Math.max(28, shortSide * 0.055);
     const budget = Math.max(
-      18,
+      minBudget,
       Math.min(nearest * 0.5 - half - gap, Number.isFinite(maxByRegion) ? maxByRegion : nearest)
     );
     entity.motionBudget = budget;
-    entity.zoneWander = budget * randomBetween(0.38, 0.5);
-    entity.roamAmpX = budget * randomBetween(0.42, 0.55);
-    entity.roamAmpY = budget * randomBetween(0.42, 0.55);
+    entity.zoneWander = Math.max(16, budget * randomBetween(0.4, 0.52));
+    entity.roamAmpX = Math.max(18, budget * randomBetween(0.45, 0.58));
+    entity.roamAmpY = Math.max(18, budget * randomBetween(0.45, 0.58));
   }
 
   function assignFlightPath(entity) {
@@ -5208,23 +5210,21 @@ applyLanguage(getPreferredLanguage());
       assignNonOverlapZone(entity, getActiveMotionEntities(entity));
     }
 
-    const local = Math.max(12, entity.zoneWander || 16);
-    entity.pathAmpX = local * randomBetween(0.82, 0.98);
-    entity.pathAmpY = local * randomBetween(0.82, 0.98);
-    const roamX = Math.max(10, entity.roamAmpX || local);
-    const roamY = Math.max(10, entity.roamAmpY || local);
-    entity.roamAmpX = roamX;
-    entity.roamAmpY = roamY;
+    const local = Math.max(18, entity.zoneWander || 20);
+    entity.pathAmpX = local * randomBetween(0.88, 1);
+    entity.pathAmpY = local * randomBetween(0.88, 1);
+    entity.roamAmpX = Math.max(20, entity.roamAmpX || local);
+    entity.roamAmpY = Math.max(20, entity.roamAmpY || local);
 
     entity.pathPhaseX = Math.random() * Math.PI * 2;
     entity.pathPhaseY = Math.random() * Math.PI * 2;
     entity.roamPhaseX = Math.random() * Math.PI * 2;
     entity.roamPhaseY = Math.random() * Math.PI * 2;
-    // Always-on motion: local orbit + slower home roam.
-    entity.pathFreqX = randomBetween(0.14, 0.26);
-    entity.pathFreqY = randomBetween(0.16, 0.28);
-    entity.roamFreqX = randomBetween(0.05, 0.1);
-    entity.roamFreqY = randomBetween(0.055, 0.11);
+    // Always-on motion: local orbit + slower home roam (never near zero).
+    entity.pathFreqX = randomBetween(0.2, 0.34);
+    entity.pathFreqY = randomBetween(0.22, 0.36);
+    entity.roamFreqX = randomBetween(0.09, 0.16);
+    entity.roamFreqY = randomBetween(0.1, 0.17);
     if (typeof entity.pathTime !== "number") {
       entity.pathTime = Math.random() * 40;
     } else {
@@ -5351,7 +5351,15 @@ applyLanguage(getPreferredLanguage());
     ) {
       assignFlightPath(entity);
     }
-    // Always advance — icons must never stand still.
+    // Keep amplitudes/frequencies alive so motion never collapses to a standstill.
+    entity.pathAmpX = Math.max(16, entity.pathAmpX || 16);
+    entity.pathAmpY = Math.max(16, entity.pathAmpY || 16);
+    entity.roamAmpX = Math.max(18, entity.roamAmpX || 18);
+    entity.roamAmpY = Math.max(18, entity.roamAmpY || 18);
+    entity.pathFreqX = Math.max(0.18, entity.pathFreqX || 0.22);
+    entity.pathFreqY = Math.max(0.18, entity.pathFreqY || 0.24);
+    entity.roamFreqX = Math.max(0.08, entity.roamFreqX || 0.1);
+    entity.roamFreqY = Math.max(0.08, entity.roamFreqY || 0.11);
     entity.pathTime = (entity.pathTime || 0) + dt;
     sampleFlightPath(entity);
     clampToVisibleBounds(entity);
@@ -5576,9 +5584,7 @@ applyLanguage(getPreferredLanguage());
     }
 
     centerIconCluster.forEach((item) => {
-      if (item.lifePhase !== "wait") {
-        updateEntityDrift(item, dt);
-      }
+      updateEntityDrift(item, dt);
       item.timer -= dt;
 
       if (item.lifePhase === "in") {
@@ -5771,10 +5777,7 @@ applyLanguage(getPreferredLanguage());
 
     iconSlots.forEach((slot) => {
       slot.timer -= dt;
-
-      if (slot.phase !== "wait") {
-        updateEntityDrift(slot, dt);
-      }
+      updateEntityDrift(slot, dt);
 
       if (slot.phase === "in") {
         const duration = 0.42;
