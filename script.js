@@ -4699,6 +4699,7 @@ applyLanguage(getPreferredLanguage());
   const ICON_FADE_IN = 2;
   const ICON_HOLD = 4;
   const ICON_FADE_OUT = 2;
+  const ICON_MIN_HOLD = 2; // don't yank freshly faded-in icons
   let pendingCenterFadeIns = [];
   let targetVisibleIcons = 0;
 
@@ -4716,8 +4717,6 @@ applyLanguage(getPreferredLanguage());
   let nextIconCursor = 0;
   let centerBrainImage = null;
   let centerIconCluster = [];
-  let centerBootTimer = 1;
-  let centerBootStep = 0; // 0 wait → 1 question replace done → 2 brain replace done / running
   let lastLayoutWidth = 0;
   let lastLayoutHeight = 0;
   let animationFrame = 0;
@@ -5592,10 +5591,6 @@ applyLanguage(getPreferredLanguage());
     });
   }
 
-  function centerFadeBusy() {
-    return centerIconCluster.some((item) => item.lifePhase === "in" || item.lifePhase === "out");
-  }
-
   function beginCenterFadeIn(item) {
     item.sizeScale = randomBetween(0.88, 1.12);
     item.hold = lifeSeconds(ICON_HOLD);
@@ -5640,58 +5635,72 @@ applyLanguage(getPreferredLanguage());
     slot.timer = slot.fadeOut;
   }
 
+  function holdElapsed(entity) {
+    const total = entity.hold || lifeSeconds(ICON_HOLD);
+    return total - (entity.timer || 0);
+  }
+
+  function isHoldEligible(entity) {
+    return entity.timer <= 0 || holdElapsed(entity) >= lifeSeconds(ICON_MIN_HOLD);
+  }
+
   function scheduleSynapseTransition() {
     if (anySynapseFadeBusy()) {
       return;
     }
 
-    const actions = [];
-
+    // 1) Restore center icons that finished fading out.
     if (pendingCenterFadeIns.length) {
       const kind = pendingCenterFadeIns[0];
       const incoming = centerIconCluster.find(
         (item) => item.kind === kind && item.lifePhase === "wait"
       );
       if (incoming) {
-        actions.push({
-          run() {
-            pendingCenterFadeIns.shift();
-            beginCenterFadeIn(incoming);
-          },
-        });
-      } else {
         pendingCenterFadeIns.shift();
+        beginCenterFadeIn(incoming);
+        return;
+      }
+      pendingCenterFadeIns.shift();
+    }
+
+    // 2) Keep green icon count at target.
+    const visibleIconCount = iconSlots.filter((slot) => slot.phase !== "wait").length;
+    if (visibleIconCount < targetVisibleIcons) {
+      const readyIn = iconSlots.find((slot) => slot.phase === "wait" && slot.timer <= 0);
+      if (readyIn) {
+        beginIconFadeIn(readyIn);
+        return;
       }
     }
 
-    const visibleIconCount = iconSlots.filter((slot) => slot.phase !== "wait").length;
+    // 3) Permanent fade-out cadence: expired first, else earliest eligible hold.
+    const outCandidates = [];
     iconSlots.forEach((slot) => {
-      if (slot.phase === "hold" && slot.timer <= 0) {
-        actions.push({ run: () => beginIconFadeOut(slot) });
-      } else if (
-        slot.phase === "wait" &&
-        slot.timer <= 0 &&
-        visibleIconCount < targetVisibleIcons
-      ) {
-        actions.push({ run: () => beginIconFadeIn(slot) });
+      if (slot.phase === "hold" && isHoldEligible(slot)) {
+        outCandidates.push({ kind: "icon", entity: slot, timer: slot.timer });
       }
     });
-
     centerIconCluster.forEach((item) => {
-      if (item.lifePhase === "hold" && item.timer <= 0) {
-        actions.push({
-          run() {
-            beginCenterFadeOut(item);
-            pendingCenterFadeIns.push(item.kind);
-          },
-        });
+      if (item.lifePhase === "hold" && isHoldEligible(item)) {
+        outCandidates.push({ kind: "center", entity: item, timer: item.timer });
       }
     });
 
-    if (!actions.length) {
+    if (!outCandidates.length) {
       return;
     }
-    actions[Math.floor(Math.random() * actions.length)].run();
+
+    outCandidates.sort((a, b) => a.timer - b.timer);
+    const expired = outCandidates.filter((item) => item.timer <= 0);
+    const pool = expired.length ? expired : outCandidates;
+    const pick = pool[Math.floor(Math.random() * Math.min(pool.length, 3))];
+
+    if (pick.kind === "icon") {
+      beginIconFadeOut(pick.entity);
+    } else {
+      beginCenterFadeOut(pick.entity);
+      pendingCenterFadeIns.push(pick.entity.kind);
+    }
   }
 
   function buildCenterCluster() {
@@ -5742,8 +5751,6 @@ applyLanguage(getPreferredLanguage());
     });
 
     centerIconCluster = cluster;
-    centerBootTimer = 1;
-    centerBootStep = 0;
     pendingCenterFadeIns = [];
     applySharedHomes();
   }
@@ -5780,36 +5787,6 @@ applyLanguage(getPreferredLanguage());
         item.alpha = 1;
       }
     });
-
-    if (centerBootStep === 0) {
-      centerBootTimer -= dt;
-      if (centerBootTimer <= 0 && !anySynapseFadeBusy()) {
-        const outgoing = centerIconCluster.find(
-          (item) => item.kind === "question" && item.lifePhase === "hold"
-        );
-        if (outgoing) {
-          beginCenterFadeOut(outgoing);
-          pendingCenterFadeIns.push("question");
-          centerBootStep = 1;
-        }
-      }
-      return;
-    }
-
-    if (centerBootStep === 1) {
-      if (!anySynapseFadeBusy() && !pendingCenterFadeIns.includes("brain")) {
-        const outgoing = centerIconCluster.find(
-          (item) => item.kind === "brain" && item.lifePhase === "hold"
-        );
-        if (outgoing) {
-          beginCenterFadeOut(outgoing);
-          pendingCenterFadeIns.push("brain");
-          centerBootStep = 2;
-        } else {
-          centerBootStep = 2;
-        }
-      }
-    }
   }
 
   function loadCenterIcons() {
@@ -6115,9 +6092,6 @@ applyLanguage(getPreferredLanguage());
   }
 
   function armVisibilityCycle() {
-    centerBootTimer = 1;
-    centerBootStep = 0;
-
     const holds = iconSlots.filter((slot) => slot.phase === "hold");
     holds.forEach((slot, index) => {
       slot.hold = lifeSeconds(ICON_HOLD);
@@ -6127,21 +6101,32 @@ applyLanguage(getPreferredLanguage());
       const stagger = holds.length > 1 ? index / holds.length : 0;
       slot.timer = lifeSeconds(ICON_HOLD) * (1 - stagger * 0.85);
     });
-    centerIconCluster.forEach((item, index) => {
+
+    const centerHolds = centerIconCluster.filter((item) => item.lifePhase === "hold");
+    centerHolds.forEach((item, index) => {
       item.hold = lifeSeconds(ICON_HOLD);
       item.fadeIn = lifeSeconds(ICON_FADE_IN);
       item.fadeOut = lifeSeconds(ICON_FADE_OUT);
-      if (item.lifePhase === "hold") {
-        const stagger = index / Math.max(centerIconCluster.length, 1);
-        item.timer = lifeSeconds(ICON_HOLD) * (1 - stagger * 0.85);
-      }
+      const stagger = centerHolds.length > 1 ? index / centerHolds.length : 0;
+      item.timer = lifeSeconds(ICON_HOLD) * (1 - stagger * 0.85);
     });
+
     iconSlots.forEach((slot) => {
       if (slot.phase === "wait") {
         slot.timer = Math.min(slot.timer, 0.05);
       }
     });
     pendingCenterFadeIns = [];
+
+    // Kick the cycle immediately so refresh/scroll never starts idle.
+    const kickPool = [
+      ...holds.map((entity) => ({ kind: "icon", entity })),
+      ...centerHolds.map((entity) => ({ kind: "center", entity })),
+    ];
+    if (kickPool.length) {
+      const kick = kickPool[Math.floor(Math.random() * kickPool.length)];
+      kick.entity.timer = 0;
+    }
   }
 
   function start() {
@@ -6152,6 +6137,7 @@ applyLanguage(getPreferredLanguage());
     lastTime = performance.now();
     animTime = 0;
     armVisibilityCycle();
+    scheduleSynapseTransition();
     animationFrame = window.requestAnimationFrame(tick);
   }
 
