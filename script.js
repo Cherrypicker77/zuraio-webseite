@@ -5339,28 +5339,13 @@ applyLanguage(getPreferredLanguage());
   }
 
   function sampleFlightPath(entity) {
-    const t = entity.pathTime || 0;
-    const anchorX = entity.anchorX != null ? entity.anchorX : entity.homeX || centerX;
-    const anchorY = entity.anchorY != null ? entity.anchorY : entity.homeY || centerY;
-    const roamX = entity.roamAmpX || 0;
-    const roamY = entity.roamAmpY || 0;
-    const rfx = entity.roamFreqX || 0.07;
-    const rfy = entity.roamFreqY || 0.08;
-    const rpx = entity.roamPhaseX || 0;
-    const rpy = entity.roamPhaseY || 0;
-
-    // Drifting home keeps icons moving even when local orbit is small.
-    entity.homeX = anchorX + Math.sin(t * rfx + rpx) * roamX;
-    entity.homeY = anchorY + Math.cos(t * rfy + rpy) * roamY;
-
-    const ampX = entity.pathAmpX || 40;
-    const ampY = entity.pathAmpY || 40;
-    const fx = entity.pathFreqX || 0.18;
-    const fy = entity.pathFreqY || 0.2;
-    const px = entity.pathPhaseX || 0;
-    const py = entity.pathPhaseY || 0;
-    entity.x = entity.homeX + Math.sin(t * fx + px) * ampX;
-    entity.y = entity.homeY + Math.cos(t * fy + py) * ampY;
+    // Fully static while visible — only fade/reappear changes position.
+    const x = entity.anchorX != null ? entity.anchorX : entity.homeX != null ? entity.homeX : entity.x;
+    const y = entity.anchorY != null ? entity.anchorY : entity.homeY != null ? entity.homeY : entity.y;
+    entity.homeX = x;
+    entity.homeY = y;
+    entity.x = x;
+    entity.y = y;
   }
 
   function clampToVisibleBounds(entity) {
@@ -5430,25 +5415,7 @@ applyLanguage(getPreferredLanguage());
     fitFlightPathToPosition(entity);
   }
 
-  function updateEntityDrift(entity, dt) {
-    if (
-      typeof entity.pathAmpX !== "number" ||
-      typeof entity.pathFreqX !== "number" ||
-      typeof entity.pathPhaseX !== "number" ||
-      typeof entity.roamAmpX !== "number"
-    ) {
-      assignFlightPath(entity);
-    }
-    // Keep amplitudes/frequencies alive so motion never collapses to a standstill.
-    entity.pathAmpX = Math.max(16, entity.pathAmpX || 16);
-    entity.pathAmpY = Math.max(16, entity.pathAmpY || 16);
-    entity.roamAmpX = Math.max(18, entity.roamAmpX || 18);
-    entity.roamAmpY = Math.max(18, entity.roamAmpY || 18);
-    entity.pathFreqX = Math.max(0.18, entity.pathFreqX || 0.22);
-    entity.pathFreqY = Math.max(0.18, entity.pathFreqY || 0.24);
-    entity.roamFreqX = Math.max(0.08, entity.roamFreqX || 0.1);
-    entity.roamFreqY = Math.max(0.08, entity.roamFreqY || 0.11);
-    entity.pathTime = (entity.pathTime || 0) + dt;
+  function updateEntityDrift(entity) {
     sampleFlightPath(entity);
     clampToVisibleBounds(entity);
   }
@@ -5711,7 +5678,7 @@ applyLanguage(getPreferredLanguage());
     }
 
     centerIconCluster.forEach((item) => {
-      updateEntityDrift(item, dt);
+      updateEntityDrift(item);
       item.timer -= dt;
 
       if (item.lifePhase === "in") {
@@ -5904,7 +5871,7 @@ applyLanguage(getPreferredLanguage());
 
     iconSlots.forEach((slot) => {
       slot.timer -= dt;
-      updateEntityDrift(slot, dt);
+      updateEntityDrift(slot);
 
       if (slot.phase === "in") {
         const duration = 0.42;
@@ -5919,8 +5886,8 @@ applyLanguage(getPreferredLanguage());
           slot.scale = 1;
         }
       } else if (slot.phase === "hold") {
-        slot.alpha = 0.93 + Math.sin(animTime * slot.driftSpeed + slot.driftPhase) * 0.05;
-        slot.scale = 1 + Math.sin(animTime * slot.driftSpeed * 0.7 + slot.driftPhase) * 0.04;
+        slot.alpha = 1;
+        slot.scale = 1;
         if (slot.timer <= 0) {
           slot.exitX = slot.x;
           slot.exitY = slot.y;
