@@ -4695,7 +4695,10 @@ applyLanguage(getPreferredLanguage());
   const CENTER_QMARK_COLOR = "rgba(122, 122, 122, 1)"; // #7A7A7A
   const TIME_SCALE = 0.62;
   const DRIFT_SPEED = 14;
-  const MAX_HOLD = 4;
+  // Real-time lifecycle for every icon (green, ?, brain): 2s in → 4s hold → 2s out.
+  const ICON_FADE_IN = 2;
+  const ICON_HOLD = 4;
+  const ICON_FADE_OUT = 2;
   let pendingCenterFadeIns = [];
   let targetVisibleIcons = 0;
 
@@ -4730,8 +4733,9 @@ applyLanguage(getPreferredLanguage());
     return min + Math.random() * (max - min);
   }
 
-  function randomHoldDuration() {
-    return randomBetween(2.0, MAX_HOLD);
+  // Convert wall-clock seconds into animation timer units (dt is scaled by TIME_SCALE).
+  function lifeSeconds(realSeconds) {
+    return realSeconds / TIME_SCALE;
   }
 
   function clamp(value, min, max) {
@@ -5594,9 +5598,9 @@ applyLanguage(getPreferredLanguage());
 
   function beginCenterFadeIn(item) {
     item.sizeScale = randomBetween(0.88, 1.12);
-    item.hold = randomHoldDuration();
-    item.fadeIn = randomBetween(0.8, 1.2);
-    item.fadeOut = randomBetween(0.8, 1.2);
+    item.hold = lifeSeconds(ICON_HOLD);
+    item.fadeIn = lifeSeconds(ICON_FADE_IN);
+    item.fadeOut = lifeSeconds(ICON_FADE_OUT);
     item.motionRegion = Math.random() < 0.75 ? "inner" : "outer";
     placeEntityForFadeIn(item);
     item.lifePhase = "in";
@@ -5608,7 +5612,7 @@ applyLanguage(getPreferredLanguage());
     lockStaticPosition(item);
     item.exitX = item.anchorX;
     item.exitY = item.anchorY;
-    item.fadeOut = randomBetween(0.8, 1.2);
+    item.fadeOut = lifeSeconds(ICON_FADE_OUT);
     item.lifePhase = "out";
     item.timer = item.fadeOut;
   }
@@ -5616,11 +5620,13 @@ applyLanguage(getPreferredLanguage());
   function beginIconFadeIn(slot) {
     slot.imageIndex = pickNextImageIndex();
     slot.sizeScale = randomBetween(0.72, 1.35);
-    slot.hold = randomHoldDuration();
+    slot.hold = lifeSeconds(ICON_HOLD);
+    slot.fadeIn = lifeSeconds(ICON_FADE_IN);
+    slot.fadeOut = lifeSeconds(ICON_FADE_OUT);
     slot.motionRegion = Math.random() < 0.75 ? "inner" : "outer";
     placeEntityForFadeIn(slot);
     slot.phase = "in";
-    slot.timer = randomBetween(0.34, 0.48);
+    slot.timer = slot.fadeIn;
     slot.alpha = 0;
     slot.scale = 0.12;
   }
@@ -5629,8 +5635,9 @@ applyLanguage(getPreferredLanguage());
     lockStaticPosition(slot);
     slot.exitX = slot.anchorX;
     slot.exitY = slot.anchorY;
+    slot.fadeOut = lifeSeconds(ICON_FADE_OUT);
     slot.phase = "out";
-    slot.timer = randomBetween(0.34, 0.48);
+    slot.timer = slot.fadeOut;
   }
 
   function scheduleSynapseTransition() {
@@ -5721,10 +5728,10 @@ applyLanguage(getPreferredLanguage());
           sizeScale: randomBetween(0.88, 1.12),
           alpha: isSpare ? 0 : 1,
           lifePhase: isSpare ? "wait" : "hold",
-          timer: isSpare ? 0.2 : randomHoldDuration(),
-          hold: randomHoldDuration(),
-          fadeIn: randomBetween(0.8, 1.2),
-          fadeOut: randomBetween(0.8, 1.2),
+          timer: isSpare ? 0.2 : lifeSeconds(ICON_HOLD),
+          hold: lifeSeconds(ICON_HOLD),
+          fadeIn: lifeSeconds(ICON_FADE_IN),
+          fadeOut: lifeSeconds(ICON_FADE_OUT),
           pathPhaseX: Math.random() * Math.PI * 2,
           pathPhaseY: Math.random() * Math.PI * 2,
           pathFreqX: randomBetween(0.1, 0.2),
@@ -5756,7 +5763,8 @@ applyLanguage(getPreferredLanguage());
         lockStaticPosition(item);
         if (item.timer <= 0) {
           item.lifePhase = "hold";
-          item.timer = Math.min(MAX_HOLD, item.hold || MAX_HOLD);
+          item.timer = lifeSeconds(ICON_HOLD);
+          item.hold = item.timer;
           item.alpha = 1;
         }
       } else if (item.lifePhase === "out") {
@@ -5888,15 +5896,11 @@ applyLanguage(getPreferredLanguage());
         alpha: isSpare ? 0 : 1,
         scale: isSpare ? 0.12 : 1,
         phase: isSpare ? "wait" : "hold",
-        timer: isSpare ? 0.02 : randomHoldDuration(),
-        hold: randomHoldDuration(),
+        timer: isSpare ? 0.02 : lifeSeconds(ICON_HOLD),
+        hold: lifeSeconds(ICON_HOLD),
+        fadeIn: lifeSeconds(ICON_FADE_IN),
+        fadeOut: lifeSeconds(ICON_FADE_OUT),
       });
-    }
-
-    // First visible icon begins leaving almost immediately; a spare can fade in alone.
-    const firstHold = iconSlots.find((slot) => slot.phase === "hold");
-    if (firstHold) {
-      firstHold.timer = randomBetween(0.1, 0.22);
     }
 
     applySharedHomes();
@@ -5933,15 +5937,16 @@ applyLanguage(getPreferredLanguage());
       lockStaticPosition(slot);
 
       if (slot.phase === "in") {
-        const duration = 0.42;
+        const duration = slot.fadeIn || lifeSeconds(ICON_FADE_IN);
         const t = 1 - clamp(slot.timer / duration, 0, 1);
-        const pop = t < 0.75 ? t / 0.75 : 1 - (t - 0.75) * 0.08;
-        slot.alpha = Math.min(1, t * 1.25);
-        slot.scale = 0.12 + pop * 0.98;
+        const eased = t * t * (3 - 2 * t);
+        slot.alpha = eased;
+        slot.scale = 0.12 + eased * 0.88;
         lockStaticPosition(slot);
         if (slot.timer <= 0) {
           slot.phase = "hold";
-          slot.timer = Math.min(MAX_HOLD, slot.hold || MAX_HOLD);
+          slot.timer = lifeSeconds(ICON_HOLD);
+          slot.hold = slot.timer;
           slot.alpha = 1;
           slot.scale = 1;
         }
@@ -5949,16 +5954,17 @@ applyLanguage(getPreferredLanguage());
         slot.alpha = 1;
         slot.scale = 1;
       } else if (slot.phase === "out") {
-        const duration = 0.42;
+        const duration = slot.fadeOut || lifeSeconds(ICON_FADE_OUT);
         const t = clamp(slot.timer / duration, 0, 1);
-        slot.alpha = t;
-        slot.scale = 0.16 + t * 0.84;
+        const eased = t * t * (3 - 2 * t);
+        slot.alpha = eased;
+        slot.scale = 0.12 + eased * 0.88;
         lockStaticPosition(slot);
         if (slot.timer <= 0) {
           slot.exitX = slot.anchorX;
           slot.exitY = slot.anchorY;
           slot.phase = "wait";
-          slot.timer = randomBetween(0.05, 0.18);
+          slot.timer = 0.05;
           slot.alpha = 0;
           slot.scale = 0.12;
         }
@@ -6114,13 +6120,20 @@ applyLanguage(getPreferredLanguage());
 
     const holds = iconSlots.filter((slot) => slot.phase === "hold");
     holds.forEach((slot, index) => {
-      slot.hold = randomHoldDuration();
-      slot.timer = index === 0 ? randomBetween(0.1, 0.22) : randomHoldDuration();
+      slot.hold = lifeSeconds(ICON_HOLD);
+      slot.fadeIn = lifeSeconds(ICON_FADE_IN);
+      slot.fadeOut = lifeSeconds(ICON_FADE_OUT);
+      // Stagger initial hold remaining so icons don't expire together.
+      const stagger = holds.length > 1 ? index / holds.length : 0;
+      slot.timer = lifeSeconds(ICON_HOLD) * (1 - stagger * 0.85);
     });
-    centerIconCluster.forEach((item) => {
+    centerIconCluster.forEach((item, index) => {
+      item.hold = lifeSeconds(ICON_HOLD);
+      item.fadeIn = lifeSeconds(ICON_FADE_IN);
+      item.fadeOut = lifeSeconds(ICON_FADE_OUT);
       if (item.lifePhase === "hold") {
-        item.hold = randomHoldDuration();
-        item.timer = Math.min(MAX_HOLD, item.timer > 0 ? item.timer : randomHoldDuration());
+        const stagger = index / Math.max(centerIconCluster.length, 1);
+        item.timer = lifeSeconds(ICON_HOLD) * (1 - stagger * 0.85);
       }
     });
     iconSlots.forEach((slot) => {
