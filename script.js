@@ -4691,7 +4691,7 @@ applyLanguage(getPreferredLanguage());
   const ICON_FILL = { r: 208, g: 220, b: 154 }; // #D0DC9A
   const ICON_STROKE = { r: 159, g: 175, b: 82 }; // #9FAF52
   const OUTLINE_STROKE = { r: 122, g: 122, b: 122 }; // #7A7A7A
-  const OUTLINE_FILL = { r: 159, g: 175, b: 82 }; // #9FAF52
+  const OUTLINE_FILL = { r: 122, g: 122, b: 122 }; // same as outline
   const CENTER_QMARK_COLOR = "rgba(122, 122, 122, 1)"; // #7A7A7A
   const TIME_SCALE = 0.62;
   const DRIFT_SPEED = 14;
@@ -5029,46 +5029,78 @@ applyLanguage(getPreferredLanguage());
     };
   }
 
-  // Inner half of the area (centered, same aspect → linear scale √0.5).
-  function innerHalfBounds(full) {
+  // Inner disk ≈ half the canvas area (AABB used for motion clamp).
+  function innerDisk(full) {
     const cx = (full.minX + full.maxX) * 0.5;
     const cy = (full.minY + full.maxY) * 0.5;
-    const halfW = ((full.maxX - full.minX) * 0.5) * Math.SQRT1_2;
-    const halfH = ((full.maxY - full.minY) * 0.5) * Math.SQRT1_2;
+    const w = Math.max(1, full.maxX - full.minX);
+    const h = Math.max(1, full.maxY - full.minY);
+    const halfAreaR = Math.sqrt((0.5 * w * h) / Math.PI);
+    const fitR = Math.min(w, h) * 0.5 * 0.98;
+    return { cx, cy, r: Math.min(halfAreaR, fitR) };
+  }
+
+  function innerHalfBounds(full) {
+    const disk = innerDisk(full);
     return {
-      minX: cx - halfW,
-      maxX: cx + halfW,
-      minY: cy - halfH,
-      maxY: cy + halfH,
+      minX: disk.cx - disk.r,
+      maxX: disk.cx + disk.r,
+      minY: disk.cy - disk.r,
+      maxY: disk.cy + disk.r,
     };
   }
 
-  function pointInBounds(x, y, bounds) {
-    return x >= bounds.minX && x <= bounds.maxX && y >= bounds.minY && y <= bounds.maxY;
+  function pointInInnerDisk(x, y, full) {
+    const disk = innerDisk(full);
+    return Math.hypot(x - disk.cx, y - disk.cy) <= disk.r;
   }
 
-  function samplePointInRegion(bounds, region, inner) {
-    if (region !== "outer") {
-      return {
-        x: randomBetween(bounds.minX, bounds.maxX),
-        y: randomBetween(bounds.minY, bounds.maxY),
-      };
-    }
-    for (let tryIndex = 0; tryIndex < 24; tryIndex += 1) {
-      const candidate = {
-        x: randomBetween(bounds.minX, bounds.maxX),
-        y: randomBetween(bounds.minY, bounds.maxY),
-      };
-      if (!pointInBounds(candidate.x, candidate.y, inner)) {
-        return candidate;
+  function samplePointInRegion(full, region) {
+    const disk = innerDisk(full);
+    if (region === "inner") {
+      // Uniform in disk via radius^0.5, plus light angular chaos.
+      for (let tryIndex = 0; tryIndex < 20; tryIndex += 1) {
+        const angle = Math.random() * Math.PI * 2;
+        const rad = disk.r * Math.sqrt(Math.random());
+        const x = disk.cx + Math.cos(angle) * rad;
+        const y = disk.cy + Math.sin(angle) * rad;
+        if (x >= full.minX && x <= full.maxX && y >= full.minY && y <= full.maxY) {
+          return { x, y };
+        }
       }
+      return { x: disk.cx, y: disk.cy };
+    }
+    if (region === "outer") {
+      for (let tryIndex = 0; tryIndex < 36; tryIndex += 1) {
+        const candidate = {
+          x: randomBetween(full.minX, full.maxX),
+          y: randomBetween(full.minY, full.maxY),
+        };
+        if (!pointInInnerDisk(candidate.x, candidate.y, full)) {
+          return candidate;
+        }
+      }
+      // Fallback: rim just outside the disk.
+      const angle = Math.random() * Math.PI * 2;
+      const rad = Math.min(
+        disk.r + randomBetween(12, 48),
+        Math.min(
+          Math.hypot(full.maxX - disk.cx, full.maxY - disk.cy),
+          Math.max(disk.r + 8, Math.min(full.maxX - disk.cx, disk.cx - full.minX, full.maxY - disk.cy, disk.cy - full.minY))
+        )
+      );
+      return {
+        x: clamp(disk.cx + Math.cos(angle) * rad, full.minX, full.maxX),
+        y: clamp(disk.cy + Math.sin(angle) * rad, full.minY, full.maxY),
+      };
     }
     return {
-      x: randomBetween(bounds.minX, bounds.maxX),
-      y: randomBetween(bounds.minY, bounds.maxY),
+      x: randomBetween(full.minX, full.maxX),
+      y: randomBetween(full.minY, full.maxY),
     };
   }
 
+  // Even base (soft grid) + chaotic jitter + maximin polish.
   function generateWildScatteredPositions(count, sampleEntity, region = "full") {
     const positions = [];
     if (count <= 0 || !width || !height) {
@@ -5076,24 +5108,75 @@ applyLanguage(getPreferredLanguage());
     }
 
     const full = visibleBoundsFor(sampleEntity || { sizeScale: 1, scale: 1 });
-    const inner = innerHalfBounds(full);
-    const bounds = region === "inner" ? inner : full;
-    const area = Math.max(1, (bounds.maxX - bounds.minX) * (bounds.maxY - bounds.minY));
+    const disk = innerDisk(full);
+    const regionArea =
+      region === "inner"
+        ? Math.PI * disk.r * disk.r
+        : region === "outer"
+          ? Math.max(1, (full.maxX - full.minX) * (full.maxY - full.minY) - Math.PI * disk.r * disk.r)
+          : Math.max(1, (full.maxX - full.minX) * (full.maxY - full.minY));
     const minDist = Math.max(
-      40,
-      Math.min(
-        Math.sqrt(area / Math.max(count, 1)) * 0.78,
-        Math.min(width, height) * 0.2
-      )
+      36,
+      Math.min(Math.sqrt(regionArea / Math.max(count, 1)) * 0.92, Math.min(width, height) * 0.22)
     );
 
-    for (let index = 0; index < count; index += 1) {
-      let best = null;
-      let bestScore = -1;
-      const attempts = 48 + index * 5;
+    // Soft grid seeds for even coverage, then jitter for chaos.
+    const aspect =
+      region === "inner"
+        ? 1
+        : Math.max(0.55, (full.maxX - full.minX) / Math.max(1, full.maxY - full.minY));
+    const cols = Math.max(1, Math.ceil(Math.sqrt(count * aspect)));
+    const rows = Math.max(1, Math.ceil(count / cols));
+    const seeds = [];
+    for (let row = 0; row < rows; row += 1) {
+      for (let col = 0; col < cols; col += 1) {
+        if (seeds.length >= count) {
+          break;
+        }
+        const u = (col + randomBetween(0.22, 0.78)) / cols;
+        const v = (row + randomBetween(0.22, 0.78)) / rows;
+        let candidate;
+        if (region === "inner") {
+          const angle = u * Math.PI * 2 + randomBetween(-0.35, 0.35);
+          const rad = disk.r * Math.sqrt(clamp(v * randomBetween(0.85, 1.05), 0, 1));
+          candidate = {
+            x: disk.cx + Math.cos(angle) * rad,
+            y: disk.cy + Math.sin(angle) * rad,
+          };
+          if (!pointInInnerDisk(candidate.x, candidate.y, full)) {
+            candidate = samplePointInRegion(full, "inner");
+          }
+        } else if (region === "outer") {
+          candidate = {
+            x: full.minX + u * (full.maxX - full.minX),
+            y: full.minY + v * (full.maxY - full.minY),
+          };
+          if (pointInInnerDisk(candidate.x, candidate.y, full)) {
+            candidate = samplePointInRegion(full, "outer");
+          }
+        } else {
+          candidate = {
+            x: full.minX + u * (full.maxX - full.minX),
+            y: full.minY + v * (full.maxY - full.minY),
+          };
+        }
+        candidate.x = clamp(candidate.x, full.minX, full.maxX);
+        candidate.y = clamp(candidate.y, full.minY, full.maxY);
+        seeds.push(candidate);
+      }
+    }
+    while (seeds.length < count) {
+      seeds.push(samplePointInRegion(full, region === "full" ? "full" : region));
+    }
 
+    // Maximin polish: prefer spacing without killing chaos.
+    for (let index = 0; index < count; index += 1) {
+      let best = seeds[index];
+      let bestScore = -1;
+      const attempts = 28 + index * 3;
       for (let tryIndex = 0; tryIndex < attempts; tryIndex += 1) {
-        const candidate = samplePointInRegion(bounds, region, inner);
+        const candidate =
+          tryIndex === 0 ? seeds[index] : samplePointInRegion(full, region === "full" ? "full" : region);
         let nearest = Infinity;
         for (let other = 0; other < positions.length; other += 1) {
           nearest = Math.min(
@@ -5104,18 +5187,22 @@ applyLanguage(getPreferredLanguage());
         if (!Number.isFinite(nearest)) {
           nearest = minDist * 2;
         }
-        if (nearest >= minDist) {
+        // Mild center bias inside disk so the field feels filled, not rim-heavy.
+        const diskDist = Math.hypot(candidate.x - disk.cx, candidate.y - disk.cy) / Math.max(1, disk.r);
+        const evenBonus = region === "inner" ? (1 - Math.abs(diskDist - 0.55) * 0.35) : 1;
+        const score = nearest * evenBonus;
+        if (nearest >= minDist && score > bestScore) {
           best = candidate;
-          bestScore = nearest;
-          break;
-        }
-        if (nearest > bestScore) {
+          bestScore = score;
+          if (tryIndex > 0 && nearest >= minDist * 1.05) {
+            break;
+          }
+        } else if (score > bestScore) {
           best = candidate;
-          bestScore = nearest;
+          bestScore = score;
         }
       }
-
-      positions.push(best || samplePointInRegion(bounds, region, inner));
+      positions.push(best);
     }
 
     for (let i = positions.length - 1; i > 0; i -= 1) {
@@ -5191,11 +5278,7 @@ applyLanguage(getPreferredLanguage());
         entity.anchorX = entity.homeX;
         entity.anchorY = entity.homeY;
       } else {
-        const start = samplePointInRegion(
-          regionBounds,
-          entity.motionRegion || "full",
-          innerHalfBounds(full)
-        );
+        const start = samplePointInRegion(full, entity.motionRegion || "full");
         entity.anchorX = start.x;
         entity.anchorY = start.y;
       }
@@ -5284,6 +5367,17 @@ applyLanguage(getPreferredLanguage());
     const bounds = visibleBoundsFor(entity);
     entity.x = clamp(entity.x, bounds.minX, bounds.maxX);
     entity.y = clamp(entity.y, bounds.minY, bounds.maxY);
+    if (entity.motionRegion === "inner") {
+      const disk = innerDisk(bounds);
+      const dx = entity.x - disk.cx;
+      const dy = entity.y - disk.cy;
+      const dist = Math.hypot(dx, dy);
+      if (dist > disk.r && dist > 0.001) {
+        const scale = disk.r / dist;
+        entity.x = disk.cx + dx * scale;
+        entity.y = disk.cy + dy * scale;
+      }
+    }
   }
 
   function placeEntityForFadeIn(entity) {
@@ -5291,8 +5385,6 @@ applyLanguage(getPreferredLanguage());
       entity.motionRegion = Math.random() < 0.75 ? "inner" : "outer";
     }
     const full = visibleBoundsFor(entity);
-    const inner = innerHalfBounds(full);
-    const regionBounds = entity.motionRegion === "inner" ? inner : full;
     const others = getActiveMotionEntities(entity);
     const half = entityDrawHalf(entity);
     const minDistBase = half * 2 + 16;
@@ -5301,11 +5393,7 @@ applyLanguage(getPreferredLanguage());
     let best = null;
     let bestScore = -1;
     for (let tryIndex = 0; tryIndex < 40; tryIndex += 1) {
-      const candidate = samplePointInRegion(
-        regionBounds,
-        entity.motionRegion || "full",
-        inner
-      );
+      const candidate = samplePointInRegion(full, entity.motionRegion || "full");
       let nearest = Infinity;
       others.forEach((other) => {
         const ox = other.anchorX != null ? other.anchorX : other.x;
@@ -5424,11 +5512,52 @@ applyLanguage(getPreferredLanguage());
       sample,
       "inner"
     );
-    const outerStarts = generateWildScatteredPositions(
-      outerEntities.length,
-      sample,
-      "outer"
+
+    // Place outer after inner so spacing stays even across the whole field.
+    const outerStarts = [];
+    const occupied = innerStarts.map((p) => ({ x: p.x, y: p.y }));
+    const full = visibleBoundsFor(sample || { sizeScale: 1, scale: 1 });
+    const disk = innerDisk(full);
+    const outerArea = Math.max(
+      1,
+      (full.maxX - full.minX) * (full.maxY - full.minY) - Math.PI * disk.r * disk.r
     );
+    const outerMinDist = Math.max(
+      36,
+      Math.min(
+        Math.sqrt(outerArea / Math.max(outerEntities.length, 1)) * 0.9,
+        Math.min(width, height) * 0.2
+      )
+    );
+    for (let index = 0; index < outerEntities.length; index += 1) {
+      let best = null;
+      let bestScore = -1;
+      for (let tryIndex = 0; tryIndex < 48 + index * 4; tryIndex += 1) {
+        const candidate = samplePointInRegion(full, "outer");
+        let nearest = Infinity;
+        for (let other = 0; other < occupied.length; other += 1) {
+          nearest = Math.min(
+            nearest,
+            Math.hypot(candidate.x - occupied[other].x, candidate.y - occupied[other].y)
+          );
+        }
+        if (!Number.isFinite(nearest)) {
+          nearest = outerMinDist * 2;
+        }
+        if (nearest >= outerMinDist) {
+          best = candidate;
+          bestScore = nearest;
+          break;
+        }
+        if (nearest > bestScore) {
+          best = candidate;
+          bestScore = nearest;
+        }
+      }
+      const chosen = best || samplePointInRegion(full, "outer");
+      outerStarts.push(chosen);
+      occupied.push(chosen);
+    }
 
     // Assign starts in interleaved color order within each region.
     innerEntities.forEach((entity, index) => {
@@ -5464,9 +5593,7 @@ applyLanguage(getPreferredLanguage());
     hidden.forEach((entity, index) => {
       entity.motionRegion = index % 4 === 0 ? "outer" : "inner";
       const full = visibleBoundsFor(entity);
-      const inner = innerHalfBounds(full);
-      const regionBounds = entity.motionRegion === "inner" ? inner : full;
-      const start = samplePointInRegion(regionBounds, entity.motionRegion, inner);
+      const start = samplePointInRegion(full, entity.motionRegion);
       entity.anchorX = start.x;
       entity.anchorY = start.y;
       entity.homeX = start.x;
