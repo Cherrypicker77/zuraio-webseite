@@ -5114,27 +5114,33 @@ applyLanguage(getPreferredLanguage());
       if (other === entity) {
         return;
       }
-      const ox = other.homeX != null ? other.homeX : other.x;
-      const oy = other.homeY != null ? other.homeY : other.y;
-      nearest = Math.min(nearest, Math.hypot(entity.homeX - ox, entity.homeY - oy));
+      const ox = other.anchorX != null ? other.anchorX : other.homeX != null ? other.homeX : other.x;
+      const oy = other.anchorY != null ? other.anchorY : other.homeY != null ? other.homeY : other.y;
+      const ax = entity.anchorX != null ? entity.anchorX : entity.homeX;
+      const ay = entity.anchorY != null ? entity.anchorY : entity.homeY;
+      nearest = Math.min(nearest, Math.hypot(ax - ox, ay - oy));
     });
     if (!Number.isFinite(nearest)) {
-      nearest = Math.min(width, height) * 0.18;
+      nearest = Math.min(width, height) * 0.2;
     }
-    const fromNeighbor = nearest * 0.5 - half - gap;
     const full = visibleBoundsFor(entity);
     const regionBounds =
       entity.motionRegion === "inner" ? innerHalfBounds(full) : full;
     const maxByRegion = Math.min(
-      entity.homeX - regionBounds.minX,
-      regionBounds.maxX - entity.homeX,
-      entity.homeY - regionBounds.minY,
-      regionBounds.maxY - entity.homeY
+      (entity.anchorX != null ? entity.anchorX : entity.homeX) - regionBounds.minX,
+      regionBounds.maxX - (entity.anchorX != null ? entity.anchorX : entity.homeX),
+      (entity.anchorY != null ? entity.anchorY : entity.homeY) - regionBounds.minY,
+      regionBounds.maxY - (entity.anchorY != null ? entity.anchorY : entity.homeY)
     );
-    entity.zoneWander = Math.max(
-      6,
-      Math.min(fromNeighbor, Number.isFinite(maxByRegion) ? maxByRegion : fromNeighbor)
+    // Budget to neighbor keeps disks from overlapping; split into roam + local orbit.
+    const budget = Math.max(
+      18,
+      Math.min(nearest * 0.5 - half - gap, Number.isFinite(maxByRegion) ? maxByRegion : nearest)
     );
+    entity.motionBudget = budget;
+    entity.zoneWander = budget * randomBetween(0.38, 0.5);
+    entity.roamAmpX = budget * randomBetween(0.42, 0.55);
+    entity.roamAmpY = budget * randomBetween(0.42, 0.55);
   }
 
   function assignFlightPath(entity) {
@@ -5142,27 +5148,47 @@ applyLanguage(getPreferredLanguage());
     const regionBounds =
       entity.motionRegion === "inner" ? innerHalfBounds(full) : full;
 
-    if (typeof entity.homeX !== "number" || typeof entity.homeY !== "number") {
-      const start = samplePointInRegion(
-        regionBounds,
-        entity.motionRegion || "full",
-        innerHalfBounds(full)
-      );
-      entity.homeX = start.x;
-      entity.homeY = start.y;
+    if (typeof entity.anchorX !== "number" || typeof entity.anchorY !== "number") {
+      if (typeof entity.homeX === "number" && typeof entity.homeY === "number") {
+        entity.anchorX = entity.homeX;
+        entity.anchorY = entity.homeY;
+      } else {
+        const start = samplePointInRegion(
+          regionBounds,
+          entity.motionRegion || "full",
+          innerHalfBounds(full)
+        );
+        entity.anchorX = start.x;
+        entity.anchorY = start.y;
+      }
     }
 
-    entity.homeX = clamp(entity.homeX, regionBounds.minX, regionBounds.maxX);
-    entity.homeY = clamp(entity.homeY, regionBounds.minY, regionBounds.maxY);
+    entity.anchorX = clamp(entity.anchorX, regionBounds.minX, regionBounds.maxX);
+    entity.anchorY = clamp(entity.anchorY, regionBounds.minY, regionBounds.maxY);
+    entity.homeX = entity.anchorX;
+    entity.homeY = entity.anchorY;
 
-    const zone = Math.max(6, entity.zoneWander || 12);
-    entity.pathAmpX = zone * randomBetween(0.7, 0.92);
-    entity.pathAmpY = zone * randomBetween(0.7, 0.92);
+    if (typeof entity.motionBudget !== "number") {
+      assignNonOverlapZone(entity, getActiveMotionEntities(entity));
+    }
+
+    const local = Math.max(12, entity.zoneWander || 16);
+    entity.pathAmpX = local * randomBetween(0.82, 0.98);
+    entity.pathAmpY = local * randomBetween(0.82, 0.98);
+    const roamX = Math.max(10, entity.roamAmpX || local);
+    const roamY = Math.max(10, entity.roamAmpY || local);
+    entity.roamAmpX = roamX;
+    entity.roamAmpY = roamY;
 
     entity.pathPhaseX = Math.random() * Math.PI * 2;
     entity.pathPhaseY = Math.random() * Math.PI * 2;
-    entity.pathFreqX = randomBetween(0.07, 0.15);
-    entity.pathFreqY = randomBetween(0.08, 0.17);
+    entity.roamPhaseX = Math.random() * Math.PI * 2;
+    entity.roamPhaseY = Math.random() * Math.PI * 2;
+    // Always-on motion: local orbit + slower home roam.
+    entity.pathFreqX = randomBetween(0.14, 0.26);
+    entity.pathFreqY = randomBetween(0.16, 0.28);
+    entity.roamFreqX = randomBetween(0.05, 0.1);
+    entity.roamFreqY = randomBetween(0.055, 0.11);
     if (typeof entity.pathTime !== "number") {
       entity.pathTime = Math.random() * 40;
     } else {
@@ -5172,6 +5198,9 @@ applyLanguage(getPreferredLanguage());
 
   function fitFlightPathToPosition(entity) {
     assignFlightPath(entity);
+    // Snap path so current frame starts at the chosen scatter position.
+    entity.homeX = entity.anchorX;
+    entity.homeY = entity.anchorY;
     const ampX = Math.max(1, entity.pathAmpX || 1);
     const ampY = Math.max(1, entity.pathAmpY || 1);
     const nx = clamp((entity.x - entity.homeX) / ampX, -1, 1);
@@ -5179,27 +5208,40 @@ applyLanguage(getPreferredLanguage());
     const t = entity.pathTime || 0;
     const branchX = Math.random() < 0.5 ? 1 : -1;
     entity.pathPhaseX =
-      branchX * Math.asin(nx) - t * (entity.pathFreqX || 0.1);
-    entity.pathPhaseY = Math.acos(ny) - t * (entity.pathFreqY || 0.12);
+      branchX * Math.asin(nx) - t * (entity.pathFreqX || 0.18);
+    entity.pathPhaseY = Math.acos(ny) - t * (entity.pathFreqY || 0.2);
     if (Math.random() < 0.5) {
       entity.pathPhaseY = -entity.pathPhaseY;
     }
+    entity.roamPhaseX = -t * (entity.roamFreqX || 0.07);
+    entity.roamPhaseY = -t * (entity.roamFreqY || 0.08);
     sampleFlightPath(entity);
     clampToVisibleBounds(entity);
   }
 
   function sampleFlightPath(entity) {
     const t = entity.pathTime || 0;
-    const homeX = entity.homeX || centerX;
-    const homeY = entity.homeY || centerY;
+    const anchorX = entity.anchorX != null ? entity.anchorX : entity.homeX || centerX;
+    const anchorY = entity.anchorY != null ? entity.anchorY : entity.homeY || centerY;
+    const roamX = entity.roamAmpX || 0;
+    const roamY = entity.roamAmpY || 0;
+    const rfx = entity.roamFreqX || 0.07;
+    const rfy = entity.roamFreqY || 0.08;
+    const rpx = entity.roamPhaseX || 0;
+    const rpy = entity.roamPhaseY || 0;
+
+    // Drifting home keeps icons moving even when local orbit is small.
+    entity.homeX = anchorX + Math.sin(t * rfx + rpx) * roamX;
+    entity.homeY = anchorY + Math.cos(t * rfy + rpy) * roamY;
+
     const ampX = entity.pathAmpX || 40;
     const ampY = entity.pathAmpY || 40;
-    const fx = entity.pathFreqX || 0.1;
-    const fy = entity.pathFreqY || 0.12;
+    const fx = entity.pathFreqX || 0.18;
+    const fy = entity.pathFreqY || 0.2;
     const px = entity.pathPhaseX || 0;
     const py = entity.pathPhaseY || 0;
-    entity.x = homeX + Math.sin(t * fx + px) * ampX;
-    entity.y = homeY + Math.cos(t * fy + py) * ampY;
+    entity.x = entity.homeX + Math.sin(t * fx + px) * ampX;
+    entity.y = entity.homeY + Math.cos(t * fy + py) * ampY;
   }
 
   function clampToVisibleBounds(entity) {
@@ -5217,12 +5259,12 @@ applyLanguage(getPreferredLanguage());
     const regionBounds = entity.motionRegion === "inner" ? inner : full;
     const others = getActiveMotionEntities(entity);
     const half = entityDrawHalf(entity);
-    const minDistBase = half * 2 + 14;
+    const minDistBase = half * 2 + 16;
     const exitMin = Math.max(56, Math.min(width, height) * 0.22);
 
     let best = null;
     let bestScore = -1;
-    for (let tryIndex = 0; tryIndex < 36; tryIndex += 1) {
+    for (let tryIndex = 0; tryIndex < 40; tryIndex += 1) {
       const candidate = samplePointInRegion(
         regionBounds,
         entity.motionRegion || "full",
@@ -5230,7 +5272,9 @@ applyLanguage(getPreferredLanguage());
       );
       let nearest = Infinity;
       others.forEach((other) => {
-        nearest = Math.min(nearest, Math.hypot(candidate.x - other.x, candidate.y - other.y));
+        const ox = other.anchorX != null ? other.anchorX : other.x;
+        const oy = other.anchorY != null ? other.anchorY : other.y;
+        nearest = Math.min(nearest, Math.hypot(candidate.x - ox, candidate.y - oy));
       });
       if (!Number.isFinite(nearest)) {
         nearest = minDistBase * 2;
@@ -5251,6 +5295,8 @@ applyLanguage(getPreferredLanguage());
     }
 
     if (best) {
+      entity.anchorX = best.x;
+      entity.anchorY = best.y;
       entity.homeX = best.x;
       entity.homeY = best.y;
       entity.x = best.x;
@@ -5264,13 +5310,47 @@ applyLanguage(getPreferredLanguage());
     if (
       typeof entity.pathAmpX !== "number" ||
       typeof entity.pathFreqX !== "number" ||
-      typeof entity.pathPhaseX !== "number"
+      typeof entity.pathPhaseX !== "number" ||
+      typeof entity.roamAmpX !== "number"
     ) {
       assignFlightPath(entity);
     }
+    // Always advance — icons must never stand still.
     entity.pathTime = (entity.pathTime || 0) + dt;
     sampleFlightPath(entity);
     clampToVisibleBounds(entity);
+  }
+
+  function interleaveByColor(entities) {
+    const greens = entities.filter((entity) => !entity.kind);
+    const grays = entities.filter((entity) => Boolean(entity.kind));
+    for (let i = greens.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const tmp = greens[i];
+      greens[i] = greens[j];
+      greens[j] = tmp;
+    }
+    for (let i = grays.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const tmp = grays[i];
+      grays[i] = grays[j];
+      grays[j] = tmp;
+    }
+    const mixed = [];
+    let gi = 0;
+    let yi = 0;
+    // Alternate green / gray so colors stay mixed across the field.
+    while (gi < greens.length || yi < grays.length) {
+      if (gi < greens.length) {
+        mixed.push(greens[gi]);
+        gi += 1;
+      }
+      if (yi < grays.length) {
+        mixed.push(grays[yi]);
+        yi += 1;
+      }
+    }
+    return mixed;
   }
 
   function applySharedHomes() {
@@ -5278,20 +5358,15 @@ applyLanguage(getPreferredLanguage());
     iconSlots.forEach((slot) => entities.push(slot));
     centerIconCluster.forEach((item) => entities.push(item));
 
-    const visible = entities.filter((entity) => {
+    const visibleRaw = entities.filter((entity) => {
       if (entity.kind) {
         return entity.lifePhase !== "wait";
       }
       return entity.phase !== "wait";
     });
-    const hidden = entities.filter((entity) => !visible.includes(entity));
+    const hidden = entities.filter((entity) => !visibleRaw.includes(entity));
+    const visible = interleaveByColor(visibleRaw);
 
-    for (let i = visible.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      const tmp = visible[i];
-      visible[i] = visible[j];
-      visible[j] = tmp;
-    }
     const innerCount = Math.round(visible.length * 0.75);
     visible.forEach((entity, index) => {
       entity.motionRegion = index < innerCount ? "inner" : "outer";
@@ -5311,9 +5386,12 @@ applyLanguage(getPreferredLanguage());
       "outer"
     );
 
+    // Assign starts in interleaved color order within each region.
     innerEntities.forEach((entity, index) => {
       const start = innerStarts[index];
       if (start) {
+        entity.anchorX = start.x;
+        entity.anchorY = start.y;
         entity.homeX = start.x;
         entity.homeY = start.y;
         entity.x = start.x;
@@ -5323,6 +5401,8 @@ applyLanguage(getPreferredLanguage());
     outerEntities.forEach((entity, index) => {
       const start = outerStarts[index];
       if (start) {
+        entity.anchorX = start.x;
+        entity.anchorY = start.y;
         entity.homeX = start.x;
         entity.homeY = start.y;
         entity.x = start.x;
@@ -5343,6 +5423,8 @@ applyLanguage(getPreferredLanguage());
       const inner = innerHalfBounds(full);
       const regionBounds = entity.motionRegion === "inner" ? inner : full;
       const start = samplePointInRegion(regionBounds, entity.motionRegion, inner);
+      entity.anchorX = start.x;
+      entity.anchorY = start.y;
       entity.homeX = start.x;
       entity.homeY = start.y;
       entity.x = start.x;
