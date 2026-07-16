@@ -4927,15 +4927,34 @@ applyLanguage(getPreferredLanguage());
     const dst = out.data;
     const threshold = 28;
 
-    // Fill and contour use the same color.
-    for (let i = 0; i < src.length; i += 4) {
-      if (src[i + 3] < threshold) {
-        continue;
+    function alphaAt(x, y) {
+      if (x < 0 || y < 0 || x >= size || y >= size) {
+        return 0;
       }
-      dst[i] = OUTLINE_STROKE.r;
-      dst[i + 1] = OUTLINE_STROKE.g;
-      dst[i + 2] = OUTLINE_STROKE.b;
-      dst[i + 3] = 255;
+      return src[(y * size + x) * 4 + 3];
+    }
+
+    // Thin contour only: edge pixels, no neighbor thickening.
+    for (let y = 0; y < size; y += 1) {
+      for (let x = 0; x < size; x += 1) {
+        const alpha = alphaAt(x, y);
+        if (alpha < threshold) {
+          continue;
+        }
+        const isEdge =
+          alphaAt(x - 1, y) < threshold ||
+          alphaAt(x + 1, y) < threshold ||
+          alphaAt(x, y - 1) < threshold ||
+          alphaAt(x, y + 1) < threshold;
+        if (!isEdge) {
+          continue;
+        }
+        const index = (y * size + x) * 4;
+        dst[index] = OUTLINE_STROKE.r;
+        dst[index + 1] = OUTLINE_STROKE.g;
+        dst[index + 2] = OUTLINE_STROKE.b;
+        dst[index + 3] = 255;
+      }
     }
 
     ctx.clearRect(0, 0, size, size);
