@@ -5018,40 +5018,32 @@ applyLanguage(getPreferredLanguage());
     return homes;
   }
 
-  function assignPersonalZone(entity, nearestHomeDist, cellW, cellH) {
-    const half = entityDrawHalf(entity);
-    const gap = 10;
-    const fromNeighbor = nearestHomeDist * 0.5 - half - gap;
-    const fromCell = Math.min(cellW, cellH) * 0.42 - half;
-    let zone = Math.max(6, Math.min(fromNeighbor, fromCell));
-
-    // Keep the full flight ellipse inside the visible canvas.
-    const bounds = visibleBoundsFor(entity);
-    const homeX = entity.homeX || centerX;
-    const homeY = entity.homeY || centerY;
-    const maxByBounds = Math.min(
-      homeX - bounds.minX,
-      bounds.maxX - homeX,
-      homeY - bounds.minY,
-      bounds.maxY - homeY
-    );
-    if (Number.isFinite(maxByBounds)) {
-      zone = Math.min(zone, Math.max(4, maxByBounds));
-    }
-    entity.zoneWander = zone;
-  }
-
   function assignFlightPath(entity) {
-    const zone = Math.max(4, entity.zoneWander || 8);
+    const bounds = visibleBoundsFor(entity);
+    const cx = (bounds.minX + bounds.maxX) * 0.5;
+    const cy = (bounds.minY + bounds.maxY) * 0.5;
+    const spanX = bounds.maxX - bounds.minX;
+    const spanY = bounds.maxY - bounds.minY;
+
+    // Slightly offset homes so paths feel wild and unsynced across the full canvas.
+    entity.homeX = cx + spanX * randomBetween(-0.15, 0.15);
+    entity.homeY = cy + spanY * randomBetween(-0.15, 0.15);
+
+    const maxAmpX = Math.max(12, Math.min(entity.homeX - bounds.minX, bounds.maxX - entity.homeX));
+    const maxAmpY = Math.max(12, Math.min(entity.homeY - bounds.minY, bounds.maxY - entity.homeY));
+    entity.pathAmpX = maxAmpX * randomBetween(0.85, 0.98);
+    entity.pathAmpY = maxAmpY * randomBetween(0.85, 0.98);
+    entity.zoneWander = Math.min(entity.pathAmpX, entity.pathAmpY);
+
     entity.pathPhaseX = Math.random() * Math.PI * 2;
     entity.pathPhaseY = Math.random() * Math.PI * 2;
-    // Slow frequencies: roughly half to one loop per 4–6 s visibility cycle.
-    entity.pathFreqX = randomBetween(0.12, 0.24);
-    entity.pathFreqY = randomBetween(0.14, 0.28);
-    entity.pathAmpX = zone * randomBetween(0.6, 0.95);
-    entity.pathAmpY = zone * randomBetween(0.6, 0.95);
+    // Slow, calm frequencies — continuous motion, never still.
+    entity.pathFreqX = randomBetween(0.07, 0.15);
+    entity.pathFreqY = randomBetween(0.08, 0.17);
     if (typeof entity.pathTime !== "number") {
       entity.pathTime = Math.random() * 40;
+    } else {
+      entity.pathTime += randomBetween(0.5, 2.5);
     }
   }
 
@@ -5059,10 +5051,10 @@ applyLanguage(getPreferredLanguage());
     const t = entity.pathTime || 0;
     const homeX = entity.homeX || centerX;
     const homeY = entity.homeY || centerY;
-    const ampX = entity.pathAmpX || entity.zoneWander || 8;
-    const ampY = entity.pathAmpY || entity.zoneWander || 8;
-    const fx = entity.pathFreqX || 0.16;
-    const fy = entity.pathFreqY || 0.2;
+    const ampX = entity.pathAmpX || 40;
+    const ampY = entity.pathAmpY || 40;
+    const fx = entity.pathFreqX || 0.1;
+    const fy = entity.pathFreqY || 0.12;
     const px = entity.pathPhaseX || 0;
     const py = entity.pathPhaseY || 0;
     entity.x = homeX + Math.sin(t * fx + px) * ampX;
@@ -5076,23 +5068,18 @@ applyLanguage(getPreferredLanguage());
   }
 
   function placeEntityForFadeIn(entity) {
-    // Fresh path phases so fade-in starts elsewhere than the exit point.
-    assignFlightPath(entity);
-    if (typeof entity.exitX === "number" && typeof entity.exitY === "number") {
-      let tries = 0;
-      do {
-        entity.pathPhaseX = Math.random() * Math.PI * 2;
-        entity.pathPhaseY = Math.random() * Math.PI * 2;
-        sampleFlightPath(entity);
-        tries += 1;
-      } while (
-        tries < 12 &&
-        Math.hypot(entity.x - entity.exitX, entity.y - entity.exitY) <
-          Math.max(28, (entity.zoneWander || 8) * 0.55)
-      );
-    } else {
+    const minDist = Math.max(72, Math.min(width, height) * 0.28);
+    let tries = 0;
+    do {
+      assignFlightPath(entity);
       sampleFlightPath(entity);
-    }
+      tries += 1;
+    } while (
+      tries < 16 &&
+      typeof entity.exitX === "number" &&
+      typeof entity.exitY === "number" &&
+      Math.hypot(entity.x - entity.exitX, entity.y - entity.exitY) < minDist
+    );
     clampToVisibleBounds(entity);
   }
 
@@ -5104,6 +5091,7 @@ applyLanguage(getPreferredLanguage());
     ) {
       assignFlightPath(entity);
     }
+    // Always advance path time so icons never stand still (also while fading).
     entity.pathTime = (entity.pathTime || 0) + dt;
     sampleFlightPath(entity);
     clampToVisibleBounds(entity);
@@ -5114,30 +5102,7 @@ applyLanguage(getPreferredLanguage());
     iconSlots.forEach((slot) => entities.push(slot));
     centerIconCluster.forEach((item) => entities.push(item));
 
-    const homes = generateEvenHomes(entities.length);
-    entities.forEach((entity, index) => {
-      const home = homes[index] || { x: centerX, y: centerY, cellW: 40, cellH: 40 };
-      entity.homeX = home.x;
-      entity.homeY = home.y;
-
-      let nearest = Infinity;
-      for (let other = 0; other < homes.length; other += 1) {
-        if (other === index) {
-          continue;
-        }
-        nearest = Math.min(
-          nearest,
-          Math.hypot(homes[other].x - home.x, homes[other].y - home.y)
-        );
-      }
-      if (!Number.isFinite(nearest)) {
-        nearest = Math.min(home.cellW || 40, home.cellH || 40);
-      }
-
-      entity.nearestHomeDist = nearest;
-      entity.cellW = home.cellW || nearest;
-      entity.cellH = home.cellH || nearest;
-      assignPersonalZone(entity, nearest, entity.cellW, entity.cellH);
+    entities.forEach((entity) => {
       assignFlightPath(entity);
       sampleFlightPath(entity);
       entity.targetX = entity.x;
@@ -5155,12 +5120,6 @@ applyLanguage(getPreferredLanguage());
     item.hold = randomBetween(2.8, 5.0);
     item.fadeIn = randomBetween(0.8, 1.2);
     item.fadeOut = randomBetween(0.8, 1.2);
-    assignPersonalZone(
-      item,
-      item.nearestHomeDist || 48,
-      item.cellW || 48,
-      item.cellH || 48
-    );
     placeEntityForFadeIn(item);
     item.lifePhase = "in";
     item.timer = item.fadeIn;
@@ -5500,12 +5459,6 @@ applyLanguage(getPreferredLanguage());
         readyIn.hold = randomBetween(3.0, 4.8);
         readyIn.driftPhase = Math.random() * Math.PI * 2;
         readyIn.driftSpeed = randomBetween(0.35, 0.7);
-        assignPersonalZone(
-          readyIn,
-          readyIn.nearestHomeDist || 48,
-          readyIn.cellW || 48,
-          readyIn.cellH || 48
-        );
         placeEntityForFadeIn(readyIn);
         readyIn.phase = "in";
         readyIn.timer = randomBetween(0.34, 0.48);
