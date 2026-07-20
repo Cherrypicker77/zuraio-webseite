@@ -27,7 +27,7 @@ const translations = {
       integrationsImageAlt: "Arbeitsplatz mit Laptop und zuraio-Oberfläche als Symbol für Tool-Integration",
       integrationsAriaLabel: "Unterstützte Integrationen",
       answerImageAlt: "Orchestrator-Grafik mit zuraio Systemlogik vor Schweizer Stadt",
-      roadmapImageAlt: "Modernes Büro mit Panoramablick auf Berglandschaft",
+      roadmapImageAlt: "Innenraum mit Panoramablick auf Zürich bei Sonnenuntergang",
       roadmapViewAriaLabel: "Roadmap ansehen",
       teamSectionAriaLabel: "Team",
       storyExamplesLabel: "Beispiele",
@@ -164,8 +164,7 @@ const translations = {
         ],
         [
           "Eingabe: Schlage drei Termine vor und beantworte die E-Mail",
-          "Antwort: zuraio erstellt eine E-Mail-Antwort mit Terminvorschlägen",
-          "Antwort: zuraio trägt drei Terminvorschläge in den Kalender ein",
+          "Antwort: zuraio erstellt Terminvorschläge und eine E-Mail-Antwort",
         ],
         [
           "Eingabe: Erstelle aus dem Meeting die Aufgaben für mich",
@@ -254,29 +253,33 @@ const translations = {
       ],
     },
     product: {
-      eyebrow: "DAS PRODUKT",
-      titleHtml:
-        'Eine <span class="product-title-accent">zentrale Einheit</span>.<br><span class="product-title-sub">Vernetzt, kontrolliert, skalierbar.</span>',
+      eyebrow: "KI-GOVERNANCE",
+      titleHtml: 'KI, die Sie später <em class="product-title-accent">erklären</em> können.',
       body: [
-        "zuraio ist ein zentraler KI-Orchestrator, der Unternehmenswissen, Systeme, Prozesse und Richtlinien intelligent verbindet.",
-        "So entsteht eine KI, die nicht generisch arbeitet, sondern im Kontext deines Unternehmens denkt und mit deinen Anforderungen wächst.",
-        "Mit zuraio trägt Deine KI die DNA Deines Unternehmens.",
+        "Die Nutzung von KI wird zunehmend leichter überprüfbar. Kunden, Prüfer und Regulierungsbehörden werden künftig verstärkt erwarten, dass Unternehmen erklären können, woher Informationen stammen und wie KI eingesetzt wurde.",
+        "Zuraio hilft Ihnen, vorbereitet zu bleiben — mit quellengestützten Antworten und überprüfbarer KI.",
       ],
-      solutionLead: "Unsere Lösung",
-      solutionBody: "Ein einfacher Zugang für die Mitarbeitenden.",
-      solutionSub: "Eine kontrollierte Orchestrierung im Hintergrund.",
+      cta: "Mehr zur KI-Governance",
       cards: [
         {
-          title: "Tools",
-          body: "Integrationen und Anbindungen, die zuraio mit euren bestehenden Systemen verbinden.",
+          label: "Was gefragt wurde",
+          title: "Die Anfrage",
+          body: "Behalten Sie die Eingabe oder Aufgabe im Blick.",
         },
         {
-          title: "Wissen",
-          body: "Unternehmenswissen strukturiert erfassen, sicher halten und kontextgerecht verfügbar machen.",
+          label: "Was genutzt wurde",
+          title: "Die Quellen",
+          body: "Sehen Sie genau, welche genehmigten Unternehmensinformationen genutzt wurden.",
         },
         {
-          title: "Spezialisten",
-          body: "Digitale Spezialisten, die modular ergänzt werden und gezielt eure Prozesse übernehmen.",
+          label: "Was produziert wurde",
+          title: "Das Ergebnis",
+          body: "Prüfen Sie die erstellte Antwort, den Entwurf oder die Zusammenfassung.",
+        },
+        {
+          label: "Wer freigegeben hat",
+          title: "Die Prüfung",
+          body: "Wissen Sie, wer das Ergebnis geprüft, bearbeitet oder freigegeben hat.",
         },
       ],
     },
@@ -441,7 +444,7 @@ const translations = {
     },
     team: {
       eyebrow: "Warum Zuraio",
-      title: "<span class=\"hero-title-line\">Weil wir keine passende Lösung fanden</span><span class=\"hero-title-line\">haben wir <span class=\"hero-brand\">zuraio</span> gebaut</span>",
+      title: "<span class=\"hero-title-line\">Weil wir keine Lösung fanden,</span><span class=\"hero-title-line\">haben wir <span class=\"hero-brand\">zuraio</span> gebaut.</span>",
       heroes: [
         {
           title: "Der Ausgangspunkt",
@@ -459,26 +462,31 @@ const translations = {
       link: "Über uns",
     },
     roadmap: {
-      eyebrow: "Roadmap",
-      title: "Heute ein Orchestrator<br>Morgen ein",
-      ecosystem: "KI-Ökosystem",
+      eyebrow: "Skalierbar",
+      title: "Heute ein sicherer<br><span class=\"roadmap-title-accent\">KI-Assistent.</span><br>Morgen Ihr KI-Ökosystem.",
       leadHtml:
-        "zuraio wächst. Mit jeder Herausforderung. Mit jedem Kunden.<br>Wir sind ein junges Unternehmen mit einer klaren Vision und grosser Nähe zur Praxis. Die besten Lösungen entstehen nicht im stillen Kämmerlein, sondern gemeinsam mit Menschen, die echte Herausforderungen haben.",
+        "Starten Sie dort, wo der Nutzen sofort entsteht. Wachsen Sie erst dann weiter, wenn Ihr Unternehmen bereit ist. Ohne unnötige Komplexität, dafür mit einer klaren Strategie und nachhaltigem Fortschritt.",
       steps: [
         {
-          title: "Heute",
-          body: "Multifunktionales Chat-Interface, Audio-Funktion, Mail-Agent, Projekt-Agent, Internet-Agent, Harness Grundlage, Rollenverwaltung, Systemverwaltung, API Layer, Audit Logging, u.v.m.",
+          title: "Start",
+          body: "KI im Unternehmen zu integrieren bedeutet, die Mitarbeitenden von Anfang an einzubeziehen. Sichtbarer Mehrwert reduziert Unsicherheit und schafft Vertrauen. Die KI wird als Unterstützung erlebt, die entlastet, Fähigkeiten stärkt und den Arbeitsalltag spürbar verbessert.",
         },
         {
           title: "Nächste Schritte",
-          body: "Echtzeit Sprachmodus, Meeting-Transkript, Harness Optimierung, Hardware, Mitarbeiterschulung, Ihr Agent nach Wunsch, u.v.m.",
+          body: "Ist das Vertrauen geschaffen, entstehen neue Ideen direkt aus den Fachbereichen. Interne Tools werden Schritt für Schritt angebunden und massgeschneiderte digitale Assistenten entwickelt, die konkrete Aufgaben und Prozesse unterstützen.",
         },
         {
-          title: "Vision",
-          body: "zuraio als turn key solution. Ein Ansprechpartner, vollste Flexibilität, absolute Transparenz, fair und kundennah.",
+          title: "Zukunft",
+          body: "Aus dieser starken Basis wächst nachhaltig ein unternehmensweites KI-Ökosystem, das Wissen, Systeme, Assistenten und Automatisierungen intelligent miteinander verbindet.",
         },
       ],
-      link: "Weitere Informationen",
+    },
+    homeCta: {
+      title: "Sehen Sie, was Ihr eigener Assistent von Ihrem Schreibtisch nehmen könnte.",
+      lead: "Wir betrachten Ihre aktuellen Tools, Ihr Unternehmenswissen und Ihre Anforderungen an Datenkontrolle — und identifizieren, wo Zuraio zuerst helfen könnte.",
+      primary: "Private Demo buchen",
+      secondary: "Assistenten bei der Arbeit sehen",
+      tagline: "Ihr Unternehmen. Ihre Informationen. Ihre Freigabe.",
     },
     demoModal: {
       eyebrow: "Demo",
@@ -604,7 +612,7 @@ const translations = {
       integrationsImageAlt: "Workspace with laptop and zuraio interface as a symbol for tool integration",
       integrationsAriaLabel: "Supported integrations",
       answerImageAlt: "Orchestrator graphic with zuraio system logic in front of a Swiss city",
-      roadmapImageAlt: "Modern office with panoramic view of mountain landscape",
+      roadmapImageAlt: "Interior space with panoramic view of Zurich at sunset",
       roadmapViewAriaLabel: "View roadmap",
       teamSectionAriaLabel: "Team",
       storyExamplesLabel: "Examples",
@@ -738,8 +746,7 @@ const translations = {
         ],
         [
           "Input: Suggest three appointments and answer the email",
-          "Answer: zuraio drafts an email reply with appointment suggestions",
-          "Answer: zuraio places three appointment suggestions in the calendar",
+          "Answer: zuraio creates appointment suggestions and an email reply",
         ],
         [
           "Input: Create my tasks from the meeting",
@@ -828,29 +835,33 @@ const translations = {
       ],
     },
     product: {
-      eyebrow: "THE PRODUCT",
-      titleHtml:
-        'A central <span class="product-title-accent">orchestrator</span>.<br><span class="product-title-sub">Connected, controlled, scalable.</span>',
+      eyebrow: "AI GOVERNANCE",
+      titleHtml: 'AI you can later <em class="product-title-accent">explain</em>.',
       body: [
-        "zuraio is a central AI orchestrator that intelligently connects company knowledge, systems, processes, and policies.",
-        "This creates an AI that doesn't work generically, but thinks in the context of your company and grows with your requirements.",
-        "With zuraio, your AI carries your DNA.",
+        "The use of AI is becoming increasingly easier to audit. Customers, auditors, and regulators will increasingly expect companies to explain where information comes from and how AI was used.",
+        "Zuraio helps you stay prepared — with source-backed answers and verifiable AI.",
       ],
-      solutionLead: "Our solution",
-      solutionBody: "A secure chatbot as the foundation",
-      solutionSub: "The possibilities behind it are nearly unlimited",
+      cta: "More about AI governance",
       cards: [
         {
-          title: "Tools",
-          body: "Integrations and connections that link zuraio with your existing systems.",
+          label: "What was asked",
+          title: "The request",
+          body: "Keep the input or task in view.",
         },
         {
-          title: "Knowledge",
-          body: "Capture company knowledge in a structured way, keep it secure, and make it available in the right context.",
+          label: "What was used",
+          title: "The sources",
+          body: "See exactly which approved company information was used.",
         },
         {
-          title: "Specialists",
-          body: "Digital specialists that can be added modularly and take over your processes in a targeted way.",
+          label: "What was produced",
+          title: "The result",
+          body: "Review the created answer, draft, or summary.",
+        },
+        {
+          label: "Who approved it",
+          title: "The review",
+          body: "Know who reviewed, edited, or approved the result.",
         },
       ],
     },
@@ -979,7 +990,7 @@ const translations = {
     },
     team: {
       eyebrow: "Why zuraio",
-      title: "<span class=\"hero-title-line\">Because we couldn't find the right solution</span><span class=\"hero-title-line\">we built <span class=\"hero-brand\">zuraio</span></span>",
+      title: "<span class=\"hero-title-line\">Because we couldn't find a solution,</span><span class=\"hero-title-line\">we built <span class=\"hero-brand\">zuraio</span>.</span>",
       heroes: [
         {
           title: "The starting point",
@@ -997,26 +1008,31 @@ const translations = {
       link: "About us",
     },
     roadmap: {
-      eyebrow: "Roadmap",
-      title: "Today an orchestrator<br>Tomorrow an",
-      ecosystem: "AI ecosystem",
+      eyebrow: "Scalable",
+      title: "Today a secure<br><span class=\"roadmap-title-accent\">AI assistant.</span><br>Tomorrow your AI ecosystem.",
       leadHtml:
-        "zuraio is growing. With every challenge. With every customer.<br>We are a young company with a clear vision and close ties to practice. The best solutions are not created in isolation, but together with people who face real challenges.",
+        "Start where value appears immediately. Grow further only when your company is ready. Without unnecessary complexity — with a clear strategy and sustainable progress.",
       steps: [
         {
-          title: "Today",
-          body: "Multi-functional chat interface, audio function, mail agent, project agent, internet agent, harness foundation, roles management, system management, API layer, audit logging, and more.",
+          title: "Start",
+          body: "Integrating AI into a company means involving employees from day one. Visible value reduces uncertainty and builds trust. AI is experienced as support that relieves work, strengthens skills, and noticeably improves everyday tasks.",
         },
         {
           title: "Next steps",
-          body: "Real-time voice mode, meeting transcript, harness optimization, hardware, employee training, your agent on demand, and more.",
+          body: "Once trust is established, new ideas emerge directly from the business units. Internal tools are connected step by step, and tailored digital assistants are developed to support concrete tasks and processes.",
         },
         {
-          title: "Vision",
-          body: "zuraio as a turn-key solution. One point of contact, full flexibility, complete transparency, fair and close to the customer.",
+          title: "Future",
+          body: "From this strong foundation grows a company-wide AI ecosystem that intelligently connects knowledge, systems, assistants, and automations.",
         },
       ],
-      link: "More information",
+    },
+    homeCta: {
+      title: "See what your own assistant could take off your desk.",
+      lead: "We look at your current tools, your company knowledge, and your data-control requirements — and identify where Zuraio could help first.",
+      primary: "Book a private demo",
+      secondary: "See the assistant at work",
+      tagline: "Your company. Your information. Your approval.",
     },
     demoModal: {
       eyebrow: "Demo",
@@ -1141,7 +1157,7 @@ const translations = {
       integrationsImageAlt: "Espaço de trabalho com laptop e interface zuraio como símbolo de integração de ferramentas",
       integrationsAriaLabel: "Integrações suportadas",
       answerImageAlt: "Gráfico do orquestrador com lógica do sistema zuraio diante de uma cidade suíça",
-      roadmapImageAlt: "Escritório moderno com vista panorâmica para paisagem montanhosa",
+      roadmapImageAlt: "Interior com vista panorâmica de Zurique ao pôr do sol",
       roadmapViewAriaLabel: "Ver roadmap",
       teamSectionAriaLabel: "Equipe",
       storyExamplesLabel: "Exemplos",
@@ -1275,8 +1291,7 @@ const translations = {
         ],
         [
           "Entrada: Sugira três horários e responda ao e-mail",
-          "Resposta: a zuraio cria uma resposta de e-mail com sugestões de horário",
-          "Resposta: a zuraio coloca três sugestões de horário no calendário",
+          "Resposta: a zuraio cria sugestões de horário e uma resposta de e-mail",
         ],
         [
           "Entrada: Crie as tarefas para mim a partir da reunião",
@@ -1365,29 +1380,33 @@ const translations = {
       ],
     },
     product: {
-      eyebrow: "O PRODUTO",
-      titleHtml:
-        'Um <span class="product-title-accent">orquestrador</span> central.<br><span class="product-title-sub">Conectado, controlado, escalável.</span>',
+      eyebrow: "GOVERNANÇA DE IA",
+      titleHtml: 'IA que você pode depois <em class="product-title-accent">explicar</em>.',
       body: [
-        "A zuraio é um orquestrador de IA central que conecta de forma inteligente conhecimento empresarial, sistemas, processos e políticas.",
-        "Assim surge uma IA que não trabalha de forma genérica, mas pensa no contexto da sua empresa e cresce com as suas exigências.",
-        "Com a zuraio, a sua IA carrega o seu DNA.",
+        "O uso de IA está cada vez mais fácil de auditar. Clientes, auditores e reguladores vão esperar cada vez mais que as empresas expliquem de onde vêm as informações e como a IA foi usada.",
+        "A Zuraio ajuda você a estar preparado — com respostas baseadas em fontes e IA verificável.",
       ],
-      solutionLead: "A nossa solução",
-      solutionBody: "Um chatbot seguro como base",
-      solutionSub: "As possibilidades por trás são praticamente ilimitadas",
+      cta: "Mais sobre governança de IA",
       cards: [
         {
-          title: "Ferramentas",
-          body: "Integrações e ligações que conectam a zuraio aos seus sistemas existentes.",
+          label: "O que foi perguntado",
+          title: "O pedido",
+          body: "Mantenha a entrada ou a tarefa à vista.",
         },
         {
-          title: "Conhecimento",
-          body: "Capturar conhecimento empresarial de forma estruturada, mantê-lo seguro e disponibilizá-lo no contexto certo.",
+          label: "O que foi usado",
+          title: "As fontes",
+          body: "Veja exatamente quais informações empresariais aprovadas foram usadas.",
         },
         {
-          title: "Especialistas",
-          body: "Especialistas digitais que podem ser adicionados modularmente e assumir os seus processos de forma direcionada.",
+          label: "O que foi produzido",
+          title: "O resultado",
+          body: "Revise a resposta, o rascunho ou o resumo criado.",
+        },
+        {
+          label: "Quem aprovou",
+          title: "A revisão",
+          body: "Saiba quem revisou, editou ou aprovou o resultado.",
         },
       ],
     },
@@ -1516,7 +1535,7 @@ const translations = {
     },
     team: {
       eyebrow: "Por que zuraio",
-      title: "<span class=\"hero-title-line\">Como não encontramos a solução certa</span><span class=\"hero-title-line\">construímos a <span class=\"hero-brand\">zuraio</span></span>",
+      title: "<span class=\"hero-title-line\">Como não encontramos uma solução,</span><span class=\"hero-title-line\">construímos a <span class=\"hero-brand\">zuraio</span>.</span>",
       heroes: [
         {
           title: "O ponto de partida",
@@ -1534,26 +1553,31 @@ const translations = {
       link: "Sobre nós",
     },
     roadmap: {
-      eyebrow: "Roadmap",
-      title: "Hoje um orquestrador<br>Amanhã um",
-      ecosystem: "ecossistema de IA",
+      eyebrow: "Escalável",
+      title: "Hoje um<br><span class=\"roadmap-title-accent\">assistente de IA seguro.</span><br>Amanhã o seu ecossistema de IA.",
       leadHtml:
-        "A zuraio está crescendo. Com cada desafio. Com cada cliente.<br>Somos uma empresa jovem com uma visão clara e grande proximidade à prática. As melhores soluções não nascem isoladas, mas em conjunto com pessoas que têm desafios reais.",
+        "Comece onde o valor surge de imediato. Cresça só quando a sua empresa estiver pronta. Sem complexidade desnecessária — com uma estratégia clara e progresso sustentável.",
       steps: [
         {
-          title: "Hoje",
-          body: "Interface de chat multifuncional, função de áudio, agente de e-mail, agente de projeto, agente de internet, base do harness, gestão de papéis, gestão do sistema, camada de API, registro de auditoria e muito mais.",
+          title: "Início",
+          body: "Integrar IA na empresa significa envolver as pessoas desde o início. Valor visível reduz a incerteza e cria confiança. A IA é vivida como apoio que alivia, reforça capacidades e melhora o dia a dia.",
         },
         {
           title: "Próximos passos",
-          body: "Modo de voz em tempo real, transcrição de reuniões, otimização do harness, hardware, treinamento de colaboradores, seu agente sob demanda e muito mais.",
+          body: "Com a confiança criada, surgem novas ideias diretamente das áreas de negócio. Ferramentas internas são ligadas passo a passo e desenvolvem-se assistentes digitais à medida para tarefas e processos concretos.",
         },
         {
-          title: "Visão",
-          body: "A zuraio como solução turn-key. Um único ponto de contato, total flexibilidade, transparência absoluta, justa e próxima do cliente.",
+          title: "Futuro",
+          body: "Desta base sólida cresce de forma sustentável um ecossistema de IA em toda a empresa, que liga de forma inteligente conhecimento, sistemas, assistentes e automações.",
         },
       ],
-      link: "Mais informações",
+    },
+    homeCta: {
+      title: "Veja o que o seu próprio assistente poderia tirar da sua secretária.",
+      lead: "Analisamos as suas ferramentas atuais, o conhecimento da empresa e os requisitos de controlo de dados — e identificamos onde a Zuraio pode ajudar primeiro.",
+      primary: "Reservar demo privada",
+      secondary: "Ver o assistente em ação",
+      tagline: "A sua empresa. As suas informações. A sua autorização.",
     },
     demoModal: {
       eyebrow: "Demo",
@@ -2642,14 +2666,9 @@ function applyCommonUILanguage(ui) {
     answerImage.alt = ui.answerImageAlt;
   }
 
-  const roadmapImage = document.querySelector("#roadmap .roadmap-image-link img");
+  const roadmapImage = document.querySelector("#roadmap .roadmap-image");
   if (roadmapImage && ui.roadmapImageAlt) {
     roadmapImage.alt = ui.roadmapImageAlt;
-  }
-
-  const roadmapLink = document.querySelector("#roadmap .roadmap-image-link");
-  if (roadmapLink && ui.roadmapViewAriaLabel) {
-    roadmapLink.setAttribute("aria-label", ui.roadmapViewAriaLabel);
   }
 }
 
@@ -2677,27 +2696,11 @@ function applyHeroFeatures(features) {
 }
 
 
-const ASSISTANT_SHOWCASE_STEP_COUNTS = [2, 2, 3, 2, 2, 2];
-const ASSISTANT_SHOWCASE_QUESTION_MS = 2000;
-const ASSISTANT_SHOWCASE_ANSWER_SOLO_MS = 3000;
-const ASSISTANT_SHOWCASE_TRANSITION_MS = 1500;
-const ASSISTANT_SHOWCASE_SPLIT_HOLD_MS = 900;
-const ASSISTANT_SHOWCASE_ZOOM_MS = 1000;
-const ASSISTANT_SHOWCASE_ZOOM_SETTLE_MS = 100;
-const ASSISTANT_SHOWCASE_ZOOM_FRAME_HOLD_MS = 225;
-const ASSISTANT_SHOWCASE_ANSWER_MS =
-  ASSISTANT_SHOWCASE_TRANSITION_MS +
-  ASSISTANT_SHOWCASE_SPLIT_HOLD_MS +
-  ASSISTANT_SHOWCASE_TRANSITION_MS +
-  ASSISTANT_SHOWCASE_ANSWER_SOLO_MS;
-const ASSISTANT_SHOWCASE_ANSWER_ZOOM_MS =
-  ASSISTANT_SHOWCASE_TRANSITION_MS +
-  ASSISTANT_SHOWCASE_SPLIT_HOLD_MS +
-  ASSISTANT_SHOWCASE_TRANSITION_MS +
-  ASSISTANT_SHOWCASE_ZOOM_SETTLE_MS +
-  ASSISTANT_SHOWCASE_ZOOM_FRAME_HOLD_MS +
-  ASSISTANT_SHOWCASE_ZOOM_MS +
-  ASSISTANT_SHOWCASE_ANSWER_SOLO_MS;
+const ASSISTANT_SHOWCASE_STEP_COUNTS = [2, 2, 2, 2, 2, 2];
+const ASSISTANT_SHOWCASE_QUESTION_MS = 4400;
+const ASSISTANT_SHOWCASE_ANSWER_MS = 4500;
+const ASSISTANT_SHOWCASE_TRANSITION_MS = 1050;
+const ASSISTANT_SHOWCASE_EXAMPLE_TRANSITION_MS = 820;
 
 let assistantShowcaseController = null;
 
@@ -2765,19 +2768,8 @@ function applyAssistantShowcaseLanguage(copy) {
     copy.alts.forEach((alts, exampleIndex) => {
       alts.forEach((alt, stepIndex) => {
         const image = root.querySelector(
-          `.assistant-showcase-slide[data-example="${exampleIndex}"][data-step="${stepIndex}"]:not([data-zoom]) img`
+          `.assistant-showcase-slide[data-example="${exampleIndex}"][data-step="${stepIndex}"] img`
         );
-        const zoomImage = root.querySelector(
-          `.assistant-showcase-slide[data-example="${exampleIndex}"][data-step="${stepIndex}"][data-zoom] img`
-        );
-        if (zoomImage && alt) {
-          const detailPrefix =
-            htmlElement.lang === "pt-BR" ? "Detalhe" : htmlElement.lang === "en" ? "Detail" : "Detail";
-          const alreadyPrefixed = /^(Detail|Detalhe)\s*[:：]/i.test(alt);
-          zoomImage.alt = alreadyPrefixed
-            ? alt
-            : `${detailPrefix}: ${alt.replace(/^(Antwort|Answer|Resposta):\s*/i, "")}`;
-        }
         if (image && alt) {
           image.alt = alt;
         }
@@ -2828,7 +2820,6 @@ function initAssistantShowcase() {
   let stepStartedAt = 0;
   let stepDuration = ASSISTANT_SHOWCASE_QUESTION_MS;
   let leavingTimeout = null;
-  let settleTimeout = null;
 
   const totalExamples = ASSISTANT_SHOWCASE_STEP_COUNTS.length;
   const totalSteps = ASSISTANT_SHOWCASE_STEP_COUNTS.reduce((sum, count) => sum + count, 0);
@@ -2837,29 +2828,21 @@ function initAssistantShowcase() {
     return ASSISTANT_SHOWCASE_STEP_COUNTS[index] || 2;
   }
 
-  function getAnswerSlide(example, step) {
+  function getSlide(example, step) {
     return root.querySelector(
-      `.assistant-showcase-slide[data-example="${example}"][data-step="${step}"]:not([data-zoom])`
+      `.assistant-showcase-slide[data-example="${example}"][data-step="${step}"]`
     );
   }
 
-  function getZoomSlide(example, step) {
-    return root.querySelector(
-      `.assistant-showcase-slide[data-example="${example}"][data-step="${step}"][data-zoom]`
-    );
+  function getDurationForStep(step) {
+    return step === 0 ? ASSISTANT_SHOWCASE_QUESTION_MS : ASSISTANT_SHOWCASE_ANSWER_MS;
   }
 
-  function getDurationForStep(example, step) {
-    if (step === 0) {
-      return ASSISTANT_SHOWCASE_QUESTION_MS;
+  function getTransitionMs(comingFromAnswer, targetIsAnswer) {
+    if (comingFromAnswer && !targetIsAnswer) {
+      return ASSISTANT_SHOWCASE_EXAMPLE_TRANSITION_MS;
     }
-    if (getZoomSlide(example, step)) {
-      return ASSISTANT_SHOWCASE_ANSWER_ZOOM_MS;
-    }
-    if (step === 1) {
-      return ASSISTANT_SHOWCASE_ANSWER_MS;
-    }
-    return ASSISTANT_SHOWCASE_TRANSITION_MS + ASSISTANT_SHOWCASE_ANSWER_SOLO_MS;
+    return ASSISTANT_SHOWCASE_TRANSITION_MS;
   }
 
   function getCompletedStepsBefore(example) {
@@ -2910,12 +2893,7 @@ function initAssistantShowcase() {
       part: stepIndex,
     };
 
-    let template = copy.statusQuestion;
-    if (stepIndex > 0) {
-      template =
-        getStepCount(exampleIndex) > 2 ? copy.statusAnswerPart : copy.statusAnswer;
-    }
-
+    const template = stepIndex > 0 ? copy.statusAnswer : copy.statusQuestion;
     status.textContent = formatAssistantShowcaseCopy(template, values);
   }
 
@@ -2936,12 +2914,8 @@ function initAssistantShowcase() {
       window.clearTimeout(leavingTimeout);
       leavingTimeout = null;
     }
-    if (settleTimeout) {
-      window.clearTimeout(settleTimeout);
-      settleTimeout = null;
-    }
     if (viewport) {
-      viewport.classList.remove("is-zooming");
+      viewport.classList.remove("is-clipping-slides");
     }
   }
 
@@ -2960,14 +2934,11 @@ function initAssistantShowcase() {
     slide.classList.remove(
       "is-enter-question",
       "is-enter-answer",
-      "is-enter-answer-centered",
       "is-leave-question",
       "is-leave-answer",
       "is-leaving",
-      "is-answer-split",
-      "is-zoom-source",
-      "is-zooming-out",
-      "is-fixed-frame-start"
+      "is-pulse-in",
+      "is-slide-in-answer"
     );
   }
 
@@ -2977,34 +2948,12 @@ function initAssistantShowcase() {
     }
 
     clearMotionClasses(slide);
-    slide.classList.remove("is-active", "is-companion-question");
+    slide.classList.remove("is-active");
     slide.hidden = true;
     slide.setAttribute("aria-hidden", "true");
   }
 
-  function activateZoomImmediate(answerSlide, zoomSlide, companionSlide) {
-    if (viewport) {
-      viewport.classList.remove("is-zooming");
-    }
-    if (companionSlide) {
-      hideSlide(companionSlide);
-    }
-    if (zoomSlide) {
-      if (answerSlide) {
-        hideSlide(answerSlide);
-      }
-      clearMotionClasses(zoomSlide);
-      zoomSlide.hidden = false;
-      zoomSlide.classList.add("is-active");
-      zoomSlide.setAttribute("aria-hidden", "false");
-      return;
-    }
-    if (answerSlide) {
-      answerSlide.classList.remove("is-answer-split", "is-zoom-source", "is-zooming-out");
-    }
-  }
-
-  function scheduleLeave(slidesToHide) {
+  function scheduleLeave(slidesToHide, transitionMs) {
     if (!slidesToHide.length) {
       return;
     }
@@ -3017,134 +2966,34 @@ function initAssistantShowcase() {
     leavingTimeout = window.setTimeout(() => {
       slidesToHide.forEach(hideSlide);
       leavingTimeout = null;
-    }, ASSISTANT_SHOWCASE_TRANSITION_MS);
-  }
-
-  function settleAnswerSolo(answerSlide, companionSlide, zoomSlide, immediate) {
-    if (!answerSlide && !zoomSlide) {
-      return;
-    }
-
-    if (immediate || reducedMotion) {
-      activateZoomImmediate(answerSlide, zoomSlide, companionSlide);
-      return;
-    }
-
-    if (settleTimeout) {
-      window.clearTimeout(settleTimeout);
-      settleTimeout = null;
-    }
-
-    settleTimeout = window.setTimeout(() => {
-      settleTimeout = null;
-
-      if (companionSlide && companionSlide.isConnected && !companionSlide.hidden) {
-        companionSlide.classList.remove("is-leaving", "is-leave-question");
-        void companionSlide.offsetWidth;
-        companionSlide.classList.add("is-leaving", "is-leave-question");
-        companionSlide.setAttribute("aria-hidden", "true");
-        scheduleLeave([companionSlide]);
-      }
-
-      if (!zoomSlide) {
-        window.setTimeout(() => {
-          if (!answerSlide || !answerSlide.isConnected) {
-            return;
-          }
-          void answerSlide.offsetWidth;
-          answerSlide.classList.remove("is-answer-split");
-        }, 90);
-        return;
-      }
-
-      // Let the question leave above the answer while the overview expands below it.
-      window.setTimeout(() => {
-        if (!answerSlide || !answerSlide.isConnected) {
-          return;
-        }
-        void answerSlide.offsetWidth;
-        answerSlide.classList.remove("is-answer-split");
-      }, ASSISTANT_SHOWCASE_ZOOM_SETTLE_MS);
-
-      // Keep the frame fixed and blend the detail image slowly inside it.
-      window.setTimeout(() => {
-        if (!answerSlide || !answerSlide.isConnected || !zoomSlide.isConnected) {
-          return;
-        }
-
-        if (viewport) {
-          viewport.classList.add("is-zooming");
-        }
-
-        answerSlide.classList.add("is-zoom-source");
-        clearMotionClasses(zoomSlide);
-        zoomSlide.hidden = false;
-        zoomSlide.classList.add("is-active", "is-fixed-frame-start");
-        zoomSlide.setAttribute("aria-hidden", "false");
-        void answerSlide.offsetWidth;
-        void zoomSlide.offsetWidth;
-
-        answerSlide.classList.add("is-zooming-out");
-        zoomSlide.classList.remove("is-fixed-frame-start");
-
-        window.setTimeout(() => {
-          if (answerSlide.isConnected) {
-            hideSlide(answerSlide);
-          }
-          if (viewport) {
-            viewport.classList.remove("is-zooming");
-          }
-        }, ASSISTANT_SHOWCASE_ZOOM_MS);
-      }, ASSISTANT_SHOWCASE_ZOOM_SETTLE_MS +
-        ASSISTANT_SHOWCASE_TRANSITION_MS +
-        ASSISTANT_SHOWCASE_ZOOM_FRAME_HOLD_MS);
-    }, ASSISTANT_SHOWCASE_TRANSITION_MS + ASSISTANT_SHOWCASE_SPLIT_HOLD_MS);
+    }, transitionMs);
   }
 
   function showSlide(nextExample, nextStep, options = {}) {
     const immediate = Boolean(options.immediate) || reducedMotion;
-    const current = root.querySelector(
-      ".assistant-showcase-slide.is-active:not(.is-companion-question)"
-    );
-    const currentCompanion = root.querySelector(
-      ".assistant-showcase-slide.is-companion-question:not(.is-leaving)"
-    );
-    const target = getAnswerSlide(nextExample, nextStep);
-    const targetZoom = getZoomSlide(nextExample, nextStep);
-    const targetQuestion = getAnswerSlide(nextExample, 0);
+    const current = root.querySelector(".assistant-showcase-slide.is-active");
+    const target = getSlide(nextExample, nextStep);
     const targetIsAnswer = nextStep > 0;
-    const comingFromQuestion =
-      Boolean(current) && Number(current.dataset.step || 0) === 0 && !current.hasAttribute("data-zoom");
     const comingFromAnswer =
-      Boolean(current) &&
-      (Number(current.dataset.step || 0) > 0 || current.hasAttribute("data-zoom"));
+      Boolean(current) && Number(current.dataset.step || 0) > 0;
+    const transitionMs = getTransitionMs(comingFromAnswer, targetIsAnswer);
 
     if (!target) {
       return;
     }
 
-    if (current === target || (targetZoom && current === targetZoom)) {
+    if (current === target) {
       exampleIndex = nextExample;
       stepIndex = nextStep;
-      if (targetZoom) {
-        activateZoomImmediate(target, targetZoom, currentCompanion);
-      } else {
-        target.hidden = false;
-        target.setAttribute("aria-hidden", "false");
-      }
+      target.hidden = false;
+      target.setAttribute("aria-hidden", "false");
       refreshStatus();
       updateLoader(0);
       return;
     }
 
     slides.forEach((slide) => {
-      if (
-        slide !== target &&
-        slide !== targetZoom &&
-        slide !== current &&
-        slide !== currentCompanion &&
-        slide !== targetQuestion
-      ) {
+      if (slide !== target && slide !== current) {
         hideSlide(slide);
       }
     });
@@ -3153,118 +3002,60 @@ function initAssistantShowcase() {
     target.setAttribute("aria-hidden", "false");
     const leavingSlides = [];
 
-    if (targetIsAnswer && targetQuestion && comingFromQuestion) {
-      if (currentCompanion && currentCompanion !== targetQuestion) {
-        hideSlide(currentCompanion);
-      }
-
-      clearMotionClasses(targetQuestion);
-      targetQuestion.hidden = false;
-      // Keep full-frame geometry via is-active, then morph into companion.
-      targetQuestion.classList.add("is-companion-question");
-      void targetQuestion.offsetWidth;
-      targetQuestion.classList.remove("is-active");
-      targetQuestion.setAttribute("aria-hidden", "true");
-
-      clearMotionClasses(target);
-      target.classList.add("is-answer-split");
-      if (!immediate) {
-        target.classList.add("is-enter-answer");
-        void target.offsetWidth;
-      }
-      target.classList.add("is-active");
-      if (!immediate) {
-        window.requestAnimationFrame(() => {
-          target.classList.remove("is-enter-answer");
-        });
-      }
-
-      settleAnswerSolo(target, targetQuestion, targetZoom, immediate);
-    } else if (targetIsAnswer) {
-      if (currentCompanion) {
-        if (immediate) {
-          hideSlide(currentCompanion);
-        } else {
-          currentCompanion.classList.add("is-leaving", "is-leave-question");
-          currentCompanion.setAttribute("aria-hidden", "true");
-          leavingSlides.push(currentCompanion);
-        }
-      }
-
-      if (current) {
-        if (immediate) {
-          hideSlide(current);
-        } else {
-          current.classList.remove("is-active", "is-answer-split", "is-zoom-source", "is-zooming-out");
-          current.classList.add("is-leaving", "is-leave-answer");
-          current.setAttribute("aria-hidden", "true");
-          leavingSlides.push(current);
-        }
-      }
-
-      clearMotionClasses(target);
-      if (targetZoom && !comingFromAnswer) {
-        target.classList.add("is-answer-split");
-      }
-      const answerEntryClass = comingFromAnswer ? "is-enter-answer-centered" : "is-enter-answer";
-      if (!immediate) {
-        target.classList.add(answerEntryClass);
-        void target.offsetWidth;
-      }
-      target.classList.add("is-active");
-      if (!immediate) {
-        window.requestAnimationFrame(() => {
-          target.classList.remove(answerEntryClass);
-        });
-      }
-
-      if (targetZoom) {
-        settleAnswerSolo(target, null, targetZoom, immediate);
-      }
-    } else {
-      if (currentCompanion) {
-        if (immediate) {
-          hideSlide(currentCompanion);
-        } else {
-          currentCompanion.classList.add("is-leaving", "is-leave-question");
-          currentCompanion.setAttribute("aria-hidden", "true");
-          leavingSlides.push(currentCompanion);
-        }
-      }
-
-      if (current) {
-        if (immediate) {
-          hideSlide(current);
-        } else if (comingFromAnswer) {
-          // Answer/zoom exits left while the next question fades in at full frame.
-          current.classList.remove("is-answer-split", "is-zoom-source", "is-zooming-out");
-          current.classList.add("is-leaving", "is-leave-answer");
-          current.classList.remove("is-active");
-          current.setAttribute("aria-hidden", "true");
-          leavingSlides.push(current);
-        } else {
-          current.classList.remove("is-active", "is-answer-split");
-          current.classList.add("is-leaving", "is-leave-question");
-          current.setAttribute("aria-hidden", "true");
-          leavingSlides.push(current);
-        }
-      }
-
-      clearMotionClasses(target);
-      if (!immediate) {
-        // Place the new question in the same full-frame slot, then only fade opacity.
-        target.classList.add("is-enter-question");
-        void target.offsetWidth;
-      }
-      target.classList.add("is-active");
-      if (!immediate) {
-        window.requestAnimationFrame(() => {
-          target.classList.remove("is-enter-question");
-        });
+    if (current) {
+      if (immediate) {
+        hideSlide(current);
+      } else {
+        clearMotionClasses(current);
+        current.classList.remove("is-active");
+        current.classList.add(
+          "is-leaving",
+          comingFromAnswer ? "is-leave-answer" : "is-leave-question"
+        );
+        current.setAttribute("aria-hidden", "true");
+        leavingSlides.push(current);
       }
     }
 
-    scheduleLeave(leavingSlides);
+    clearMotionClasses(target);
+    const enterClass = targetIsAnswer ? "is-enter-answer" : "is-enter-question";
+    const motionClass = targetIsAnswer ? "is-slide-in-answer" : "is-pulse-in";
+    if (viewport) {
+      viewport.classList.toggle("is-clipping-slides", !immediate && targetIsAnswer);
+    }
+    if (!immediate) {
+      target.classList.add(enterClass);
+      void target.offsetWidth;
+    }
+    target.classList.add("is-active");
+    if (!immediate) {
+      window.requestAnimationFrame(() => {
+        target.classList.remove(enterClass);
+        target.classList.add(motionClass);
+        const onMotionEnd = (event) => {
+          const name = String(event.animationName || "");
+          if (
+            event.target !== target ||
+            !(
+              name.includes("assistant-showcase-pulse") ||
+              name.includes("assistant-showcase-slide-in-answer")
+            )
+          ) {
+            return;
+          }
+          target.removeEventListener("animationend", onMotionEnd);
+          target.classList.remove(motionClass);
+          if (viewport && name.includes("assistant-showcase-slide-in-answer")) {
+            viewport.classList.remove("is-clipping-slides");
+          }
+        };
+        target.addEventListener("animationend", onMotionEnd);
+      });
+    } else if (viewport) {
+      viewport.classList.remove("is-clipping-slides");
+    }
+
+    scheduleLeave(leavingSlides, transitionMs);
 
     exampleIndex = nextExample;
     stepIndex = nextStep;
@@ -3285,7 +3076,7 @@ function initAssistantShowcase() {
   function goTo(nextExample, nextStep, options = {}) {
     clearTimers();
     showSlide(nextExample, nextStep, options);
-    stepDuration = getDurationForStep(nextExample, nextStep);
+    stepDuration = getDurationForStep(nextStep);
     stepStartedAt = performance.now();
     if (canAutoplay()) {
       scheduleAdvance();
@@ -3309,7 +3100,7 @@ function initAssistantShowcase() {
   function scheduleAdvance() {
     clearAdvanceTimers();
     stepStartedAt = performance.now();
-    stepDuration = getDurationForStep(exampleIndex, stepIndex);
+    stepDuration = getDurationForStep(stepIndex);
     updateLoader(0);
     progressRaf = window.requestAnimationFrame(tickProgress);
     timerId = window.setTimeout(() => {
@@ -3408,7 +3199,7 @@ function applyProductLanguage(product) {
     return;
   }
 
-  setText("#antwort .product-eyebrow", product.eyebrow);
+  setText("#antwort .product-eyebrow-text", product.eyebrow);
   setHTML("#antwort .product-title", product.titleHtml);
   const productParagraphs = document.querySelectorAll("#antwort .product-lead");
   product.body?.forEach((text, index) => {
@@ -3416,12 +3207,11 @@ function applyProductLanguage(product) {
       productParagraphs[index].textContent = text;
     }
   });
-  setText("#antwort .product-solution-lead", product.solutionLead);
-  setText("#antwort .product-solution-body", product.solutionBody);
-  setText("#antwort .product-solution-sub", product.solutionSub);
+  setText("#antwort .product-cta-text", product.cta);
   setCards("#antwort .product-cards .product-card", product.cards, (cardElement, cardData) => {
-    setTextSelector(cardElement, ".product-card-text h3", cardData.title);
-    setTextSelector(cardElement, ".product-card-text p", cardData.body);
+    setTextSelector(cardElement, ".product-card-label", cardData.label);
+    setTextSelector(cardElement, ".product-card-title", cardData.title);
+    setTextSelector(cardElement, ".product-card-body", cardData.body);
   });
 }
 
@@ -3691,6 +3481,14 @@ function applyLanguage(languageCode) {
 
   applyProductLanguage(content.product);
 
+  if (content.homeCta) {
+    setText("#cta .home-cta-title", content.homeCta.title);
+    setText("#cta .home-cta-lead", content.homeCta.lead);
+    setText("#cta .home-cta-btn-primary", content.homeCta.primary);
+    setText("#cta .home-cta-btn-secondary", content.homeCta.secondary);
+    setText("#cta .home-cta-tagline", content.homeCta.tagline);
+  }
+
   setText("#ueber-uns .eyebrow", content.team.eyebrow);
   setHTML("#ueber-uns h2", content.team.title);
   setText("#ueber-uns .team-link", content.team.link);
@@ -3700,13 +3498,11 @@ function applyLanguage(languageCode) {
   });
 
   setText("#roadmap .roadmap-eyebrow", content.roadmap.eyebrow);
-  setHTML("#roadmap .roadmap-overlay h2", content.roadmap.title);
-  setText("#roadmap .roadmap-overlay .roadmap-ecosystem", content.roadmap.ecosystem);
+  setHTML("#roadmap .roadmap-title", content.roadmap.title);
   if (content.roadmap.leadHtml) {
     setHTML("#roadmap .roadmap-lead", content.roadmap.leadHtml);
   }
-  setText("#roadmap .roadmap-link", content.roadmap.link);
-  setCards("#roadmap .timeline article", content.roadmap.steps, (cardElement, cardData) => {
+  setCards("#roadmap .roadmap-windows .roadmap-window", content.roadmap.steps, (cardElement, cardData) => {
     setTextSelector(cardElement, "strong", cardData.title);
     setTextSelector(cardElement, "p", cardData.body);
   });
