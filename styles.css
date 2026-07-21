@@ -148,9 +148,9 @@ h3 {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  gap: 14px;
+  gap: 4px;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 650;
   white-space: nowrap;
 }
@@ -160,7 +160,7 @@ h3 {
   align-items: center;
   white-space: nowrap;
   transition: color 160ms ease, background-color 160ms ease;
-  padding: 8px 10px;
+  padding: 8px 8px;
   border-radius: 999px;
 }
 
