@@ -37,9 +37,9 @@ const translations = {
       storyValueLabel: "Mehrwert",
     },
     heroFeatures: [
-      { title: "Sicher", body: "Massgeschneidert an<br>deinem Unternehmen" },
+      { title: "Sicher", body: "An Dein Unternehmen<br>angepasst" },
       { title: "Vernetzt", body: "Integriere bestehende<br>Tools" },
-      { title: "Erweiterbar", body: "Die KI wächst<br>nach deinem Tempo" },
+      { title: "Erweiterbar", body: "Die KI wächst<br>in Deinem Tempo" },
     ],
     hero: {
       titleLines: [
@@ -51,14 +51,18 @@ const translations = {
         [{ text: "bevor du es bist." }],
       ],
       leadLines: [
-        "zuraio verbindet Unternehmenswissen,",
-        "bestehende Systeme",
-        "und spezialisierte digitale Assistenten",
-        "in einer sicheren Plattform für Schweizer KMU.",
+        "zuraio ist die zentrale KI-Arbeitsplattform",
+        "für Schweizer KMU.",
+        "Sie verbindet Unternehmenswissen,",
+        "bestehende Anwendungen und",
+        "spezialisierte Assistenten,",
+        "damit Aufgaben nicht nur beantwortet,",
+        "sondern sicher vorbereitet",
+        "und ausgeführt werden.",
       ],
     },
     intro: {
-      eyebrow: "KOMMT IHNEN DAS BEKANNT VOR?",
+      eyebrow: "KOMMT DIR DAS BEKANNT VOR?",
       titleParts: [
         { text: "Zu viele " },
         { text: "Tools", accent: true },
@@ -94,10 +98,10 @@ const translations = {
       eyebrow: "VERTRAUEN & DATENKONTROLLE",
       titleHtml: 'KI, ohne die <span class="brand-highlight">Kontrolle</span><br>aus der Hand zu geben.',
       lead:
-        "KI darf nicht bedeuten, die Kontrolle über Unternehmensdaten zu verlieren. Mit zuraio bestimmen Unternehmen, wo das System betrieben wird, welche Daten es nutzen darf, wer darauf zugreifen kann und wie sich Ergebnisse überprüfen lassen.",
+        "KI darf nicht bedeuten, die Kontrolle über Unternehmensdaten zu verlieren. Mit zuraio bestimmst Du, wo das System betrieben wird, welche Daten es nutzen darf, wer darauf zugreifen kann und wie sich Ergebnisse überprüfen lassen.",
       solutionLead: "Unsere Lösung",
       solutionBody: "Lokal, hybrid oder in der Cloud",
-      solutionSub: "Sie bestimmen das passende Modell",
+      solutionSub: "Du bestimmst das passende Modell",
       cards: [
         {
           title: "Lokal",
@@ -146,6 +150,8 @@ const translations = {
       titleAccent: "Deinen Assistenten",
       titleLine2: "bei der Arbeit",
       progressAriaLabel: "Fortschritt der Beispiele",
+      processAriaLabel: "Prozessfortschritt",
+      processStatus: "Aktueller Schritt: {phase} · {title}",
       prevAriaLabel: "Vorheriges Beispiel",
       nextAriaLabel: "Nächstes Beispiel",
       pauseAriaLabel: "Animation pausieren",
@@ -156,6 +162,15 @@ const translations = {
       statusQuestion: "Beispiel {n} von {total} · Frage",
       statusAnswer: "Beispiel {n} von {total} · Antwort",
       statusAnswerPart: "Beispiel {n} von {total} · Antwort {part}",
+      processSteps: [
+        { phase: "Frage 1", title: "Mail abrufen" },
+        { phase: "Frage 2", title: "Mail zusammenfassen" },
+        { phase: "Frage 3", title: "Termine planen" },
+        { phase: "Ergebnis", title: "Mailantwort vorbereiten" },
+        { phase: "Frage 4", title: "Meeting zusammenfassen" },
+        { phase: "Frage 5", title: "Aufgaben setzen" },
+        { phase: "Frage 6", title: "Briefing erstellen" },
+      ],
       alts: [
         [
           "Eingabe: Zeige mir die letzte E-Mail von Michael Keller zum Projekt Areal Meierwiesen",
@@ -170,12 +185,12 @@ const translations = {
           "Antwort: zuraio erstellt Terminvorschläge und eine E-Mail-Antwort",
         ],
         [
-          "Eingabe: Erstelle aus dem Meeting die Aufgaben für mich",
-          "Antwort: zuraio legt die Meeting-Aufgaben im Board an",
-        ],
-        [
           "Eingabe: Starte das Meetingtranskript zum Projekt Areal Meierwiesen",
           "Antwort: zuraio zeigt das Meetingtranskript mit Audio-Wellenform",
+        ],
+        [
+          "Eingabe: Erstelle aus dem Meeting die Aufgaben für mich",
+          "Antwort: zuraio legt die Meeting-Aufgaben im Board an",
         ],
         [
           "Eingabe: Erstelle mir ein kompaktes Briefing für das Statusmeeting mit dem Kunden",
@@ -256,33 +271,33 @@ const translations = {
       ],
     },
     product: {
-      eyebrow: "KI-GOVERNANCE",
+      eyebrow: "NACHVOLLZIEHBAR",
       titleHtml: 'KI, die Sie später <em class="product-title-accent">erklären</em> können.',
       body: [
         "Die Nutzung von KI wird zunehmend leichter überprüfbar. Kunden, Prüfer und Regulierungsbehörden werden künftig verstärkt erwarten, dass Unternehmen erklären können, woher Informationen stammen und wie KI eingesetzt wurde.",
-        "Zuraio hilft Ihnen, vorbereitet zu bleiben — mit quellengestützten Antworten und überprüfbarer KI.",
+        "zuraio hilft Dir, vorbereitet zu sein mit quellengestützten Antworten und überprüfbarer KI.",
       ],
-      cta: "Mehr zur KI-Governance",
+      cta: "Mehr zur Transparenz",
       cards: [
         {
           label: "Was gefragt wurde",
           title: "Die Anfrage",
-          body: "Behalten Sie die Eingabe oder Aufgabe im Blick.",
+          body: "Behalte die Eingabe oder Aufgabe im Blick.",
         },
         {
           label: "Was genutzt wurde",
           title: "Die Quellen",
-          body: "Sehen Sie genau, welche genehmigten Unternehmensinformationen genutzt wurden.",
+          body: "Sehe genau, welche genehmigten Unternehmensinformationen genutzt wurden.",
         },
         {
           label: "Was produziert wurde",
           title: "Das Ergebnis",
-          body: "Prüfen Sie die erstellte Antwort, den Entwurf oder die Zusammenfassung.",
+          body: "Prüfe die erstellte Antwort, den Entwurf oder die Zusammenfassung.",
         },
         {
           label: "Wer freigegeben hat",
           title: "Die Prüfung",
-          body: "Wissen Sie, wer das Ergebnis geprüft, bearbeitet oder freigegeben hat.",
+          body: "Wissen, wer das Ergebnis geprüft, bearbeitet oder freigegeben hat.",
         },
       ],
     },
@@ -466,9 +481,9 @@ const translations = {
     },
     roadmap: {
       eyebrow: "Skalierbar",
-      title: "Heute ein sicherer<br><span class=\"roadmap-title-accent\">KI-Assistent.</span><br>Morgen Ihr KI-Ökosystem.",
+      title: "Heute ein sicherer<br><span class=\"roadmap-title-accent\">KI-Assistent.</span><br>Morgen ein KI-Ökosystem",
       leadHtml:
-        "Starten Sie dort, wo der Nutzen sofort entsteht. Wachsen Sie erst dann weiter, wenn Ihr Unternehmen bereit ist. Ohne unnötige Komplexität, dafür mit einer klaren Strategie und nachhaltigem Fortschritt.",
+        "Starte dort, wo der Nutzen sofort entsteht. Wachsen erst dann weiter, wenn dein Unternehmen bereit ist. Ohne unnötige Komplexität, dafür mit einer klaren Strategie und nachhaltigem Fortschritt. Mit zuraio an der Seite brauchts Du keine eigene KI-Abteilung.",
       steps: [
         {
           title: "Start",
@@ -489,13 +504,13 @@ const translations = {
       lead: "Wir betrachten Ihre aktuellen Tools, Ihr Unternehmenswissen und Ihre Anforderungen an Datenkontrolle — und identifizieren, wo Zuraio zuerst helfen könnte.",
       primary: "Private Demo buchen",
       secondary: "Assistenten bei der Arbeit sehen",
-      tagline: "Ihr Unternehmen. Ihre Informationen. Ihre Freigabe.",
+      tagline: "Dein Unternehmen. Deine Informationen. Deine Freigabe.",
     },
     demoModal: {
       eyebrow: "Demo",
       title: "Termin buchen",
       intro:
-        "In 30 Minuten zeigen wir Ihnen anhand eines echten Beispiels, wie zuraio administrative Arbeit reduziert und Unternehmenswissen nutzbar macht.",
+        "30 Minuten, unverbindlich. Wir betrachten eine konkrete Aufgabe, Deine Systeme und Deine Anforderungen an die Datenkontrolle. Danach erhältst Du eine Empfehlung für einen sinnvollen ersten Schritt.",
       audienceHeading: "Für wen lohnt es sich?",
       audienceText:
         "Für Unternehmen, die weniger Zeit mit Administration und mehr Zeit mit Wertschöpfung verbringen wollen.",
@@ -506,12 +521,14 @@ const translations = {
       phone: "Telefonnummer",
       email: "E-Mail Adresse",
       note: "Notiz",
+      optionalHeading: "Optional",
       optional: "optional",
       calendar: "Kalender",
-      hint: "Wählen Sie einen freien Tag und eine Uhrzeit.",
-      hintSelectDay: "Bitte wählen Sie zuerst einen Tag im Kalender.",
-      hintSelectTime: "Bitte wählen Sie eine freie Uhrzeit.",
+      hint: "Wähle einen freien Tag und eine Uhrzeit.",
+      hintSelectDay: "Bitte wähle zuerst einen Tag im Kalender.",
+      hintSelectTime: "Bitte wähle eine freie Uhrzeit.",
       submit: "Absenden",
+      cancel: "Abbrechen",
       close: "Schliessen",
       weekdays: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
       monthNavPrev: "Vorheriger Monat",
@@ -562,8 +579,8 @@ const translations = {
           links: [
             "Swiss Hosting",
             "Lokal installierbar",
-            "DSG / DSGVO ready",
-            "EU AI Act ready",
+            "DSG / DSGVO",
+            "EU AI Act",
           ],
         },
         {
@@ -636,10 +653,14 @@ const translations = {
         [{ text: "before you are." }],
       ],
       leadLines: [
-        "zuraio connects company knowledge,",
-        "existing systems",
-        "and specialized digital assistants",
-        "in a secure platform for Swiss SMEs.",
+        "zuraio is the central AI control layer",
+        "for Swiss SMEs.",
+        "It connects company knowledge,",
+        "existing applications and",
+        "specialized assistants,",
+        "so tasks are not only answered,",
+        "but securely prepared",
+        "and executed.",
       ],
     },
     intro: {
@@ -679,7 +700,7 @@ const translations = {
       eyebrow: "TRUST & DATA CONTROL",
       titleHtml: 'AI without giving up <span class="brand-highlight">control</span>.',
       lead:
-        "AI must not mean losing control over company data. With zuraio, companies decide where the system runs, which data it may use, who can access it, and how results can be verified.",
+        "AI must not mean losing control over company data. With zuraio, you decide where the system runs, which data it may use, who can access it, and how results can be verified.",
       solutionLead: "Our solution",
       solutionBody: "Local, hybrid, or in the cloud",
       solutionSub: "You choose the model that fits",
@@ -731,6 +752,8 @@ const translations = {
       titleAccent: "your assistant",
       titleLine2: "at work",
       progressAriaLabel: "Example progress",
+      processAriaLabel: "Process progress",
+      processStatus: "Current step: {phase} · {title}",
       prevAriaLabel: "Previous example",
       nextAriaLabel: "Next example",
       pauseAriaLabel: "Pause animation",
@@ -741,6 +764,15 @@ const translations = {
       statusQuestion: "Example {n} of {total} · Question",
       statusAnswer: "Example {n} of {total} · Answer",
       statusAnswerPart: "Example {n} of {total} · Answer {part}",
+      processSteps: [
+        { phase: "Question 1", title: "Retrieve mail" },
+        { phase: "Question 2", title: "Summarize mail" },
+        { phase: "Question 3", title: "Plan appointments" },
+        { phase: "Result", title: "Prepare mail reply" },
+        { phase: "Question 4", title: "Summarize meeting" },
+        { phase: "Question 5", title: "Set tasks" },
+        { phase: "Question 6", title: "Create briefing" },
+      ],
       alts: [
         [
           "Input: Show me the latest email from Michael Keller about the Areal Meierwiesen project",
@@ -755,12 +787,12 @@ const translations = {
           "Answer: zuraio creates appointment suggestions and an email reply",
         ],
         [
-          "Input: Create my tasks from the meeting",
-          "Answer: zuraio adds the meeting tasks to the board",
-        ],
-        [
           "Input: Start the meeting transcript for the Areal Meierwiesen project",
           "Answer: zuraio shows the meeting transcript with an audio waveform",
+        ],
+        [
+          "Input: Create my tasks from the meeting",
+          "Answer: zuraio adds the meeting tasks to the board",
         ],
         [
           "Input: Create a compact briefing for the status meeting with the customer",
@@ -841,13 +873,13 @@ const translations = {
       ],
     },
     product: {
-      eyebrow: "AI GOVERNANCE",
+      eyebrow: "TRACEABLE",
       titleHtml: 'AI you can later <em class="product-title-accent">explain</em>.',
       body: [
         "The use of AI is becoming increasingly easier to audit. Customers, auditors, and regulators will increasingly expect companies to explain where information comes from and how AI was used.",
-        "Zuraio helps you stay prepared — with source-backed answers and verifiable AI.",
+        "zuraio helps you be prepared with source-backed answers and verifiable AI.",
       ],
-      cta: "More about AI governance",
+      cta: "More about transparency",
       cards: [
         {
           label: "What was asked",
@@ -1015,9 +1047,9 @@ const translations = {
     },
     roadmap: {
       eyebrow: "Scalable",
-      title: "Today a secure<br><span class=\"roadmap-title-accent\">AI assistant.</span><br>Tomorrow your AI ecosystem.",
+      title: "Today a secure<br><span class=\"roadmap-title-accent\">AI assistant.</span><br>Tomorrow an AI ecosystem",
       leadHtml:
-        "Start where value appears immediately. Grow further only when your company is ready. Without unnecessary complexity — with a clear strategy and sustainable progress.",
+        "Start where value appears immediately. Grow further only when your company is ready. Without unnecessary complexity — with a clear strategy and sustainable progress. With zuraio by your side, you don’t need your own AI department.",
       steps: [
         {
           title: "Start",
@@ -1055,12 +1087,14 @@ const translations = {
       phone: "Phone number",
       email: "Email address",
       note: "Note",
+      optionalHeading: "Optional",
       optional: "optional",
       calendar: "Calendar",
       hint: "Choose an available day and time.",
       hintSelectDay: "Please select a day in the calendar first.",
       hintSelectTime: "Please choose an available time slot.",
       submit: "Submit",
+      cancel: "Cancel",
       close: "Close",
       weekdays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
       monthNavPrev: "Previous month",
@@ -1111,8 +1145,8 @@ const translations = {
           links: [
             "Swiss hosting",
             "Locally installable",
-            "DSG / GDPR ready",
-            "EU AI Act ready",
+            "DSG / GDPR",
+            "EU AI Act",
           ],
         },
         {
@@ -1184,10 +1218,14 @@ const translations = {
         [{ text: "antes de você." }],
       ],
       leadLines: [
-        "zuraio conecta conhecimento empresarial,",
-        "sistemas existentes",
-        "e assistentes digitais especializados",
-        "em uma plataforma segura para PMEs suíças.",
+        "zuraio é o controlo central de IA",
+        "para PMEs suíças.",
+        "Liga conhecimento empresarial,",
+        "aplicações existentes e",
+        "assistentes especializados,",
+        "para que as tarefas não sejam só respondidas,",
+        "mas preparadas com segurança",
+        "e executadas.",
       ],
     },
     intro: {
@@ -1227,7 +1265,7 @@ const translations = {
       eyebrow: "CONFIANÇA & CONTROLE DE DADOS",
       titleHtml: 'IA sem perder o <span class="brand-highlight">controle</span>.',
       lead:
-        "IA não deve significar perder o controle sobre os dados da empresa. Com a zuraio, as empresas decidem onde o sistema opera, quais dados ele pode usar, quem pode acessá-los e como os resultados podem ser verificados.",
+        "IA não deve significar perder o controle sobre os dados da empresa. Com a zuraio, você decide onde o sistema opera, quais dados ele pode usar, quem pode acessá-los e como os resultados podem ser verificados.",
       solutionLead: "Nossa solução",
       solutionBody: "Local, híbrida ou na nuvem",
       solutionSub: "Você escolhe o modelo adequado",
@@ -1279,6 +1317,8 @@ const translations = {
       titleAccent: "o seu assistente",
       titleLine2: "em ação",
       progressAriaLabel: "Progresso dos exemplos",
+      processAriaLabel: "Progresso do processo",
+      processStatus: "Passo atual: {phase} · {title}",
       prevAriaLabel: "Exemplo anterior",
       nextAriaLabel: "Próximo exemplo",
       pauseAriaLabel: "Pausar animação",
@@ -1289,6 +1329,15 @@ const translations = {
       statusQuestion: "Exemplo {n} de {total} · Pergunta",
       statusAnswer: "Exemplo {n} de {total} · Resposta",
       statusAnswerPart: "Exemplo {n} de {total} · Resposta {part}",
+      processSteps: [
+        { phase: "Pergunta 1", title: "Buscar e-mail" },
+        { phase: "Pergunta 2", title: "Resumir e-mail" },
+        { phase: "Pergunta 3", title: "Planear reuniões" },
+        { phase: "Resultado", title: "Preparar resposta" },
+        { phase: "Pergunta 4", title: "Resumir reunião" },
+        { phase: "Pergunta 5", title: "Definir tarefas" },
+        { phase: "Pergunta 6", title: "Criar briefing" },
+      ],
       alts: [
         [
           "Entrada: Mostre-me o último e-mail de Michael Keller sobre o projeto Areal Meierwiesen",
@@ -1303,12 +1352,12 @@ const translations = {
           "Resposta: a zuraio cria sugestões de horário e uma resposta de e-mail",
         ],
         [
-          "Entrada: Crie as tarefas para mim a partir da reunião",
-          "Resposta: a zuraio coloca as tarefas da reunião no board",
-        ],
-        [
           "Entrada: Inicie a transcrição da reunião do projeto Areal Meierwiesen",
           "Resposta: a zuraio mostra a transcrição da reunião com forma de onda de áudio",
+        ],
+        [
+          "Entrada: Crie as tarefas para mim a partir da reunião",
+          "Resposta: a zuraio coloca as tarefas da reunião no board",
         ],
         [
           "Entrada: Crie um briefing compacto para a reunião de status com o cliente",
@@ -1389,13 +1438,13 @@ const translations = {
       ],
     },
     product: {
-      eyebrow: "GOVERNANÇA DE IA",
+      eyebrow: "RASTREÁVEL",
       titleHtml: 'IA que você pode depois <em class="product-title-accent">explicar</em>.',
       body: [
         "O uso de IA está cada vez mais fácil de auditar. Clientes, auditores e reguladores vão esperar cada vez mais que as empresas expliquem de onde vêm as informações e como a IA foi usada.",
-        "A Zuraio ajuda você a estar preparado — com respostas baseadas em fontes e IA verificável.",
+        "A zuraio ajuda você a estar preparado com respostas baseadas em fontes e IA verificável.",
       ],
-      cta: "Mais sobre governança de IA",
+      cta: "Mais sobre transparência",
       cards: [
         {
           label: "O que foi perguntado",
@@ -1563,9 +1612,9 @@ const translations = {
     },
     roadmap: {
       eyebrow: "Escalável",
-      title: "Hoje um<br><span class=\"roadmap-title-accent\">assistente de IA seguro.</span><br>Amanhã o seu ecossistema de IA.",
+      title: "Hoje um<br><span class=\"roadmap-title-accent\">assistente de IA seguro.</span><br>Amanhã um ecossistema de IA",
       leadHtml:
-        "Comece onde o valor surge de imediato. Cresça só quando a sua empresa estiver pronta. Sem complexidade desnecessária — com uma estratégia clara e progresso sustentável.",
+        "Comece onde o valor surge de imediato. Cresça só quando a sua empresa estiver pronta. Sem complexidade desnecessária — com uma estratégia clara e progresso sustentável. Com a zuraio ao lado, não precisa de um departamento próprio de IA.",
       steps: [
         {
           title: "Início",
@@ -1586,7 +1635,7 @@ const translations = {
       lead: "Analisamos as suas ferramentas atuais, o conhecimento da empresa e os requisitos de controlo de dados — e identificamos onde a Zuraio pode ajudar primeiro.",
       primary: "Reservar demo privada",
       secondary: "Ver o assistente em ação",
-      tagline: "A sua empresa. As suas informações. A sua autorização.",
+      tagline: "Sua empresa. Suas informações. Sua autorização.",
     },
     demoModal: {
       eyebrow: "Demo",
@@ -1603,12 +1652,14 @@ const translations = {
       phone: "Telefone",
       email: "E-mail",
       note: "Nota",
+      optionalHeading: "Opcional",
       optional: "opcional",
       calendar: "Calendário",
       hint: "Escolha um dia e horário disponíveis.",
       hintSelectDay: "Selecione primeiro um dia no calendário.",
       hintSelectTime: "Escolha um horário disponível.",
       submit: "Enviar",
+      cancel: "Cancelar",
       close: "Fechar",
       weekdays: ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"],
       monthNavPrev: "Mês anterior",
@@ -1659,8 +1710,8 @@ const translations = {
           links: [
             "Hosting suíço",
             "Instalável localmente",
-            "DSG / GDPR ready",
-            "EU AI Act ready",
+            "DSG / GDPR",
+            "EU AI Act",
           ],
         },
         {
@@ -1901,10 +1952,20 @@ const INTEGRATION_ICON_FILES = [
   "voice-notes.svg",
 ];
 
+const UNAVAILABLE_INTEGRATIONS = new Set([
+  "HubSpot",
+  "Salesforce",
+  "Slack",
+  "Notion",
+  "WhatsApp",
+]);
+
 function createIntegrationPill(label, index) {
   const icon = INTEGRATION_ICON_FILES[index] || "voice-notes.svg";
   const pill = document.createElement("span");
-  pill.className = "integration-pill";
+  pill.className = UNAVAILABLE_INTEGRATIONS.has(label)
+    ? "integration-pill integration-pill--unavailable"
+    : "integration-pill";
 
   const image = document.createElement("img");
   image.src = `assets/icons/integrations/${icon}`;
@@ -1918,6 +1979,16 @@ function createIntegrationPill(label, index) {
 
   pill.append(image, text);
   return pill;
+}
+
+function markUnavailableIntegrationPills(track) {
+  track.querySelectorAll(".integration-pill").forEach((pill) => {
+    const label = pill.querySelector(".integration-pill-label")?.textContent;
+    pill.classList.toggle(
+      "integration-pill--unavailable",
+      UNAVAILABLE_INTEGRATIONS.has(label)
+    );
+  });
 }
 
 function getIntegrationPillLabels(track) {
@@ -1962,6 +2033,7 @@ function setupIntegrationPills(labels) {
     integrationPillLabelsMatch(labels, existingLabels.slice(labels.length));
 
   if (hasDoubleSet) {
+    markUnavailableIntegrationPills(track);
     return;
   }
 
@@ -1969,6 +2041,7 @@ function setupIntegrationPills(labels) {
   if (hasSingleSet) {
     resetIntegrationPillsAnimation(track);
     appendIntegrationPillSet(track, labels);
+    markUnavailableIntegrationPills(track);
     return;
   }
 
@@ -1976,6 +2049,7 @@ function setupIntegrationPills(labels) {
   track.replaceChildren();
   appendIntegrationPillSet(track, labels);
   appendIntegrationPillSet(track, labels);
+  markUnavailableIntegrationPills(track);
 }
 
 let featureMarqueeCleanup = null;
@@ -2710,6 +2784,95 @@ const ASSISTANT_SHOWCASE_QUESTION_MS = 4400;
 const ASSISTANT_SHOWCASE_ANSWER_MS = 4500;
 const ASSISTANT_SHOWCASE_TRANSITION_MS = 1050;
 const ASSISTANT_SHOWCASE_EXAMPLE_TRANSITION_MS = 820;
+const ASSISTANT_PROCESS_STATION_COUNT = 7;
+const ASSISTANT_PROCESS_CHECK_COUNT = 7;
+const ASSISTANT_PROCESS_STEP_BY_SLIDE = [
+  [0, 0],
+  [1, 1],
+  [2, 3],
+  [4, 4],
+  [5, 5],
+  [6, 6],
+];
+const ASSISTANT_PROCESS_CHECK_BY_EXAMPLE = [0, 1, 2, 4, 5, 6];
+
+function getAssistantProcessChecks(exampleIndex, stepIndex, progressRatio = 0) {
+  const checks = Array.from({ length: ASSISTANT_PROCESS_CHECK_COUNT }, () => false);
+  const isAnswer = stepIndex > 0;
+  const ratio = Math.max(0, Math.min(1, progressRatio || 0));
+
+  // The point reaches each check exactly when its answer starts.
+  if (exampleIndex > 0 || (exampleIndex === 0 && isAnswer)) {
+    checks[0] = true;
+  }
+  if (exampleIndex > 1 || (exampleIndex === 1 && isAnswer)) {
+    checks[1] = true;
+  }
+  if (exampleIndex > 2 || (exampleIndex === 2 && isAnswer)) {
+    checks[2] = true;
+  }
+  // The third answer flows through "Mailantwort vorbereiten" and its check.
+  if (exampleIndex > 2 || (exampleIndex === 2 && isAnswer && ratio >= 2 / 3)) {
+    checks[3] = true;
+  }
+  if (exampleIndex > 3 || (exampleIndex === 3 && isAnswer)) {
+    checks[4] = true;
+  }
+  if (exampleIndex > 4 || (exampleIndex === 4 && isAnswer)) {
+    checks[5] = true;
+  }
+  if (exampleIndex === 5 && isAnswer) {
+    checks[6] = true;
+  }
+
+  return checks;
+}
+
+function getAssistantProcessState(exampleIndex, stepIndex, progressRatio) {
+  const ratio = Math.max(0, Math.min(1, progressRatio || 0));
+  const stations = ASSISTANT_PROCESS_STATION_COUNT;
+  const lastStation = stations - 1;
+  const mapping = ASSISTANT_PROCESS_STEP_BY_SLIDE[exampleIndex] || [lastStation, lastStation];
+  let activeStep = mapping[stepIndex] ?? mapping[0] ?? 0;
+  const checks = getAssistantProcessChecks(exampleIndex, stepIndex, ratio);
+  const currentCheck =
+    ASSISTANT_PROCESS_CHECK_BY_EXAMPLE[exampleIndex] ??
+    ASSISTANT_PROCESS_CHECK_COUNT - 1;
+  let startType = "step";
+  let startIndex = mapping[0] ?? activeStep;
+  let targetType = "check";
+  let targetIndex = currentCheck;
+  let duration = ASSISTANT_SHOWCASE_QUESTION_MS;
+
+  if (stepIndex > 0) {
+    startType = "check";
+    startIndex = currentCheck;
+    duration = ASSISTANT_SHOWCASE_ANSWER_MS;
+
+    if (exampleIndex === 2) {
+      activeStep = ratio < 1 / 3 ? 2 : 3;
+      targetType = "step";
+      targetIndex = 4;
+    } else if (exampleIndex < ASSISTANT_SHOWCASE_STEP_COUNTS.length - 1) {
+      targetType = "step";
+      targetIndex = ASSISTANT_PROCESS_STEP_BY_SLIDE[exampleIndex + 1]?.[0] ?? activeStep;
+    } else {
+      targetType = "check";
+      targetIndex = currentCheck;
+      duration = 0;
+    }
+  }
+
+  return {
+    activeStep: Math.max(0, Math.min(lastStation, activeStep)),
+    startType,
+    startIndex: Math.max(0, Math.min(ASSISTANT_PROCESS_CHECK_COUNT - 1, startIndex)),
+    targetType,
+    targetIndex: Math.max(0, Math.min(ASSISTANT_PROCESS_CHECK_COUNT - 1, targetIndex)),
+    duration,
+    checks,
+  };
+}
 
 let assistantShowcaseController = null;
 
@@ -2748,9 +2911,27 @@ function applyAssistantShowcaseLanguage(copy) {
     title.append(line1, line2);
   }
 
-  const progress = root.querySelector("[data-assistant-loader]");
-  if (progress && copy.progressAriaLabel) {
-    progress.setAttribute("aria-label", copy.progressAriaLabel);
+  const processList = root.querySelector("[data-assistant-process-list]");
+  if (processList && copy.processAriaLabel) {
+    processList.setAttribute("aria-label", copy.processAriaLabel);
+  }
+
+  if (Array.isArray(copy.processSteps)) {
+    copy.processSteps.forEach((stepCopy, stepIndex) => {
+      const step = root.querySelector(`[data-process-step="${stepIndex}"]`);
+      if (!step || !stepCopy) {
+        return;
+      }
+
+      const phase = step.querySelector(".assistant-process-phase");
+      const title = step.querySelector(".assistant-process-title");
+      if (phase && stepCopy.phase != null) {
+        phase.textContent = stepCopy.phase;
+      }
+      if (title && stepCopy.title != null) {
+        title.textContent = stepCopy.title;
+      }
+    });
   }
 
   const prev = root.querySelector('[data-action="prev"]');
@@ -2790,6 +2971,7 @@ function applyAssistantShowcaseLanguage(copy) {
     assistantShowcaseController.setCopy(copy);
     assistantShowcaseController.refreshStatus();
     assistantShowcaseController.refreshToggleLabels();
+    assistantShowcaseController.refreshProcessStatus?.();
   }
 }
 
@@ -2802,16 +2984,21 @@ function initAssistantShowcase() {
   const stage = root.querySelector("[data-assistant-stage]");
   const viewport = root.querySelector(".assistant-showcase-viewport");
   const slides = [...root.querySelectorAll(".assistant-showcase-slide")];
-  const loader = root.querySelector("[data-assistant-loader]");
-  const loaderFill = root.querySelector("[data-assistant-loader-fill]");
+  const processRoot = root.querySelector("[data-assistant-process]");
+  const processScroll = root.querySelector("[data-assistant-process-scroll]");
+  const processTrack = root.querySelector(".assistant-process-track");
+  const processStatus = root.querySelector("[data-assistant-process-status]");
+  const processSteps = [...root.querySelectorAll("[data-process-step]")];
+  const processChecks = [...root.querySelectorAll("[data-process-check]")];
   const status = root.querySelector("[data-assistant-status]");
   const toggle = root.querySelector('[data-action="toggle"]');
   const prev = root.querySelector('[data-action="prev"]');
   const next = root.querySelector('[data-action="next"]');
   const pauseLabel = root.querySelector("[data-label-pause]");
   const playLabel = root.querySelector("[data-label-play]");
+  const narrowProcessQuery = window.matchMedia("(max-width: 900px)");
 
-  if (!stage || !slides.length || !loaderFill) {
+  if (!stage || !slides.length || !processRoot || !processSteps.length) {
     return null;
   }
 
@@ -2829,6 +3016,10 @@ function initAssistantShowcase() {
   let stepStartedAt = 0;
   let stepDuration = ASSISTANT_SHOWCASE_QUESTION_MS;
   let leavingTimeout = null;
+  let activeProcessStep = -1;
+  let visibleCheckMask = "";
+  let activeProcessTarget = "";
+  let processTargetState = null;
 
   const totalExamples = ASSISTANT_SHOWCASE_STEP_COUNTS.length;
   const totalSteps = ASSISTANT_SHOWCASE_STEP_COUNTS.reduce((sum, count) => sum + count, 0);
@@ -2906,6 +3097,153 @@ function initAssistantShowcase() {
     status.textContent = formatAssistantShowcaseCopy(template, values);
   }
 
+  function refreshProcessStatus(stepIndexOverride) {
+    if (!processStatus || !copy) {
+      return;
+    }
+
+    const step = Number.isInteger(stepIndexOverride) ? stepIndexOverride : activeProcessStep;
+    const stepCopy = copy.processSteps?.[step];
+    if (!stepCopy) {
+      processStatus.textContent = "";
+      return;
+    }
+
+    processStatus.textContent = formatAssistantShowcaseCopy(
+      copy.processStatus || "{phase} · {title}",
+      {
+        phase: stepCopy.phase,
+        title: stepCopy.title,
+      }
+    );
+  }
+
+  function scrollActiveProcessStepIntoView(stepElement) {
+    if (!processScroll || !stepElement || !narrowProcessQuery.matches) {
+      return;
+    }
+
+    stepElement.scrollIntoView({
+      inline: "center",
+      block: "nearest",
+      behavior: reducedMotion ? "auto" : "smooth",
+    });
+  }
+
+  function getProcessElement(type, index) {
+    if (type === "check") {
+      return processChecks[index] || null;
+    }
+
+    return processSteps[index]?.querySelector(".assistant-process-marker") || null;
+  }
+
+  function syncProcessGeometry(state, immediate = false, useStart = false) {
+    if (!processRoot || !processTrack || !state) {
+      return;
+    }
+
+    const firstMarker = processSteps[0]?.querySelector(".assistant-process-marker");
+    const lastCheck = processChecks[processChecks.length - 1];
+    const target = getProcessElement(
+      useStart ? state.startType : state.targetType,
+      useStart ? state.startIndex : state.targetIndex
+    );
+    if (!firstMarker || !lastCheck || !target) {
+      return;
+    }
+
+    const trackRect = processTrack.getBoundingClientRect();
+    const centerX = (element) => {
+      const rect = element.getBoundingClientRect();
+      return rect.left - trackRect.left + rect.width / 2;
+    };
+
+    processRoot.style.setProperty(
+      "--assistant-process-motion-duration",
+      immediate || reducedMotion ? "0ms" : `${state.duration}ms`
+    );
+    processRoot.style.setProperty("--assistant-process-line-start-x", `${centerX(firstMarker)}px`);
+    processRoot.style.setProperty("--assistant-process-line-end-x", `${centerX(lastCheck)}px`);
+    processRoot.style.setProperty("--assistant-process-point-x", `${centerX(target)}px`);
+
+  }
+
+  function updateProcess(progressRatio) {
+    if (!processRoot || !processSteps.length) {
+      return;
+    }
+
+    const previousTargetState = processTargetState;
+    const state = getAssistantProcessState(exampleIndex, stepIndex, progressRatio);
+    processTargetState = state;
+
+    const nextTarget = `${state.targetType}:${state.targetIndex}`;
+    if (nextTarget !== activeProcessTarget) {
+      const restartForward =
+        activeProcessTarget === "" ||
+        (previousTargetState && state.targetIndex < previousTargetState.targetIndex);
+      activeProcessTarget = nextTarget;
+      if (restartForward) {
+        syncProcessGeometry(state, true, true);
+        window.requestAnimationFrame(() => {
+          syncProcessGeometry(state);
+        });
+      } else {
+        syncProcessGeometry(state);
+      }
+    }
+
+    const nextCheckMask = state.checks.map((visible) => (visible ? "1" : "0")).join("");
+    if (nextCheckMask !== visibleCheckMask) {
+      visibleCheckMask = nextCheckMask;
+      processChecks.forEach((checkElement) => {
+        const index = Number(checkElement.dataset.processCheck || 0);
+        const visible = Boolean(state.checks[index]);
+        const wasVisible = checkElement.classList.contains("is-visible");
+        checkElement.classList.toggle("is-visible", visible);
+        if (visible && !wasVisible && !reducedMotion) {
+          const icon = checkElement.querySelector(".assistant-process-check-icon");
+          if (icon) {
+            icon.style.animation = "none";
+            void icon.offsetWidth;
+            icon.style.animation = "";
+          }
+        }
+      });
+    }
+
+    if (state.activeStep === activeProcessStep) {
+      return;
+    }
+
+    activeProcessStep = state.activeStep;
+    let activeElement = null;
+
+    processSteps.forEach((stepElement) => {
+      const index = Number(stepElement.dataset.processStep || 0);
+      const isActive = index === activeProcessStep;
+      const isComplete = index < activeProcessStep;
+      stepElement.classList.toggle("is-active", isActive);
+      stepElement.classList.toggle("is-complete", isComplete);
+      if (isActive) {
+        stepElement.setAttribute("aria-current", "step");
+        activeElement = stepElement;
+      } else {
+        stepElement.removeAttribute("aria-current");
+      }
+    });
+
+    refreshProcessStatus(activeProcessStep);
+    scrollActiveProcessStepIntoView(activeElement);
+  }
+
+  if (processTrack) {
+    window.addEventListener("resize", () => {
+      syncProcessGeometry(processTargetState, true);
+    });
+  }
+
   function clearAdvanceTimers() {
     if (timerId) {
       window.clearTimeout(timerId);
@@ -2930,13 +3268,7 @@ function initAssistantShowcase() {
 
   function updateLoader(progressRatio) {
     const ratio = Math.max(0, Math.min(1, progressRatio || 0));
-    const absolute =
-      (getCompletedStepsBefore(exampleIndex) + stepIndex + ratio) / totalSteps;
-    const percent = Math.round(absolute * 1000) / 10;
-    loaderFill.style.width = `${percent}%`;
-    if (loader) {
-      loader.setAttribute("aria-valuenow", String(Math.round(percent)));
-    }
+    updateProcess(ratio);
   }
 
   function clearMotionClasses(slide) {
@@ -3073,6 +3405,9 @@ function initAssistantShowcase() {
   }
 
   function advance() {
+    // Lock the point to its exact endpoint before the paired slide changes.
+    syncProcessGeometry(processTargetState, true);
+
     const stepCount = getStepCount(exampleIndex);
     if (stepIndex + 1 < stepCount) {
       goTo(exampleIndex, stepIndex + 1);
@@ -3190,11 +3525,13 @@ function initAssistantShowcase() {
   showSlide(0, 0, { immediate: true });
   refreshToggleLabels();
   refreshStatus();
+  refreshProcessStatus(0);
   syncPlayback();
 
   assistantShowcaseController = {
     setCopy,
     refreshStatus,
+    refreshProcessStatus,
     refreshToggleLabels,
     setPlaying,
     goTo,
@@ -4090,11 +4427,8 @@ function applyDemoModalLanguage(copy) {
   setText(".demo-calendar-heading", demoModalCopy.calendar);
   setText(".demo-calendar-hint", demoModalCopy.hint);
   setText(".demo-submit", demoModalCopy.submit);
-
-  const closeButton = document.querySelector(".demo-modal-close");
-  if (closeButton) {
-    closeButton.setAttribute("aria-label", demoModalCopy.close);
-  }
+  setText(".demo-cancel", demoModalCopy.cancel);
+  setText("[data-demo-optional-heading]", demoModalCopy.optionalHeading);
 
   const labels = [
     ["nachname", demoModalCopy.name],
@@ -4112,16 +4446,7 @@ function applyDemoModalLanguage(copy) {
       return;
     }
 
-    if (name === "notiz") {
-      labelElement.textContent = "";
-      labelElement.append(`${labelText} `);
-      const optional = document.createElement("span");
-      optional.className = "demo-optional";
-      optional.textContent = demoModalCopy.optional;
-      labelElement.append(optional);
-    } else {
-      labelElement.textContent = labelText;
-    }
+    labelElement.textContent = labelText;
   });
 
   if (demoCalendarMonth) {

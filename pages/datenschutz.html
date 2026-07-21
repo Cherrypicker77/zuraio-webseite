@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Datenschutz | zuraio</title>
-    <link rel="stylesheet" href="../styles.css?v=186">
+    <link rel="stylesheet" href="../styles.css?v=206">
   </head>
   <body data-page="datenschutz">
     <header class="site-header">
@@ -288,8 +288,8 @@
           <nav aria-label="Sicherheit und Compliance">
             <a href="modelle.html">Swiss Hosting</a>
             <a href="modelle.html">Lokal installierbar</a>
-            <a href="eu-ai-act-dsgvo.html">DSG / DSGVO ready</a>
-            <a href="eu-ai-act-dsgvo.html">EU AI Act ready</a>
+            <a href="eu-ai-act-dsgvo.html">DSG / DSGVO</a>
+            <a href="eu-ai-act-dsgvo.html">EU AI Act</a>
           </nav>
         </div>
         <div class="site-footer-column">
@@ -314,9 +314,6 @@
     <div class="demo-modal" id="demo-modal" role="dialog" aria-modal="true" aria-labelledby="demo-modal-title" hidden>
       <div class="demo-modal-backdrop" data-demo-close tabindex="-1"></div>
       <div class="demo-modal-panel">
-        <button type="button" class="demo-modal-close" data-demo-close aria-label="Schliessen">
-          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
-        </button>
         <p class="eyebrow demo-modal-eyebrow">Demo</p>
         <h2 class="demo-modal-title" id="demo-modal-title">Termin buchen</h2>
         <form class="demo-booking-form" id="demo-booking-form" novalidate>
@@ -334,15 +331,16 @@
               <input type="text" name="firma" autocomplete="organization" required>
             </label>
             <label class="demo-field">
-              <span class="demo-field-label">Telefonnummer</span>
-              <input type="tel" name="telefon" autocomplete="tel" required>
-            </label>
-            <label class="demo-field demo-field--span-2">
               <span class="demo-field-label">E-Mail Adresse</span>
               <input type="email" name="email" autocomplete="email" required>
             </label>
-            <label class="demo-field demo-field--full">
-              <span class="demo-field-label">Notiz <span class="demo-optional">optional</span></span>
+            <h3 class="demo-optional-heading" data-demo-optional-heading>Optional</h3>
+            <label class="demo-field">
+              <span class="demo-field-label">Telefonnummer</span>
+              <input type="tel" name="telefon" autocomplete="tel">
+            </label>
+            <label class="demo-field">
+              <span class="demo-field-label">Notiz</span>
               <textarea name="notiz" rows="1"></textarea>
             </label>
           </div>
@@ -353,7 +351,8 @@
             <p class="demo-calendar-hint" id="demo-calendar-hint">Wählen Sie einen freien Tag und eine Uhrzeit.</p>
           </div>
           <div class="demo-form-actions">
-            <button type="submit" class="button primary demo-submit">Absenden</button>
+            <button type="button" class="demo-cancel" data-demo-close>Abbrechen</button>
+            <button type="submit" class="nav-cta demo-submit">Absenden</button>
           </div>
         </form>
       </div>
@@ -361,6 +360,6 @@
 
     <script src="../i18n-pages.js"></script>
     <script src="../i18n-datenschutz.js"></script>
-    <script src="../script.js?v=38"></script>
+    <script src="../script.js?v=166"></script>
   </body>
 </html>
