@@ -2987,12 +2987,12 @@ button.button {
   position: absolute;
   left: 0;
   right: 0;
-  top: -50px;
+  top: -30px;
   bottom: auto;
   z-index: 0;
   display: block;
   width: 100%;
-  height: calc(100% + 50px);
+  height: calc(100% + 30px);
   object-fit: cover;
   object-position: center center;
 }
@@ -3015,7 +3015,7 @@ button.button {
 
 .team-copy {
   width: min(1100px, 100%);
-  margin-top: -20px;
+  margin-top: -40px;
   text-align: left;
 }
 
