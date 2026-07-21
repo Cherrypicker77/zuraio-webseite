@@ -107,7 +107,7 @@ const translations = {
         {
           title: "Hybrid",
           body:
-            "Datenhaltung: Sensible Daten lokal, ausgewählte Modelle in der Cloud<br>Geeignet für: Balance aus Kontrolle und Leistung",
+            "Datenhaltung: Sensible Daten lokal, Übriges in der Cloud.<br>Geeignet für: Balance aus Kontrolle und Leistung.",
         },
         {
           title: "Cloud",
@@ -692,7 +692,7 @@ const translations = {
         {
           title: "Hybrid",
           body:
-            "Data storage: Sensitive data local, selected models in the cloud<br>Suitable for: Balance of control and performance",
+            "Data storage: Sensitive data local, everything else in the cloud.<br>Suitable for: Balance of control and performance.",
         },
         {
           title: "Cloud",
@@ -1240,7 +1240,7 @@ const translations = {
         {
           title: "Híbrida",
           body:
-            "Armazenamento: Dados sensíveis locais, modelos selecionados na nuvem<br>Adequado para: Equilíbrio entre controle e desempenho",
+            "Armazenamento: Dados sensíveis locais, o restante na nuvem.<br>Adequado para: Equilíbrio entre controle e desempenho.",
         },
         {
           title: "Nuvem",
@@ -5705,7 +5705,12 @@ applyLanguage(getPreferredLanguage());
   function beginSectionJump() {
     sectionHold = true;
     settlingSectionJump = true;
+    header.classList.add("is-section-jump");
     setCompact(false);
+    void header.offsetHeight;
+    window.requestAnimationFrame(() => {
+      header.classList.remove("is-section-jump");
+    });
     scheduleSectionSettle();
   }
 
@@ -5839,8 +5844,21 @@ applyLanguage(getPreferredLanguage());
 
   document.addEventListener("click", (event) => {
     const link = event.target.closest("a[href]");
-    if (isSamePageHashLink(link)) {
-      beginSectionJump();
+    if (!isSamePageHashLink(link)) {
+      return;
+    }
+
+    const url = new URL(link.href, window.location.href);
+    const target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+    if (!target) {
+      return;
+    }
+
+    event.preventDefault();
+    beginSectionJump();
+    target.scrollIntoView({ block: "start" });
+    if (window.location.hash !== url.hash) {
+      window.history.pushState(null, "", url.hash);
     }
   });
 

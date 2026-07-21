@@ -1,5 +1,6 @@
 :root {
   --ink: #464646;
+  --light: #FAFAF8;
   --muted: #666666;
   --line: #dfe2dc;
   --paper: #f7f6f0;
@@ -130,6 +131,11 @@ h3 {
   .site-header .brand img {
     transition: none;
   }
+}
+
+.site-header.is-section-jump,
+.site-header.is-section-jump .brand img {
+  transition: none;
 }
 
 .brand {
@@ -333,7 +339,7 @@ button.nav-cta {
 .hero-popup {
   --hero-popup-right: max(0px, calc(clamp(16px, 3.2vw, 44px) - 20px));
   /* Reserve title column + gap so the popup never overlaps the headline */
-  --hero-title-clearance: calc(clamp(18px, 7vw, 96px) + min(56vw, 600px) + 32px);
+  --hero-title-clearance: calc(clamp(18px, 7vw, 96px) + 20px + min(56vw, 600px) + 32px);
   position: absolute;
   right: var(--hero-popup-right);
   /* Previous center was 50%-130px; pin former top edge, then grow 30% down/left */
@@ -367,7 +373,7 @@ button.nav-cta {
   z-index: 2;
   align-self: start;
   width: min(900px, calc(100% - 36px));
-  margin-left: clamp(18px, 7vw, 96px);
+  margin-left: calc(clamp(18px, 7vw, 96px) + 20px);
   padding: calc(clamp(48px, 8vh, 96px) + 50px) 0 clamp(24px, 4vh, 48px);
   overflow: visible;
 }
@@ -429,7 +435,7 @@ button.nav-cta {
   border: 1px solid transparent;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  color: #ffffff;
+  color: var(--light);
   box-shadow: 0 8px 28px rgba(32, 35, 38, 0.06);
 }
 
@@ -542,7 +548,7 @@ button.nav-cta {
   justify-self: center;
   width: 100%;
   min-width: 0;
-  color: rgba(255, 255, 255, 0.88);
+  color: var(--light);
   font-size: 15px;
   line-height: 1.3;
   text-align: center;
@@ -591,8 +597,6 @@ h3 {
 
 .lead {
   max-width: 560px;
-  color: #464646;
-  font-size: clamp(19px, 2vw, 25px);
 }
 
 .hero-actions {
@@ -885,9 +889,6 @@ button.button {
 
 .intro-band-lead {
   margin: 0;
-  color: var(--muted);
-  font-size: 19px;
-  line-height: 1.6;
 }
 
 .intro-band-copy .intro-band-link {
@@ -999,13 +1000,6 @@ button.button {
   line-height: 1.55;
 }
 
-.section-heading p,
-.feature-copy p,
-.cta-section p {
-  color: var(--muted);
-  font-size: 19px;
-}
-
 .section {
   padding: 92px 0;
 }
@@ -1034,7 +1028,7 @@ button.button {
   --trust-bg: #1e201c;
   --trust-accent: #8a9456;
   --trust-accent-bright: #d0dc9a;
-  --trust-text: rgba(255, 255, 255, 0.88);
+  --trust-text: var(--light);
   --trust-divider: rgba(255, 255, 255, 0.1);
   position: relative;
   z-index: 2;
@@ -1087,7 +1081,7 @@ button.button {
 }
 
 .trust-title {
-  color: #f2f2f0;
+  color: var(--light);
   margin-bottom: clamp(12px, 1.6vh, 18px);
   font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
   font-size: var(--hero-title-size);
@@ -1099,7 +1093,6 @@ button.button {
 
 .trust-lead {
   margin: 0;
-  color: var(--trust-text);
 }
 
 .trust-solution {
@@ -1132,7 +1125,7 @@ button.button {
   flex: 0 0 auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 14px;
   width: 100%;
   padding: 12px clamp(12px, 1.5vw, 18px);
   box-sizing: border-box;
@@ -1145,8 +1138,8 @@ button.button {
   --product-bg: #1e201c;
   --product-accent: #9faf52;
   --product-accent-bright: #d0dc9a;
-  --product-text: rgba(255, 255, 255, 0.88);
-  --product-muted: rgba(255, 255, 255, 0.58);
+  --product-text: var(--light);
+  --product-muted: rgba(250, 250, 248, 0.58);
   --product-card-border: rgba(255, 255, 255, 0.16);
   position: relative;
   z-index: 2;
@@ -1189,7 +1182,7 @@ button.button {
   gap: clamp(28px, 4vh, 44px);
   width: min(var(--max), calc(100% - 36px));
   margin: 0 auto;
-  padding: clamp(40px, 6vh, 72px) 0;
+  padding: clamp(40px, 6vh, 72px) 0 clamp(28px, 4vh, 44px);
 }
 
 .product-heading {
@@ -1216,7 +1209,7 @@ button.button {
 
 .product-title {
   margin: 0 0 clamp(16px, 2.2vh, 24px);
-  color: #f2f2f0;
+  color: var(--light);
   font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
   font-size: var(--hero-title-size);
   font-weight: 500;
@@ -1234,9 +1227,6 @@ button.button {
 .product-lead {
   margin: 0 0 12px;
   max-width: 46rem;
-  color: var(--product-text);
-  font-size: clamp(15px, 1.35vw, 18px);
-  line-height: 1.55;
 }
 
 .product-lead:last-of-type {
@@ -1244,10 +1234,16 @@ button.button {
 }
 
 .product-cards {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
+  gap: 10px;
   width: 100%;
+  margin-top: auto;
+  padding: 12px clamp(12px, 1.5vw, 18px);
+  box-sizing: border-box;
   background: transparent;
   backdrop-filter: none;
   border-top: 0;
@@ -1290,7 +1286,7 @@ button.button {
 
 .product-card-title {
   margin: 0;
-  color: #fff;
+  color: var(--light);
   font-size: clamp(17px, 1.5vw, 20px);
   font-weight: 700;
   line-height: 1.2;
@@ -1313,7 +1309,7 @@ button.button {
   border: 1px solid var(--product-card-border);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.04);
-  color: #fff;
+  color: var(--light);
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.01em;
@@ -1419,7 +1415,7 @@ button.button {
 
 .assistant-showcase-title {
   margin: 0 0 8px;
-  color: #464646;
+  color: var(--ink);
   font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
   font-size: var(--hero-title-size);
   font-weight: 500;
@@ -1439,9 +1435,6 @@ button.button {
 .assistant-showcase-lead {
   margin: 0;
   max-width: 42rem;
-  color: #2f2f2f;
-  font-size: clamp(14px, 1.2vw, 17px);
-  line-height: 1.45;
 }
 
 .assistant-showcase-stage {
@@ -1829,11 +1822,12 @@ button.button {
 }
 
 .integrations-image img {
-  width: 100%;
+  width: calc(100% + 60px);
   height: 100%;
   min-height: 0;
   object-fit: cover;
   object-position: 100% 50%;
+  transform: translateX(-60px);
 }
 
 .integrations-hero::before {
@@ -1873,7 +1867,7 @@ button.button {
 .integrations-title {
   margin: 0 0 28px;
   max-width: 900px;
-  color: #464646;
+  color: var(--ink);
   font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
   font-size: var(--hero-title-size);
   font-weight: 500;
@@ -1909,7 +1903,7 @@ button.button {
   border: none;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  color: #000000;
+  color: var(--ink);
   box-shadow: none;
 }
 
@@ -1927,7 +1921,6 @@ button.button {
 
 .integrations-text p {
   margin: 0;
-  color: #000000;
 }
 
 .integration-pills {
@@ -2141,16 +2134,32 @@ button.button {
   pointer-events: auto;
 }
 
+.lead,
+.intro-band-lead,
+.trust-lead,
+.product-lead,
+.assistant-showcase-lead,
+.integrations-text p,
 .use-cases-lead,
 .use-cases-closing,
 .roadmap-lead,
+.home-cta-lead,
+.answer-copy p,
 .intro-copy p,
-.trust-lead,
-.integrations-text p,
-.hero-feature-batch p,
-.hero-feature-text strong {
+.section-heading p,
+.feature-copy p {
+  font-family: inherit;
   font-size: 19px;
+  font-weight: 400;
   line-height: 1.6;
+  color: #000;
+}
+
+.trust-lead,
+.product-lead,
+.trust-solution-body,
+.cta-section p {
+  color: #fff;
 }
 
 .hero-lead,
@@ -2165,7 +2174,6 @@ button.button {
   width: 100%;
   max-width: none;
   margin: 0;
-  color: var(--muted);
 }
 
 .roadmap-lead {
@@ -2364,13 +2372,14 @@ button.button {
   align-items: flex-start;
   gap: 12px;
   min-height: 0;
-  padding: clamp(16px, 2vh, 22px) clamp(14px, 2vw, 22px);
-  border: 1px solid transparent;
-  border-radius: var(--radius);
-  background: rgba(30, 32, 28, 0.52);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: background-color 220ms ease, transform 220ms ease;
+  margin: 0;
+  padding: clamp(16px, 1.8vw, 22px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background-color 220ms ease, border-color 220ms ease;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
@@ -2378,7 +2387,8 @@ button.button {
 
 .trust-card:hover,
 .trust-card:focus-within {
-  background: rgba(138, 148, 86, 0.35);
+  background: rgba(159, 175, 82, 0.12);
+  border-color: rgba(159, 175, 82, 0.35);
   outline: none;
 }
 
@@ -2611,8 +2621,6 @@ button.button {
 
 .answer-copy p {
   max-width: none;
-  color: var(--muted);
-  font-size: 18px;
 }
 
 .answer-kicker {
@@ -2831,7 +2839,7 @@ button.button {
 }
 
 .security-grid p {
-  color: rgba(255, 255, 255, 0.78);
+  color: var(--light);
 }
 
 .compliance-strip {
@@ -3034,7 +3042,7 @@ button.button {
   font-style: normal;
   line-height: 0.95;
   letter-spacing: -0.01em;
-  color: #111;
+  color: var(--ink);
 }
 
 .team-copy h2.hero-title .hero-title-line {
@@ -3047,7 +3055,7 @@ button.button {
 
 .team-copy .team-link {
   margin-top: 0;
-  color: #111;
+  color: var(--ink);
   border-bottom-color: currentColor;
 }
 
@@ -3075,7 +3083,7 @@ button.button {
   background: rgba(30, 32, 28, 0.52);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  color: rgba(255, 255, 255, 0.88);
+  color: var(--light);
   transition: background-color 220ms ease, transform 220ms ease;
 }
 
@@ -3090,20 +3098,20 @@ button.button {
   font-size: clamp(17px, 1.5vw, 20px);
   font-weight: 600;
   letter-spacing: 0.01em;
-  color: #fff;
+  color: var(--light);
   transition: color 220ms ease;
 }
 
 .team-hero:hover h3,
 .team-hero:focus-within h3 {
-  color: #fff;
+  color: var(--light);
 }
 
 .team-hero p {
   margin: 0;
   font-size: clamp(13px, 1.15vw, 15px);
   line-height: 1.45;
-  color: rgba(255, 255, 255, 0.88);
+  color: var(--light);
 }
 
 .quote-grid {
@@ -3207,7 +3215,7 @@ blockquote span {
 
 .roadmap-title {
   margin: 0 0 16px;
-  color: #111;
+  color: var(--ink);
   font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
   font-size: var(--hero-title-size);
   font-weight: 500;
@@ -3222,9 +3230,6 @@ blockquote span {
 .roadmap-lead {
   margin: 0;
   max-width: 46rem;
-  color: #111;
-  font-size: clamp(15px, 1.35vw, 18px);
-  line-height: 1.5;
 }
 
 .roadmap-windows {
@@ -3248,7 +3253,7 @@ blockquote span {
   background: rgba(30, 32, 28, 0.52);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  color: rgba(255, 255, 255, 0.88);
+  color: var(--light);
   transition: background-color 220ms ease, transform 220ms ease;
 }
 
@@ -3263,20 +3268,20 @@ blockquote span {
   font-size: clamp(17px, 1.5vw, 20px);
   font-weight: 600;
   letter-spacing: 0.01em;
-  color: #fff;
+  color: var(--light);
   transition: color 220ms ease;
 }
 
 .roadmap-window:hover strong,
 .roadmap-window:focus-within strong {
-  color: #fff;
+  color: var(--light);
 }
 
 .roadmap-window p {
   margin: 0;
   font-size: clamp(13px, 1.15vw, 15px);
   line-height: 1.45;
-  color: rgba(255, 255, 255, 0.88);
+  color: var(--light);
 }
 
 .timeline {
@@ -3346,7 +3351,7 @@ blockquote span {
 }
 
 .cta-section p {
-  color: rgba(255, 255, 255, 0.76);
+  color: #fff;
 }
 
 .home-cta {
@@ -3354,7 +3359,7 @@ blockquote span {
   margin: 0;
   padding: clamp(36px, 6vh, 60px) 24px;
   background: var(--sage);
-  color: #2f2f2f;
+  color: var(--ink);
   text-align: center;
 }
 
@@ -3375,15 +3380,12 @@ blockquote span {
   font-weight: 750;
   line-height: 1.15;
   letter-spacing: -0.02em;
-  color: #2a2a2a;
+  color: var(--ink);
 }
 
 .home-cta-lead {
   margin: 0;
   max-width: 46rem;
-  font-size: clamp(15px, 1.35vw, 18px);
-  line-height: 1.5;
-  color: #3a3a3a;
 }
 
 .home-cta-actions {
@@ -3438,7 +3440,7 @@ blockquote span {
   font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   font-size: 12px;
   letter-spacing: 0.02em;
-  color: #3a3a3a;
+  color: var(--ink);
 }
 
 @media (max-width: 640px) {
@@ -3564,7 +3566,7 @@ blockquote span {
 .detail-hero h1.hero-title,
 .detail-hero h1:has(.hero-title-line) {
   max-width: 720px;
-  color: #1a1a1a;
+  color: var(--ink);
 }
 
 .detail-hero h1.hero-title .hero-title-line {
@@ -4038,6 +4040,76 @@ body[data-page="kontakt-demo"] .detail-chapter-kernaussage {
   .integrations-image img {
     height: 100%;
     min-height: 0;
+  }
+
+  #warum.intro-band,
+  #ueber-uns.team-section {
+    height: calc(100dvh - var(--site-header-height));
+    min-height: calc(100dvh - var(--site-header-height));
+    max-height: calc(100dvh - var(--site-header-height));
+  }
+
+  #warum.intro-band {
+    grid-template-rows: minmax(0, 1fr) auto;
+    align-content: stretch;
+    gap: clamp(12px, 2vh, 20px);
+    padding: clamp(14px, 2vh, 22px) 0;
+    overflow: hidden;
+  }
+
+  #warum .intro-band-top {
+    min-height: 0;
+  }
+
+  #warum .intro-band-copy {
+    gap: clamp(8px, 1.4vh, 14px);
+  }
+
+  #warum .intro-band-copy .intro-band-link {
+    margin-top: clamp(4px, 1vh, 10px);
+  }
+
+  #warum .intro-band-visual {
+    height: 100%;
+    min-height: 0;
+    max-height: 100%;
+  }
+
+  #warum .intro-pain-grid {
+    gap: clamp(8px, 1vw, 14px);
+  }
+
+  #warum .intro-pain-card {
+    gap: clamp(6px, 1vh, 10px);
+    padding: clamp(10px, 1.5vh, 16px) clamp(12px, 1.5vw, 18px);
+  }
+
+  #warum .intro-pain-icon {
+    width: clamp(30px, 4.5vh, 38px);
+    height: clamp(30px, 4.5vh, 38px);
+  }
+
+  #warum .intro-pain-card h3 {
+    font-size: clamp(15px, 1.3vw, 18px);
+  }
+
+  #warum .intro-pain-card p {
+    font-size: clamp(13px, 1.15vw, 15px);
+    line-height: 1.4;
+  }
+
+  #ueber-uns.team-section {
+    overflow: hidden;
+  }
+
+  #ueber-uns .team-overlay {
+    height: 100%;
+    min-height: 0;
+    padding-top: clamp(18px, 3vh, 32px);
+  }
+
+  #ueber-uns .team-copy {
+    margin-top: 0;
   }
 }
 
@@ -4576,11 +4648,20 @@ body[data-page="kontakt-demo"] .detail-chapter-kernaussage {
     white-space: normal;
   }
 
+  .lead,
+  .intro-band-lead,
+  .trust-lead,
+  .product-lead,
+  .assistant-showcase-lead,
+  .integrations-text p,
   .use-cases-lead,
   .use-cases-closing,
+  .roadmap-lead,
+  .home-cta-lead,
+  .answer-copy p,
   .intro-copy p,
-  .trust-lead,
-  .integrations-text p,
+  .section-heading p,
+  .feature-copy p,
   .hero-feature-batch h3,
   .hero-feature-batch p,
   .hero-feature-text strong {
@@ -5331,7 +5412,7 @@ body.demo-modal-open {
     align-self: start;
     width: min(900px, calc(100% - 36px));
     max-width: none;
-    margin-left: clamp(18px, 7vw, 96px);
+    margin-left: calc(clamp(18px, 7vw, 96px) + 20px);
     margin-right: 0;
     padding: calc(clamp(16px, 2.5vh, 32px) + 50px) 0 clamp(8px, 1.2vh, 14px);
     text-align: left;
