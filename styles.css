@@ -3263,13 +3263,13 @@ blockquote span {
   font-size: clamp(17px, 1.5vw, 20px);
   font-weight: 600;
   letter-spacing: 0.01em;
-  color: #8a9456;
+  color: #fff;
   transition: color 220ms ease;
 }
 
 .roadmap-window:hover strong,
 .roadmap-window:focus-within strong {
-  color: #d0dc9a;
+  color: #fff;
 }
 
 .roadmap-window p {
