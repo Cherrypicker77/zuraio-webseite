@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=207">
+    <link rel="stylesheet" href="styles.css?v=222">
   </head>
   <body>
     <header class="site-header">
@@ -40,7 +40,11 @@
     </header>
 
         <main id="home">
-<section class="hero">
+<section class="hero" data-hero-variant="current">
+        <div class="hero-variant-toggle" role="group" aria-label="Hero-Design wählen">
+          <button type="button" class="hero-variant-btn" data-hero-variant="current" aria-pressed="true">Aktuell</button>
+          <button type="button" class="hero-variant-btn" data-hero-variant="contrast" aria-pressed="false">Alternative</button>
+        </div>
         <div class="hero-media">
           <picture>
             <source srcset="assets/images/hero-zurich.png?v=20260717" media="(min-width: 760px)">
@@ -58,8 +62,7 @@
               <p class="hero-lead-line">bestehende Anwendungen und</p>
               <p class="hero-lead-line">spezialisierte Assistenten,</p>
               <p class="hero-lead-line">damit Aufgaben nicht nur beantwortet,</p>
-              <p class="hero-lead-line">sondern sicher vorbereitet</p>
-              <p class="hero-lead-line">und ausgeführt werden.</p>
+              <p class="hero-lead-line">sondern sicher ausgeführt werden.</p>
             </div>
           </div>
         </div>
@@ -95,6 +98,7 @@
           </div>
           <div class="intro-band-visual" aria-hidden="true">
             <canvas class="intro-synapse-canvas" width="780" height="420"></canvas>
+            <img class="intro-magnifier-img" alt="" decoding="async" draggable="false">
           </div>
         </div>
         <div class="intro-pain-grid" role="list">
@@ -701,6 +705,6 @@
     </div>
 
     <script src="i18n-pages.js"></script>
-    <script src="script.js?v=166"></script>
+    <script src="script.js?v=169"></script>
   </body>
 </html>

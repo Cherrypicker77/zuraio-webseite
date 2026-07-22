@@ -57,8 +57,7 @@ const translations = {
         "bestehende Anwendungen und",
         "spezialisierte Assistenten,",
         "damit Aufgaben nicht nur beantwortet,",
-        "sondern sicher vorbereitet",
-        "und ausgeführt werden.",
+        "sondern sicher ausgeführt werden.",
       ],
     },
     intro: {
@@ -1740,6 +1739,8 @@ const menuToggle = document.querySelector(".menu-toggle");
 const nav = document.querySelector(".site-nav");
 const htmlElement = document.documentElement;
 const languageStorageKey = "zuraio-language";
+const heroVariantStorageKey = "zuraio-hero-variant";
+const HERO_VARIANTS = new Set(["current", "contrast"]);
 const USE_CASE_SWAP_MS = 1250;
 const USE_CASE_ROTATE_MS = 2400;
 let useCaseRotateTimer = null;
@@ -4767,13 +4768,58 @@ function initDemoBookingModal() {
   });
 }
 
+function normalizeHeroVariant(variant) {
+  return HERO_VARIANTS.has(variant) ? variant : "current";
+}
+
+function getPreferredHeroVariant() {
+  try {
+    return normalizeHeroVariant(window.localStorage.getItem(heroVariantStorageKey) || "");
+  } catch {
+    return "current";
+  }
+}
+
+function setHeroVariant(variant) {
+  const hero = document.querySelector("main#home > .hero");
+  if (!hero) {
+    return;
+  }
+
+  const nextVariant = normalizeHeroVariant(variant);
+  hero.dataset.heroVariant = nextVariant;
+
+  hero.querySelectorAll(".hero-variant-btn").forEach((button) => {
+    const isActive = button.dataset.heroVariant === nextVariant;
+    button.setAttribute("aria-pressed", isActive ? "true" : "false");
+  });
+
+  try {
+    window.localStorage.setItem(heroVariantStorageKey, nextVariant);
+  } catch {
+    // Ignore storage failures; the in-page state still updates.
+  }
+}
+
+function setupHeroVariantToggle() {
+  const hero = document.querySelector("main#home > .hero");
+  if (!hero) {
+    return;
+  }
+
+  // Toggle is currently hidden; keep the polished "current" design active.
+  setHeroVariant("current");
+}
+
 initDemoBookingModal();
 initAssistantShowcase();
+setupHeroVariantToggle();
 applyLanguage(getPreferredLanguage());
 
 (function initIntroDataQuestionVisual() {
   const visual = document.querySelector("#warum .intro-band-visual");
   const canvas = document.querySelector("#warum .intro-synapse-canvas");
+  const magnifierImg = document.querySelector("#warum .intro-magnifier-img");
   if (!visual || !canvas) {
     return;
   }
@@ -4783,32 +4829,35 @@ applyLanguage(getPreferredLanguage());
     return;
   }
 
-  const ICON_BASE_PATH = "assets/icons/Icon-cloud";
-  const ICON_FILES = [
-    "apple.svg",
-    "clock-1.svg",
-    "clock-2.svg",
-    "clock-3.svg",
-    "clock-4.svg",
-    "clock-5.svg",
-    "cloud.svg",
-    "database.svg",
-    "gmail.svg",
-    "google.svg",
-    "hubspot.svg",
-    "microsoft.svg",
-    "notion.svg",
-    "onedrive.svg",
-    "outlook.svg",
-    "pdf.svg",
-    "salesforce.svg",
-    "sharepoint.svg",
-    "slack.svg",
-    "teams.svg",
-    "voice.svg",
-    "whatsapp.svg",
-    "word.svg",
+  const ICON_SOURCES = [
+    {
+      basePath: "assets/icons/Icon-cloud",
+      files: [
+        "clock-1.svg",
+        "clock-2.svg",
+        "clock-3.svg",
+        "clock-4.svg",
+        "clock-5.svg",
+        "cloud.svg",
+        "database.svg",
+        "gmail.svg",
+        "google.svg",
+        "hubspot.svg",
+        "microsoft.svg",
+        "onedrive.svg",
+        "outlook.svg",
+        "pdf.svg",
+        "salesforce.svg",
+        "sharepoint.svg",
+        "slack.svg",
+        "teams.svg",
+        "voice.svg",
+        "whatsapp.svg",
+        "word.svg",
+      ],
+    },
   ];
+  const ICON_BASE_PATH = "assets/icons/Icon-cloud";
 
   const FAVORED_ICON_FILES = new Set([
     "teams.svg",
@@ -4817,25 +4866,67 @@ applyLanguage(getPreferredLanguage());
     "slack.svg",
     "sharepoint.svg",
     "onedrive.svg",
+    "gmail.svg",
   ]);
   const FAVORED_ICON_WEIGHT = 3.5;
   const NORMAL_ICON_WEIGHT = 1;
 
   const ICON_FILL = { r: 159, g: 175, b: 82 }; // #9FAF52
   const ICON_STROKE = { r: 159, g: 175, b: 82 }; // #9FAF52
-  const OUTLINE_STROKE = { r: 122, g: 122, b: 122 }; // #7A7A7A
-  const OUTLINE_FILL = { r: 122, g: 122, b: 122 };
+  const TEXT_COLOR = { r: 0, g: 0, b: 0 };
+  const MAGNIFIER_SRC_CANDIDATES = [
+    "assets/images/Luope 01.png?v=20260722g",
+    "assets/images/Lupe.png",
+  ];
+  // Measured from assets/images/Luope 01.png (1254x1254)
+  const MAGNIFIER_NATIVE = 1254;
+  const MAGNIFIER_CONTENT = { left: 141, top: 138, right: 1120, bottom: 1088 };
+  const MAGNIFIER_LENS = { x: 431.47, y: 431.73, radius: 274.75 };
+  const MAGNIFIER_INNER_RATIO = 0.9;
 
-  const FADE_IN_MIN = 0.4;
-  const FADE_IN_MAX = 2.0;
-  const HOLD_MIN = 1.0;
-  const HOLD_MAX = 4.0;
-  const FADE_OUT_MIN = 0.4;
-  const FADE_OUT_MAX = 2.0;
-  const POSITION_COOLDOWN_MIN = 3.0;
-  const POSITION_COOLDOWN_MAX = 6.0;
+  const NETWORK_TEXTS = [
+    "Wer hat Zugriff?",
+    "Wie lange dauert es",
+    "Wo ist es?",
+    "Welches Dokument",
+    "Schon erledigt?",
+    "Hat das schon jemand gemacht?",
+    "Wer hat den Kontext?",
+    "Wurde das Aktualisiert?",
+    "Wo wurde es abgelegt?",
+  ];
+
+  const TEXT_ANCHORS = [
+    { x: -0.52, y: -0.42, weight: 0.9 },
+    { x: 0.05, y: -0.58, weight: 1 },
+    { x: 0.48, y: -0.4, weight: 0.95 },
+    { x: -0.58, y: -0.05, weight: 0.9 },
+    { x: 0.55, y: 0.05, weight: 0.85 },
+    { x: -0.45, y: 0.4, weight: 0.95 },
+    { x: 0.12, y: 0.55, weight: 1.05 },
+    { x: 0.5, y: 0.42, weight: 1.1 },
+    { x: -0.15, y: 0.2, weight: 1 },
+    { x: 0.28, y: -0.15, weight: 0.9 },
+  ];
+
+  const FADE_IN_MIN = 0.2;
+  const FADE_IN_MAX = 0.9;
+  const HOLD_MIN = 0.55;
+  const HOLD_MAX = 2.0;
+  const FADE_OUT_MIN = 0.2;
+  const FADE_OUT_MAX = 0.85;
+  const TEXT_FADE_IN_MIN = 0.15;
+  const TEXT_FADE_IN_MAX = 0.45;
+  const TEXT_HOLD_MIN = 0.45;
+  const TEXT_HOLD_MAX = 1.1;
+  const TEXT_FADE_OUT_MIN = 0.15;
+  const TEXT_FADE_OUT_MAX = 0.45;
+  const POSITION_COOLDOWN_MIN = 1.4;
+  const POSITION_COOLDOWN_MAX = 3.2;
   const INNER_SPAWN_RATIO = 0.75;
-  const SPACING_GAP = 18;
+  const SPACING_GAP = 30;
+  const TARGET_VISIBLE_TEXTS = 4;
+  const ENTITY_GAP = 14;
 
   const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   let reducedMotion = reducedMotionQuery.matches;
@@ -4848,10 +4939,10 @@ applyLanguage(getPreferredLanguage());
   let iconImages = [];
   let iconWeights = [];
   let iconSlots = [];
-  let centerBrainImage = null;
-  let centerQuestionImage = null;
+  let textSlots = [];
   let recentPositions = [];
   let nextIconCursor = 0;
+  let nextTextCursor = 0;
   let lastLayoutWidth = 0;
   let lastLayoutHeight = 0;
   let animationFrame = 0;
@@ -4862,6 +4953,8 @@ applyLanguage(getPreferredLanguage());
   let centerX = 0;
   let centerY = 0;
   let chaosStrokes = [];
+  let magnifierLayout = null;
+  let magnifierImage = null;
 
   function randomBetween(min, max) {
     return min + Math.random() * (max - min);
@@ -4879,11 +4972,127 @@ applyLanguage(getPreferredLanguage());
   function qualityProfile() {
     const shortSide = Math.min(width, height);
     const isNarrow = width < 700 || shortSide < 340;
-    maxIconSlots = isNarrow ? 16 : 20;
-    targetVisibleIcons = isNarrow ? 14 : 17;
+    maxIconSlots = isNarrow ? 18 : 22;
+    targetVisibleIcons = isNarrow ? 13 : 16;
     dpr = Math.min(window.devicePixelRatio || 1, isNarrow ? 1.5 : 2);
+    syncMagnifierLayout();
+  }
+
+  function syncMagnifierLayout() {
+    if (!width || !height) {
+      magnifierLayout = null;
+      centerX = 0;
+      centerY = 0;
+      return;
+    }
+
+    const marginX = 4;
+    const marginTop = 4;
+    const contentW = MAGNIFIER_CONTENT.right - MAGNIFIER_CONTENT.left;
+
+    // Base fit for the lens diameter, then +30% as requested.
+    // Chaos lines + green glow share this lens center. Handle may leave the frame.
+    let scale =
+      Math.min((width - marginX * 2) / contentW, height / (MAGNIFIER_LENS.radius * 2)) * 1.3;
+
+    for (let step = 0; step < 28; step += 1) {
+      // Green field center == lens glass center.
+      centerX = width * 0.5;
+      centerY = height * 0.5;
+      let originX = centerX - MAGNIFIER_LENS.x * scale;
+      let originY = centerY - MAGNIFIER_LENS.y * scale;
+
+      const lensLeft = originX + (MAGNIFIER_LENS.x - MAGNIFIER_LENS.radius) * scale;
+      const lensRight = originX + (MAGNIFIER_LENS.x + MAGNIFIER_LENS.radius) * scale;
+      const lensTop = originY + (MAGNIFIER_LENS.y - MAGNIFIER_LENS.radius) * scale;
+
+      // Keep the circular head mostly in view; allow handle to exit bottom/right.
+      if (lensLeft >= -width * 0.02 && lensRight <= width * 1.02 && lensTop >= -height * 0.02) {
+        const radius = MAGNIFIER_LENS.radius * scale;
+        magnifierLayout = {
+          scale,
+          drawSize: MAGNIFIER_NATIVE * scale,
+          originX,
+          originY,
+          radius,
+          innerRadius: radius * MAGNIFIER_INNER_RATIO,
+        };
+        visual.style.setProperty("--intro-lens-x", `${((centerX / width) * 100).toFixed(2)}%`);
+        visual.style.setProperty("--intro-lens-y", `${((centerY / height) * 100).toFixed(2)}%`);
+        visual.style.setProperty(
+          "--intro-glow-size",
+          `${Math.max(90, ((radius * 3.8) / Math.min(width, height)) * 100).toFixed(1)}%`
+        );
+        syncMagnifierDom();
+        return;
+      }
+      scale *= 0.97;
+    }
+
+    const fallbackScale =
+      Math.min((width - marginX * 2) / contentW, height / (MAGNIFIER_LENS.radius * 2)) * 1.3;
     centerX = width * 0.5;
     centerY = height * 0.5;
+    const originX = centerX - MAGNIFIER_LENS.x * fallbackScale;
+    const originY = centerY - MAGNIFIER_LENS.y * fallbackScale;
+    const radius = MAGNIFIER_LENS.radius * fallbackScale;
+    magnifierLayout = {
+      scale: fallbackScale,
+      drawSize: MAGNIFIER_NATIVE * fallbackScale,
+      originX,
+      originY,
+      radius,
+      innerRadius: radius * MAGNIFIER_INNER_RATIO,
+    };
+    visual.style.setProperty("--intro-lens-x", `${((centerX / width) * 100).toFixed(2)}%`);
+    visual.style.setProperty("--intro-lens-y", `${((centerY / height) * 100).toFixed(2)}%`);
+    visual.style.setProperty(
+      "--intro-glow-size",
+      `${Math.max(90, ((radius * 3.8) / Math.min(width, height)) * 100).toFixed(1)}%`
+    );
+    syncMagnifierDom();
+  }
+
+  function syncMagnifierDom() {
+    if (!magnifierImg || !magnifierLayout) {
+      return;
+    }
+    magnifierImg.style.left = `${magnifierLayout.originX}px`;
+    magnifierImg.style.top = `${magnifierLayout.originY}px`;
+    magnifierImg.style.width = `${magnifierLayout.drawSize}px`;
+    magnifierImg.style.height = `${magnifierLayout.drawSize}px`;
+  }
+
+  function magnifierRadius() {
+    return magnifierLayout ? magnifierLayout.radius : Math.min(width, height) * 0.28;
+  }
+
+  function magnifierInnerRadius(padding = 0) {
+    const inner = magnifierLayout
+      ? magnifierLayout.innerRadius
+      : magnifierRadius() * MAGNIFIER_INNER_RATIO;
+    return Math.max(12, inner - padding);
+  }
+
+  function insideLens(x, y, radius = 0) {
+    return Math.hypot(x - centerX, y - centerY) + radius <= magnifierInnerRadius(6);
+  }
+
+  function chaosRadii() {
+    // Extend evenly beyond the magnifier head on all sides.
+    const lensR = Math.max(magnifierRadius(), Math.min(width, height) * 0.28);
+    const span = lensR * 1.85;
+    const fade = lensR * 2.05;
+    return {
+      cloudRx: span,
+      cloudRy: span,
+      fadeRx: fade,
+      fadeRy: fade,
+    };
+  }
+
+  function textExtentRadius(metrics) {
+    return Math.hypot(metrics.width * 0.5, metrics.height * 0.5) + 3;
   }
 
   function createChaosStroke(shortSide, cloudRx, cloudRy) {
@@ -4898,7 +5107,7 @@ applyLanguage(getPreferredLanguage());
 
     for (let step = 0; step < segments; step += 1) {
       heading += randomBetween(-0.9, 0.9);
-      const stepLen = randomBetween(8, 28) * (shortSide / 420);
+      const stepLen = randomBetween(10, 34) * (shortSide / 420);
       x += Math.cos(heading) * stepLen;
       y += Math.sin(heading) * stepLen;
       const nx = x / cloudRx;
@@ -4918,14 +5127,14 @@ applyLanguage(getPreferredLanguage());
 
     return {
       points,
-      width: randomBetween(0.7, 1.8),
-      baseAlpha: randomBetween(0.1, 0.24),
+      width: randomBetween(1.0, 2.8),
+      baseAlpha: randomBetween(0.12, 0.3),
       alpha: 0,
       phase: Math.random() * Math.PI * 2,
-      speed: randomBetween(0.2, 0.55),
+      speed: randomBetween(0.35, 0.9),
       life: 0,
-      maxLife: randomBetween(3.5, 8.5),
-      morph: randomBetween(0.6, 1.4),
+      maxLife: randomBetween(2.4, 6.5),
+      morph: randomBetween(0.9, 2.0),
     };
   }
 
@@ -4935,9 +5144,8 @@ applyLanguage(getPreferredLanguage());
       return;
     }
     const shortSide = Math.min(width, height);
-    const count = Math.round(shortSide < 340 ? 42 : 62);
-    const cloudRx = shortSide * 0.64;
-    const cloudRy = shortSide * 0.54;
+    const count = Math.round(shortSide < 340 ? 56 : 84);
+    const { cloudRx, cloudRy } = chaosRadii();
     chaosStrokes = Array.from({ length: count }, () => {
       const stroke = createChaosStroke(shortSide, cloudRx, cloudRy);
       stroke.life = randomBetween(0, stroke.maxLife * 0.85);
@@ -4952,9 +5160,8 @@ applyLanguage(getPreferredLanguage());
     }
 
     const shortSide = Math.min(width, height);
-    const cloudRx = shortSide * 0.64;
-    const cloudRy = shortSide * 0.54;
-    const targetCount = Math.round(shortSide < 340 ? 42 : 62);
+    const { cloudRx, cloudRy } = chaosRadii();
+    const targetCount = Math.round(shortSide < 340 ? 56 : 84);
 
     chaosStrokes = chaosStrokes.filter((stroke) => {
       stroke.life += dt;
@@ -4963,10 +5170,10 @@ applyLanguage(getPreferredLanguage());
       stroke.alpha = stroke.baseAlpha * Math.min(fadeIn, fadeOut);
 
       stroke.points.forEach((point, index) => {
-        point.vx += Math.sin(stroke.phase + index + stroke.life * stroke.morph) * 4 * dt;
-        point.vy += Math.cos(stroke.phase * 0.8 + index * 0.7 + stroke.life * stroke.speed) * 4 * dt;
-        point.vx = clamp(point.vx, -14, 14);
-        point.vy = clamp(point.vy, -14, 14);
+        point.vx += Math.sin(stroke.phase + index + stroke.life * stroke.morph) * 7 * dt;
+        point.vy += Math.cos(stroke.phase * 0.8 + index * 0.7 + stroke.life * stroke.speed) * 7 * dt;
+        point.vx = clamp(point.vx, -22, 22);
+        point.vy = clamp(point.vy, -22, 22);
         point.x += point.vx * dt;
         point.y += point.vy * dt;
 
@@ -4993,9 +5200,7 @@ applyLanguage(getPreferredLanguage());
       return;
     }
 
-    const shortSide = Math.min(width, height);
-    const fadeRx = shortSide * 0.68;
-    const fadeRy = shortSide * 0.58;
+    const { fadeRx, fadeRy } = chaosRadii();
 
     context.save();
     context.translate(centerX, centerY);
@@ -5121,76 +5326,6 @@ applyLanguage(getPreferredLanguage());
     return offscreen;
   }
 
-  function makeOutlineIcon(source) {
-    const size = 96;
-    const pad = 10;
-    const offscreen = document.createElement("canvas");
-    offscreen.width = size;
-    offscreen.height = size;
-    const ctx = offscreen.getContext("2d");
-    if (!ctx) {
-      return null;
-    }
-
-    ctx.clearRect(0, 0, size, size);
-    ctx.drawImage(source, pad, pad, size - pad * 2, size - pad * 2);
-    const imageData = ctx.getImageData(0, 0, size, size);
-    const src = imageData.data;
-    const out = ctx.createImageData(size, size);
-    const dst = out.data;
-    const threshold = 28;
-    const edge = new Uint8Array(size * size);
-
-    function alphaAt(x, y) {
-      if (x < 0 || y < 0 || x >= size || y >= size) {
-        return 0;
-      }
-      return src[(y * size + x) * 4 + 3];
-    }
-
-    for (let y = 0; y < size; y += 1) {
-      for (let x = 0; x < size; x += 1) {
-        const alpha = alphaAt(x, y);
-        if (alpha < threshold) {
-          continue;
-        }
-        const isEdge =
-          alphaAt(x - 1, y) < threshold ||
-          alphaAt(x + 1, y) < threshold ||
-          alphaAt(x, y - 1) < threshold ||
-          alphaAt(x, y + 1) < threshold;
-        if (isEdge) {
-          edge[y * size + x] = 1;
-        }
-      }
-    }
-
-    for (let y = 0; y < size; y += 1) {
-      for (let x = 0; x < size; x += 1) {
-        const i = y * size + x;
-        if (alphaAt(x, y) < threshold) {
-          continue;
-        }
-        const isStroke =
-          edge[i] ||
-          (x > 0 && edge[i - 1]) ||
-          (x < size - 1 && edge[i + 1]) ||
-          (y > 0 && edge[i - size]) ||
-          (y < size - 1 && edge[i + size]);
-        const tone = isStroke ? OUTLINE_STROKE : OUTLINE_FILL;
-        const index = i * 4;
-        dst[index] = tone.r;
-        dst[index + 1] = tone.g;
-        dst[index + 2] = tone.b;
-        dst[index + 3] = 255;
-      }
-    }
-
-    ctx.clearRect(0, 0, size, size);
-    ctx.putImageData(out, 0, 0);
-    return offscreen;
-  }
-
   function loadSourceIcon(file, basePath = ICON_BASE_PATH) {
     return new Promise((resolve) => {
       const image = new Image();
@@ -5235,46 +5370,27 @@ applyLanguage(getPreferredLanguage());
     return Math.hypot(x - disk.cx, y - disk.cy) <= disk.r;
   }
 
-  function samplePointInRegion(full, region) {
-    const disk = innerDisk(full);
-    if (region === "inner") {
-      for (let tryIndex = 0; tryIndex < 24; tryIndex += 1) {
-        const angle = Math.random() * Math.PI * 2;
-        const rad = disk.r * Math.sqrt(Math.random());
-        const x = disk.cx + Math.cos(angle) * rad;
-        const y = disk.cy + Math.sin(angle) * rad;
-        if (x >= full.minX && x <= full.maxX && y >= full.minY && y <= full.maxY) {
-          return { x, y };
-        }
-      }
-      return { x: disk.cx, y: disk.cy };
-    }
-
-    for (let tryIndex = 0; tryIndex < 40; tryIndex += 1) {
-      const candidate = {
-        x: randomBetween(full.minX, full.maxX),
-        y: randomBetween(full.minY, full.maxY),
-      };
-      if (!pointInInnerDisk(candidate.x, candidate.y, full)) {
-        return candidate;
+  function samplePointInLens(half) {
+    const maxR = Math.max(8, magnifierInnerRadius(10 + half));
+    for (let tryIndex = 0; tryIndex < 36; tryIndex += 1) {
+      const angle = Math.random() * Math.PI * 2;
+      const rad = maxR * Math.sqrt(Math.random());
+      const x = centerX + Math.cos(angle) * rad;
+      const y = centerY + Math.sin(angle) * rad;
+      if (x >= half && x <= width - half && y >= half && y <= height - half && insideLens(x, y, half)) {
+        return { x, y };
       }
     }
-
-    const angle = Math.random() * Math.PI * 2;
-    const rad = Math.min(
-      disk.r + randomBetween(12, 48),
-      Math.min(
-        Math.hypot(full.maxX - disk.cx, full.maxY - disk.cy),
-        Math.max(
-          disk.r + 8,
-          Math.min(full.maxX - disk.cx, disk.cx - full.minX, full.maxY - disk.cy, disk.cy - full.minY)
-        )
-      )
-    );
     return {
-      x: clamp(disk.cx + Math.cos(angle) * rad, full.minX, full.maxX),
-      y: clamp(disk.cy + Math.sin(angle) * rad, full.minY, full.maxY),
+      x: clamp(centerX, half, Math.max(half, width - half)),
+      y: clamp(centerY, half, Math.max(half, height - half)),
     };
+  }
+
+  function samplePointInRegion(full, region) {
+    // Icons always spawn inside the lens; keep helper for resize rehoming compatibility.
+    const half = Math.max(4, Math.min(full.minX, full.minY));
+    return samplePointInLens(half);
   }
 
   function getActiveSlots(exclude) {
@@ -5304,7 +5420,24 @@ applyLanguage(getPreferredLanguage());
   }
 
   function scoreCandidate(candidate, slot, others) {
+    if (!insideLens(candidate.x, candidate.y, entityDrawHalf(slot))) {
+      return -1;
+    }
+
     let nearest = Infinity;
+    for (let i = 0; i < textSlots.length; i += 1) {
+      const textSlot = textSlots[i];
+      if (textSlot.phase === "wait" || textSlot.alpha <= 0.02) {
+        continue;
+      }
+      const textExtent = textExtentRadius(textMetrics(textSlot));
+      const textDist = Math.hypot(candidate.x - textSlot.x, candidate.y - textSlot.y);
+      if (textDist < entityDrawHalf(slot) + textExtent + ENTITY_GAP) {
+        return -1;
+      }
+      nearest = Math.min(nearest, textDist);
+    }
+
     for (let i = 0; i < others.length; i += 1) {
       const other = others[i];
       const ox = typeof other.x === "number" ? other.x : other.anchorX;
@@ -5333,14 +5466,15 @@ applyLanguage(getPreferredLanguage());
   }
 
   function placeSlot(slot) {
-    slot.region = Math.random() < INNER_SPAWN_RATIO ? "inner" : "outer";
+    slot.region = "inner";
     const full = visibleBoundsFor(slot);
     const others = getActiveSlots(slot);
     let best = null;
     let bestScore = -1;
+    const half = entityDrawHalf(slot);
 
-    for (let tryIndex = 0; tryIndex < 56; tryIndex += 1) {
-      const candidate = samplePointInRegion(full, slot.region);
+    for (let tryIndex = 0; tryIndex < 120; tryIndex += 1) {
+      const candidate = samplePointInLens(half);
       const score = scoreCandidate(candidate, slot, others);
       if (score < 0) {
         continue;
@@ -5368,24 +5502,17 @@ applyLanguage(getPreferredLanguage());
   function rehomeActiveSlots() {
     const active = getActiveSlots(null);
     active.forEach((slot) => {
-      slot.region = Math.random() < INNER_SPAWN_RATIO ? "inner" : "outer";
+      slot.region = "inner";
     });
 
-    // Place denser inner first for stable packing.
-    const ordered = active.slice().sort((a, b) => {
-      if (a.region === b.region) {
-        return 0;
-      }
-      return a.region === "inner" ? -1 : 1;
-    });
-
+    const ordered = active.slice();
     const placed = [];
     ordered.forEach((slot) => {
-      const full = visibleBoundsFor(slot);
       let best = null;
       let bestScore = -1;
-      for (let tryIndex = 0; tryIndex < 64; tryIndex += 1) {
-        const candidate = samplePointInRegion(full, slot.region || "inner");
+      const half = entityDrawHalf(slot);
+      for (let tryIndex = 0; tryIndex < 72; tryIndex += 1) {
+        const candidate = samplePointInLens(half);
         const score = scoreCandidate(candidate, slot, placed);
         if (score < 0) {
           continue;
@@ -5396,7 +5523,7 @@ applyLanguage(getPreferredLanguage());
         }
       }
       if (!best) {
-        best = samplePointInRegion(full, slot.region || "inner");
+        best = samplePointInLens(half);
       }
       slot.x = best.x;
       slot.y = best.y;
@@ -5406,44 +5533,6 @@ applyLanguage(getPreferredLanguage());
     });
   }
 
-  function countVisibleKind(kind) {
-    return iconSlots.filter((slot) => slot.phase !== "wait" && slot.kind === kind).length;
-  }
-
-  function pickSlotKind() {
-    const specialTarget = Math.max(4, Math.round(targetVisibleIcons * 0.4));
-    const questionTarget = Math.ceil(specialTarget / 2);
-    const brainTarget = Math.floor(specialTarget / 2);
-    const questions = countVisibleKind("question");
-    const brains = countVisibleKind("brain");
-
-    const needQuestion = Boolean(centerQuestionImage) && questions < questionTarget;
-    const needBrain = Boolean(centerBrainImage) && brains < brainTarget;
-
-    if (needQuestion && needBrain) {
-      return Math.random() < 0.5 ? "question" : "brain";
-    }
-    if (needQuestion) {
-      return "question";
-    }
-    if (needBrain) {
-      return "brain";
-    }
-    // Soft mix even near target so the field never becomes green-only.
-    if (questions + brains < specialTarget && Math.random() < 0.35) {
-      if (centerBrainImage && centerQuestionImage) {
-        return Math.random() < 0.5 ? "brain" : "question";
-      }
-      if (centerBrainImage) {
-        return "brain";
-      }
-      if (centerQuestionImage) {
-        return "question";
-      }
-    }
-    return "icon";
-  }
-
   function pickNextImageIndex() {
     if (!iconImages.length) {
       return 0;
@@ -5451,7 +5540,7 @@ applyLanguage(getPreferredLanguage());
 
     const visible = new Set(
       iconSlots
-        .filter((slot) => slot.phase !== "wait" && slot.kind === "icon")
+        .filter((slot) => slot.phase !== "wait")
         .map((slot) => slot.imageIndex)
     );
     const candidates = [];
@@ -5489,14 +5578,8 @@ applyLanguage(getPreferredLanguage());
   }
 
   function beginIconFadeIn(slot) {
-    slot.kind = pickSlotKind();
-    if (slot.kind === "icon") {
-      slot.imageIndex = pickNextImageIndex();
-      slot.sizeScale = randomBetween(0.72, 1.35);
-    } else {
-      slot.imageIndex = -1;
-      slot.sizeScale = randomBetween(0.88, 1.22);
-    }
+    slot.imageIndex = pickNextImageIndex();
+    slot.sizeScale = randomBetween(0.72, 1.35);
     slot.fadeIn = randomBetween(FADE_IN_MIN, FADE_IN_MAX);
     slot.hold = randomBetween(HOLD_MIN, HOLD_MAX);
     slot.fadeOut = randomBetween(FADE_OUT_MIN, FADE_OUT_MAX);
@@ -5525,8 +5608,7 @@ applyLanguage(getPreferredLanguage());
   }
 
   function scheduleTransitions() {
-    // Keep the field dense: spawn as many free slots as placement allows.
-    let spawnBudget = 5;
+    let spawnBudget = 7;
     while (spawnBudget > 0 && visibleIconCount() < targetVisibleIcons) {
       const ready = iconSlots.find((slot) => slot.phase === "wait" && slot.timer <= 0);
       if (!ready) {
@@ -5542,10 +5624,9 @@ applyLanguage(getPreferredLanguage());
       (slot) => slot.phase === "in" || slot.phase === "out"
     ).length;
 
-    // Busy overlap: keep several concurrent fades; expire holds first, then nudge oldest.
     const expiredHolds = iconSlots.filter((slot) => slot.phase === "hold" && slot.timer <= 0);
     const earlyHolds =
-      transitioning < 5
+      transitioning < 7
         ? iconSlots
             .filter((slot) => {
               if (slot.phase !== "hold" || slot.timer <= 0) {
@@ -5560,7 +5641,7 @@ applyLanguage(getPreferredLanguage());
         : [];
 
     const overflow = Math.max(0, visibleIconCount() - targetVisibleIcons);
-    const wantTransitions = clamp(5 + overflow, 4, 8);
+    const wantTransitions = clamp(6 + overflow, 5, 10);
     const fadeBudget = Math.max(0, wantTransitions - transitioning);
     if (fadeBudget <= 0) {
       return;
@@ -5588,7 +5669,6 @@ applyLanguage(getPreferredLanguage());
 
     for (let index = 0; index < slotCount; index += 1) {
       iconSlots.push({
-        kind: "icon",
         imageIndex: 0,
         x: centerX,
         y: centerY,
@@ -5606,12 +5686,10 @@ applyLanguage(getPreferredLanguage());
       });
     }
 
-    // Immediate first wave so the canvas is never empty on open.
     let seeded = 0;
     const seedTarget = Math.min(targetVisibleIcons, iconSlots.length);
     for (let i = 0; i < iconSlots.length && seeded < seedTarget; i += 1) {
       if (beginIconFadeIn(iconSlots[i])) {
-        // Stagger start progress so many are mid-fade at once.
         const progress = randomBetween(0.05, 0.85);
         iconSlots[i].timer = iconSlots[i].fadeIn * (1 - progress);
         iconSlots[i].alpha = easeSmooth(progress);
@@ -5621,37 +5699,264 @@ applyLanguage(getPreferredLanguage());
     }
   }
 
-  function loadIcons() {
-    const integrationPromise = Promise.all(ICON_FILES.map((file) => loadSourceIcon(file))).then(
-      (images) => {
-        iconImages = [];
-        iconWeights = [];
-        images.forEach((image, index) => {
-          if (!image) {
-            return;
-          }
-          const tinted = makeTintedIcon(image);
-          if (!tinted) {
-            return;
-          }
-          iconImages.push(tinted);
-          iconWeights.push(
-            FAVORED_ICON_FILES.has(ICON_FILES[index]) ? FAVORED_ICON_WEIGHT : NORMAL_ICON_WEIGHT
-          );
-        });
+  function textFontSize(slot) {
+    const shortSide = Math.min(width, height);
+    return clamp(shortSide * 0.026 * (slot.weight || 1), 9, 14);
+  }
+
+  function textMetrics(slot) {
+    const fontSize = textFontSize(slot);
+    context.save();
+    context.font = `500 ${fontSize}px Inter, "Segoe UI", system-ui, sans-serif`;
+    const metrics = context.measureText(slot.text);
+    context.restore();
+    return {
+      width: metrics.width,
+      height: fontSize * 1.2,
+      fontSize,
+    };
+  }
+
+  function resolveTextAnchor(slot) {
+    const anchor = TEXT_ANCHORS[slot.anchorIndex % TEXT_ANCHORS.length];
+    const metrics = textMetrics(slot);
+    const extent = textExtentRadius(metrics);
+    const usable = Math.max(8, magnifierInnerRadius(8) - extent);
+    let x = centerX + anchor.x * usable;
+    let y = centerY + anchor.y * usable;
+    const dist = Math.hypot(x - centerX, y - centerY);
+    if (dist + extent > magnifierInnerRadius(8)) {
+      const scale = usable / Math.max(dist, 0.001);
+      x = centerX + (x - centerX) * scale;
+      y = centerY + (y - centerY) * scale;
+    }
+    return {
+      x,
+      y,
+      weight: anchor.weight,
+      metrics,
+      extent,
+    };
+  }
+
+  function textCollides(slot, x, y, metrics, others) {
+    const extent = textExtentRadius(metrics);
+    if (!insideLens(x, y, extent)) {
+      return true;
+    }
+
+    for (let i = 0; i < others.length; i += 1) {
+      const other = others[i];
+      if (other === slot || other.phase === "wait" || other.alpha <= 0.02) {
+        continue;
       }
-    );
+      const otherMetrics = textMetrics(other);
+      const otherExtent = textExtentRadius(otherMetrics);
+      const dist = Math.hypot(x - other.x, y - other.y);
+      if (dist < extent + otherExtent + ENTITY_GAP) {
+        return true;
+      }
+    }
 
-    const brainPromise = loadSourceIcon("brain.svg").then((image) => {
-      centerBrainImage = image ? makeOutlineIcon(image) : null;
+    for (let i = 0; i < iconSlots.length; i += 1) {
+      const icon = iconSlots[i];
+      if (icon.phase === "wait" || icon.alpha <= 0.02) {
+        continue;
+      }
+      const dist = Math.hypot(x - icon.x, y - icon.y);
+      if (dist < extent + entityDrawHalf(icon) + ENTITY_GAP) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  function sampleTextInLens(slot, metrics, others) {
+    const extent = textExtentRadius(metrics);
+    const maxR = Math.max(8, magnifierInnerRadius(8) - extent);
+    let best = null;
+    for (let tryIndex = 0; tryIndex < 90; tryIndex += 1) {
+      const angle = Math.random() * Math.PI * 2;
+      const rad = maxR * Math.sqrt(Math.random());
+      const candidate = {
+        x: centerX + Math.cos(angle) * rad,
+        y: centerY + Math.sin(angle) * rad,
+        metrics,
+        extent,
+        weight: slot.weight || 1,
+      };
+      if (!insideLens(candidate.x, candidate.y, extent)) {
+        continue;
+      }
+      if (!textCollides(slot, candidate.x, candidate.y, metrics, others)) {
+        return candidate;
+      }
+      best = candidate;
+    }
+    return null;
+  }
+
+  function beginTextFadeIn(slot) {
+    slot.text = NETWORK_TEXTS[slot.textIndex % NETWORK_TEXTS.length];
+    slot.weight = TEXT_ANCHORS[slot.anchorIndex % TEXT_ANCHORS.length].weight;
+    const metrics = textMetrics(slot);
+    const others = textSlots.filter((entry) => entry !== slot);
+    let resolved = resolveTextAnchor(slot);
+    if (textCollides(slot, resolved.x, resolved.y, resolved.metrics || metrics, others)) {
+      resolved = sampleTextInLens(slot, metrics, others);
+    }
+    if (!resolved || textCollides(slot, resolved.x, resolved.y, resolved.metrics || metrics, others)) {
+      slot.phase = "wait";
+      slot.timer = randomBetween(0.08, 0.25);
+      slot.alpha = 0;
+      return false;
+    }
+    slot.x = resolved.x;
+    slot.y = resolved.y;
+    slot.fadeIn = randomBetween(TEXT_FADE_IN_MIN, TEXT_FADE_IN_MAX);
+    slot.hold = randomBetween(TEXT_HOLD_MIN, TEXT_HOLD_MAX);
+    slot.fadeOut = randomBetween(TEXT_FADE_OUT_MIN, TEXT_FADE_OUT_MAX);
+    slot.phase = "in";
+    slot.timer = slot.fadeIn;
+    slot.alpha = 0;
+    return true;
+  }
+
+  function beginTextFadeOut(slot) {
+    slot.fadeOut = slot.fadeOut || randomBetween(TEXT_FADE_OUT_MIN, TEXT_FADE_OUT_MAX);
+    slot.phase = "out";
+    slot.timer = slot.fadeOut;
+  }
+
+  function visibleTextCount() {
+    return textSlots.filter((slot) => slot.phase !== "wait").length;
+  }
+
+  function scheduleTextTransitions() {
+    let spawnBudget = 3;
+    while (spawnBudget > 0 && visibleTextCount() < TARGET_VISIBLE_TEXTS) {
+      const ready = textSlots.find((slot) => slot.phase === "wait" && slot.timer <= 0);
+      if (!ready) {
+        break;
+      }
+      ready.textIndex = nextTextCursor % NETWORK_TEXTS.length;
+      ready.anchorIndex = nextTextCursor % TEXT_ANCHORS.length;
+      nextTextCursor += 1;
+      if (!beginTextFadeIn(ready)) {
+        break;
+      }
+      spawnBudget -= 1;
+    }
+
+    const expired = textSlots.filter((slot) => slot.phase === "hold" && slot.timer <= 0);
+    expired.slice(0, 2).forEach((slot) => beginTextFadeOut(slot));
+  }
+
+  function buildTextSlots() {
+    if (!width || !height) {
+      textSlots = [];
+      return;
+    }
+
+    nextTextCursor = 0;
+    textSlots = NETWORK_TEXTS.map((text, index) => ({
+      text,
+      textIndex: index,
+      anchorIndex: index,
+      x: centerX,
+      y: centerY,
+      weight: TEXT_ANCHORS[index % TEXT_ANCHORS.length].weight,
+      alpha: 0,
+      phase: "wait",
+      timer: randomBetween(0, 1.2),
+      hold: randomBetween(TEXT_HOLD_MIN, TEXT_HOLD_MAX),
+      fadeIn: randomBetween(TEXT_FADE_IN_MIN, TEXT_FADE_IN_MAX),
+      fadeOut: randomBetween(TEXT_FADE_OUT_MIN, TEXT_FADE_OUT_MAX),
+    }));
+
+    let seeded = 0;
+    const seedTarget = Math.min(TARGET_VISIBLE_TEXTS, textSlots.length);
+    for (let i = 0; i < textSlots.length && seeded < seedTarget; i += 1) {
+      textSlots[i].textIndex = i;
+      textSlots[i].anchorIndex = i;
+      if (beginTextFadeIn(textSlots[i])) {
+        const progress = randomBetween(0.15, 0.9);
+        textSlots[i].timer = textSlots[i].fadeIn * (1 - progress);
+        textSlots[i].alpha = easeSmooth(progress);
+        seeded += 1;
+      }
+    }
+  }
+
+  function loadMagnifierImage() {
+    return new Promise((resolve) => {
+      let index = 0;
+
+      function tryNext() {
+        if (index >= MAGNIFIER_SRC_CANDIDATES.length) {
+          magnifierImage = null;
+          if (magnifierImg) {
+            magnifierImg.removeAttribute("src");
+          }
+          resolve(null);
+          return;
+        }
+        const src = MAGNIFIER_SRC_CANDIDATES[index];
+        index += 1;
+        const image = new Image();
+        image.decoding = "async";
+        image.onload = () => {
+          magnifierImage = image;
+          if (magnifierImg) {
+            magnifierImg.src = src;
+          }
+          syncMagnifierLayout();
+          resolve(image);
+        };
+        image.onerror = () => tryNext();
+        image.src = src;
+      }
+
+      tryNext();
+    });
+  }
+
+  function loadIcons() {
+    const iconJobs = [];
+    ICON_SOURCES.forEach((source) => {
+      source.files.forEach((file) => {
+        iconJobs.push(
+          loadSourceIcon(file, source.basePath).then((image) => ({
+            image,
+            file,
+          }))
+        );
+      });
     });
 
-    const questionPromise = loadSourceIcon("questionmark.svg").then((image) => {
-      centerQuestionImage = image ? makeOutlineIcon(image) : null;
+    const iconsPromise = Promise.all(iconJobs).then((results) => {
+      iconImages = [];
+      iconWeights = [];
+      results.forEach(({ image, file }) => {
+        if (!image) {
+          return;
+        }
+        const tinted = makeTintedIcon(image);
+        if (!tinted) {
+          return;
+        }
+        iconImages.push(tinted);
+        iconWeights.push(
+          FAVORED_ICON_FILES.has(file) ? FAVORED_ICON_WEIGHT : NORMAL_ICON_WEIGHT
+        );
+      });
     });
 
-    return Promise.all([integrationPromise, brainPromise, questionPromise]).then(() => {
+    return Promise.all([iconsPromise, loadMagnifierImage()]).then(() => {
+      syncMagnifierLayout();
       buildIconSlots();
+      buildTextSlots();
     });
   }
 
@@ -5716,9 +6021,60 @@ applyLanguage(getPreferredLanguage());
     scheduleTransitions();
   }
 
+  function updateTexts(dt) {
+    if (!textSlots.length) {
+      return;
+    }
+
+    textSlots.forEach((slot) => {
+      slot.timer -= dt;
+
+      if (slot.phase === "wait") {
+        slot.alpha = 0;
+        return;
+      }
+
+      if (slot.phase === "in") {
+        const duration = Math.max(slot.fadeIn || TEXT_FADE_IN_MIN, 0.01);
+        const t = 1 - clamp(slot.timer / duration, 0, 1);
+        slot.alpha = easeSmooth(t);
+        if (slot.timer <= 0) {
+          slot.phase = "hold";
+          slot.timer = slot.hold || randomBetween(TEXT_HOLD_MIN, TEXT_HOLD_MAX);
+          slot.hold = slot.timer;
+          slot.alpha = 1;
+        }
+        return;
+      }
+
+      if (slot.phase === "hold") {
+        slot.alpha = 1;
+        return;
+      }
+
+      if (slot.phase === "out") {
+        const duration = Math.max(slot.fadeOut || TEXT_FADE_OUT_MIN, 0.01);
+        const t = clamp(slot.timer / duration, 0, 1);
+        slot.alpha = easeSmooth(t);
+        if (slot.timer <= 0) {
+          slot.phase = "wait";
+          slot.timer = randomBetween(0.35, 1.4);
+          slot.alpha = 0;
+        }
+      }
+    });
+
+    scheduleTextTransitions();
+  }
+
   function drawIcons() {
     iconSlots.forEach((slot) => {
       if (slot.alpha <= 0.01 || slot.phase === "wait") {
+        return;
+      }
+
+      const image = iconImages[slot.imageIndex];
+      if (!image) {
         return;
       }
 
@@ -5728,36 +6084,54 @@ applyLanguage(getPreferredLanguage());
       context.save();
       context.translate(slot.x, slot.y);
       context.globalAlpha = clamp(slot.alpha, 0, 1);
-
-      if (slot.kind === "question") {
-        if (!centerQuestionImage) {
-          context.restore();
-          return;
-        }
-        context.drawImage(centerQuestionImage, -half, -half, size, size);
-      } else if (slot.kind === "brain") {
-        if (!centerBrainImage) {
-          context.restore();
-          return;
-        }
-        context.drawImage(centerBrainImage, -half, -half, size, size);
-      } else {
-        const image = iconImages[slot.imageIndex];
-        if (!image) {
-          context.restore();
-          return;
-        }
-        context.drawImage(image, -half, -half, size, size);
-      }
-
+      context.drawImage(image, -half, -half, size, size);
       context.restore();
     });
   }
 
+  function drawTexts() {
+    textSlots.forEach((slot) => {
+      if (slot.alpha <= 0.01 || slot.phase === "wait") {
+        return;
+      }
+
+      const fontSize = textFontSize(slot);
+      context.save();
+      context.translate(slot.x, slot.y);
+      context.globalAlpha = clamp(slot.alpha * 0.92, 0, 1);
+      context.fillStyle = `rgb(${TEXT_COLOR.r}, ${TEXT_COLOR.g}, ${TEXT_COLOR.b})`;
+      context.font = `500 ${fontSize}px Inter, "Segoe UI", system-ui, sans-serif`;
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      context.fillText(slot.text, 0, 0);
+      context.restore();
+    });
+  }
+
+  function drawMagnifier() {
+    // Magnifier is an HTML foreground overlay so the handle is not clipped by the canvas.
+    if (!magnifierLayout) {
+      syncMagnifierLayout();
+    } else {
+      syncMagnifierDom();
+    }
+  }
+
   function drawFrame() {
     context.clearRect(0, 0, width, height);
+    // Lines and green may extend beyond the lens.
     drawChaosCloud(animTime);
+
+    // Icons/texts in the glass opening; magnifier chrome sits above as DOM overlay.
+    context.save();
+    context.beginPath();
+    context.arc(centerX, centerY, magnifierInnerRadius(2), 0, Math.PI * 2);
+    context.clip();
     drawIcons();
+    drawTexts();
+    context.restore();
+
+    drawMagnifier();
   }
 
   function tick(time) {
@@ -5771,6 +6145,7 @@ applyLanguage(getPreferredLanguage());
     if (!reducedMotion) {
       updateChaosCloud(dt);
       updateIcons(dt);
+      updateTexts(dt);
     }
 
     drawFrame();
@@ -5795,9 +6170,13 @@ applyLanguage(getPreferredLanguage());
     if (!iconSlots.length && iconImages.length) {
       buildIconSlots();
     }
-    const keep = Math.min(targetVisibleIcons, iconSlots.length);
+    if (!textSlots.length) {
+      buildTextSlots();
+    }
+
+    const keepIcons = Math.min(targetVisibleIcons, iconSlots.length);
     iconSlots.forEach((slot, index) => {
-      if (index < keep) {
+      if (index < keepIcons) {
         if (slot.phase === "wait") {
           beginIconFadeIn(slot);
         }
@@ -5811,6 +6190,22 @@ applyLanguage(getPreferredLanguage());
         slot.scale = 0.12;
       }
     });
+
+    const keepTexts = Math.min(TARGET_VISIBLE_TEXTS, textSlots.length);
+    textSlots.forEach((slot, index) => {
+      if (index < keepTexts) {
+        if (slot.phase === "wait") {
+          beginTextFadeIn(slot);
+        }
+        slot.phase = "hold";
+        slot.alpha = 1;
+        slot.timer = 999;
+      } else {
+        slot.phase = "wait";
+        slot.alpha = 0;
+      }
+    });
+
     drawFrame();
   }
 
@@ -5850,6 +6245,17 @@ applyLanguage(getPreferredLanguage());
     } else if (!firstLayout && sizeChanged && iconSlots.length) {
       recentPositions = [];
       rehomeActiveSlots();
+    }
+
+    if (!textSlots.length || sizeChanged || firstLayout) {
+      buildTextSlots();
+    } else {
+      textSlots.forEach((slot) => {
+        const resolved = resolveTextAnchor(slot);
+        slot.x = resolved.x;
+        slot.y = resolved.y;
+        slot.weight = resolved.weight;
+      });
     }
   }
 
