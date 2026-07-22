@@ -14,7 +14,7 @@ const translations = {
       transparency: "Transparenz",
       about: "Über uns",
       pricing: "Preise",
-      demo: "Potenzial prüfen",
+      demo: "zuraio erleben",
       language: "Sprache",
       menu: "Menü",
     },
@@ -99,24 +99,23 @@ const translations = {
       titleHtml: 'KI, ohne die <span class="brand-highlight">Kontrolle</span><br>aus der Hand zu geben.',
       lead:
         "KI darf nicht bedeuten, die Kontrolle über Unternehmensdaten zu verlieren. Mit zuraio bestimmst Du, wo das System betrieben wird, welche Daten es nutzen darf, wer darauf zugreifen kann und wie sich Ergebnisse überprüfen lassen.",
-      solutionLead: "Unsere Lösung",
-      solutionBody: "Lokal, hybrid oder in der Cloud",
-      solutionSub: "Du bestimmst das passende Modell",
+      leadClose: "Du bestimmst das Sicherheits-Modell, das zu deinem Unternehmen passt.",
+      link: "Lösungen entdecken",
       cards: [
         {
           title: "Lokal",
           body:
-            "Datenhaltung: Eigene Infrastruktur<br>Geeignet für: Höchste Schutzanforderungen",
+            "<strong>Datenhaltung</strong><span>Eigene Infrastruktur</span><strong>Geeignet für</strong><span>Höchste Schutzanforderungen</span>",
         },
         {
           title: "Hybrid",
           body:
-            "Datenhaltung: Sensible Daten lokal, Übriges in der Cloud.<br>Geeignet für: Balance aus Kontrolle und Leistung.",
+            "<strong>Datenhaltung</strong><span>Sensible Daten lokal, Übriges in der Cloud</span><strong>Geeignet für</strong><span>Balance aus Kontrolle und Leistung</span>",
         },
         {
           title: "Cloud",
           body:
-            "Datenhaltung: Schweizer Hosting<br>Geeignet für: Schneller Einstieg ohne eigene Hardware",
+            "<strong>Datenhaltung</strong><span>Schweizer Hosting</span><strong>Geeignet für</strong><span>Schneller Einstieg ohne eigene Hardware</span>",
         },
       ],
     },
@@ -487,23 +486,23 @@ const translations = {
       steps: [
         {
           title: "Start",
-          body: "KI im Unternehmen zu integrieren bedeutet, die Mitarbeitenden von Anfang an einzubeziehen. Sichtbarer Mehrwert reduziert Unsicherheit und schafft Vertrauen. Die KI wird als Unterstützung erlebt, die entlastet, Fähigkeiten stärkt und den Arbeitsalltag spürbar verbessert.",
+          body: "KI wird dort akzeptiert, wo sie im Alltag spürbar entlastet. Wir beziehen Mitarbeitende früh ein, schaffen Vertrauen und machen den Nutzen von Anfang an sichtbar.",
         },
         {
           title: "Nächste Schritte",
-          body: "Ist das Vertrauen geschaffen, entstehen neue Ideen direkt aus den Fachbereichen. Interne Tools werden Schritt für Schritt angebunden und massgeschneiderte digitale Assistenten entwickelt, die konkrete Aufgaben und Prozesse unterstützen.",
+          body: "Auf dieser Basis entstehen konkrete Ideen aus den Fachbereichen. Systeme werden gezielt angebunden und digitale Assistenten übernehmen wiederkehrende Aufgaben.",
         },
         {
           title: "Zukunft",
-          body: "Aus dieser starken Basis wächst nachhaltig ein unternehmensweites KI-Ökosystem, das Wissen, Systeme, Assistenten und Automatisierungen intelligent miteinander verbindet.",
+          body: "Schritt für Schritt entsteht eine vernetzte KI-Arbeitsumgebung, die Wissen, Systeme und Prozesse verbindet und Dein Unternehmen nachhaltig entlastet.",
         },
       ],
     },
     homeCta: {
-      title: "Sehen Sie, was Ihr eigener Assistent von Ihrem Schreibtisch nehmen könnte.",
-      lead: "Wir betrachten Ihre aktuellen Tools, Ihr Unternehmenswissen und Ihre Anforderungen an Datenkontrolle — und identifizieren, wo Zuraio zuerst helfen könnte.",
-      primary: "Private Demo buchen",
-      secondary: "Assistenten bei der Arbeit sehen",
+      title: "Wo verliert Dein Team heute unnötig Zeit?",
+      lead: "Zeig uns einen konkreten Arbeitsablauf aus Deinem Unternehmen. Gemeinsam prüfen wir, ob Zuraio dabei sinnvoll helfen kann und welche Systeme dafür benötigt werden. Falls der Einsatz keinen echten Mehrwert bringt, sagen wir Dir das genauso offen.",
+      primary: "Jetzt kennenlernen",
+      secondary: "zuraio im Arbeitsalltag",
       tagline: "Dein Unternehmen. Deine Informationen. Deine Freigabe.",
     },
     demoModal: {
@@ -701,24 +700,23 @@ const translations = {
       titleHtml: 'AI without giving up <span class="brand-highlight">control</span>.',
       lead:
         "AI must not mean losing control over company data. With zuraio, you decide where the system runs, which data it may use, who can access it, and how results can be verified.",
-      solutionLead: "Our solution",
-      solutionBody: "Local, hybrid, or in the cloud",
-      solutionSub: "You choose the model that fits",
+      leadClose: "You choose the security model that fits your company.",
+      link: "Discover solutions",
       cards: [
         {
           title: "Local",
           body:
-            "Data storage: Own infrastructure<br>Suitable for: Highest protection requirements",
+            "<strong>Data storage</strong><span>Own infrastructure</span><strong>Suitable for</strong><span>Highest protection requirements</span>",
         },
         {
           title: "Hybrid",
           body:
-            "Data storage: Sensitive data local, everything else in the cloud.<br>Suitable for: Balance of control and performance.",
+            "<strong>Data storage</strong><span>Sensitive data local, everything else in the cloud</span><strong>Suitable for</strong><span>Balance of control and performance</span>",
         },
         {
           title: "Cloud",
           body:
-            "Data storage: Swiss hosting<br>Suitable for: Fast start without own hardware",
+            "<strong>Data storage</strong><span>Swiss hosting</span><strong>Suitable for</strong><span>Fast start without own hardware</span>",
         },
       ],
     },
@@ -1266,24 +1264,23 @@ const translations = {
       titleHtml: 'IA sem perder o <span class="brand-highlight">controle</span>.',
       lead:
         "IA não deve significar perder o controle sobre os dados da empresa. Com a zuraio, você decide onde o sistema opera, quais dados ele pode usar, quem pode acessá-los e como os resultados podem ser verificados.",
-      solutionLead: "Nossa solução",
-      solutionBody: "Local, híbrida ou na nuvem",
-      solutionSub: "Você escolhe o modelo adequado",
+      leadClose: "Você define o modelo de segurança que se adequa à sua empresa.",
+      link: "Descobrir soluções",
       cards: [
         {
           title: "Local",
           body:
-            "Armazenamento: Infraestrutura própria<br>Adequado para: Máximos requisitos de proteção",
+            "<strong>Armazenamento</strong><span>Infraestrutura própria</span><strong>Adequado para</strong><span>Máximos requisitos de proteção</span>",
         },
         {
           title: "Híbrida",
           body:
-            "Armazenamento: Dados sensíveis locais, o restante na nuvem.<br>Adequado para: Equilíbrio entre controle e desempenho.",
+            "<strong>Armazenamento</strong><span>Dados sensíveis locais, o restante na nuvem</span><strong>Adequado para</strong><span>Equilíbrio entre controle e desempenho</span>",
         },
         {
           title: "Nuvem",
           body:
-            "Armazenamento: Hosting suíço<br>Adequado para: Entrada rápida sem hardware próprio",
+            "<strong>Armazenamento</strong><span>Hosting suíço</span><strong>Adequado para</strong><span>Entrada rápida sem hardware próprio</span>",
         },
       ],
     },
@@ -3553,9 +3550,8 @@ function applyProductLanguage(product) {
       productParagraphs[index].textContent = text;
     }
   });
-  setText("#antwort .product-cta-text", product.cta);
+  setText("#antwort .product-link", product.cta);
   setCards("#antwort .product-cards .product-card", product.cards, (cardElement, cardData) => {
-    setTextSelector(cardElement, ".product-card-label", cardData.label);
     setTextSelector(cardElement, ".product-card-title", cardData.title);
     setTextSelector(cardElement, ".product-card-body", cardData.body);
   });
@@ -3796,10 +3792,14 @@ function applyLanguage(languageCode) {
 
   setText("#loesung .trust-eyebrow", content.problem.eyebrow);
   setHTML("#loesung .trust-title", content.problem.titleHtml);
-  setText("#loesung .trust-lead", content.problem.lead);
-  setText("#loesung .trust-solution-lead", content.problem.solutionLead);
-  setText("#loesung .trust-solution-body", content.problem.solutionBody);
-  setText("#loesung .trust-solution-sub", content.problem.solutionSub);
+  const trustLeads = document.querySelectorAll("#loesung .trust-lead");
+  if (trustLeads[0]) {
+    trustLeads[0].textContent = content.problem.lead;
+  }
+  if (trustLeads[1]) {
+    trustLeads[1].textContent = content.problem.leadClose;
+  }
+  setText("#loesung .trust-link", content.problem.link);
   setCards("#loesung .trust-cards .trust-card", content.problem.cards, (cardElement, cardData) => {
     setTextSelector(cardElement, ".trust-card-text h3", cardData.title);
     setHTMLSelector(cardElement, ".trust-card-text p", cardData.body);
