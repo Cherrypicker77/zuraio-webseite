@@ -5054,7 +5054,7 @@ requestAnimationFrame(() => {
   const ICON_STROKE = { r: 159, g: 175, b: 82 }; // #9FAF52
   const TEXT_COLOR = { r: 0, g: 0, b: 0 };
   const MAGNIFIER_SRC_CANDIDATES = [
-    "assets/images/Luope 01.png?v=20260722g",
+    "assets/images/Luope 01.png?v=20260723d",
     "assets/images/Lupe.png",
   ];
   // Measured from assets/images/Luope 01.png (1254x1254)
@@ -5063,49 +5063,56 @@ requestAnimationFrame(() => {
   const MAGNIFIER_LENS = { x: 431.47, y: 431.73, radius: 274.75 };
   const MAGNIFIER_INNER_RATIO = 0.9;
 
+  // Short labels sit left of the lens; longer labels sit right. Order = fixed seats.
   const NETWORK_TEXTS = [
-    "Wer hat Zugriff?",
-    "Wie lange dauert es",
     "Wo ist es?",
-    "Welches Dokument",
     "Schon erledigt?",
-    "Hat das schon jemand gemacht?",
+    "Wer hat Zugriff?",
+    "Welches Dokument",
+    "Wie lange dauert es",
     "Wer hat den Kontext?",
     "Wurde das Aktualisiert?",
     "Wo wurde es abgelegt?",
+    "Hat das schon jemand gemacht?",
   ];
 
-  const TEXT_ANCHORS = [
-    { x: -0.52, y: -0.42, weight: 0.9 },
-    { x: 0.05, y: -0.58, weight: 1 },
-    { x: 0.48, y: -0.4, weight: 0.95 },
-    { x: -0.58, y: -0.05, weight: 0.9 },
-    { x: 0.55, y: 0.05, weight: 0.85 },
-    { x: -0.45, y: 0.4, weight: 0.95 },
-    { x: 0.12, y: 0.55, weight: 1.05 },
-    { x: 0.5, y: 0.42, weight: 1.1 },
-    { x: -0.15, y: 0.2, weight: 1 },
-    { x: 0.28, y: -0.15, weight: 0.9 },
+  // Polar seats around the rim. No seats in the handle sector (bottom-right).
+  // radiusMul/drift vary so labels do not sit on one vertical line.
+  const TEXT_LAYOUT = [
+    { side: "left", angle: -1.95, radiusMul: 1.06, driftX: -6, driftY: -10, weight: 1 },
+    { side: "left", angle: -2.55, radiusMul: 1.11, driftX: -16, driftY: 4, weight: 1 },
+    // "Wer hat Zugriff?" — exactly 06:00 under the lens
+    { side: "bottom", angle: Math.PI / 2, radiusMul: 1.12, driftX: 0, driftY: 0, weight: 1 },
+    { side: "left", angle: 2.45, radiusMul: 1.1, driftX: -12, driftY: 18, weight: 1 },
+    // "Wie lange dauert es" — exactly 09:00 left of the lens
+    { side: "left", angle: Math.PI, radiusMul: 1.1, driftX: 0, driftY: 0, weight: 1 },
+    { side: "right", angle: -0.72, radiusMul: 1.13, driftX: 18, driftY: -6, weight: 1 },
+    { side: "right", angle: -0.28, radiusMul: 1.09, driftX: 12, driftY: 8, weight: 1 },
+    { side: "right", angle: 0.12, radiusMul: 1.16, driftX: 22, driftY: 2, weight: 1 },
+    { side: "right", angle: -1.55, radiusMul: 1.1, driftX: 6, driftY: -22, weight: 1 },
   ];
 
-  const FADE_IN_MIN = 0.2;
-  const FADE_IN_MAX = 0.9;
-  const HOLD_MIN = 0.55;
-  const HOLD_MAX = 2.0;
-  const FADE_OUT_MIN = 0.2;
-  const FADE_OUT_MAX = 0.85;
-  const TEXT_FADE_IN_MIN = 0.15;
-  const TEXT_FADE_IN_MAX = 0.45;
-  const TEXT_HOLD_MIN = 0.45;
-  const TEXT_HOLD_MAX = 1.1;
-  const TEXT_FADE_OUT_MIN = 0.15;
-  const TEXT_FADE_OUT_MAX = 0.45;
+  const FADE_IN_MIN = 0.4;
+  const FADE_IN_MAX = 1.4;
+  const HOLD_MIN = 1.2;
+  const HOLD_MAX = 3.6;
+  const FADE_OUT_MIN = 0.4;
+  const FADE_OUT_MAX = 1.3;
+  const TEXT_FADE_IN_MIN = FADE_IN_MIN;
+  const TEXT_FADE_IN_MAX = FADE_IN_MAX;
+  const TEXT_HOLD_MIN = 1.4;
+  const TEXT_HOLD_MAX = 3.2;
+  const TEXT_FADE_OUT_MIN = FADE_OUT_MIN;
+  const TEXT_FADE_OUT_MAX = FADE_OUT_MAX;
   const POSITION_COOLDOWN_MIN = 1.4;
   const POSITION_COOLDOWN_MAX = 3.2;
   const INNER_SPAWN_RATIO = 0.75;
   const SPACING_GAP = 30;
-  const TARGET_VISIBLE_TEXTS = 4;
+  const TARGET_VISIBLE_TEXTS = 6;
+  const TARGET_TEXTS_PER_SIDE = 3;
   const ENTITY_GAP = 14;
+  // Reduce overall animation speed by 40% (60% of original).
+  const ANIM_SPEED = 0.6;
 
   const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   let reducedMotion = reducedMotionQuery.matches;
@@ -5121,7 +5128,8 @@ requestAnimationFrame(() => {
   let textSlots = [];
   let recentPositions = [];
   let nextIconCursor = 0;
-  let nextTextCursor = 0;
+  let textDeck = [];
+  let lastSpawnedTextIndex = -1;
   let lastLayoutWidth = 0;
   let lastLayoutHeight = 0;
   let animationFrame = 0;
@@ -5134,6 +5142,7 @@ requestAnimationFrame(() => {
   let chaosStrokes = [];
   let magnifierLayout = null;
   let magnifierImage = null;
+  let labelLayer = null;
 
   function randomBetween(min, max) {
     return min + Math.random() * (max - min);
@@ -5787,7 +5796,7 @@ requestAnimationFrame(() => {
   }
 
   function scheduleTransitions() {
-    let spawnBudget = 7;
+    let spawnBudget = 3;
     while (spawnBudget > 0 && visibleIconCount() < targetVisibleIcons) {
       const ready = iconSlots.find((slot) => slot.phase === "wait" && slot.timer <= 0);
       if (!ready) {
@@ -5804,8 +5813,9 @@ requestAnimationFrame(() => {
     ).length;
 
     const expiredHolds = iconSlots.filter((slot) => slot.phase === "hold" && slot.timer <= 0);
+    // Prefer natural hold expiry; only nudge early fades when almost nothing is moving.
     const earlyHolds =
-      transitioning < 7
+      transitioning < 2
         ? iconSlots
             .filter((slot) => {
               if (slot.phase !== "hold" || slot.timer <= 0) {
@@ -5813,14 +5823,14 @@ requestAnimationFrame(() => {
               }
               const total = slot.hold || HOLD_MIN;
               const elapsed = total - slot.timer;
-              return elapsed >= HOLD_MIN * 0.9;
+              return elapsed >= HOLD_MIN * 1.15;
             })
             .slice()
             .sort((a, b) => a.timer - b.timer)
         : [];
 
     const overflow = Math.max(0, visibleIconCount() - targetVisibleIcons);
-    const wantTransitions = clamp(6 + overflow, 5, 10);
+    const wantTransitions = clamp(2 + overflow, 1, 4);
     const fadeBudget = Math.max(0, wantTransitions - transitioning);
     if (fadeBudget <= 0) {
       return;
@@ -5880,13 +5890,13 @@ requestAnimationFrame(() => {
 
   function textFontSize(slot) {
     const shortSide = Math.min(width, height);
-    return clamp(shortSide * 0.026 * (slot.weight || 1), 9, 14);
+    return clamp(shortSide * 0.034 * (slot.weight || 1), 14, 20);
   }
 
   function textMetrics(slot) {
     const fontSize = textFontSize(slot);
     context.save();
-    context.font = `500 ${fontSize}px Inter, "Segoe UI", system-ui, sans-serif`;
+    context.font = `500 ${fontSize}px "Bradley Hand", "Bradley Hand ITC", "Segoe Print", "Comic Sans MS", cursive`;
     const metrics = context.measureText(slot.text);
     context.restore();
     return {
@@ -5896,109 +5906,103 @@ requestAnimationFrame(() => {
     };
   }
 
-  function resolveTextAnchor(slot) {
-    const anchor = TEXT_ANCHORS[slot.anchorIndex % TEXT_ANCHORS.length];
-    const metrics = textMetrics(slot);
-    const extent = textExtentRadius(metrics);
-    const usable = Math.max(8, magnifierInnerRadius(8) - extent);
-    let x = centerX + anchor.x * usable;
-    let y = centerY + anchor.y * usable;
-    const dist = Math.hypot(x - centerX, y - centerY);
-    if (dist + extent > magnifierInnerRadius(8)) {
-      const scale = usable / Math.max(dist, 0.001);
-      x = centerX + (x - centerX) * scale;
-      y = centerY + (y - centerY) * scale;
+  function ensureLabelLayer() {
+    if (labelLayer && labelLayer.isConnected) {
+      return labelLayer;
     }
+    labelLayer = visual.querySelector(".intro-orbit-labels");
+    if (!labelLayer) {
+      labelLayer = document.createElement("div");
+      labelLayer.className = "intro-orbit-labels";
+      labelLayer.setAttribute("aria-hidden", "true");
+      visual.appendChild(labelLayer);
+    }
+    return labelLayer;
+  }
+
+  function resolveOrbitPosition(slot) {
+    const layout = TEXT_LAYOUT[slot.textIndex % TEXT_LAYOUT.length];
+    const metrics = textMetrics(slot);
+    // Sit close to the brass rim; small drifts break the "one line" look.
+    const rimR = magnifierRadius() * 1.05 + 8;
+    const dist = rimR * (layout.radiusMul || 1.1);
+    const x = centerX + Math.cos(layout.angle) * dist + (layout.driftX || 0);
+    const y = centerY + Math.sin(layout.angle) * dist + (layout.driftY || 0);
     return {
       x,
       y,
-      weight: anchor.weight,
+      side: layout.side,
+      weight: layout.weight,
       metrics,
-      extent,
+      extent: textExtentRadius(metrics),
     };
   }
 
-  function textCollides(slot, x, y, metrics, others) {
-    const extent = textExtentRadius(metrics);
-    if (!insideLens(x, y, extent)) {
-      return true;
-    }
-
-    for (let i = 0; i < others.length; i += 1) {
-      const other = others[i];
-      if (other === slot || other.phase === "wait" || other.alpha <= 0.02) {
-        continue;
-      }
-      const otherMetrics = textMetrics(other);
-      const otherExtent = textExtentRadius(otherMetrics);
-      const dist = Math.hypot(x - other.x, y - other.y);
-      if (dist < extent + otherExtent + ENTITY_GAP) {
-        return true;
-      }
-    }
-
-    for (let i = 0; i < iconSlots.length; i += 1) {
-      const icon = iconSlots[i];
-      if (icon.phase === "wait" || icon.alpha <= 0.02) {
-        continue;
-      }
-      const dist = Math.hypot(x - icon.x, y - icon.y);
-      if (dist < extent + entityDrawHalf(icon) + ENTITY_GAP) {
-        return true;
-      }
-    }
-
-    return false;
+  function resolveTextAnchor(slot) {
+    return resolveOrbitPosition(slot);
   }
 
-  function sampleTextInLens(slot, metrics, others) {
-    const extent = textExtentRadius(metrics);
-    const maxR = Math.max(8, magnifierInnerRadius(8) - extent);
-    let best = null;
-    for (let tryIndex = 0; tryIndex < 90; tryIndex += 1) {
-      const angle = Math.random() * Math.PI * 2;
-      const rad = maxR * Math.sqrt(Math.random());
-      const candidate = {
-        x: centerX + Math.cos(angle) * rad,
-        y: centerY + Math.sin(angle) * rad,
-        metrics,
-        extent,
-        weight: slot.weight || 1,
-      };
-      if (!insideLens(candidate.x, candidate.y, extent)) {
-        continue;
-      }
-      if (!textCollides(slot, candidate.x, candidate.y, metrics, others)) {
-        return candidate;
-      }
-      best = candidate;
+  function syncLabelDom(slot) {
+    if (!slot.el) {
+      return;
     }
-    return null;
+    const layout = TEXT_LAYOUT[slot.textIndex % TEXT_LAYOUT.length];
+    slot.el.textContent = slot.text;
+    slot.el.dataset.side = layout.side;
+    slot.el.style.left = `${slot.x}px`;
+    slot.el.style.top = `${slot.y}px`;
+    slot.el.style.fontSize = `${textFontSize(slot)}px`;
+    const visible = slot.phase !== "wait" && slot.alpha > 0.01;
+    slot.el.style.opacity = visible ? String(clamp(slot.alpha, 0, 1)) : "0";
+    slot.el.style.visibility = visible ? "visible" : "hidden";
+  }
+
+  function syncAllLabels() {
+    textSlots.forEach((slot) => syncLabelDom(slot));
+  }
+
+  function reshuffleTextDeck() {
+    const indices = NETWORK_TEXTS.map((_, index) => index);
+    for (let i = indices.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const swap = indices[i];
+      indices[i] = indices[j];
+      indices[j] = swap;
+    }
+    if (
+      lastSpawnedTextIndex >= 0 &&
+      indices.length > 1 &&
+      indices[0] === lastSpawnedTextIndex
+    ) {
+      const swapAt = 1 + Math.floor(Math.random() * (indices.length - 1));
+      const swap = indices[0];
+      indices[0] = indices[swapAt];
+      indices[swapAt] = swap;
+    }
+    textDeck = indices;
+  }
+
+  function takeNextTextIndex() {
+    if (!textDeck.length) {
+      reshuffleTextDeck();
+    }
+    return textDeck.shift();
   }
 
   function beginTextFadeIn(slot) {
     slot.text = NETWORK_TEXTS[slot.textIndex % NETWORK_TEXTS.length];
-    slot.weight = TEXT_ANCHORS[slot.anchorIndex % TEXT_ANCHORS.length].weight;
-    const metrics = textMetrics(slot);
-    const others = textSlots.filter((entry) => entry !== slot);
-    let resolved = resolveTextAnchor(slot);
-    if (textCollides(slot, resolved.x, resolved.y, resolved.metrics || metrics, others)) {
-      resolved = sampleTextInLens(slot, metrics, others);
-    }
-    if (!resolved || textCollides(slot, resolved.x, resolved.y, resolved.metrics || metrics, others)) {
-      slot.phase = "wait";
-      slot.timer = randomBetween(0.08, 0.25);
-      slot.alpha = 0;
-      return false;
-    }
+    const resolved = resolveOrbitPosition(slot);
+    slot.weight = resolved.weight;
     slot.x = resolved.x;
     slot.y = resolved.y;
+    slot.side = resolved.side;
     slot.fadeIn = randomBetween(TEXT_FADE_IN_MIN, TEXT_FADE_IN_MAX);
     slot.hold = randomBetween(TEXT_HOLD_MIN, TEXT_HOLD_MAX);
     slot.fadeOut = randomBetween(TEXT_FADE_OUT_MIN, TEXT_FADE_OUT_MAX);
     slot.phase = "in";
     slot.timer = slot.fadeIn;
     slot.alpha = 0;
+    syncLabelDom(slot);
     return true;
   }
 
@@ -6012,59 +6016,182 @@ requestAnimationFrame(() => {
     return textSlots.filter((slot) => slot.phase !== "wait").length;
   }
 
-  function scheduleTextTransitions() {
-    let spawnBudget = 3;
-    while (spawnBudget > 0 && visibleTextCount() < TARGET_VISIBLE_TEXTS) {
-      const ready = textSlots.find((slot) => slot.phase === "wait" && slot.timer <= 0);
-      if (!ready) {
-        break;
+  function visibleCountOnSide(side) {
+    return textSlots.filter((slot) => {
+      if (slot.phase === "wait") {
+        return false;
       }
-      ready.textIndex = nextTextCursor % NETWORK_TEXTS.length;
-      ready.anchorIndex = nextTextCursor % TEXT_ANCHORS.length;
-      nextTextCursor += 1;
-      if (!beginTextFadeIn(ready)) {
+      return TEXT_LAYOUT[slot.textIndex % TEXT_LAYOUT.length].side === side;
+    }).length;
+  }
+
+  function preferredSpawnSide() {
+    const leftCount = visibleCountOnSide("left");
+    const rightCount = visibleCountOnSide("right");
+    if (leftCount < rightCount && leftCount < TARGET_TEXTS_PER_SIDE) {
+      return "left";
+    }
+    if (rightCount < leftCount && rightCount < TARGET_TEXTS_PER_SIDE) {
+      return "right";
+    }
+    if (leftCount >= TARGET_TEXTS_PER_SIDE && rightCount < TARGET_TEXTS_PER_SIDE) {
+      return "right";
+    }
+    if (rightCount >= TARGET_TEXTS_PER_SIDE && leftCount < TARGET_TEXTS_PER_SIDE) {
+      return "left";
+    }
+    return null;
+  }
+
+  function tryActivateTextIndex(textIndex) {
+    const slot = textSlots.find((entry) => entry.textIndex === textIndex);
+    if (!slot || slot.phase !== "wait" || slot.timer > 0) {
+      return false;
+    }
+    const side = TEXT_LAYOUT[textIndex % TEXT_LAYOUT.length].side;
+    if (visibleCountOnSide(side) >= TARGET_TEXTS_PER_SIDE) {
+      return false;
+    }
+    beginTextFadeIn(slot);
+    lastSpawnedTextIndex = textIndex;
+    textSlots.forEach((other) => {
+      if (other !== slot && other.phase === "wait" && other.timer < 0.35) {
+        other.timer = randomBetween(0.35, 0.8);
+      }
+    });
+    return true;
+  }
+
+  function scheduleTextTransitions() {
+    let spawnBudget = 2;
+    while (spawnBudget > 0 && visibleTextCount() < TARGET_VISIBLE_TEXTS) {
+      const preferSide = preferredSpawnSide();
+      let activated = false;
+
+      // First pass: honour side balance.
+      if (preferSide) {
+        for (let attempt = 0; attempt < NETWORK_TEXTS.length; attempt += 1) {
+          const textIndex = takeNextTextIndex();
+          const side = TEXT_LAYOUT[textIndex % TEXT_LAYOUT.length].side;
+          if (side !== preferSide) {
+            textDeck.push(textIndex);
+            continue;
+          }
+          if (tryActivateTextIndex(textIndex)) {
+            activated = true;
+            break;
+          }
+          textDeck.push(textIndex);
+        }
+      }
+
+      // Fallback: any free seat under the per-side cap.
+      if (!activated) {
+        for (let attempt = 0; attempt < NETWORK_TEXTS.length; attempt += 1) {
+          const textIndex = takeNextTextIndex();
+          if (tryActivateTextIndex(textIndex)) {
+            activated = true;
+            break;
+          }
+          textDeck.push(textIndex);
+        }
+      }
+
+      if (!activated) {
         break;
       }
       spawnBudget -= 1;
     }
 
-    const expired = textSlots.filter((slot) => slot.phase === "hold" && slot.timer <= 0);
+    const expired = textSlots
+      .filter((slot) => slot.phase === "hold" && slot.timer <= 0)
+      .sort((a, b) => {
+        const sideA = TEXT_LAYOUT[a.textIndex % TEXT_LAYOUT.length].side;
+        const sideB = TEXT_LAYOUT[b.textIndex % TEXT_LAYOUT.length].side;
+        return visibleCountOnSide(sideB) - visibleCountOnSide(sideA);
+      });
     expired.slice(0, 2).forEach((slot) => beginTextFadeOut(slot));
   }
 
   function buildTextSlots() {
     if (!width || !height) {
+      textSlots.forEach((slot) => {
+        if (slot.el) {
+          slot.el.remove();
+        }
+      });
       textSlots = [];
       return;
     }
 
-    nextTextCursor = 0;
-    textSlots = NETWORK_TEXTS.map((text, index) => ({
-      text,
-      textIndex: index,
-      anchorIndex: index,
-      x: centerX,
-      y: centerY,
-      weight: TEXT_ANCHORS[index % TEXT_ANCHORS.length].weight,
-      alpha: 0,
-      phase: "wait",
-      timer: randomBetween(0, 1.2),
-      hold: randomBetween(TEXT_HOLD_MIN, TEXT_HOLD_MAX),
-      fadeIn: randomBetween(TEXT_FADE_IN_MIN, TEXT_FADE_IN_MAX),
-      fadeOut: randomBetween(TEXT_FADE_OUT_MIN, TEXT_FADE_OUT_MAX),
-    }));
+    const layer = ensureLabelLayer();
+    lastSpawnedTextIndex = -1;
+    reshuffleTextDeck();
+
+    // Reuse existing label nodes when possible.
+    const previous = new Map(
+      textSlots
+        .filter((slot) => slot.el)
+        .map((slot) => [slot.textIndex, slot.el])
+    );
+    layer.replaceChildren();
+
+    textSlots = NETWORK_TEXTS.map((labelText, index) => {
+      const el = previous.get(index) || document.createElement("p");
+      el.className = "intro-orbit-label";
+      el.textContent = labelText;
+      layer.appendChild(el);
+      const slot = {
+        text: labelText,
+        textIndex: index,
+        anchorIndex: index,
+        el,
+        x: centerX,
+        y: centerY,
+        side: TEXT_LAYOUT[index % TEXT_LAYOUT.length].side,
+        weight: TEXT_LAYOUT[index % TEXT_LAYOUT.length].weight,
+        alpha: 0,
+        phase: "wait",
+        timer: randomBetween(0.1, 1.4),
+        hold: randomBetween(TEXT_HOLD_MIN, TEXT_HOLD_MAX),
+        fadeIn: randomBetween(TEXT_FADE_IN_MIN, TEXT_FADE_IN_MAX),
+        fadeOut: randomBetween(TEXT_FADE_OUT_MIN, TEXT_FADE_OUT_MAX),
+      };
+      const resolved = resolveOrbitPosition(slot);
+      slot.x = resolved.x;
+      slot.y = resolved.y;
+      slot.side = resolved.side;
+      syncLabelDom(slot);
+      return slot;
+    });
 
     let seeded = 0;
     const seedTarget = Math.min(TARGET_VISIBLE_TEXTS, textSlots.length);
-    for (let i = 0; i < textSlots.length && seeded < seedTarget; i += 1) {
-      textSlots[i].textIndex = i;
-      textSlots[i].anchorIndex = i;
-      if (beginTextFadeIn(textSlots[i])) {
-        const progress = randomBetween(0.15, 0.9);
-        textSlots[i].timer = textSlots[i].fadeIn * (1 - progress);
-        textSlots[i].alpha = easeSmooth(progress);
-        seeded += 1;
+    let preferSide = Math.random() < 0.5 ? "left" : "right";
+    for (let attempt = 0; attempt < NETWORK_TEXTS.length * 2 && seeded < seedTarget; attempt += 1) {
+      const textIndex = takeNextTextIndex();
+      const side = TEXT_LAYOUT[textIndex % TEXT_LAYOUT.length].side;
+      const slot = textSlots.find((entry) => entry.textIndex === textIndex);
+      if (!slot || slot.phase !== "wait") {
+        textDeck.push(textIndex);
+        continue;
       }
+      if (side !== preferSide && visibleCountOnSide(preferSide) < TARGET_TEXTS_PER_SIDE) {
+        textDeck.push(textIndex);
+        continue;
+      }
+      if (visibleCountOnSide(side) >= TARGET_TEXTS_PER_SIDE) {
+        textDeck.push(textIndex);
+        continue;
+      }
+      beginTextFadeIn(slot);
+      const progress = randomBetween(0.2, 0.85);
+      slot.timer = slot.fadeIn * (1 - progress);
+      slot.alpha = easeSmooth(progress);
+      lastSpawnedTextIndex = textIndex;
+      syncLabelDom(slot);
+      seeded += 1;
+      preferSide = preferSide === "left" ? "right" : "left";
     }
   }
 
@@ -6190,7 +6317,7 @@ requestAnimationFrame(() => {
         if (slot.timer <= 0) {
           rememberPosition(slot);
           slot.phase = "wait";
-          slot.timer = randomBetween(0.02, 0.12);
+          slot.timer = randomBetween(0.2, 0.7);
           slot.alpha = 0;
           slot.scale = 0.12;
         }
@@ -6210,6 +6337,7 @@ requestAnimationFrame(() => {
 
       if (slot.phase === "wait") {
         slot.alpha = 0;
+        syncLabelDom(slot);
         return;
       }
 
@@ -6223,11 +6351,13 @@ requestAnimationFrame(() => {
           slot.hold = slot.timer;
           slot.alpha = 1;
         }
+        syncLabelDom(slot);
         return;
       }
 
       if (slot.phase === "hold") {
         slot.alpha = 1;
+        syncLabelDom(slot);
         return;
       }
 
@@ -6240,6 +6370,7 @@ requestAnimationFrame(() => {
           slot.timer = randomBetween(0.35, 1.4);
           slot.alpha = 0;
         }
+        syncLabelDom(slot);
       }
     });
 
@@ -6268,25 +6399,6 @@ requestAnimationFrame(() => {
     });
   }
 
-  function drawTexts() {
-    textSlots.forEach((slot) => {
-      if (slot.alpha <= 0.01 || slot.phase === "wait") {
-        return;
-      }
-
-      const fontSize = textFontSize(slot);
-      context.save();
-      context.translate(slot.x, slot.y);
-      context.globalAlpha = clamp(slot.alpha * 0.92, 0, 1);
-      context.fillStyle = `rgb(${TEXT_COLOR.r}, ${TEXT_COLOR.g}, ${TEXT_COLOR.b})`;
-      context.font = `500 ${fontSize}px Inter, "Segoe UI", system-ui, sans-serif`;
-      context.textAlign = "center";
-      context.textBaseline = "middle";
-      context.fillText(slot.text, 0, 0);
-      context.restore();
-    });
-  }
-
   function drawMagnifier() {
     // Magnifier is an HTML foreground overlay so the handle is not clipped by the canvas.
     if (!magnifierLayout) {
@@ -6301,15 +6413,15 @@ requestAnimationFrame(() => {
     // Lines and green may extend beyond the lens.
     drawChaosCloud(animTime);
 
-    // Icons/texts in the glass opening; magnifier chrome sits above as DOM overlay.
+    // Icons stay in the glass opening; question texts orbit outside the lens.
     context.save();
     context.beginPath();
     context.arc(centerX, centerY, magnifierInnerRadius(2), 0, Math.PI * 2);
     context.clip();
     drawIcons();
-    drawTexts();
     context.restore();
 
+    syncAllLabels();
     drawMagnifier();
   }
 
@@ -6317,7 +6429,7 @@ requestAnimationFrame(() => {
     if (!isRunning) {
       return;
     }
-    const dt = Math.min(0.033, ((time - lastTime) || 16) / 1000);
+    const dt = Math.min(0.033, ((time - lastTime) || 16) / 1000) * ANIM_SPEED;
     lastTime = time;
     animTime += dt;
 
@@ -6383,6 +6495,7 @@ requestAnimationFrame(() => {
         slot.phase = "wait";
         slot.alpha = 0;
       }
+      syncLabelDom(slot);
     });
 
     drawFrame();
@@ -6434,6 +6547,8 @@ requestAnimationFrame(() => {
         slot.x = resolved.x;
         slot.y = resolved.y;
         slot.weight = resolved.weight;
+        slot.side = resolved.side;
+        syncLabelDom(slot);
       });
     }
   }

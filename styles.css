@@ -1276,6 +1276,44 @@ button.button {
   margin: 0;
 }
 
+.intro-orbit-labels {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.intro-orbit-label {
+  position: absolute;
+  margin: 0;
+  color: #464646;
+  font-family: "Bradley Hand", "Bradley Hand ITC", "Segoe Print", "Comic Sans MS", cursive;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.2;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  will-change: opacity;
+  transform: translate(0, -50%);
+}
+
+.intro-orbit-label[data-side="left"] {
+  transform: translate(-100%, -50%);
+  text-align: right;
+}
+
+.intro-orbit-label[data-side="right"] {
+  transform: translate(0, -50%);
+  text-align: left;
+}
+
+.intro-orbit-label[data-side="bottom"] {
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .intro-synapse-canvas {
     opacity: 0.96;
@@ -2429,11 +2467,11 @@ button.button {
   pointer-events: none;
   background: linear-gradient(
     to right,
-    #f4f3f0 0%,
-    rgba(244, 243, 240, 0.96) 24%,
-    rgba(244, 243, 240, 0.82) 40%,
-    rgba(244, 243, 240, 0.5) 56%,
-    rgba(244, 243, 240, 0) 74%
+    rgba(244, 243, 240, 0.9) 0%,
+    rgba(244, 243, 240, 0.86) 12%,
+    rgba(244, 243, 240, 0.7) 22%,
+    rgba(244, 243, 240, 0.36) 33%,
+    rgba(244, 243, 240, 0) 42%
   );
 }
 
@@ -3807,11 +3845,11 @@ blockquote span {
   pointer-events: none;
   background: linear-gradient(
     to right,
-    #f4f3f0 0%,
-    rgba(244, 243, 240, 0.96) 24%,
-    rgba(244, 243, 240, 0.82) 40%,
-    rgba(244, 243, 240, 0.5) 56%,
-    rgba(244, 243, 240, 0) 74%
+    rgba(244, 243, 240, 0.9) 0%,
+    rgba(244, 243, 240, 0.86) 12%,
+    rgba(244, 243, 240, 0.7) 22%,
+    rgba(244, 243, 240, 0.36) 33%,
+    rgba(244, 243, 240, 0) 42%
   );
 }
 
@@ -6219,9 +6257,13 @@ body.demo-modal-open {
 }
 
 @media (min-width: 901px) {
+  :root {
+    --content-copy-left: calc(clamp(18px, 7vw, 96px) + 44px);
+  }
+
   .hero {
     --hero-mobile-image-height: initial;
-    --hero-copy-left: calc(clamp(18px, 7vw, 96px) + 44px);
+    --hero-copy-left: var(--content-copy-left);
     --hero-popup-top: calc(50% - 130px - min(46vw, 621px) * 595 / 2048);
     position: relative;
     display: grid;
@@ -6397,10 +6439,16 @@ body.demo-modal-open {
   .integrations-copy {
     width: min(900px, calc(100% - 36px));
     max-width: none;
-    margin-left: clamp(18px, 7vw, 96px);
+    margin-left: var(--content-copy-left);
     margin-right: 0;
     padding: clamp(96px, 14vh, 180px) 0 clamp(8px, 1.2vh, 14px);
     text-align: left;
+  }
+
+  .roadmap-inner {
+    width: min(var(--max), calc(100% - var(--content-copy-left) - 18px));
+    margin-left: var(--content-copy-left);
+    margin-right: 0;
   }
 
   .integrations-title {
