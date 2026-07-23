@@ -131,14 +131,14 @@ const translations = {
         "Microsoft 365",
         "Google Workspace",
         "Teams",
+        "WhatsApp",
         "Slack",
         "Notion",
         "SharePoint",
         "OneDrive",
-        "HubSpot",
         "Salesforce",
-        "WhatsApp",
         "Sprachnotizen",
+        "HubSpot",
       ],
       link: "Weitere Informationen",
     },
@@ -732,14 +732,14 @@ const translations = {
         "Microsoft 365",
         "Google Workspace",
         "Teams",
+        "WhatsApp",
         "Slack",
         "Notion",
         "SharePoint",
         "OneDrive",
-        "HubSpot",
         "Salesforce",
-        "WhatsApp",
         "Voice notes",
+        "HubSpot",
       ],
       link: "More information",
     },
@@ -1296,14 +1296,14 @@ const translations = {
         "Microsoft 365",
         "Google Workspace",
         "Teams",
+        "WhatsApp",
         "Slack",
         "Notion",
         "SharePoint",
         "OneDrive",
-        "HubSpot",
         "Salesforce",
-        "WhatsApp",
         "Notas de voz",
+        "HubSpot",
       ],
       link: "Mais informações",
     },
@@ -1940,21 +1940,23 @@ function setMarquee(selector, values) {
   track.innerHTML = [...values, ...values].map((value) => `<span>${value}</span>`).join("");
 }
 
-const INTEGRATION_ICON_FILES = [
-  "outlook.svg",
-  "gmail.svg",
-  "microsoft365.svg",
-  "googleworkspace.svg",
-  "teams.svg",
-  "slack.svg",
-  "notion.svg",
-  "sharepoint.svg",
-  "onedrive.svg",
-  "hubspot.svg",
-  "salesforce.svg",
-  "whatsapp.svg",
-  "voice-notes.svg",
-];
+const INTEGRATION_ICON_BY_LABEL = {
+  Outlook: "outlook.svg",
+  Gmail: "gmail.svg",
+  "Microsoft 365": "microsoft365.svg",
+  "Google Workspace": "googleworkspace.svg",
+  Teams: "teams.svg",
+  Slack: "slack.svg",
+  Notion: "notion.svg",
+  SharePoint: "sharepoint.svg",
+  OneDrive: "onedrive.svg",
+  HubSpot: "hubspot.svg",
+  Salesforce: "salesforce.svg",
+  WhatsApp: "whatsapp.svg",
+  Sprachnotizen: "voice-notes.svg",
+  "Voice notes": "voice-notes.svg",
+  "Notas de voz": "voice-notes.svg",
+};
 
 const UNAVAILABLE_INTEGRATIONS = new Set([
   "HubSpot",
@@ -1964,8 +1966,8 @@ const UNAVAILABLE_INTEGRATIONS = new Set([
   "WhatsApp",
 ]);
 
-function createIntegrationPill(label, index) {
-  const icon = INTEGRATION_ICON_FILES[index] || "voice-notes.svg";
+function createIntegrationPill(label) {
+  const icon = INTEGRATION_ICON_BY_LABEL[label] || "voice-notes.svg";
   const pill = document.createElement("span");
   pill.className = UNAVAILABLE_INTEGRATIONS.has(label)
     ? "integration-pill integration-pill--unavailable"
@@ -2007,8 +2009,8 @@ function integrationPillLabelsMatch(labels, existingLabels) {
 }
 
 function appendIntegrationPillSet(track, labels) {
-  labels.forEach((label, index) => {
-    track.append(createIntegrationPill(label, index));
+  labels.forEach((label) => {
+    track.append(createIntegrationPill(label));
   });
 }
 
@@ -5021,7 +5023,6 @@ requestAnimationFrame(() => {
         "database.svg",
         "gmail.svg",
         "google.svg",
-        "hubspot.svg",
         "microsoft.svg",
         "onedrive.svg",
         "outlook.svg",
@@ -5033,10 +5034,16 @@ requestAnimationFrame(() => {
         "voice.svg",
         "whatsapp.svg",
         "word.svg",
+        "hubspot.svg",
       ],
     },
   ];
   const ICON_BASE_PATH = "assets/icons/Icon-cloud";
+  // Keep these icons from appearing as a visual pair in the lens.
+  const SEPARATED_ICON_PAIRS = [
+    ["hubspot.svg", "whatsapp.svg"],
+    ["whatsapp.svg", "microsoft.svg"],
+  ];
 
   const FAVORED_ICON_FILES = new Set([
     "teams.svg",
@@ -5124,6 +5131,7 @@ requestAnimationFrame(() => {
   let targetVisibleIcons = 16;
   let iconImages = [];
   let iconWeights = [];
+  let iconFiles = [];
   let iconSlots = [];
   let textSlots = [];
   let recentPositions = [];
@@ -5626,12 +5634,16 @@ requestAnimationFrame(() => {
       nearest = Math.min(nearest, textDist);
     }
 
+    const slotFile = iconFiles[slot.imageIndex];
     for (let i = 0; i < others.length; i += 1) {
       const other = others[i];
       const ox = typeof other.x === "number" ? other.x : other.anchorX;
       const oy = typeof other.y === "number" ? other.y : other.anchorY;
       const dist = Math.hypot(candidate.x - ox, candidate.y - oy);
-      if (dist < minDistanceFor(slot, other)) {
+      const pairGap = iconsFormSeparatedPair(slotFile, iconFiles[other.imageIndex])
+        ? Math.min(width, height) * 0.28
+        : 0;
+      if (dist < Math.max(minDistanceFor(slot, other), pairGap)) {
         return -1;
       }
       nearest = Math.min(nearest, dist);
@@ -5721,26 +5733,59 @@ requestAnimationFrame(() => {
     });
   }
 
+  function iconsFormSeparatedPair(fileA, fileB) {
+    if (!fileA || !fileB) {
+      return false;
+    }
+    return SEPARATED_ICON_PAIRS.some(
+      ([left, right]) =>
+        (fileA === left && fileB === right) || (fileA === right && fileB === left)
+    );
+  }
+
+  function visibleIconFiles() {
+    return iconSlots
+      .filter((slot) => slot.phase !== "wait")
+      .map((slot) => iconFiles[slot.imageIndex])
+      .filter(Boolean);
+  }
+
   function pickNextImageIndex() {
     if (!iconImages.length) {
       return 0;
     }
 
-    const visible = new Set(
+    const visibleIndexes = new Set(
       iconSlots
         .filter((slot) => slot.phase !== "wait")
         .map((slot) => slot.imageIndex)
     );
+    const visibleFiles = visibleIconFiles();
     const candidates = [];
     let totalWeight = 0;
 
     for (let index = 0; index < iconImages.length; index += 1) {
-      if (visible.has(index)) {
+      if (visibleIndexes.has(index)) {
+        continue;
+      }
+      const file = iconFiles[index];
+      if (visibleFiles.some((visibleFile) => iconsFormSeparatedPair(file, visibleFile))) {
         continue;
       }
       const weight = iconWeights[index] || NORMAL_ICON_WEIGHT;
       candidates.push({ index, weight });
       totalWeight += weight;
+    }
+
+    if (!candidates.length) {
+      for (let index = 0; index < iconImages.length; index += 1) {
+        if (visibleIndexes.has(index)) {
+          continue;
+        }
+        const weight = iconWeights[index] || NORMAL_ICON_WEIGHT;
+        candidates.push({ index, weight });
+        totalWeight += weight;
+      }
     }
 
     if (!candidates.length) {
@@ -6244,6 +6289,7 @@ requestAnimationFrame(() => {
     const iconsPromise = Promise.all(iconJobs).then((results) => {
       iconImages = [];
       iconWeights = [];
+      iconFiles = [];
       results.forEach(({ image, file }) => {
         if (!image) {
           return;
@@ -6253,6 +6299,7 @@ requestAnimationFrame(() => {
           return;
         }
         iconImages.push(tinted);
+        iconFiles.push(file);
         iconWeights.push(
           FAVORED_ICON_FILES.has(file) ? FAVORED_ICON_WEIGHT : NORMAL_ICON_WEIGHT
         );
