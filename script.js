@@ -1741,6 +1741,12 @@ const htmlElement = document.documentElement;
 const languageStorageKey = "zuraio-language";
 const heroVariantStorageKey = "zuraio-hero-variant";
 const HERO_VARIANTS = new Set(["current", "contrast"]);
+const heroLeadStorageKey = "zuraio-hero-lead";
+const HERO_LEAD_VARIANTS = new Set(["current", "new", "window", "fade", "fade-transparent"]);
+const HERO_LEAD_WINDOW_VARIANTS = new Set(["new", "window"]);
+const HERO_LEAD_MOBILE_MQ = "(max-width: 980px)";
+const designToggle = document.getElementById("design-toggle");
+const designMenu = document.getElementById("design-menu");
 const USE_CASE_SWAP_MS = 1250;
 const USE_CASE_ROTATE_MS = 2400;
 let useCaseRotateTimer = null;
@@ -3121,9 +3127,9 @@ function initAssistantShowcase() {
       return;
     }
 
-    stepElement.scrollIntoView({
-      inline: "center",
-      block: "nearest",
+    const left = stepElement.offsetLeft - (processScroll.clientWidth - stepElement.offsetWidth) / 2;
+    processScroll.scrollTo({
+      left,
       behavior: reducedMotion ? "auto" : "smooth",
     });
   }
@@ -4811,10 +4817,183 @@ function setupHeroVariantToggle() {
   setHeroVariant("current");
 }
 
+function normalizeHeroLeadVariant(variant) {
+  return HERO_LEAD_VARIANTS.has(variant) ? variant : "current";
+}
+
+function getPreferredHeroLeadVariant() {
+  try {
+    return normalizeHeroLeadVariant(window.localStorage.getItem(heroLeadStorageKey) || "");
+  } catch {
+    return "current";
+  }
+}
+
+function clearHeroLeadPopupAlign() {
+  const shell = document.querySelector("main#home > .hero .hero-lead-shell");
+  if (shell) {
+    shell.style.marginTop = "";
+  }
+}
+
+function syncHeroLeadPopupAlign() {
+  const hero = document.querySelector("main#home > .hero");
+  const shell = hero?.querySelector(".hero-lead-shell");
+  const lead = hero?.querySelector(".hero-lead");
+  const popup = hero?.querySelector(".hero-popup");
+  const title = hero?.querySelector(".hero-title");
+
+  if (!hero || !shell || !lead || !popup) {
+    return;
+  }
+
+  const isWindowLead = HERO_LEAD_WINDOW_VARIANTS.has(hero.dataset.heroLead);
+  const isMobile = window.matchMedia(HERO_LEAD_MOBILE_MQ).matches;
+
+  if (!isWindowLead || isMobile) {
+    clearHeroLeadPopupAlign();
+    return;
+  }
+
+  // Measure from a zero margin baseline, then place lead UK on popup UK.
+  shell.style.marginTop = "0px";
+
+  const popupBottom = popup.getBoundingClientRect().bottom;
+  const leadBottom = lead.getBoundingClientRect().bottom;
+  const desiredMargin = popupBottom - leadBottom;
+
+  let minMargin = Number.NEGATIVE_INFINITY;
+  if (title) {
+    const titleBottom = title.getBoundingClientRect().bottom;
+    const shellTop = shell.getBoundingClientRect().top;
+    minMargin = titleBottom + 12 - shellTop;
+  }
+
+  const nextMargin = Math.max(minMargin, desiredMargin);
+  shell.style.marginTop = `${nextMargin}px`;
+}
+
+function closeDesignMenu() {
+  if (!designMenu || !designToggle) {
+    return;
+  }
+
+  designMenu.hidden = true;
+  designToggle.setAttribute("aria-expanded", "false");
+}
+
+function toggleDesignMenu(forceOpen) {
+  if (!designMenu || !designToggle) {
+    return;
+  }
+
+  const shouldOpen = typeof forceOpen === "boolean" ? forceOpen : designMenu.hidden;
+  designMenu.hidden = !shouldOpen;
+  designToggle.setAttribute("aria-expanded", String(shouldOpen));
+}
+
+function setHeroLeadVariant(variant) {
+  const hero = document.querySelector("main#home > .hero");
+  if (!hero) {
+    return;
+  }
+
+  const nextVariant = normalizeHeroLeadVariant(variant);
+  hero.dataset.heroLead = nextVariant;
+
+  document.querySelectorAll(".design-option").forEach((button) => {
+    const isActive = button.dataset.heroLead === nextVariant;
+    button.setAttribute("aria-selected", isActive ? "true" : "false");
+  });
+
+  try {
+    window.localStorage.setItem(heroLeadStorageKey, nextVariant);
+  } catch {
+    // Ignore storage failures; the in-page state still updates.
+  }
+
+  requestAnimationFrame(() => {
+    syncHeroLeadPopupAlign();
+  });
+}
+
+function setupHeroLeadToggle() {
+  const hero = document.querySelector("main#home > .hero");
+  if (!hero || !designToggle || !designMenu) {
+    return;
+  }
+
+  designToggle.addEventListener("click", () => {
+    toggleDesignMenu();
+  });
+
+  designMenu.addEventListener("click", (event) => {
+    const option = event.target instanceof HTMLElement ? event.target.closest(".design-option") : null;
+    if (!option) {
+      return;
+    }
+
+    const nextVariant = option.getAttribute("data-hero-lead");
+    if (nextVariant) {
+      setHeroLeadVariant(nextVariant);
+      closeDesignMenu();
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!(event.target instanceof Node)) {
+      return;
+    }
+
+    const target = event.target;
+    if (designToggle.contains(target) || designMenu.contains(target)) {
+      return;
+    }
+
+    closeDesignMenu();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeDesignMenu();
+    }
+  });
+
+  const popup = hero.querySelector(".hero-popup");
+  const lead = hero.querySelector(".hero-lead");
+  if (typeof ResizeObserver !== "undefined") {
+    const observer = new ResizeObserver(() => {
+      syncHeroLeadPopupAlign();
+    });
+    if (popup) {
+      observer.observe(popup);
+    }
+    if (lead) {
+      observer.observe(lead);
+    }
+  }
+
+  window.addEventListener("resize", () => {
+    syncHeroLeadPopupAlign();
+  });
+
+  if (popup && !popup.complete) {
+    popup.addEventListener("load", () => {
+      syncHeroLeadPopupAlign();
+    });
+  }
+
+  setHeroLeadVariant(getPreferredHeroLeadVariant());
+}
+
 initDemoBookingModal();
 initAssistantShowcase();
 setupHeroVariantToggle();
+setupHeroLeadToggle();
 applyLanguage(getPreferredLanguage());
+requestAnimationFrame(() => {
+  syncHeroLeadPopupAlign();
+});
 
 (function initIntroDataQuestionVisual() {
   const visual = document.querySelector("#warum .intro-band-visual");

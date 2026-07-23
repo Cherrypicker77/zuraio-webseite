@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=222">
+    <link rel="stylesheet" href="styles.css?v=238">
   </head>
   <body>
     <header class="site-header">
@@ -17,6 +17,18 @@
       </a>
       <button class="menu-toggle" type="button" aria-label="Navigation öffnen" aria-expanded="false">Menu</button>
       <nav class="site-nav" aria-label="Hauptnavigation">
+        <div class="design-switcher">
+          <button id="design-toggle" class="design-toggle" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Design wählen">
+            <span class="design-label">Design</span>
+          </button>
+          <div id="design-menu" class="design-menu" role="listbox" aria-label="Hero-Design auswählen" hidden>
+            <button type="button" class="design-option" data-hero-lead="current" role="option" aria-selected="true">Aktuell</button>
+            <button type="button" class="design-option" data-hero-lead="new" role="option" aria-selected="false">Fenster weiss transp.</button>
+            <button type="button" class="design-option" data-hero-lead="window" role="option" aria-selected="false">Fenster weiss</button>
+            <button type="button" class="design-option" data-hero-lead="fade" role="option" aria-selected="false">Fade weiss</button>
+            <button type="button" class="design-option" data-hero-lead="fade-transparent" role="option" aria-selected="false">Fade transparent</button>
+          </div>
+        </div>
         <a href="#warum">Lösung</a>
         <a href="#integrationen">Integration</a>
         <a href="#loesung">Sicherheit</a>
@@ -40,7 +52,7 @@
     </header>
 
         <main id="home">
-<section class="hero" data-hero-variant="current">
+<section class="hero" data-hero-variant="current" data-hero-lead="current">
         <div class="hero-variant-toggle" role="group" aria-label="Hero-Design wählen">
           <button type="button" class="hero-variant-btn" data-hero-variant="current" aria-pressed="true">Aktuell</button>
           <button type="button" class="hero-variant-btn" data-hero-variant="contrast" aria-pressed="false">Alternative</button>
@@ -65,6 +77,7 @@
               <p class="hero-lead-line">sondern sicher ausgeführt werden.</p>
             </div>
           </div>
+          <a class="hero-work-cta" href="pages/so-arbeitet-zuraio.html">So arbeitet zuraio</a>
         </div>
         <nav class="hero-features" aria-label="Kernfunktionen">
           <a class="hero-feature" href="#loesung">
@@ -705,6 +718,6 @@
     </div>
 
     <script src="i18n-pages.js"></script>
-    <script src="script.js?v=169"></script>
+    <script src="script.js?v=174"></script>
   </body>
 </html>
