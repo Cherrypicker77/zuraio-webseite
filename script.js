@@ -140,8 +140,7 @@ const translations = {
       eyebrow: "FUNKTIONIERT DORT, WO DEIN TEAM ARBEITET",
       titleHtml: '<span class="integrations-title-line">Passt zu den <span class="brand-highlight">Tools</span>, </span><span class="integrations-title-line">die Du bereits nutzt</span>',
       body: [
-        "Kommunikation entscheidet, wie gut ein Unternehmen funktioniert. Das gilt für Menschen genauso wie für digitale Systeme. zuraio verbindet die gängigsten Anwendungen und bringt Deine Tools und Unternehmenswissen Schritt für Schritt in eine zentrale KI-Umgebung.",
-        "Noch nicht jede Integration ist sofort verfügbar. Gemeinsam prüfen wir, welche Systeme für Dein Unternehmen den grössten Nutzen bringen und binden sie Schritt für Schritt kontrolliert und nachvollziehbar an.",
+        "Noch nicht jede Integration ist sofort verfügbar.\nGemeinsam prüfen wir, welche Systeme\nfür Dein Unternehmen\nden grössten Nutzen bringen\nund binden sie Schritt für Schritt,\nkontrolliert und nachvollziehbar an.",
       ],
       pills: [
         "Outlook",
@@ -499,7 +498,8 @@ const translations = {
       eyebrow: "Skalierbar",
       title: "Heute ein sicherer<br><span class=\"roadmap-title-accent\">KI-Assistent.</span><br>Morgen ein KI-Ökosystem",
       leadHtml:
-        "Starte dort, wo der Nutzen sofort entsteht. Wachsen erst dann weiter, wenn dein Unternehmen bereit ist. Ohne unnötige Komplexität, dafür mit einer klaren Strategie und nachhaltigem Fortschritt. Mit zuraio an der Seite brauchts Du keine eigene KI-Abteilung.",
+        "Starte dort, wo der Nutzen sofort entsteht.<br>Wachse erst dann weiter, wenn dein Unternehmen bereit ist.<br>Ohne unnötige Komplexität, dafür mit einer klaren Strategie.<br>Mit zuraio an der Seite brauchts Du keine eigene KI-Abteilung.",
+      link: "Wachstum erkunden",
       steps: [
         {
           title: "Start",
@@ -759,7 +759,6 @@ const translations = {
       eyebrow: "WORKS WHERE YOUR TEAM WORKS",
       titleHtml: '<span class="integrations-title-line">Fits into the <span class="brand-highlight">tools</span></span><span class="integrations-title-line">you already use</span>',
       body: [
-        "Communication determines how well a company functions. That applies to people just as much as to digital systems. zuraio connects the most common applications and brings your tools and company knowledge step by step into a central AI environment.",
         "Not everything at once. Instead, in a controlled, traceable way and where it creates real value. That is how a platform emerges that does not replace existing tools, but makes them more productive.",
       ],
       pills: [
@@ -1083,6 +1082,7 @@ const translations = {
       title: "Today a secure<br><span class=\"roadmap-title-accent\">AI assistant.</span><br>Tomorrow an AI ecosystem",
       leadHtml:
         "Start where value appears immediately. Grow further only when your company is ready. Without unnecessary complexity — with a clear strategy and sustainable progress. With zuraio by your side, you don’t need your own AI department.",
+      link: "Explore growth",
       steps: [
         {
           title: "Start",
@@ -1341,7 +1341,6 @@ const translations = {
       eyebrow: "FUNCIONA ONDE A SUA EQUIPA TRABALHA",
       titleHtml: '<span class="integrations-title-line">Encaixa-se nas <span class="brand-highlight">ferramentas</span></span><span class="integrations-title-line">que já utiliza</span>',
       body: [
-        "A comunicação decide quão bem uma empresa funciona. Isso vale tanto para pessoas como para sistemas digitais. A zuraio liga as aplicações mais comuns e leva as suas ferramentas e o conhecimento da empresa, passo a passo, para um ambiente central de IA.",
         "Nem tudo de uma vez. Mas de forma controlada, rastreável e onde cria valor real. Assim surge uma plataforma que não substitui as ferramentas existentes, mas as torna mais produtivas.",
       ],
       pills: [
@@ -1665,6 +1664,7 @@ const translations = {
       title: "Hoje um<br><span class=\"roadmap-title-accent\">assistente de IA seguro.</span><br>Amanhã um ecossistema de IA",
       leadHtml:
         "Comece onde o valor surge de imediato. Cresça só quando a sua empresa estiver pronta. Sem complexidade desnecessária — com uma estratégia clara e progresso sustentável. Com a zuraio ao lado, não precisa de um departamento próprio de IA.",
+      link: "Explorar o crescimento",
       steps: [
         {
           title: "Início",
@@ -3978,6 +3978,7 @@ function applyLanguage(languageCode) {
   if (content.roadmap.leadHtml) {
     setHTML("#roadmap .roadmap-lead", content.roadmap.leadHtml);
   }
+  setText("#roadmap .roadmap-link", content.roadmap.link);
   setCards("#roadmap .roadmap-windows .roadmap-window", content.roadmap.steps, (cardElement, cardData) => {
     setTextSelector(cardElement, "strong", cardData.title);
     setTextSelector(cardElement, "p", cardData.body);
@@ -5051,6 +5052,16 @@ function setHeroLeadVariant(variant) {
   const nextVariant = normalizeHeroLeadVariant(variant);
   hero.dataset.heroLead = nextVariant;
 
+  const integrationsHero = document.querySelector("#integrationen .integrations-hero");
+  if (integrationsHero) {
+    integrationsHero.dataset.heroLead = nextVariant;
+  }
+
+  const roadmap = document.querySelector("#roadmap");
+  if (roadmap) {
+    roadmap.dataset.heroLead = nextVariant;
+  }
+
   document.querySelectorAll(".design-option").forEach((button) => {
     const isActive = button.dataset.heroLead === nextVariant;
     button.setAttribute("aria-selected", isActive ? "true" : "false");
@@ -5205,8 +5216,8 @@ requestAnimationFrame(() => {
   const FAVORED_ICON_WEIGHT = 3.5;
   const NORMAL_ICON_WEIGHT = 1;
 
-  const ICON_FILL = { r: 159, g: 175, b: 82 }; // #9FAF52
-  const ICON_STROKE = { r: 159, g: 175, b: 82 }; // #9FAF52
+  const ICON_FILL = { r: 70, g: 70, b: 70 }; // #464646
+  const ICON_STROKE = { r: 70, g: 70, b: 70 }; // #464646
   const TEXT_COLOR = { r: 0, g: 0, b: 0 };
   const MAGNIFIER_SRC_CANDIDATES = [
     "assets/images/Luope 01.png?v=20260723d",
