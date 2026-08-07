@@ -403,6 +403,16 @@ const detailPageTranslations = {
         { title: "Vision", body: "Ein kontrolliertes AI-Ökosystem, das Unternehmenswissen bewahrt und Arbeit spürbar entlastet." },
       ],
     },
+    "so-arbeitet-zuraio": {
+      meta: { title: "So arbeitet zuraio | zuraio" },
+      hero: {
+        eyebrow: "Arbeitsalltag",
+        title: "So arbeitet zuraio.",
+        titleHtml: "<span class=\"hero-title-line\">So arbeitet</span><span class=\"hero-title-line\"><span class=\"hero-accent\">zuraio</span>.</span>",
+        lead: "Vom Abrufen einer E-Mail bis zum fertigen Briefing: Sechs Beispiele zeigen, wie zuraio Informationen versteht, Zusammenhänge erkennt und Aufgaben sicher vorbereitet.",
+        imageAlt: "Übersicht der zuraio Arbeitsoberfläche",
+      },
+    },
     "ueber-uns": {
       meta: { title: "Über uns | zuraio" },
       hero: {
@@ -893,6 +903,16 @@ const detailPageTranslations = {
         { title: "Vision", body: "A controlled AI ecosystem that preserves company knowledge and noticeably relieves work." },
       ],
     },
+    "so-arbeitet-zuraio": {
+      meta: { title: "How zuraio works | zuraio" },
+      hero: {
+        eyebrow: "Daily work",
+        title: "How zuraio works.",
+        titleHtml: "<span class=\"hero-title-line\">How</span><span class=\"hero-title-line\"><span class=\"hero-accent\">zuraio</span> works.</span>",
+        lead: "From retrieving an email to a finished briefing: Six examples show how zuraio understands information, recognizes connections, and prepares tasks securely.",
+        imageAlt: "Overview of the zuraio work interface",
+      },
+    },
     "ueber-uns": {
       meta: { title: "About us | zuraio" },
       hero: {
@@ -1382,6 +1402,16 @@ const detailPageTranslations = {
         { title: "Próximos passos", body: "Agentes RAG, agente de voz, camada de API de agentes, camada avaliadora, auditoria e monitoramento." },
         { title: "Visão", body: "Um ecossistema de IA controlado que preserva conhecimento empresarial e alivia o trabalho de forma perceptível." },
       ],
+    },
+    "so-arbeitet-zuraio": {
+      meta: { title: "Assim trabalha o zuraio | zuraio" },
+      hero: {
+        eyebrow: "Dia a dia",
+        title: "Assim trabalha o zuraio.",
+        titleHtml: "<span class=\"hero-title-line\">Assim trabalha</span><span class=\"hero-title-line\">o <span class=\"hero-accent\">zuraio</span>.</span>",
+        lead: "Da recuperação de um e-mail até o briefing pronto: Seis exemplos mostram como a zuraio entende informações, reconhece conexões e prepara tarefas com segurança.",
+        imageAlt: "Visão geral da interface de trabalho zuraio",
+      },
     },
     "ueber-uns": {
       meta: { title: "Sobre nós | zuraio" },

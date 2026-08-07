@@ -35,6 +35,23 @@ const translations = {
       teamSectionAriaLabel: "Team",
       storyExamplesLabel: "Beispiele",
       storyValueLabel: "Mehrwert",
+      designLabel: "Design",
+      chooseDesignAriaLabel: "Design wählen",
+      selectDesignAriaLabel: "Hero-Design auswählen",
+      designOptions: {
+        current: "Aktuell",
+        new: "Fenster weiss transp.",
+        window: "Fenster weiss",
+        fade: "Fade weiss",
+        "fade-transparent": "Fade transparent",
+        "glow-text": "GlowText",
+        "glow-text-1": "Glowtext 1",
+        "white-text": "White Text",
+        "green-text": "GreenText",
+      },
+      heroVariantAriaLabel: "Hero-Design wählen",
+      heroVariantCurrent: "Aktuell",
+      heroVariantAlternative: "Alternative",
     },
     heroFeatures: [
       { title: "Sicher", body: "An Dein Unternehmen<br>angepasst" },
@@ -59,6 +76,7 @@ const translations = {
         "damit Aufgaben nicht nur beantwortet,",
         "sondern sicher ausgeführt werden.",
       ],
+      workCta: "So arbeitet zuraio",
     },
     intro: {
       eyebrow: "KOMMT DIR DAS BEKANNT VOR?",
@@ -507,11 +525,11 @@ const translations = {
     demoModal: {
       eyebrow: "Demo",
       title: "Termin buchen",
-      intro:
-        "30 Minuten, unverbindlich. Wir betrachten eine konkrete Aufgabe, Deine Systeme und Deine Anforderungen an die Datenkontrolle. Danach erhältst Du eine Empfehlung für einen sinnvollen ersten Schritt.",
-      audienceHeading: "Für wen lohnt es sich?",
-      audienceText:
-        "Für Unternehmen, die weniger Zeit mit Administration und mehr Zeit mit Wertschöpfung verbringen wollen.",
+      introLines: [
+        "30 Minuten für Dich.",
+        "Wir betrachten eine konkrete Aufgabe, Deine Systeme und Deine Anforderungen.",
+        "Im Anschluss erhältst Du eine Empfehlung für einen sinnvollen ersten Schritt.",
+      ],
       footerNote: "Kostenlos und unverbindlich.",
       name: "Name",
       firstName: "Vorname",
@@ -638,6 +656,23 @@ const translations = {
       teamSectionAriaLabel: "Team",
       storyExamplesLabel: "Examples",
       storyValueLabel: "Value",
+      designLabel: "Design",
+      chooseDesignAriaLabel: "Choose design",
+      selectDesignAriaLabel: "Select hero design",
+      designOptions: {
+        current: "Current",
+        new: "White window transp.",
+        window: "White window",
+        fade: "White fade",
+        "fade-transparent": "Transparent fade",
+        "glow-text": "GlowText",
+        "glow-text-1": "Glowtext 1",
+        "white-text": "White Text",
+        "green-text": "GreenText",
+      },
+      heroVariantAriaLabel: "Choose hero design",
+      heroVariantCurrent: "Current",
+      heroVariantAlternative: "Alternative",
     },
     heroFeatures: [
       { title: "Secure", body: "Tailored to<br>your company" },
@@ -660,6 +695,7 @@ const translations = {
         "but securely prepared",
         "and executed.",
       ],
+      workCta: "How zuraio works",
     },
     intro: {
       eyebrow: "RECOGNISE THIS?",
@@ -1072,11 +1108,11 @@ const translations = {
     demoModal: {
       eyebrow: "Demo",
       title: "Book appointment",
-      intro:
-        "In 30 minutes we show you, using a real example, how zuraio reduces administrative work and makes company knowledge usable.",
-      audienceHeading: "Who is it for?",
-      audienceText:
-        "For companies that want to spend less time on administration and more time creating value.",
+      introLines: [
+        "30 minutes, no obligation.",
+        "We look at a concrete task, your systems, and your requirements for data control.",
+        "Afterwards you receive a recommendation for a sensible first step.",
+      ],
       footerNote: "Free and without obligation.",
       name: "Last name",
       firstName: "First name",
@@ -1202,6 +1238,23 @@ const translations = {
       teamSectionAriaLabel: "Equipe",
       storyExamplesLabel: "Exemplos",
       storyValueLabel: "Valor",
+      designLabel: "Design",
+      chooseDesignAriaLabel: "Escolher design",
+      selectDesignAriaLabel: "Selecionar design do hero",
+      designOptions: {
+        current: "Atual",
+        new: "Janela branca transp.",
+        window: "Janela branca",
+        fade: "Fade branco",
+        "fade-transparent": "Fade transparente",
+        "glow-text": "GlowText",
+        "glow-text-1": "Glowtext 1",
+        "white-text": "White Text",
+        "green-text": "GreenText",
+      },
+      heroVariantAriaLabel: "Escolher design do hero",
+      heroVariantCurrent: "Atual",
+      heroVariantAlternative: "Alternativa",
     },
     heroFeatures: [
       { title: "Seguro", body: "Sob medida para<br>sua empresa" },
@@ -1224,6 +1277,7 @@ const translations = {
         "mas preparadas com segurança",
         "e executadas.",
       ],
+      workCta: "Assim trabalha o zuraio",
     },
     intro: {
       eyebrow: "ISTO PARECE-LHE FAMILIAR?",
@@ -1636,11 +1690,11 @@ const translations = {
     demoModal: {
       eyebrow: "Demo",
       title: "Agendar reunião",
-      intro:
-        "Em 30 minutos mostramos, com um exemplo real, como a zuraio reduz trabalho administrativo e torna o conhecimento da empresa utilizável.",
-      audienceHeading: "Para quem vale a pena?",
-      audienceText:
-        "Para empresas que querem gastar menos tempo com administração e mais tempo gerando valor.",
+      introLines: [
+        "30 minutos, sem compromisso.",
+        "Analisamos uma tarefa concreta, os seus sistemas e os seus requisitos de controlo de dados.",
+        "Depois recebe uma recomendação para um primeiro passo sensato.",
+      ],
       footerNote: "Gratuito e sem compromisso.",
       name: "Sobrenome",
       firstName: "Nome",
@@ -2671,13 +2725,12 @@ function normalizeLanguage(languageCode) {
 }
 
 function getPreferredLanguage() {
-  const storedLanguage = normalizeLanguage(window.localStorage.getItem(languageStorageKey) || "");
-  if (storedLanguage !== "de") {
-    return storedLanguage;
+  const rawStored = window.localStorage.getItem(languageStorageKey);
+  if (rawStored) {
+    return normalizeLanguage(rawStored);
   }
 
-  const browserLanguage = normalizeLanguage(navigator.language || navigator.userLanguage || "");
-  return browserLanguage;
+  return normalizeLanguage(navigator.language || navigator.userLanguage || "");
 }
 
 function getCurrentPageKey() {
@@ -2758,6 +2811,52 @@ function applyCommonUILanguage(ui) {
   const roadmapImage = document.querySelector("#roadmap .roadmap-image");
   if (roadmapImage && ui.roadmapImageAlt) {
     roadmapImage.alt = ui.roadmapImageAlt;
+  }
+
+  applyDesignSwitcherLanguage(ui);
+}
+
+function applyDesignSwitcherLanguage(ui) {
+  if (!ui) {
+    return;
+  }
+
+  if (ui.designLabel) {
+    setText(".design-label", ui.designLabel);
+  }
+
+  const designToggleButton = document.getElementById("design-toggle");
+  if (designToggleButton && ui.chooseDesignAriaLabel) {
+    designToggleButton.setAttribute("aria-label", ui.chooseDesignAriaLabel);
+  }
+
+  const designMenuElement = document.getElementById("design-menu");
+  if (designMenuElement && ui.selectDesignAriaLabel) {
+    designMenuElement.setAttribute("aria-label", ui.selectDesignAriaLabel);
+  }
+
+  if (ui.designOptions) {
+    document.querySelectorAll(".design-option").forEach((button) => {
+      const optionKey = button.dataset.heroLead;
+      if (optionKey && ui.designOptions[optionKey]) {
+        button.textContent = ui.designOptions[optionKey];
+      }
+    });
+  }
+
+  const heroVariantGroup = document.querySelector(".hero-variant-toggle");
+  if (heroVariantGroup && ui.heroVariantAriaLabel) {
+    heroVariantGroup.setAttribute("aria-label", ui.heroVariantAriaLabel);
+  }
+
+  const currentVariantButton = document.querySelector('.hero-variant-btn[data-hero-variant="current"]');
+  if (currentVariantButton && ui.heroVariantCurrent) {
+    currentVariantButton.textContent = ui.heroVariantCurrent;
+  }
+
+  const alternativeVariantButton = document.querySelector('.hero-variant-btn[data-hero-variant="contrast"]');
+  if (alternativeVariantButton && ui.heroVariantAlternative) {
+    alternativeVariantButton.textContent = ui.heroVariantAlternative;
   }
 }
 
@@ -3460,11 +3559,28 @@ function initAssistantShowcase() {
 
   function syncPlayback() {
     if (canAutoplay()) {
-      scheduleAdvance();
+      // Do not restart an already-running step; IntersectionObserver
+      // fires on every threshold and was resetting the advance timer.
+      if (!timerId) {
+        scheduleAdvance();
+      }
     } else {
       clearAdvanceTimers();
       updateLoader(0);
     }
+    refreshToggleLabels();
+  }
+
+  function restartFromStart() {
+    activeProcessTarget = "";
+    visibleCheckMask = "";
+    activeProcessStep = -1;
+    processTargetState = null;
+    hoverPaused = false;
+    if (!reducedMotion) {
+      playing = true;
+    }
+    goTo(0, 0, { immediate: true });
     refreshToggleLabels();
   }
 
@@ -3492,15 +3608,8 @@ function initAssistantShowcase() {
     setPlaying(!playing);
   });
 
-  stage.addEventListener("pointerenter", () => {
-    hoverPaused = true;
-    syncPlayback();
-  });
-
-  stage.addEventListener("pointerleave", () => {
-    hoverPaused = false;
-    syncPlayback();
-  });
+  // Hover pause removed: the stage fills the viewport, so pointerenter
+  // permanently stopped autoplay at the first check while viewing.
 
   stage.addEventListener("focusin", () => {
     focusPaused = true;
@@ -3521,8 +3630,16 @@ function initAssistantShowcase() {
 
   const observer = new IntersectionObserver(
     (entries) => {
-      inView = entries.some((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.35);
-      syncPlayback();
+      const nextInView = entries.some(
+        (entry) => entry.isIntersecting && entry.intersectionRatio >= 0.35
+      );
+      const entered = nextInView && !inView;
+      inView = nextInView;
+      if (entered) {
+        restartFromStart();
+      } else {
+        syncPlayback();
+      }
     },
     { threshold: [0, 0.35, 0.6, 1] }
   );
@@ -3788,6 +3905,7 @@ function applyLanguage(languageCode) {
 
   setHeroTitle(content.hero);
   setHeroLead(content.hero.leadLines);
+  setText(".hero-work-cta", content.hero.workCta);
   applyHeroFeatures(content.heroFeatures);
 
   setText(".intro-band .eyebrow", content.intro.eyebrow);
@@ -3996,6 +4114,8 @@ function initSynapseCanvas(sectionSelector, canvasSelector, colors, options) {
   const glowTone = colors.glow || "255, 255, 255";
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Keep background motion calm; previous full-speed drift felt too nervous.
+  const ANIM_SPEED = 0.4;
   const clusterSeeds = [
     { x: 0.18, y: 0.28 },
     { x: 0.42, y: 0.22 },
@@ -4194,8 +4314,8 @@ function initSynapseCanvas(sectionSelector, canvasSelector, colors, options) {
     context.clearRect(0, 0, width, height);
 
     const baseConnectDistance = Math.min(190, Math.max(112, width * 0.145));
-    const motionScale = reducedMotion ? 0 : 1;
-    const elapsed = time * 0.001;
+    const motionScale = reducedMotion ? 0 : ANIM_SPEED;
+    const elapsed = time * 0.001 * ANIM_SPEED;
 
     layers.forEach((layer) => {
       layer.nodes.forEach((node) => updateNode(node, elapsed, motionScale));
@@ -4407,14 +4527,6 @@ function ensureDemoModalIntro() {
   lead.className = "demo-modal-lead";
   intro.appendChild(lead);
 
-  const audienceHeading = document.createElement("h3");
-  audienceHeading.className = "demo-modal-audience-heading";
-  intro.appendChild(audienceHeading);
-
-  const audienceText = document.createElement("p");
-  audienceText.className = "demo-modal-audience-text";
-  intro.appendChild(audienceText);
-
   const note = document.createElement("p");
   note.className = "demo-modal-note";
   intro.appendChild(note);
@@ -4422,16 +4534,37 @@ function ensureDemoModalIntro() {
   title.insertAdjacentElement("afterend", intro);
 }
 
+function setDemoModalLead(copy) {
+  const lead = document.querySelector(".demo-modal-lead");
+  if (!lead) {
+    return;
+  }
+
+  const lines = Array.isArray(copy?.introLines)
+    ? copy.introLines
+    : copy?.intro
+      ? [copy.intro]
+      : [];
+
+  lead.replaceChildren();
+  lines.forEach((line) => {
+    const lineElement = document.createElement("span");
+    lineElement.className = "demo-modal-lead-line";
+    lineElement.textContent = line;
+    lead.appendChild(lineElement);
+  });
+}
+
 function applyDemoModalLanguage(copy) {
   demoModalCopy = copy || translations.de.demoModal;
 
   ensureDemoModalIntro();
+  document.querySelector(".demo-modal-audience-heading")?.remove();
+  document.querySelector(".demo-modal-audience-text")?.remove();
 
   setText(".demo-modal-eyebrow", demoModalCopy.eyebrow);
   setText(".demo-modal-title", demoModalCopy.title);
-  setText(".demo-modal-lead", demoModalCopy.intro);
-  setText(".demo-modal-audience-heading", demoModalCopy.audienceHeading);
-  setText(".demo-modal-audience-text", demoModalCopy.audienceText);
+  setDemoModalLead(demoModalCopy);
   setText(".demo-modal-note", demoModalCopy.footerNote);
   setText(".demo-calendar-heading", demoModalCopy.calendar);
   setText(".demo-calendar-hint", demoModalCopy.hint);
@@ -4615,7 +4748,25 @@ function renderDemoCalendar() {
     dayButton.type = "button";
     dayButton.className = "demo-calendar-day";
     dayButton.dataset.date = dateKey;
-    dayButton.textContent = String(day);
+
+    const fillTrack = document.createElement("span");
+    fillTrack.className = "demo-calendar-day-fill";
+    fillTrack.setAttribute("aria-hidden", "true");
+    const filledCount = Math.min(DEMO_SELECTABLE_SLOTS.length, blockedSlots.size);
+    for (let slotIndex = 0; slotIndex < DEMO_SELECTABLE_SLOTS.length; slotIndex += 1) {
+      const segment = document.createElement("span");
+      segment.className = "demo-calendar-day-fill-segment";
+      if (slotIndex < filledCount) {
+        segment.classList.add("is-filled");
+      }
+      fillTrack.appendChild(segment);
+    }
+    dayButton.appendChild(fillTrack);
+
+    const dayLabel = document.createElement("span");
+    dayLabel.className = "demo-calendar-day-label";
+    dayLabel.textContent = String(day);
+    dayButton.appendChild(dayLabel);
 
     if (isPast) {
       dayButton.classList.add("is-past");
@@ -4633,10 +4784,7 @@ function renderDemoCalendar() {
 
     if (hasBookings) {
       dayButton.classList.add("is-booked");
-      const dot = document.createElement("span");
-      dot.className = "demo-calendar-day-dot";
-      dot.setAttribute("aria-hidden", "true");
-      dayButton.appendChild(dot);
+      dayButton.dataset.bookedCount = String(filledCount);
     }
 
     if (isFullyBooked) {

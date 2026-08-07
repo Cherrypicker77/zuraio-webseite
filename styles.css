@@ -15,6 +15,8 @@
   --site-header-inset: 12px;
   --site-header-height: calc(clamp(148px, 16vw, 214px) * 0.3046875 + 33px);
   --hero-title-size: clamp(44px, 6.2vw, 78px);
+  --section-title-size: clamp(34px, 4.2vw, 52px);
+  --font-hand: "Bradley Hand", "Bradley Hand ITC", "Segoe Print", "Comic Sans MS", cursive;
 }
 
 * {
@@ -557,14 +559,15 @@ button.nav-cta {
 }
 
 .detail-hero h1.hero-title,
-.detail-hero h1:has(.hero-title-line) {
+.detail-hero h1:has(.hero-title-line),
+.detail-hero h1:not(.hero-title):not(:has(.hero-title-line)) {
   margin: 0 0 28px;
-  font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
-  font-size: var(--hero-title-size);
-  font-weight: 500;
+  font-family: inherit;
+  font-size: var(--section-title-size);
+  font-weight: 750;
   font-style: normal;
-  line-height: 0.95;
-  letter-spacing: -0.01em;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
 }
 
 .hero-copy h1.hero-title {
@@ -572,7 +575,7 @@ button.nav-cta {
   max-width: 520px;
   color: var(--ink);
   font-family: inherit;
-  font-size: clamp(34px, 4.2vw, 52px);
+  font-size: var(--section-title-size);
   font-weight: 750;
   font-style: normal;
   line-height: 1.18;
@@ -582,7 +585,7 @@ button.nav-cta {
 .hero-copy h1.hero-title .hero-accent {
   display: inline;
   color: #9faf52;
-  font-family: "Bradley Hand", "Bradley Hand ITC", "Segoe Print", "Comic Sans MS", cursive;
+  font-family: var(--font-hand);
   font-size: 1.12em;
   font-weight: 500;
   line-height: 1;
@@ -969,11 +972,30 @@ h2 {
 h1:not(.hero-title):not(:has(.hero-title-line)) {
   max-width: 690px;
   margin-bottom: 22px;
-  font-size: clamp(46px, 7vw, 92px);
+  font-family: inherit;
+  font-size: var(--section-title-size);
+  font-weight: 750;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
 }
 
-.brand-highlight {
-  color: var(--green);
+.intro-band-title-accent,
+.brand-highlight,
+.hero-brand,
+.product-title-accent,
+.assistant-showcase-accent,
+.roadmap-title-accent,
+.detail-hero h1.hero-title .hero-accent,
+.team-copy h2.hero-title .hero-brand {
+  display: inline;
+  color: #9faf52;
+  font-family: var(--font-hand);
+  font-size: 1.12em;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
 }
 
 h2 {
@@ -1262,21 +1284,11 @@ button.button {
 .intro-band-title {
   margin: 0;
   color: var(--ink);
-  font-size: clamp(34px, 4.2vw, 52px);
+  font-family: inherit;
+  font-size: var(--section-title-size);
   font-weight: 750;
   line-height: 1.18;
   letter-spacing: -0.02em;
-}
-
-.intro-band-title-accent {
-  display: inline;
-  color: #9faf52;
-  font-family: "Bradley Hand", "Bradley Hand ITC", "Segoe Print", "Comic Sans MS", cursive;
-  font-size: 1.12em;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: 0;
-  white-space: nowrap;
 }
 
 .intro-band-lead {
@@ -1465,7 +1477,7 @@ button.button {
 }
 
 .trust-section {
-  --trust-bg: #1e201c;
+  --trust-bg: #464646;
   --trust-accent: #8a9456;
   --trust-accent-bright: #d0dc9a;
   --trust-text: var(--light);
@@ -1526,12 +1538,12 @@ button.button {
 .trust-title {
   color: var(--light);
   margin-bottom: clamp(12px, 1.6vh, 18px);
-  font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
-  font-size: var(--hero-title-size);
-  font-weight: 500;
+  font-family: inherit;
+  font-size: var(--section-title-size);
+  font-weight: 750;
   font-style: normal;
-  line-height: 0.95;
-  letter-spacing: -0.01em;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
 }
 
 .trust-lead {
@@ -1563,7 +1575,7 @@ button.button {
 }
 
 .product-section {
-  --product-bg: #1e201c;
+  --product-bg: #464646;
   --product-accent: #9faf52;
   --product-accent-bright: #d0dc9a;
   --product-text: var(--light);
@@ -1636,18 +1648,16 @@ button.button {
 .product-title {
   margin: 0 0 clamp(16px, 2.2vh, 24px);
   color: var(--light);
-  font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
-  font-size: var(--hero-title-size);
-  font-weight: 500;
+  font-family: inherit;
+  font-size: var(--section-title-size);
+  font-weight: 750;
   font-style: normal;
-  line-height: 0.98;
-  letter-spacing: -0.01em;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
 }
 
 .product-title-accent {
   color: var(--product-accent);
-  font-style: italic;
-  font-weight: 500;
 }
 
 .product-lead {
@@ -1688,7 +1698,7 @@ button.button {
   padding: clamp(16px, 1.8vw, 22px);
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(0, 0, 0, 0.12);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: inherit;
@@ -1815,11 +1825,11 @@ button.button {
 .assistant-showcase-title {
   margin: 0 0 8px;
   color: var(--ink);
-  font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
-  font-size: var(--hero-title-size);
-  font-weight: 500;
-  line-height: 0.95;
-  letter-spacing: -0.01em;
+  font-family: inherit;
+  font-size: var(--section-title-size);
+  font-weight: 750;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
 }
 
 .assistant-showcase-title-line {
@@ -2417,7 +2427,7 @@ button.button {
   }
 
   .assistant-showcase-title {
-    font-size: var(--hero-title-size);
+    font-size: var(--section-title-size);
   }
 
   .assistant-showcase-nav-btn {
@@ -2566,12 +2576,12 @@ button.button {
   margin: 0 0 28px;
   max-width: 900px;
   color: var(--ink);
-  font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
-  font-size: var(--hero-title-size);
-  font-weight: 500;
+  font-family: inherit;
+  font-size: var(--section-title-size);
+  font-weight: 750;
   font-style: normal;
-  line-height: 0.95;
-  letter-spacing: -0.01em;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
 }
 
 .integrations-title-line {
@@ -3085,7 +3095,7 @@ button.button {
   padding: clamp(16px, 1.8vw, 22px);
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(0, 0, 0, 0.12);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   transition: background-color 220ms ease, border-color 220ms ease;
@@ -3718,7 +3728,7 @@ button.button {
   min-height: 100svh;
   margin: 0;
   padding: 0;
-  background: #1a1410;
+  background: var(--white);
   overflow: hidden;
   isolation: isolate;
 }
@@ -3735,6 +3745,7 @@ button.button {
   height: calc(100% + 30px);
   object-fit: cover;
   object-position: center center;
+  opacity: 0.4;
 }
 
 .team-overlay {
@@ -3768,12 +3779,12 @@ button.button {
   width: 100%;
   max-width: none;
   margin: 0 0 clamp(16px, 2vh, 24px);
-  font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
-  font-size: var(--hero-title-size);
-  font-weight: 500;
+  font-family: inherit;
+  font-size: var(--section-title-size);
+  font-weight: 750;
   font-style: normal;
-  line-height: 0.95;
-  letter-spacing: -0.01em;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
   color: var(--ink);
 }
 
@@ -3787,7 +3798,7 @@ button.button {
 
 .team-copy .team-link {
   margin-top: 0;
-  color: var(--ink);
+  color: var(--green);
   border-bottom-color: currentColor;
 }
 
@@ -3953,11 +3964,11 @@ blockquote span {
 .roadmap-title {
   margin: 0 0 16px;
   color: var(--ink);
-  font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
-  font-size: var(--hero-title-size);
-  font-weight: 500;
-  line-height: 0.95;
-  letter-spacing: -0.01em;
+  font-family: inherit;
+  font-size: var(--section-title-size);
+  font-weight: 750;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
 }
 
 .roadmap-title-accent {
@@ -5516,6 +5527,7 @@ body[data-page="kontakt-demo"] .detail-chapter-kernaussage {
     --site-header-inset: 10px;
     --site-header-height: calc(clamp(120px, 42vw, 148px) * 0.3046875 + 25px);
     --hero-title-size: clamp(36px, 10vw, 48px);
+    --section-title-size: 32px;
   }
 
   .brand img {
@@ -5690,12 +5702,29 @@ body[data-page="kontakt-demo"] .detail-chapter-kernaussage {
   }
 
   .intro-band-title,
-  .hero-copy h1.hero-title {
-    font-size: 32px;
+  .integrations-title,
+  .trust-title,
+  .assistant-showcase-title,
+  .roadmap-title,
+  .product-title,
+  .team-copy h2.hero-title,
+  .detail-hero h1.hero-title,
+  .detail-hero h1:has(.hero-title-line),
+  .detail-hero h1:not(.hero-title):not(:has(.hero-title-line)),
+  .hero-copy h1.hero-title,
+  h1:not(.hero-title):not(:has(.hero-title-line)) {
+    font-size: var(--section-title-size);
   }
 
   .intro-band-title-accent,
-  .hero-copy h1.hero-title .hero-accent {
+  .brand-highlight,
+  .hero-brand,
+  .product-title-accent,
+  .assistant-showcase-accent,
+  .roadmap-title-accent,
+  .hero-copy h1.hero-title .hero-accent,
+  .detail-hero h1.hero-title .hero-accent,
+  .team-copy h2.hero-title .hero-brand {
     font-size: 1.06em;
     white-space: nowrap;
   }
@@ -5801,7 +5830,7 @@ body[data-page="kontakt-demo"] .detail-chapter-kernaussage {
   }
 
   h1:not(.hero-title):not(:has(.hero-title-line)) {
-    font-size: 43px;
+    font-size: var(--section-title-size);
   }
 
   h1,
@@ -5982,19 +6011,14 @@ body[data-page="kontakt-demo"] .detail-chapter-kernaussage {
   display: none;
 }
 
-.demo-modal-title,
-.demo-modal-audience-heading {
-  margin: 0 0 2px;
+.demo-modal-title {
+  margin: 0 0 6px;
   font-family: inherit;
-  font-size: 0.88rem;
+  font-size: 1.05rem;
   font-weight: 600;
   line-height: 1.3;
   color: var(--ink);
   letter-spacing: 0;
-}
-
-.demo-modal-title {
-  margin-bottom: 6px;
 }
 
 .demo-modal-intro {
@@ -6008,16 +6032,13 @@ body[data-page="kontakt-demo"] .detail-chapter-kernaussage {
   color: var(--muted);
 }
 
-.demo-modal-audience-text {
-  margin: 0 0 4px;
-  font-size: 0.84rem;
-  line-height: 1.35;
-  color: var(--muted);
+.demo-modal-lead-line {
+  display: block;
 }
 
 .demo-modal-note {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   font-weight: 600;
   line-height: 1.3;
   color: var(--green);
@@ -6086,11 +6107,10 @@ body[data-page="kontakt-demo"] .detail-chapter-kernaussage {
 
 .demo-calendar-section {
   padding-top: 0;
-  border-top: 1px solid var(--line);
 }
 
 .demo-calendar-heading {
-  margin: 6px 0 4px;
+  margin: 18px 0 4px;
   font-size: 12px;
   font-weight: 750;
   letter-spacing: 0.04em;
@@ -6170,6 +6190,7 @@ body[data-page="kontakt-demo"] .detail-chapter-kernaussage {
 
 .demo-calendar-day {
   appearance: none;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6177,6 +6198,8 @@ body[data-page="kontakt-demo"] .detail-chapter-kernaussage {
   gap: 1px;
   min-height: 24px;
   padding: 1px;
+  overflow: hidden;
+  isolation: isolate;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--white);
@@ -6188,14 +6211,35 @@ body[data-page="kontakt-demo"] .detail-chapter-kernaussage {
   transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
 }
 
-.demo-calendar-day:hover:not(:disabled):not(.is-booked-full):not(.is-booked) {
-  border-color: var(--green);
-  background: var(--white);
+.demo-calendar-day-fill {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  pointer-events: none;
+}
+
+.demo-calendar-day-fill-segment {
+  background: transparent;
+}
+
+.demo-calendar-day-fill-segment.is-filled {
+  background: var(--sage);
+}
+
+.demo-calendar-day-label {
+  position: relative;
+  z-index: 1;
+}
+
+.demo-calendar-day:hover:not(:disabled):not(.is-booked-full) {
+  border-color: var(--line);
 }
 
 .demo-calendar-day:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 22%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--line) 55%, transparent);
 }
 
 .demo-calendar-day.is-empty {
@@ -6210,42 +6254,36 @@ body[data-page="kontakt-demo"] .detail-chapter-kernaussage {
   cursor: not-allowed;
 }
 
+.demo-calendar-day.is-past .demo-calendar-day-fill-segment.is-filled,
+.demo-calendar-day.is-weekend .demo-calendar-day-fill-segment.is-filled {
+  background: color-mix(in srgb, var(--sage) 55%, var(--paper));
+}
+
 .demo-calendar-day.is-today {
-  border-color: var(--green);
+  border-color: var(--line);
 }
 
 .demo-calendar-day.is-selected {
-  background: var(--green);
-  border-color: var(--green-dark);
-  color: var(--white);
+  border-color: var(--line);
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--ink);
+  background: var(--white);
 }
 
 .demo-calendar-day.is-booked {
-  background: var(--green);
-  border-color: var(--green-dark);
-  color: var(--white);
+  background: var(--white);
+  border-color: var(--line);
+  color: var(--ink);
 }
 
 .demo-calendar-day.is-booked-full {
-  background: var(--green-dark);
-  border-color: var(--green-dark);
-  color: var(--white);
+  border-color: var(--line);
+  color: var(--ink);
   cursor: not-allowed;
 }
 
 .demo-calendar-day.is-selected.is-booked {
-  color: var(--white);
-}
-
-.demo-calendar-day-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 999px;
-  background: var(--white);
-}
-
-.demo-calendar-day.is-selected .demo-calendar-day-dot {
-  background: var(--white);
+  color: var(--ink);
 }
 
 .demo-time-slots {
@@ -6295,6 +6333,7 @@ body[data-page="kontakt-demo"] .detail-chapter-kernaussage {
   margin: 4px 0 0;
   font-size: 11px;
   color: var(--muted);
+  text-align: center;
 }
 
 .demo-form-actions {
@@ -6304,7 +6343,6 @@ body[data-page="kontakt-demo"] .detail-chapter-kernaussage {
   gap: 8px;
   margin-top: 8px;
   padding-top: 8px;
-  border-top: 1px solid var(--line);
 }
 
 .demo-cancel {
@@ -6316,7 +6354,7 @@ body[data-page="kontakt-demo"] .detail-chapter-kernaussage {
   background: var(--white);
   color: var(--ink);
   font: inherit;
-  font-weight: 650;
+  font-weight: 400;
   cursor: pointer;
   transition: background-color 160ms ease, border-color 160ms ease;
 }
